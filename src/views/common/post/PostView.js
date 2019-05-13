@@ -90,12 +90,9 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
       showMore: false,
       descriptionHeight: null,
       menuToggleBottom: false,
-      getInDidMount: false,
-      extendedView: this.props.extendedView
     }
 
     const self: any = this
-
     self._cancelConfirm = this._cancelConfirm.bind(this)
     self._delete = this._delete.bind(this)
     self._handleClickOutMenuBoxTop = this._handleClickOutMenuBoxTop.bind(this)
@@ -105,47 +102,23 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     self._openMenuBottom = this._openMenuBottom.bind(this)
     self._readMore = this._readMore.bind(this)
     self._showConfirm = this._showConfirm.bind(this)
-
+    self.showMoreComment = this.showMoreComment.bind(this)
+    self._handleShowComment = this._handleShowComment.bind(this)
+    self._delete = this._delete.bind(this)
   }
 
   postMenuId: string = 'sidebar-post-menu-box-'
 
-  componentWillMount(): void {
-    let {extendedView, post, match, actions} = this.props
-    let {getFileByFileRelatedParentId, getPost, getCommentsByParentId} = actions
-
-    document.addEventListener('click', this._handleClickOutMenuBoxTop)
-    document.addEventListener('touchend', this._handleClickOutMenuBoxTop)
-    document.addEventListener('click', this._handleClickOutMenuBoxBottom)
-    document.addEventListener('touchend', this._handleClickOutMenuBoxBottom)
-
-    if (extendedView) {
-      const {params, url} = match
-      const postId = +params.id
-      const spliced = url.split('/')
-      const postOwnerId = +spliced[2]
-
-      getCommentsByParentId({parentId: postId, commentParentType: constants.COMMENT_PARENT.POST})
-      getFileByFileRelatedParentId({fileRelatedParentId: postId, fileParentType: constants.FILE_PARENT.POST})
-      getPost({postId, postOwnerId})
-    }
-
-    if (post && post.id && !extendedView)
-      getFileByFileRelatedParentId({fileRelatedParentId: post.id, fileParentType: constants.FILE_PARENT.POST})
-    else this.setState({...this.state, getInDidMount: true})
-  }
-
   componentDidMount() {
-    let self: any = this
+    const self: any = this
+    const {extendedView, post, match, actions} = this.props
+    const {getFileByFileRelatedParentId, getPost, getCommentsByParentId} = actions
 
-    if (!this.props.extendedView) {
-      let {post, actions} = this.props
-      if (this.state.getInDidMount) {
-        let {getFileByFileRelatedParentId} = actions
-        getFileByFileRelatedParentId({fileRelatedParentId: post.id, fileParentType: constants.FILE_PARENT.POST})
-      }
+    if (!extendedView) {
+      const {getFileByFileRelatedParentId} = actions
+      getFileByFileRelatedParentId({fileRelatedParentId: post.id, fileParentType: constants.FILE_PARENT.POST})
       if (self.text && self.text.clientHeight > 74) {
-        let height = self.text.clientHeight
+        const height = self.text.clientHeight
         if (post.post_description && new RegExp('^[A-Za-z]*$').test(post.post_description[0])) {
           self.text.style.paddingRight = '60px'
         }
@@ -154,22 +127,27 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
         this.setState({...this.state, showMore: true, descriptionHeight: height})
       }
     }
+    else {
+      const {params, url} = match
+      const postId = +params.id
+      const spliced = url.split('/')
+      const postOwnerId = +spliced[2]
+      getCommentsByParentId({parentId: postId, commentParentType: constants.COMMENT_PARENT.POST})
+      getFileByFileRelatedParentId({fileRelatedParentId: postId, fileParentType: constants.FILE_PARENT.POST})
+      getPost({postId, postOwnerId})
+    }
 
     if (self.text) {
-      let allWords = self.text.innerText.replace(/\n/g, ' ')
-      allWords = allWords.split(' ')
-
-      let mailExp = new RegExp('^(([^<>()\\[\\]\\\\.,;:\\s@"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$')
-
-      let urlExp = new RegExp('^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[A-Za-z0-9]+([\\-.][A-Za-z0-9]+)*\\.[A-Za-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$')
-
+      const allWords = self.text.innerText.replace(/\n/g, ' ').split(' ')
+      const mailExp = new RegExp('^(([^<>()\\[\\]\\\\.,;:\\s@"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$')
+      const urlExp = new RegExp('^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[A-Za-z0-9]+([\\-.][A-Za-z0-9]+)*\\.[A-Za-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$')
       // Phone Reg
-      let first = new RegExp('(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{4}[)]?))')
-      let second = new RegExp('([-]?[0-9]{3})')
-      let third = new RegExp('([-]?[0-9]{3,4})')
+      const first = new RegExp('(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{4}[)]?))')
+      const second = new RegExp('([-]?[0-9]{3})')
+      const third = new RegExp('([-]?[0-9]{3,4})')
 
       for (let i = 0; i < allWords.length; i++) {
-        let word = allWords[i].trim()
+        const word = allWords[i].trim()
         if (urlExp.test(word)) {
           word.includes('http://') || word.includes('https://') ?
               self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<a title=` + word + ` target=_blank href=` + word + `>${word.length > 60 ? '...' + word.substring(0, 60) : word} </a>`)
@@ -194,15 +172,20 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
         }
       }
     }
+
+    document.addEventListener('click', this._handleClickOutMenuBoxTop)
+    document.addEventListener('touchend', this._handleClickOutMenuBoxTop)
+    document.addEventListener('click', this._handleClickOutMenuBoxBottom)
+    document.addEventListener('touchend', this._handleClickOutMenuBoxBottom)
   }
 
-  componentDidUpdate(prevProps) {
-    const {post} = this.props
+  componentWillReceiveProps(nextProps) {
+    const {post} = nextProps
     const self: any = this
     let showMore = false
     let height = null
 
-    if (post && post.post_description !== prevProps.post.post_description) {
+    if (post && post.post_description !== this.props.post.post_description) {
       if (self.text.clientHeight > 74) {
         height = self.text.clientHeight
         if (post.post_description && new RegExp('^[A-Za-z]*$').test(post.post_description[0])) {
@@ -234,7 +217,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     this.setState({...this.state, menuToggleBottom: !this.state.menuToggleBottom})
   }
 
-  _handleShowComment = () => {
+  _handleShowComment() {
     const {extendedView, instantViewComments, actions, post} = this.props
     const {getCommentsByParentId} = actions
     let {showComment} = this.state
@@ -269,7 +252,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     this.setState({...this.state, confirm: false})
   }
 
-  _delete = () => {
+  _delete() {
     const {actions, post} = this.props
     const {deletePost} = actions
     const postParent = post.post_parent
@@ -296,7 +279,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     })
   }
 
-  showMoreComment = () => {
+  showMoreComment() {
     const {extendedView, instantViewComments, actions, post} = this.props
     const {getCommentsByParentId} = actions
     if (!extendedView && instantViewComments && instantViewComments.length !== 0) {
@@ -334,7 +317,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
               <Confirm cancelRemoving={this._cancelConfirm} remove={this._delete}/>
             </div>
             : post &&
-            <VerifyWrapper isLoading={false} error={false} className="-itemWrapperPost">
+            <div className='-itemWrapperPost'>
               {extendedView && <CategoryTitle title={translate['Single post']}/>}
               <div className={extendedView ? 'post-view-container' : undefined}>
                 {
@@ -404,8 +387,9 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
 
                 {showComment && !extendedView && instantViewComments && instantViewComments.length > 0 &&
                 <React.Fragment>
-                  {post.comments_count !== instantViewComments.length &&
-                  <div onClick={this.showMoreComment} className='show-more-comment'>{translate['Show More Comments']}</div>
+                  {
+                    post.comments_count !== instantViewComments.length &&
+                    <div onClick={this.showMoreComment} className='show-more-comment'>{translate['Show More Comments']}</div>
                   }
                   <PostComments comments={instantViewComments}
                                 translate={translate}
@@ -423,51 +407,43 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
 
                 {showComment}
               </div>
-            </VerifyWrapper>
+            </div>
     )
   }
 }
 
 const mapStateToProps = (state, ownProps) => {
   const {extendedView} = ownProps
+  const fileList = state.common.file.list
+  const clientIdentity = state.auth.client.identity.content
+  const postId = (ownProps.post && ownProps.post.id) || ownProps.match.params.id
+  const post = ownProps.post || state.common.post.list[postId]
+  const postIdentity = post && post.post_related_identity && post.post_related_identity.id ? post.post_related_identity : state.identities.list[post.post_related_identity]
+  const postRelatedIdentityImage = postIdentity && postIdentity.profile_media && postIdentity.profile_media.file ? postIdentity.profile_media : fileList[postIdentity.profile_media]
+  const postRelatedProductId = post && post.post_related_product && post.post_related_product.id ? post.post_related_product.id : post.post_related_product
+  const postRelatedProduct = postRelatedProductId && {...state.common.product.products.list[postRelatedProductId], product_owner: postIdentity}
+
   if (extendedView) {
-    const {params} = ownProps.match
-    const postId = +params.id
-    const post = state.common.post.list[postId]
-    const fileList = state.common.file.list
-    const postIdentity = post && post.post_related_identity
-    const postRelatedProductId = post && post.post_related_product
-    let postRelatedProduct = postRelatedProductId && state.common.product.products.list[postRelatedProductId]
-    const productIdentity = postRelatedProduct ?
-        postRelatedProduct.product_owner.id ?
-            state.identities.list[postRelatedProduct.product_owner.id] :
-            state.identities.list[postRelatedProduct.product_owner] : null
-    postRelatedProduct = postRelatedProduct && {...postRelatedProduct, product_owner: productIdentity}
     return {
-      translate: getMessages(state),
-      param: state.param,
       post,
-      postRelatedIdentityImage: postIdentity && state.identities.list[postIdentity] && fileList[state.identities.list[postIdentity].profile_media],
+      postIdentity,
+      clientIdentity,
       postRelatedProduct,
-      postIdentity: state.identities.list[postIdentity],
-      clientIdentity: state.auth.client.identity.content,
+      postRelatedIdentityImage,
       comments: userCommentsSelector(state, ownProps),
+      translate: getMessages(state),
       fileList,
+      param: state.param,
     }
   }
   else {
-    const {post} = ownProps
-    const postIdentity = post && post.post_related_identity
-    const postRelatedProductId = post && post.post_related_product && post.post_related_product.id
-    let postRelatedProduct = postRelatedProductId && state.common.product.products.list[postRelatedProductId]
-    postRelatedProduct = postRelatedProduct && {...postRelatedProduct, product_owner: postIdentity}
     return {
       postIdentity,
-      clientIdentity: state.auth.client.identity.content,
+      clientIdentity,
       postRelatedProduct,
-      postRelatedIdentityImage: postIdentity ? postIdentity.profile_media : null,
-      translate: getMessages(state),
+      postRelatedIdentityImage,
       instantViewComments: userInstantCommentsSelector(state, ownProps),
+      translate: getMessages(state),
     }
   }
 }
