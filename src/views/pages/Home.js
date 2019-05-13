@@ -2,7 +2,6 @@
 import * as React from 'react'
 import BeePanel from '../common/components/BeePanel'
 import ChatBar from '../bars/ChatBar'
-import EventCard from 'src/views/common/components/EventCard'
 import HomePosts from './home/HomePosts'
 import HomeSideBar from './home/HomeSideBar'
 import PropTypes from 'prop-types'
@@ -11,7 +10,6 @@ import {bindActionCreators} from 'redux'
 import {Component} from 'react'
 import {connect} from 'react-redux'
 import {getMessages} from 'src/redux/selectors/translateSelector'
-// import {Helmet} from "react-helmet"
 
 type HomeProps = {|
   identityId?: number,
@@ -39,7 +37,7 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
     const {activeExchangeId} = this.state
     if (exchangeId !== activeExchangeId) {
       this.setState({...this.state, activeExchangeId: exchangeId}, () => {
-        window.scrollTo({top: 0, behavior: "smooth"})
+        window.scrollTo({top: 0, behavior: 'smooth'})
         this.props.actions.setExchange(exchangeId)
       })
     }
@@ -53,40 +51,18 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
   render() {
     const {identityId, identityType} = this.props
     const {activeExchangeId} = this.state
-    // const title = `${translate["InnoWin"]} - ${translate["Home"]}`
-    // const description = `${translate["Home"]}`
     return (
         <div className="home-wrapper global-wrapper">
-
-          {/*TODO:Abel delete modal */}
-          {/*<AddingContribution modalIsOpen={true}*/}
-          {/*handleModalVisibility={null}/>*/}
-          {/*<CreateExchange modalIsOpen={true}*/}
-          {/*handleModalVisibility={null}/>*/}
-
-          {/*<TopBar collapseClassName="col-2"/>*/}
-
-          {/*<Helmet>*/}
-          {/*<title>{title}</title>*/}
-          {/*<meta name="description" content={description}/>*/}
-
-          {/*<meta property="og:title" content={title}/>*/}
-          {/*<meta property="og:description" content={description}/>*/}
-
-          {/*<meta property="twitter:title" content={title}/>*/}
-          {/*<meta property="twitter:description" content={description}/>*/}
-          {/*</Helmet>*/}
-
           <main className="-main">
             <div className="page-content home-page-content">
               {
                 identityId && identityType &&
-                    <HomeSideBar setExchangeId={this._setExchangeId}
-                                 classNames={activeExchangeId ? 'right-sidebar active-exchange' : 'right-sidebar'}
-                                 identityId={identityId}
-                                 identityType={identityType}
-                                 activeExchangeId={activeExchangeId}
-                    />
+                <HomeSideBar setExchangeId={this._setExchangeId}
+                             classNames={activeExchangeId ? 'right-sidebar active-exchange' : 'right-sidebar'}
+                             identityId={identityId}
+                             identityType={identityType}
+                             activeExchangeId={activeExchangeId}
+                />
               }
               <HomePosts unSetExchangeId={this._unSetExchangeId} exchangeId={activeExchangeId} className={activeExchangeId ? 'post-wrapper active-exchange' : 'post-wrapper'}/>
               <div className={activeExchangeId ? 'user-detail-wrapper active-exchange' : 'user-detail-wrapper'}>

@@ -1,7 +1,7 @@
-import * as React from 'react'
+import React from 'react'
 import User from './User'
 import UserSkeleton from './User_Skeleton'
-import constants from '../../../consts/constants'
+import constants from 'src/consts/constants'
 
 const loadingArr = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
@@ -41,7 +41,7 @@ const Users = (props) => {
   if (usersArr.length > 0) {
     return <React.Fragment>
       {
-        usersArr.map((user: Object, i: number): any =>
+        usersArr.map((user, i) =>
             <User followees={followees} key={i} data={user} identities={identities} files={files} translate={translate} currentUser={currentUser}/>,
         )}
     </React.Fragment>
@@ -50,7 +50,7 @@ const Users = (props) => {
     return <div className='exchanges-explore-not-found'>کاربری یافت نشد!</div>
   }
   else return <React.Fragment>
-      {loadingArr.map((user: Object, i: number) =>
+      {loadingArr.map((user, i) =>
           <UserSkeleton key={i}/>,
       )}
     </React.Fragment>

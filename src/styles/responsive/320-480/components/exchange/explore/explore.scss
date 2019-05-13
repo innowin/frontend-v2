@@ -1,14 +1,5 @@
 @import "../../../../../variables";
 @media screen and (max-width: 480px) and (min-width: 0) {
-  .exchanges-explore-sidebar {
-    display: none;
-  }
-
-  .all-exchanges-container {
-    width: 98%;
-    margin-right: 0;
-  }
-
   .exchange-page {
     padding-top: $topBarHeight - 10px;
   }

@@ -1,9 +1,9 @@
 // @flow
-import * as React from "react"
-import PropTypes from "prop-types"
-import type {identityType} from "src/consts/flowTypes/user/basicInformation"
-import type {postType} from "src/consts/flowTypes/common/post"
-import {CommentSvg} from "src/images/icons"
+import * as React from 'react'
+import PropTypes from 'prop-types'
+import type {identityType} from 'src/consts/flowTypes/user/basicInformation'
+import type {postType} from 'src/consts/flowTypes/common/post'
+import {CommentSvg} from 'src/images/icons'
 import PostMenu from './PostMenu'
 
 type postFooterProps = {
@@ -26,16 +26,11 @@ const PostFooter = (props: postFooterProps) => {
       <div className="-item-footerPost">
         <div className='post-details footer-part'>
           <PostMenu postMenuId={postMenuId} translate={translate} post={post} extendedView={extendedView} deletePost={deletePost}
-                      menuToggle={menuToggle} openMenu={openMenu} postIdentity={postIdentity} showEdit={showEdit}/>
-          {/*<div className='items'>*/}
-          {/*<span className="ml-1">{viewerCount}</span>*/}
-          {/*<i className="fa fa-eye" aria-hidden="true"/>*/}
-          {/*</div>*/}
+                    menuToggle={menuToggle} openMenu={openMenu} postIdentity={postIdentity} showEdit={showEdit}/>
           <div className='items cursor-pointer post-menu-bottom bubble-more comment-svg-container'
                onClick={() => showComment()}>
-            <span className="comment-count">{comments_count ? comments_count : ""}</span>
-            {/*<i className="fa fa-share cursor-pointer post-menu-bottom" aria-hidden="true" onClick={() => showComment()}/>*/}
-            <CommentSvg className={"comment-svg"}/>
+            <span className="comment-count">{comments_count ? comments_count : ''}</span>
+            <CommentSvg className={'comment-svg'}/>
           </div>
         </div>
       </div>
@@ -51,7 +46,7 @@ PostFooter.propTypes = {
   translate: PropTypes.object.isRequired,
   deletePost: PropTypes.func.isRequired,
   showComment: PropTypes.func.isRequired,
-  showEdit: PropTypes.func
+  showEdit: PropTypes.func,
 }
 
 export default PostFooter

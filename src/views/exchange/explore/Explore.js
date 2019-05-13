@@ -8,6 +8,7 @@ import {bindActionCreators} from 'redux'
 import {ClipLoader} from 'react-spinners'
 import {getExchanges} from 'src/redux/selectors/common/exchanges/GetAllExchanges.js'
 import {PureComponent} from 'react'
+import MobileHeader from '../../user/explore/MobileHeader'
 
 class Explore extends PureComponent {
   constructor(props) {
@@ -84,6 +85,7 @@ class Explore extends PureComponent {
 
     return (
         <div className='all-exchanges-parent'>
+          <MobileHeader search={this._search} path='/exchange/Exchange_Explorer/search'/>
           <Sidebar search={this._search} justFollowing={this._justFollowing}/>
           <div className='all-exchanges-container'>
             <Exchanges exchanges={allExchanges} justFollowing={justFollowing} loading={loading} followed={followed}/>

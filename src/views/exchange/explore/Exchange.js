@@ -59,48 +59,46 @@ class Exchange extends Component {
     const {data, translate} = this.props
     return (
         <div className='exchange-model'>
-          <div style={{position: 'absolute', zIndex: '2', width: '90%'}}>
-            <Link to={`/exchange/${data.id}`} style={{textDecoration: 'none', color: 'black'}}>
-              <div className='exchange-model-avatar'>
-                {
-                  data.exchange_image ?
-                      <img src={data.exchange_image.file.includes('innowin.ir') ?
-                          data.exchange_image.file : REST_URL + data.exchange_image.file} alt={data.name}
-                           className='exchange-model-avatar-img'/>
-                      :
-                      <ChannelIcon className='exchange-model-avatar-default'/>
-                }
-              </div>
-              <div className='exchange-model-title'>
-                {data.name}
-              </div>
-              <div className='exchange-model-description'>
-                {data.description}
-              </div>
 
-              <div className='exchange-model-detail'>
-                <Demand width='30px' height='28px' className='exchange-model-detail-demand-logo'/>
-                <div className='exchange-model-detail-demand-title'>{translate['Type demand']}</div>
-                <span> </span>
-                <div className='exchange-model-detail-demand-title'>{data.demand_count}</div>
-              </div>
-              <div className='exchange-model-detail'>
-                <Distribute width='20px' height='20px' className='exchange-model-detail-dist-logo'/>
-                <div className='exchange-model-detail-dist-title'>{translate['Type supply']}</div>
-                <span> </span>
-                <div className='exchange-model-detail-dist-title'>{data.supply_count}</div>
-              </div>
-
-            </Link>
-            <div className='exchange-follow-green-buttons'>
-              <Link to={`/exchange/${data.id}`} style={{textDecoration: 'none'}}>
-                <Material className='exchange-link' content='مشاهده'/>
-              </Link>
+          <Link to={`/exchange/${data.id}`} style={{textDecoration: 'none', color: 'black'}}>
+            <div className='exchange-model-avatar'>
               {
-                this._renderFollowButton()
+                data.exchange_image ?
+                    <img src={data.exchange_image.file.includes('innowin.ir') ?
+                        data.exchange_image.file : REST_URL + data.exchange_image.file} alt={data.name}
+                         className='exchange-model-avatar-img'/>
+                    :
+                    <ChannelIcon className='exchange-model-avatar-default'/>
               }
             </div>
+            <div className='exchange-model-title'>
+              {data.name}
+            </div>
+            <div className='exchange-model-description'>
+              {data.description}
+            </div>
 
+            <div className='exchange-model-detail'>
+              <Demand width='30px' height='28px' className='exchange-model-detail-demand-logo'/>
+              <div className='exchange-model-detail-demand-title'>{translate['Type demand']}</div>
+              <span> </span>
+              <div className='exchange-model-detail-demand-title'>{data.demand_count}</div>
+            </div>
+            <div className='exchange-model-detail'>
+              <Distribute width='24px' height='24px' className='exchange-model-detail-dist-logo'/>
+              <div className='exchange-model-detail-dist-title'>{translate['Type supply']}</div>
+              <span> </span>
+              <div className='exchange-model-detail-dist-title'>{data.supply_count}</div>
+            </div>
+          </Link>
+
+          <div className='exchange-follow-green-buttons'>
+            <Link to={`/exchange/${data.id}`} style={{textDecoration: 'none'}}>
+              <Material className='exchange-link' content='مشاهده'/>
+            </Link>
+            {
+              this._renderFollowButton()
+            }
           </div>
 
         </div>

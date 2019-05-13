@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import {PureComponent} from 'react'
 import connect from 'react-redux/es/connect/connect'
 import productActions from 'src/redux/actions/commonActions/productActions'
@@ -11,32 +11,7 @@ import Products from './Products'
 import {makeCategorySelector} from 'src/redux/selectors/common/category/getCategoriesByParentId'
 import FontAwesome from 'react-fontawesome'
 
-
-// import {getMessages} from 'src/redux/selectors/translateSelector'
-// import {Helmet} from 'react-helmet'
-
-type appProps =
-    {|
-      actions: { getAllproducts: Function },
-      currentUserIdentity: number,
-      currentUserType: string,
-      currentUserId: number,
-      allProducts: any,
-      translate: Object,
-      loading: boolean
-    |}
-
-type appState =
-    {|
-      offset: number,
-      activeScrollHeight: number,
-      scrollLoading: boolean,
-      justFollowing: boolean,
-      search: ?string,
-      scrollButton: boolean
-    |}
-
-class Explore extends PureComponent <appProps, appState> {
+class Explore extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {

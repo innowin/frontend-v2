@@ -21,7 +21,7 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      showRegisterModal: true,
+      showRegisterModal: false,
       signUpFields: {
         password: '',
         email: '',
@@ -56,7 +56,7 @@ class App extends React.Component {
                 <TopBar path={path} collapseClassName="col user-sidebar-width"/>
 
                 <Switch>
-                  <PrivateRoute exact={true} path="/" component={Home}/>
+                  <PrivateRoute exact path="/" component={Home}/>
                   <PrivateRoute path="/user/:id" component={User}/>
                   <PrivateRoute path="/organization/:id" component={Organization}/>
                   <PrivateRoute path="/exchange" component={Exchange}/>

@@ -1,7 +1,7 @@
 import React from 'react'
 import connect from 'react-redux/es/connect/connect'
 import Material from '../../common/components/Material'
-import socialActions from '../../../redux/actions/commonActions/socialActions'
+import socialActions from 'src/redux/actions/commonActions/socialActions'
 import {bindActionCreators} from 'redux'
 import {ClipLoader} from 'react-spinners'
 import {Component} from 'react'
@@ -20,8 +20,7 @@ class User extends Component {
       bannerLoaded: false,
       checkMedia: true,
     }
-    const self: any = this
-    self._follow = this._follow.bind(this)
+    this._follow = this._follow.bind(this)
   }
 
   componentDidMount() {
@@ -79,15 +78,13 @@ class User extends Component {
           <Link to={userType === constants.USER_TYPES.ORG ? `/organization/${userId}` : `/user/${userId}`} style={{textDecoration: 'none', color: 'black'}}>
             {
               user.profile_banner && files[user.profile_banner] ?
-                  <img src={files[user.profile_banner].file}
-                       className='user-banner' alt={user.last_name}/>
+                  <img src={files[user.profile_banner].file} className='user-banner-bg' alt={user.last_name}/>
                   :
-                  <div className='user-banner'/>
+                  <div className='user-banner-bg'/>
             }
             {
               user.profile_media && files[user.profile_media] ?
-                  <img src={files[user.profile_media].file}
-                       className='user-profile-photo' alt={user.last_name}/>
+                  <img src={files[user.profile_media].file} className='user-profile-photo' alt={user.last_name}/>
                   :
                   userType === constants.USER_TYPES.USER ?
                       <div className='default-skelete-skeleton-img'>
@@ -101,17 +98,19 @@ class User extends Component {
 
             <div className='user-name-id-cont'>
               <div className='user-name'>
+                <span>
                 {
                   userType === constants.USER_TYPES.USER ?
                       <UserIcon className='user-name-icon'/>
                       : <Organization className='user-name-icon'/>
                 }
-                {user.first_name + ' ' + user.last_name}</div>
+                </span>
+                {user.first_name + ' ' + user.last_name}
+              </div>
               <div className='user-id'>@{user.username}</div>
             </div>
 
-            <div className='user-description'
-                 style={new RegExp('^[A-Za-z]*$').test(user && user.description && user.description[0]) ? {direction: 'ltr'} : {direction: 'rtl'}}>
+            <div className='user-description' style={user.description ? {direction: new RegExp('^[A-Za-z]*$').test(user.description) ? 'ltr' : 'rtl'} : {display: 'none'}}>
               {user.description}
             </div>
 

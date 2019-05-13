@@ -14,6 +14,13 @@
   box-shadow: 0 3px 3px 1.5px $box-shadow-color;
   height: 355px;
   overflow: hidden;
+
+  @media screen and (max-width: 480px) {
+    margin: 5px;
+    //border-bottom: 2px solid $text-light-color;
+    //border-radius: 0;
+    //box-shadow: none;
+  }
 }
 
 .exchange-model-hide {
@@ -171,7 +178,7 @@
   font-weight: bold;
   font-size: $font-size-smallText;
   margin-top: 12px;
-  padding: 17px 0;
+  padding: 18px 0;
   border-top: 1px solid #F1F1F1;
   border-bottom: 1px solid #F1F1F1;
 }
@@ -235,7 +242,9 @@
   border-radius: $border-radius-size;
   background: $text-lightest-color;
   box-shadow: 0 3px 3px $box-shadow-color;
-  @media screen and (max-width: 10000px) and (min-width: 1366px) {
+  transition: all linear 0.3s, z-index linear 0s;
+
+  @media screen and (min-width: 1366px) {
     right: 138px;
     width: calc(0.25 * (100% - 276px));
   }
@@ -247,24 +256,63 @@
     right: 30px;
     width: calc(0.25 * (100% - 60px));
   }
-  @media screen and (max-width: 900px) and (min-width: 0px) {
+  @media screen and (max-width: 900px) and (min-width: 480px) {
     right: 10px;
     width: calc(0.25 * (100% - 20px));
   }
+  @media screen and (max-width: 480px) and (min-width: 0) {
+    padding: 65px 15px 15px 15px;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    top: 0;
+    z-index: 3;
+  }
+}
+
+.exchanges-explore-sidebar-hide {
+  @media screen and (max-width: 480px) and (min-width: 0) {
+    transition: all linear 0.3s, z-index linear 0s 0.5s;
+    opacity: 0;
+    transform: scale(0.9);
+    z-index: -1;
+  }
+}
+
+.users-explore-sidebar-searchbox {
+  flex-grow: 1;
+  display: flex;
+  margin-right: 10px;
+  border-radius: 15px;
+  background-color: $eee-color;
+  white-space: nowrap;
+  font-size: $font-size-regular;
+}
+
+.users-explore-header-filter-btn {
+  background-color: $eee-color;
+  color: $text-light-color;
+  padding: 7px 20px;
+  border-radius: 15px;
+  font-size: $font-size-regular;
+  font-weight: bold;
 }
 
 .exchanges-explore-sidebar-searchbox {
   display: flex;
-  margin: 20px auto;
+  margin: 5px auto 20px 0;
   border-radius: 15px;
-  background-color: $text-light-color;
+  background-color: $eee-color;
   white-space: nowrap;
+  @media screen and (max-width: 480px) and (min-width: 0) {
+    display: none;
+  }
 }
 
 .exchanges-explore-sidebar-searchbox-input {
   flex-grow: 1;
   vertical-align: top;
-  color: white;
+  color: $text-title-menu-color;
   width: 89%;
   border: none;
   text-align: right;
@@ -272,33 +320,45 @@
   border-radius: 15px;
   padding: 0 5%;
   height: 35px;
+  font-size: $font-size-regular;
+  font-weight: bold;
 
   &:focus {
     outline: none;
   }
 
   &::placeholder {
-    color: whitesmoke;
-    font-size: 14px;
+    color: $text-light-color;
   }
 }
 
 .exchanges-explore-sidebar-searchbox-icon {
   display: inline-block;
-  color: white;
+  color: $text-light-color;
   vertical-align: top;
   margin-top: 9px;
   margin-left: 10px;
   cursor: pointer;
+
+  @media screen and (max-width: 480px) {
+    margin-top: 10px;
+    font-size: 14px;
+  }
 }
 
 .exchanges-explore-sidebar-search-exit-icon {
   display: inline-block;
-  color: white;
+  color: $text-light-color;
   vertical-align: top;
-  margin-top: 7px;
+  margin-top: 6px;
   margin-left: 10px;
   cursor: pointer;
+
+  @media screen and (max-width: 480px) {
+    margin-top: 7px;
+    font-size: 14px;
+    font-weight: bold;
+  }
 }
 
 .exchanges-explore-sidebar-check {
@@ -309,7 +369,16 @@
 .users-explore-sidebar-check {
   width: 90%;
   margin: 10px auto;
-  height: 124px;
+  height: 85px;
+  opacity: 1;
+  user-select: none;
+  transition-duration: 0.3s;
+}
+
+.users-explore-sidebar-job-filter {
+  width: 90%;
+  margin: 10px auto;
+  height: 143px;
   opacity: 1;
   user-select: none;
   transition-duration: 0.3s;
@@ -327,6 +396,7 @@
   float: left;
   color: $text-light-color;
   margin-left: 5px;
+  margin-top: -2px;
   transform: rotate(90deg);
   transition-duration: 0.3s;
 }
@@ -335,6 +405,7 @@
   float: left;
   color: $text-light-color;
   margin-left: 5px;
+  margin-top: -2px;
   transform: rotate(270deg);
   transition-duration: 0.3s;
 }
@@ -451,7 +522,7 @@
     margin: 0 10px;
   }
   @media screen and (max-width: 480px) and (min-width: 0) {
-    margin: 0 10px;
+    margin: 0;
   }
 }
 
@@ -486,6 +557,12 @@
   align-items: center;
   justify-content: center;
   position: relative;
+
+  @media screen and (max-width: 480px) and (min-width: 0) {
+    width: 100%;
+    margin-right: 0;
+    padding: $smallTopBarHeight + 55px 0 0 0;
+  }
 }
 
 
@@ -541,7 +618,7 @@
     outline: none;
   }
 
-  &:after{
+  &:after {
     content: 'دنبال شده';
     position: absolute;
     top: 5px;
@@ -631,6 +708,9 @@
 }
 
 .user-follow-loading {
+  position: absolute !important;
+  left: 10px;
+  top: 298px;
   border: 1.5px solid $secondary-color;
   color: $secondary-color;
   background-color: transparent;
@@ -639,10 +719,13 @@
   width: 100px;
   transition-duration: 0.25s;
   font-size: $font-size-normalText;
-  height: 35px;
-  float: left;
-  margin-left: 10px;
-  margin-top: 3px;
+  height: 34px;
+
+  @media screen and (max-width: 480px) {
+    width: 90px;
+    left: 20px;
+    top: 23px;
+  }
 }
 
 .exchange-view-sidebar {
@@ -873,7 +956,7 @@
   background-color: #f3f3f3;
 }
 
-.user-default-profile-desc-margin-bottom{
+.user-default-profile-desc-margin-bottom {
   margin: 5px 15px 122px 15px;
   font-size: 14px;
   background-color: #f3f3f3;

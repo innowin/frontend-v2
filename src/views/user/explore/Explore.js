@@ -12,6 +12,7 @@ import {getUsers} from 'src/redux/selectors/user/GetAllUsers'
 import {PureComponent} from 'react'
 import {getFollowersSelector} from '../../../redux/selectors/common/social/getFollowers'
 import {getFolloweesSelector} from '../../../redux/selectors/common/social/getFollowees'
+import MobileHeader from './MobileHeader'
 
 class Explore extends PureComponent {
   constructor(props) {
@@ -61,6 +62,9 @@ class Explore extends PureComponent {
         this.props.actions.getUsers(24, 0, search, this.state.justOrgans && !this.state.justUsers ? true : !this.state.justOrgans && this.state.justUsers ? false : null)
       })
 
+  //   window.history.pushState('page2', 'Title', '/user/5')
+
+
   _justFollowing = (checked) => this.setState({...this.state, justFollowing: checked})
 
   _justFollowed = (checked) => this.setState({...this.state, justFollowed: checked})
@@ -85,7 +89,7 @@ class Explore extends PureComponent {
   }
 
   render() {
-    const {loading, allUsers, currentUser, identities, files, translate, followees, followers} = this.props
+    const {loading, allUsers, currentUser, identities, files, translate, followees, followers, path} = this.props
     const {justFollowing, justFollowed, scrollButton, justOrgans, justUsers} = this.state
 
     const followeesArr = Object.values(followees).reduce((all, follow) => {
@@ -98,14 +102,17 @@ class Explore extends PureComponent {
       return {...all, [id]: follow}
     }, {})
 
-
     return (
         <div className='all-exchanges-parent'>
+
+          <MobileHeader search={this._search} path='/users/Users_Explorer/search'/>
+
           <Sidebar search={this._search}
                    justFollowing={this._justFollowing}
                    justFollowed={this._justFollowed}
                    justUsers={this._justUsers}
                    justOrgans={this._justOrgans}
+                   path={path}
           />
           <div className='all-exchanges-container'>
             <Users followees={followeesArr}

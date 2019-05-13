@@ -91,6 +91,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
       descriptionHeight: null,
       menuToggleBottom: false,
       getInDidMount: false,
+      extendedView: this.props.extendedView
     }
 
     const self: any = this
@@ -195,7 +196,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     }
   }
 
-  componentDidUpdate(prevProps, prevState, ss) {
+  componentDidUpdate(prevProps) {
     const {post} = this.props
     const self: any = this
     let showMore = false
@@ -404,8 +405,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                 {showComment && !extendedView && instantViewComments && instantViewComments.length > 0 &&
                 <React.Fragment>
                   {post.comments_count !== instantViewComments.length &&
-                  <div onClick={this.showMoreComment}
-                       className='show-more-comment'>{translate['Show More Comments']}</div>
+                  <div onClick={this.showMoreComment} className='show-more-comment'>{translate['Show More Comments']}</div>
                   }
                   <PostComments comments={instantViewComments}
                                 translate={translate}

@@ -1,7 +1,6 @@
 import * as React from 'react'
 import PropTypes from 'prop-types'
-
-import {MoreOptionSvg} from '../../../images/icons'
+import {MoreOptionSvg} from 'src/images/icons'
 import {Link} from 'react-router-dom'
 import checkOwner from '../CheckOwner'
 import type {postType} from 'src/consts/flowTypes/common/post'
@@ -21,7 +20,7 @@ type PostMenuProps = {
 
 const PostMenu = (props: PostMenuProps) => {
   const {postMenuId, post, extendedView, menuToggle, openMenu, postIdentity, translate, deletePost, showEdit} = props
-  let postUrl = ""
+  let postUrl = ''
 
   let ownerId
   if (post) {
@@ -37,28 +36,26 @@ const PostMenu = (props: PostMenuProps) => {
   }
   return (
       <div className='items'>
-        {/*<i className="post-menu-bottom fa fa-ellipsis-h cursor-pointer" aria-hidden="true" onClick={openMenu}/>*/}
         <div className='items cursor-pointer post-menu-bottom bubble-more more-option-svg-container' onClick={openMenu}>
           <MoreOptionSvg className="more-option-svg"/>
         </div>
-        {menuToggle ?
-            <div className="menu-box-post pt-0 pb-0" id={postMenuId}>
-              <div>
-                {
-                  !extendedView &&
-                  <Link to={postUrl}>
-                    <span>{translate["Show more"]}</span>
-                  </Link>
-                }
-                {
-                  checkOwner({id: ownerId, children: <span onClick={deletePost}>{translate["Delete post"]}</span>})
-                }
-                {
-                  showEdit && checkOwner({id: ownerId, children: <span onClick={showEdit}>{translate["Edit Post"]}</span>})
-                }
-              </div>
-            </div>
-            : ""
+        {menuToggle &&
+        <div className="menu-box-post pt-0 pb-0" id={postMenuId}>
+          <div>
+            {
+              !extendedView &&
+              <Link to={postUrl}>
+                <span>{translate['Show more']}</span>
+              </Link>
+            }
+            {
+              checkOwner({id: ownerId, children: <span onClick={deletePost}>{translate['Delete post']}</span>})
+            }
+            {
+              showEdit && checkOwner({id: ownerId, children: <span onClick={showEdit}>{translate['Edit Post']}</span>})
+            }
+          </div>
+        </div>
         }
       </div>
   )
@@ -71,14 +68,14 @@ PostMenu.propTypes = {
   openMenu: PropTypes.func.isRequired,
   postIdentity: PropTypes.oneOfType([
     PropTypes.object.isRequired,
-    PropTypes.number.isRequired
+    PropTypes.number.isRequired,
   ]),
   translate: PropTypes.object.isRequired,
   deletePost: PropTypes.func.isRequired,
   showEdit: PropTypes.oneOfType([
     PropTypes.func.isRequired,
     PropTypes.bool.isRequired,
-  ])
+  ]),
 }
 
 export default PostMenu
