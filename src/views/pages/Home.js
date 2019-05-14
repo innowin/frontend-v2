@@ -1,6 +1,7 @@
 // @flow
 import * as React from 'react'
 import BeePanel from '../common/components/BeePanel'
+import EventCard from '../common/components/EventCard'
 import ChatBar from '../bars/ChatBar'
 import HomePosts from './home/HomePosts'
 import HomeSideBar from './home/HomeSideBar'
@@ -10,6 +11,9 @@ import {bindActionCreators} from 'redux'
 import {Component} from 'react'
 import {connect} from 'react-redux'
 import {getMessages} from 'src/redux/selectors/translateSelector'
+import constants from 'src/consts/constants'
+import OrganizationLeadershipCard from "../common/components/OrganizationLeadershipCard"
+
 
 type HomeProps = {|
   identityId?: number,
@@ -66,6 +70,7 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
               }
               <HomePosts unSetExchangeId={this._unSetExchangeId} exchangeId={activeExchangeId} className={activeExchangeId ? 'post-wrapper active-exchange' : 'post-wrapper'}/>
               <div className={activeExchangeId ? 'user-detail-wrapper active-exchange' : 'user-detail-wrapper'}>
+                {identityType === constants.USER_TYPES.ORG && <OrganizationLeadershipCard/>}
                 <BeePanel/>
                 {/*<EventCard/>*/}
               </div>

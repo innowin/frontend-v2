@@ -1,0 +1,220 @@
+@import "../../variables";
+
+.org-leadership-card {
+  background-color: #ffffff;
+  border-radius: $border-radius-size;
+  box-shadow: 0 3px 3px $box-shadow-color;
+  padding: 10px 15px;
+  position: relative;
+  margin-bottom: 10px;
+
+  .close-button {
+    vertical-align: top;
+    margin-top: 5px;
+    left: 5px;
+    display: block;
+    position: absolute;
+    width: 15px;
+    font-size: 10px;
+    font-weight: bold;
+    color: $post-hover-border-color;
+    cursor: pointer;
+  }
+
+  .image {
+    svg {
+      width: 180px;
+      display: block;
+      margin: 30px auto;
+    }
+  }
+
+  .text {
+    .title {
+      font-weight: bold;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .description {
+      font-size: 13px;
+      padding: 20px;
+      text-align: center;
+      color: $text-light-color;
+    }
+  }
+
+  .button {
+    background: $primary-color-light3;
+    color: white;
+    border-radius: 20px;
+    font-size: 12px;
+    padding: 5px 15px;
+    width: 150px;
+    transition: all 0.3s ease;
+    margin: 0 auto 20px auto;
+    text-align: center;
+    cursor: pointer;
+
+    &:hover {
+      background: darken($primary-color-light3, 10%);
+    }
+  }
+}
+
+.organization-leadership-card-checkboxes {
+  display: inline-block;
+  vertical-align: top;
+  margin: 1.5% 1.5% 0 1.5%;
+  width: 100%;
+
+  .checkmark {
+    position: absolute;
+    top: 2px;
+    right: 0;
+    height: 16px;
+    width: 16px;
+    border-radius: 3px;
+    border: 1px solid $primary-color-light3;
+    background-color: white;
+
+    &:after {
+      content: "";
+      position: absolute;
+      display: none;
+    }
+  }
+}
+
+.organization-leadership-card-checkbox-done {
+  display: flex;
+  flex-flow: row wrap;
+  position: relative;
+  padding-right: 25px;
+  padding-bottom: 15px;
+  color: black;
+  cursor: pointer;
+  font-size: 12px;
+  user-select: none;
+  margin: 10px auto;
+  border-bottom: 1px solid #cdcdcd;
+  filter: grayscale(100%);
+  opacity: .5;
+
+  &:last-child {
+    padding-bottom: 5px;
+    border-bottom: none;
+  }
+
+  input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+
+    &:checked + .checkmark {
+      background-color: $primary-color-light3;
+
+      &:after {
+        display: block;
+      }
+    }
+  }
+
+  .checkmark:after {
+    left: 4px;
+    top: 0;
+    width: 6px;
+    height: 11.25px;
+    border: solid $text-lightest-color;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+  }
+}
+
+.organization-leadership-card-checkbox {
+  display: flex;
+  flex-flow: row wrap;
+  position: relative;
+  padding-right: 25px;
+  padding-bottom: 15px;
+  color: black;
+  cursor: pointer;
+  font-size: 12px;
+  user-select: none;
+  margin: 10px auto;
+  border-bottom: 1px solid #cdcdcd;
+
+  &:last-child {
+    padding-bottom: 5px;
+    border-bottom: none;
+  }
+
+  input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+
+    &:checked + .checkmark {
+      background-color: $primary-color-light3;
+
+      &:after {
+        display: block;
+      }
+    }
+  }
+
+  .checkmark:after {
+    left: 4px;
+    top: 0;
+    width: 6px;
+    height: 11.25px;
+    border: solid $text-lightest-color;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+  }
+}
+
+.organization-leadership-card-checkbox-description {
+  font-size: 10px;
+  color: $disable-color;
+  margin-top: 9px;
+  width: 99%;
+}
+
+.organization-leadership-card-checkbox-title {
+  font-size: 12px;
+  color: $foreground-color;
+  width: 99%;
+}
+
+.org-leadership-button {
+  width: 70px;
+  cursor: pointer;
+  background-color: $primary-color-light3;
+  border: 1.25px solid $background-color;
+  transition-duration: $animation-timing;
+  font-size: $font-size-verySmallText;
+  color: $background-color;
+  border-radius: 25px;
+  height: 30px;
+  padding: 5.3px;
+  float: left;
+  box-shadow: 0 0 0 0 $primary-color-light3;
+  text-align: center;
+
+  &:hover {
+    color: $primary-color-light3;
+    border: 1.25px solid $primary-color-light3;
+    background-color: $background-color;
+    transition-duration: $animation-timing;
+    box-shadow: 0 0 0 0 $primary-color-light3;
+  }
+
+  &:active {
+    background-color: $primary-color-light3;
+    border: 1.25px solid $background-color;
+    color: $background-color;
+    transition-duration: $animation-timing-short;
+    box-shadow: 0 0 0 2px $primary-color-light3;
+  }
+}

@@ -128,7 +128,6 @@ class OrganizationBee extends Component {
     else this.setState({...this.state, level: 1})
   }
 
-
   _handleChooseProfile = (fileString) => {
     const reader = new FileReader()
     if (fileString) {
@@ -158,7 +157,6 @@ class OrganizationBee extends Component {
       createFileFunc(createFile, selectedProfile, createArguments, constants.CREATE_FILE_TYPES.IMAGE, constants.CREATE_FILE_CATEGORIES.PROFILE.PROFILE_PICTURE, file)
     })
   }
-
 
   _handleChooseResume = (fileString) => {
     const reader = new FileReader()

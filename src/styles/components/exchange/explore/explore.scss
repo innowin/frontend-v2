@@ -574,7 +574,7 @@
   border-radius: 30px;
   width: 100px;
   transition-duration: 0.25s;
-  font-size: $font-size-smallText;
+  font-size: $font-size-regular;
   position: relative;
 
   &:hover {
@@ -592,13 +592,14 @@
   border: 1.5px solid $secondary-color;
   color: $secondary-color;
   background-color: transparent;
-  padding: 5px 0;
+  padding: 7px 0;
   border-radius: 30px;
   width: 100px;
   transition-duration: 0.25s;
-  font-size: $font-size-normalText;
+  font-size: $font-size-regular;
   position: relative;
   cursor: pointer;
+  text-align: center;
 
   &:hover {
     color: white;
@@ -611,7 +612,7 @@
     content: 'لغو عضویت';
     position: absolute;
     top: 5px;
-    right: 15px;
+    right: 22px;
   }
 
   &:focus {
@@ -622,7 +623,7 @@
     content: 'دنبال شده';
     position: absolute;
     top: 5px;
-    right: 20px;
+    right: 25.5px;
   }
 }
 
@@ -644,7 +645,7 @@
   color: white;
   cursor: pointer;
   transition-duration: 0.25s;
-  font-size: $font-size-smallText;
+  font-size: $font-size-regular;
 
   &:hover {
     background-color: transparent;

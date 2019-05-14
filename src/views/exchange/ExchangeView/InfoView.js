@@ -280,7 +280,7 @@ class InfoView extends Component<props, state> {
                   }
                 </div>
                 <div className={"info-body"}>
-                  {currentExchange && currentExchange.exchange_hashtag ?
+                  {currentExchange && currentExchange.exchange_hashtag && currentExchange.exchange_hashtag.length > 0 ?
                       currentExchange.exchange_hashtag.map((p) => <div className="exchange-hashtags">{p}</div>)
                       : <div>
                         <div className="exchange-hashtags">

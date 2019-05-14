@@ -1,0 +1,227 @@
+@import "../../variables";
+
+.organization-leadership-bg {
+  position: fixed;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 1);
+  opacity: 1;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  transition-duration: $animation-timing;
+  padding-top: $topBarHeight + 10px;
+  bottom: 120px;
+  overflow-y: auto;
+}
+
+.organization-leadership-bg-out {
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(255, 255, 255, 0);
+  opacity: 0;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  transition-duration: $animation-timing-short;
+}
+
+.organization-leadership-footer {
+  position: fixed;
+  width: 100%;
+  align-items: center;
+  justify-content: space-evenly;
+  background-color: rgba(255, 255, 255, 1);
+  opacity: 1;
+  z-index: 2;
+  left: 0;
+  transition-duration: $animation-timing;
+  bottom: 0;
+  height: 120px;
+  overflow-y: auto;
+  display: flex;
+}
+
+.organization-leadership-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.organization-leadership-elements {
+  width: 40%;
+  position: relative;
+}
+
+.organization-leadership-header {
+  width: 100%;
+  border-bottom: 1.25px solid #cdcdcd;
+  padding: 15px 5px;
+  color: $foreground-color;
+  font-size: $font-size-regular;
+  text-align: right;
+  margin-bottom: 30px;
+}
+
+.organization-leadership-body {
+  width: 100%;
+  color: $foreground-color;
+  font-size: $font-size-regular;
+  text-align: right;
+
+  input {
+    margin-top: 10px;
+    margin-bottom: 20px;
+  }
+}
+
+.organization-leadership-job-input {
+  width: 100%;
+  border: 1.25px solid #cdcdcd;
+  transition-duration: $animation-timing-long;
+  border-radius: $border-radius-size;
+  padding: 9px 10px 9px 10px;
+  font-size: $font-size-regular;
+
+  &:focus {
+    border: 1.25px solid $secondary-color;
+    transition-duration: $animation-timing-long;
+    outline: none;
+  }
+}
+
+.organization-leadership-job-desc {
+  font-size: $font-size-description;
+  color: $disable-color;
+  white-space: pre;
+  line-height: 24px;
+  padding: 5px 10px;
+}
+
+.organization-leadership-hashtags-container {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  min-height: 40px;
+  width: 100%;
+  padding: 0 20px;
+}
+
+.organization-leadership-job-hashtags {
+  text-align: center;
+  border: 1.25px solid $primary-color-light3;
+  font-size: $font-size-description;
+  color: $primary-color-light3;
+  background-color: $background-color;
+  min-width: 50px;
+  min-height: 30px;
+  padding: 4px 9px;
+  vertical-align: top;
+  display: inline-block;
+  border-radius: 25px;
+  margin: auto 3px;
+  transition-duration: $animation-timing-short;
+  cursor: pointer;
+
+  &:hover {
+    color: $background-color;
+    background-color: $primary-color-light3;
+    transition-duration: $animation-timing;
+  }
+
+  &:active {
+    background-color: $primary-color-light3;
+    border: 1.25px solid $background-color;
+    color: $background-color;
+    transition-duration: $animation-timing-short;
+    box-shadow: 0 0 0 2px $primary-color-light3;
+  }
+}
+
+.organization-leadership-job-hashtags-selected {
+  text-align: center;
+  border: 1.25px solid $background-color;
+  font-size: $font-size-description;
+  color: $background-color;
+  background-color: $primary-color-light3;
+  min-width: 50px;
+  min-height: 30px;
+  padding: 4px 9px;
+  vertical-align: top;
+  display: inline-block;
+  border-radius: 25px;
+  margin: auto 3px;
+  transition-duration: $animation-timing-short;
+  cursor: pointer;
+
+  &:hover {
+    color: $primary-color-light3;
+    background-color: $background-color;
+    transition-duration: $animation-timing;
+    border: 1.25px solid $primary-color-light3;
+  }
+}
+
+.org-leadership-next-button {
+  min-width: 80px;
+  cursor: pointer;
+  background-color: $secondary-color;
+  border: 1.25px solid $background-color;
+  transition-duration: $animation-timing;
+  font-size: $font-size-verySmallText;
+  color: $background-color;
+  border-radius: 25px;
+  height: 30px;
+  padding: 5.3px;
+  float: left;
+  box-shadow: 0 0 0 0 $secondary-color;
+  text-align: center;
+
+  &:hover {
+    color: $secondary-color;
+    border: 1.25px solid $secondary-color;
+    background-color: $background-color;
+    transition-duration: $animation-timing;
+    box-shadow: 0 0 0 0 $secondary-color;
+  }
+
+  &:active {
+    background-color: $secondary-color;
+    border: 1.25px solid $background-color;
+    color: $background-color;
+    transition-duration: $animation-timing-short;
+    box-shadow: 0 0 0 2px $secondary-color;
+  }
+}
+
+.org-leadership-previous-button {
+  min-width: 80px;
+  cursor: pointer;
+  background-color: $disable-color;
+  border: 1.25px solid $background-color;
+  transition-duration: $animation-timing;
+  font-size: $font-size-verySmallText;
+  color: $background-color;
+  border-radius: 25px;
+  height: 30px;
+  padding: 5.3px;
+  float: left;
+  box-shadow: 0 0 0 0 $disable-color;
+  text-align: center;
+
+  &:hover {
+    color: $disable-color;
+    border: 1.25px solid $disable-color;
+    background-color: $background-color;
+    transition-duration: $animation-timing;
+    box-shadow: 0 0 0 0 $disable-color;
+  }
+
+  &:active {
+    background-color: $disable-color;
+    border: 1.25px solid $background-color;
+    color: $background-color;
+    transition-duration: $animation-timing-short;
+    box-shadow: 0 0 0 2px $disable-color;
+  }
+}
