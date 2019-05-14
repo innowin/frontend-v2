@@ -8,8 +8,7 @@ import {bindActionCreators} from "redux"
 import {ClipLoader} from "react-spinners"
 import {Component} from "react"
 import {connect} from "react-redux"
-import {DefaultUserIcon, Contacts, QuestionMark, Stream} from "src/images/icons"
-import {getFolloweesSelector} from "src/redux/selectors/common/social/getFollowees"
+import {DefaultUserIcon, QuestionMark, Stream} from "src/images/icons"
 import {Link} from "react-router-dom"
 import {getFollowingsSelector} from "../../../redux/selectors/common/social/getNewFollowings"
 // import exchangeMembershipActions from "src/redux/actions/commonActions/exchangeMembershipActions"
@@ -78,7 +77,7 @@ class MembersView extends Component<props, states> {
   }
 
   getMembers(memberId, memberType, index) {
-    let {profiles, organs, files, clientId, identities} = this.props
+    let {files, clientId, identities} = this.props
     let {followingUsers, followingOrgans} = this.state
     if (memberType === "USER") {
       if (identities[memberId]) {

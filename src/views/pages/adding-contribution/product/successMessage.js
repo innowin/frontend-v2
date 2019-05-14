@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react"
-import {CircularTickSvg, CertificateIcon, AgentSvgIcon} from "../../../../images/icons"
+import {CircularTickSvg, CertificateIcon, AgentSvgIcon} from "src/images/icons"
 import ActBar from "../actBar"
 import type {SuccessMessageActionType} from "../types"
 

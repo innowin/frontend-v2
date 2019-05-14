@@ -54,16 +54,9 @@ export class productBasicInformation extends Component {
     const {product, actions} = this.props
     const {custom_attrs} = this.state
     const {updateProduct} = actions
-    let error = false
-    custom_attrs.forEach(attr => {
-      if (attr.title.length === 0 || attr.value.length === 0)
-        error = true
-    })
-    if (!error) {
-      updateProduct({formValues: {custom_attrs: JSON.stringify(custom_attrs)}, productId: product.id})
-      this.setState({...this.state, edit: false})
-    }
-    else this.setState({...this.state, error: true})
+    let attrs = custom_attrs.reduce((sum, attr) => (attr.title.length !== 0 && attr.value.length !== 0) ? [...sum, {...attr}] : [...sum], [])
+    updateProduct({formValues: {custom_attrs: JSON.stringify(attrs)}, productId: product.id})
+    this.setState({...this.state, edit: false})
   }
 
   render() {
@@ -125,8 +118,6 @@ export class productBasicInformation extends Component {
                       }
                       <div className='product-attributes-cont'>
                         <div className={!error ? 'product-attributes-error-hide' : 'product-attributes-error'}>ویژگی نمی تواند فاقد عنوان یا مقدار باشد!</div>
-                        {/*<input type='text' className='product-attributes-title-edit' placeholder='عنوان'/>*/}
-                        {/*<input type='text' className='product-attributes-value-edit' placeholder='مقدار'/>*/}
                         <Material className='product-attributes-add' content='افزودن' onClick={this.addAttr}/>
                       </div>
 
@@ -141,7 +132,8 @@ export class productBasicInformation extends Component {
                         <div key={i} className='product-attributes-cont'>
                           <div className='product-attributes-title'>{attribute.title}</div>
                           <div className='product-attributes-value'>{attribute.value}</div>
-                        </div>)
+                        </div>,
+                    )
               }
             </div>
           </div>

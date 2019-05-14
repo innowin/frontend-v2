@@ -2,7 +2,7 @@
 import * as React from 'react'
 import PropTypes from "prop-types"
 import FontAwesome from "react-fontawesome"
-import constants from "../../../../consts/constants";
+import constants from "src/consts/constants";
 
 //TODO: mohammad move this to flowTypes
 type tagType = {

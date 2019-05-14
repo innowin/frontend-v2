@@ -1,8 +1,8 @@
 // @flow
 import React from 'react'
 import BtnBar from "../../../common/BtnBar/BtnBar"
-import {CongratsTick} from "../../../../images/icons"
-import {DOMAIN} from "../../../../consts/URLS"
+import {CongratsTick} from "src/images/icons"
+import {DOMAIN} from "src/consts/URLS"
 import type {ActType} from "../../../common/BtnBar/BtnBar";
 
 

@@ -1,5 +1,4 @@
 import React from 'react'
-import connect from 'react-redux/es/connect/connect'
 import PostView from '../../common/post/PostView'
 
 const ProductPosts = (props) => {
@@ -11,8 +10,4 @@ const ProductPosts = (props) => {
   )
 }
 
-const mapStateToProps = state => ({
-  posts: state.common.post.list,
-})
-
-export default connect(mapStateToProps)(ProductPosts)
+export default ProductPosts

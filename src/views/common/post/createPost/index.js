@@ -24,7 +24,7 @@ import constants from 'src/consts/constants'
 import type {postType} from 'src/consts/flowTypes/common/post'
 import type {fileType} from 'src/consts/flowTypes/common/fileType'
 import uuid from 'uuid'
-import type {identityType} from '../../../../consts/flowTypes/user/basicInformation'
+import type {identityType} from 'src/consts/flowTypes/user/basicInformation'
 
 const POST_MEDIA_TEMP_KEY = 'POST_MEDIA'
 const POST_FILE_TEMP_KEY = 'POST_FILE'

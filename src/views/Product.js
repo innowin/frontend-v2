@@ -1,5 +1,5 @@
 import React from 'react'
-import ProductView from './product/ProductView'
+import ProductView from './product/productView/ProductView'
 import ProductExplorer from './product/explore/Explore'
 import PrivateRoute from '../consts/PrivateRoute'
 import {Switch} from 'react-router-dom'

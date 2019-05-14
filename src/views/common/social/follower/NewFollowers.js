@@ -11,7 +11,7 @@ import {connect} from "react-redux"
 import {DefaultUserIcon, Contacts, QuestionMark, Stream} from "src/images/icons"
 import {getFolloweesSelector} from "src/redux/selectors/common/social/getFollowees"
 import {Link} from "react-router-dom"
-import {getMessages} from "../../../../redux/selectors/translateSelector"
+import {getMessages} from "src/redux/selectors/translateSelector"
 
 type props = {
   actions: Object,
@@ -109,7 +109,7 @@ class NewFollowers extends Component<props, states> {
   }
 
   getMembers(identity_type, id, follow_accepted, index) { // TODO:ABEL ADD FOLLOW_ACCEPT STUFF
-    let {profiles, organs, files, clientId, followers, paramId} = this.props
+    let {profiles, organs, files, clientId /*, followers, paramId*/} = this.props
     let {followingUsers, followingOrgans} = this.state
     if (identity_type === constants.USER_TYPES.USER) {
       if (profiles[id]) {

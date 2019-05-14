@@ -1,8 +1,8 @@
 import types from "../../../actions/types"
 import {call, fork, take, put} from "redux-saga/effects"
-import results from "../../../../consts/resultName";
-import api from "../../../../consts/api";
-import urls from "../../../../consts/URLS";
+import results from "src/consts/resultName";
+import api from "src/consts/api";
+import urls from "src/consts/URLS";
 
 
 function* createHashTagFor(action) {

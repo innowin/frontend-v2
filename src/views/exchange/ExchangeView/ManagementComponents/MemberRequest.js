@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import DefaultUserIcon from "../../../../images/defaults/defaultUser_svg"
+import DefaultUserIcon from "src/images/defaults/defaultUser_svg"
 
 class MemberRequest extends Component {
 

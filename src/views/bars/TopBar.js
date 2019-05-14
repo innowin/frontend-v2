@@ -362,19 +362,17 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
 
     return (
         <div onMouseEnter={this._handleMouseEnter} onMouseLeave={this._handleMouseLeave}>
-          <AgentForm
-              active={agentForm}
-              hide={this._handleHideAgent}
-          />
+          <AgentForm active={agentForm} hide={this._handleHideAgent}/>
 
           <CreateExchange handleModalVisibility={this._createExchangeModalVisibilityHandler} modalIsOpen={createExchangeModalIsOpen}/>
 
           <TransitionGroup>
-            {showHamburger ?
-                <CSSTransition key={1} timeout={250} classNames='fade'>
-                  <div className='hamburger-overlay open'/>
-                </CSSTransition>
-                : null}
+            {
+              showHamburger &&
+              <CSSTransition key={1} timeout={250} classNames='fade'>
+                <div className='hamburger-overlay open'/>
+              </CSSTransition>
+            }
           </TransitionGroup>
 
           <nav className={hideTopBar ? 'page-content topBar topBar-hide' : 'page-content topBar'}>
@@ -538,11 +536,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
               </div>
 
               <div className="-searchInput">
-                <input type="text" name="search" dir="auto"
-                       placeholder={topBarTranslate['Search in Danesh boom']}
-                       ref={searchInput => {
-                         this.searchInput = searchInput
-                       }}/>
+                <input type="text" name="search" dir="auto" placeholder={topBarTranslate['Search in Danesh boom']} ref={e => this.searchInput = e}/>
                 <SearchIcon className='search-icon'/>
               </div>
 
@@ -566,9 +560,6 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
             <Material onClick={() => this._handleSettingSelected('Privacy')}
                       className={selectedSetting === 'Privacy' ? 'settingModal-sidebar-item-selected' : 'settingModal-sidebar-item'}
                       content={topBarTranslate['Privacy']}/>
-            {/*<Material onClick={this._handleSignOut}*/}
-            {/*className={selectedSetting === 'Sign Out' ? 'settingModal-sidebar-item-selected' : 'settingModal-sidebar-item'}*/}
-            {/*content={topBarTranslate['Sign Out']}/>*/}
           </div>
 
           <div className={showSetting ? 'settingModal-menu' : 'settingModal-menu-out'}>

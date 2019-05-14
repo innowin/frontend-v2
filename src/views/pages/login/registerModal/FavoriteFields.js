@@ -3,12 +3,12 @@ import * as React from 'react'
 import PropTypes from "prop-types"
 
 import {favoriteType} from 'src/consts/flowTypes/favorite'
-import {TickSvgIcon} from "../../../../images/icons";
+import {TickSvgIcon} from "src/images/icons";
 import FontAwesome from "react-fontawesome";
-import {getFavoritesSelector} from "../../../../redux/selectors/favorite/getFavorites";
+import {getFavoritesSelector} from "src/redux/selectors/favorite/getFavorites";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
-import FavoriteAction from "../../../../redux/actions/favoriteAction";
+import FavoriteAction from "src/redux/actions/favoriteAction";
 
 type ContentUserProps = {
   translate: { [string]: string },

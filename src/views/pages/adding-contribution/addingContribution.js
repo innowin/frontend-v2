@@ -174,7 +174,6 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
       doc.body.style.overflow = 'hidden'
       doc.body.style.paddingRight = '7px'
       const {
-        clientFiles,
         categories,
         countries,
         province,
@@ -299,23 +298,19 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
   }
 
   renderCurrentLevel() {
-    let {
+    const {
       currentLevel,
       processing,
       selectedImage,
       selectedImageId,
-      selectedType,
       catLvlOne,
       catLvlTwo,
       catLvlThree,
       countryList,
       provinceList,
       cityList,
-      productName,
-      abilityTitle,
-      abilityDescription,
     } = this.state
-    let {translator} = this.props
+    const {translator} = this.props
     let self: any = this
     switch (currentLevel) {
       case 'one':

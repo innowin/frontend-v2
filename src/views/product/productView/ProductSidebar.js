@@ -1,15 +1,15 @@
 import React, {Component} from 'react'
 import Moment from 'react-moment'
-import Material from '../common/components/Material'
+import Material from '../../common/components/Material'
 import {Date, Location} from 'src/images/icons'
 import {ClipLoader} from 'react-spinners'
 import {bindActionCreators} from 'redux'
-import productActions from '../../redux/actions/commonActions/productActions'
+import productActions from 'src/redux/actions/commonActions/productActions'
 import {connect} from 'react-redux'
-import types from '../../redux/actions/types'
-import {createFileFunc} from '../common/Functions'
-import constants from '../../consts/constants'
-import FileActions from '../../redux/actions/commonActions/fileActions'
+import types from 'src/redux/actions/types'
+import {createFileFunc} from '../../common/Functions'
+import constants from 'src/consts/constants'
+import FileActions from 'src/redux/actions/commonActions/fileActions'
 
 class SideBar extends Component {
   constructor(props) {
@@ -187,7 +187,7 @@ class SideBar extends Component {
       this.setState({...this.state, edit: false}, () => {
 
         const {product, actions, temp} = this.props
-        const {newName, newPrice, selectedCountry, selectedProvince, selectedCity, firstCategory, secondCategory, thirdCategory, deleteArr} = this.state
+        const {newName, selectedCountry, selectedProvince, selectedCity, firstCategory, secondCategory, thirdCategory, deleteArr} = this.state
         const product_category = thirdCategory && secondCategory && firstCategory ? thirdCategory : secondCategory && firstCategory ? secondCategory : firstCategory
         const {updateProduct, updateFile, getFileByFileRelatedParentId} = actions
 

@@ -7,7 +7,7 @@ import type {ActType} from "../../../common/BtnBar/BtnBar";
 import CircularProgressbar from 'react-circular-progressbar';
 import {exchangeIdentityFields} from "./createExchangeData"
 import FontAwesome from "react-fontawesome"
-import {DefaultUserIcon} from "../../../../images/icons"
+import {DefaultUserIcon} from "src/images/icons"
 
 
 type BtnProps = {

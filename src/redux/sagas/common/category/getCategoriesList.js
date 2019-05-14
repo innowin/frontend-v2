@@ -1,9 +1,9 @@
 import {call, fork, put, take} from "redux-saga/effects";
-import api from "../../../../consts/api";
-import results from "../../../../consts/resultName";
-import urls from "../../../../consts/URLS";
+import api from "src/consts/api";
+import results from "src/consts/resultName";
+import urls from "src/consts/URLS";
 import types from "../../../actions/types";
-import helpers from "../../../../consts/helperFunctions/helperFunctions";
+import helpers from "src/consts/helperFunctions/helperFunctions";
 
 function* getCategoriesList() {
     const socketChannel = yield call(api.createSocketChannel, results.COMMON.GET_CATEGORIES)

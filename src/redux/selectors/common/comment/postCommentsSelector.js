@@ -4,10 +4,10 @@ import constants from "src/consts/constants"
 
 const getComments = state => state.common.comment.list
 const getParentComments = (state, props) => {
-  const {commentParentType, match} = props
-  const {params} = match
-  const parentId = +params.id
-  if (commentParentType === constants.COMMENT_PARENT.POST) {
+  if (props.match && props.commentParentType === constants.COMMENT_PARENT.POST) {
+    const {match} = props
+    const {params} = match
+    const parentId = +params.id
     if(state.common.post.list[parentId])
       return state.common.post.list[parentId].comments
   }

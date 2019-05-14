@@ -528,8 +528,9 @@
 
 .product-attributes-cont {
   margin-bottom: 5px;
-  white-space: nowrap;
   overflow: hidden;
+  display: flex;
+  justify-content: space-between;
 }
 
 .product-attributes-title {
@@ -538,13 +539,19 @@
   padding: 5px 10px;
   width: 25%;
   margin-left: 5px;
+  word-break: break-word;
+  vertical-align: top;
+  flex-grow: 1;
 }
 
 .product-attributes-value {
+  vertical-align: top;
   background-color: $more-button-color;
   padding: 5px 10px;
   display: inline-block;
   width: calc(75% - 5px);
+  word-break: break-word;
+  flex-grow: 1;
 }
 
 .product-attributes-error-hide {

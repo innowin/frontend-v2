@@ -423,29 +423,29 @@ const mapStateToProps = (state, ownProps) => {
   const postRelatedProductId = post && post.post_related_product && post.post_related_product.id ? post.post_related_product.id : post.post_related_product
   const postRelatedProduct = postRelatedProductId && {...state.common.product.products.list[postRelatedProductId], product_owner: postIdentity}
 
-  if (extendedView) {
-    return {
-      post,
-      postIdentity,
-      clientIdentity,
-      postRelatedProduct,
-      postRelatedIdentityImage,
-      comments: userCommentsSelector(state, ownProps),
-      translate: getMessages(state),
-      fileList,
-      param: state.param,
-    }
+  // if (extendedView) {
+  return {
+    post,
+    postIdentity,
+    clientIdentity,
+    postRelatedProduct,
+    postRelatedIdentityImage,
+    comments: userCommentsSelector(state, ownProps),
+    translate: getMessages(state),
+    fileList,
+    param: state.param,
   }
-  else {
-    return {
-      postIdentity,
-      clientIdentity,
-      postRelatedProduct,
-      postRelatedIdentityImage,
-      instantViewComments: userInstantCommentsSelector(state, ownProps),
-      translate: getMessages(state),
-    }
-  }
+  // }
+  // else {
+  //   return {
+  //     postIdentity,
+  //     clientIdentity,
+  //     postRelatedProduct,
+  //     postRelatedIdentityImage,
+  //     instantViewComments: userInstantCommentsSelector(state, ownProps),
+  //     translate: getMessages(state),
+  //   }
+  // }
 }
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({

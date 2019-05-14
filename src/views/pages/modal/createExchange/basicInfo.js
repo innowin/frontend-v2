@@ -7,7 +7,7 @@ import Input from "../../../common/inputs/StateLessTextInput"
 import {exchangeFields} from "./createExchangeData"
 import {RadioButtonGroup} from "../../../common/inputs/RadioButtonInput"
 import type {StrNumBool} from "../../../common/inputs/RadioButtonInput"
-import {ImageUploadSvg} from '../../../../images/icons'
+import {ImageUploadSvg} from 'src/images/icons'
 import FontAwesome from "react-fontawesome"
 
 

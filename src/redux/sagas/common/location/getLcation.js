@@ -1,8 +1,8 @@
-import api from "../../../../consts/api";
-import results from "../../../../consts/resultName";
-import urls from "../../../../consts/URLS";
+import api from "src/consts/api";
+import results from "src/consts/resultName";
+import urls from "src/consts/URLS";
 import {call, put, fork, take} from "redux-saga/effects";
-import helpers from "../../../../consts/helperFunctions/helperFunctions"
+import helpers from "src/consts/helperFunctions/helperFunctions"
 import types from "../../../actions/types"
 
 

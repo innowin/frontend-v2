@@ -1,9 +1,9 @@
-import api from "../../../../consts/api"
-import results from "../../../../consts/resultName"
-import urls from "../../../../consts/URLS"
+import api from "src/consts/api"
+import results from "src/consts/resultName"
+import urls from "src/consts/URLS"
 import {call, fork, take, put, all, select} from "redux-saga/effects"
 import types from "../../../actions/types"
-import constants from "../../../../consts/constants"
+import constants from "src/consts/constants"
 import uuid from "uuid"
 
 

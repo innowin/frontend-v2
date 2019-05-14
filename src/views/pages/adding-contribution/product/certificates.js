@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import {CircularCheckbox} from '../../../common/inputs/CircularCheckbox'
-import {PayIcon, CongratsTick, ThinDownArrow} from '../../../../images/icons'
+import {PayIcon, CongratsTick, ThinDownArrow} from 'src/images/icons'
 import {LAYER1S} from "../addingConributionData";
 import NextPrevBtns from '../nextAndPrevBtns'
 import StateLessTextInput from '../../../common/inputs/StateLessTextInput'

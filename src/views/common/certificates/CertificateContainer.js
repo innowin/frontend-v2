@@ -11,7 +11,6 @@ import {Component} from 'react'
 import {userCertificatesSelector} from '../../../redux/selectors/common/certificate/userCertificatesSelector'
 import CertificateIcon from '../../../images/user/certificate_svg'
 import type {paramType} from '../../../consts/flowTypes/paramType'
-import constants from 'src/consts/constants'
 
 type PropsCertificates = {
   ownerId: number,

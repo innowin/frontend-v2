@@ -1,30 +1,30 @@
 import React, {Component} from 'react'
-import ProductPosts from '../product/posts'
-import ProductBasicInformation from '../product/basicInformation'
+import ProductPosts from './Posts'
+import ProductBasicInformation from './BasicInformation'
 import {NavLink, Switch, Redirect, Link} from 'react-router-dom'
 import PropsRoute from 'src/consts/PropsRoute'
 import {connect} from 'react-redux'
-import SideBar from '../bars/ProductSidebar'
+import SideBar from './ProductSidebar'
 import ProductActions from 'src/redux/actions/commonActions/productActions'
 import {bindActionCreators} from 'redux'
 import constants from 'src/consts/constants'
 import FileActions from 'src/redux/actions/commonActions/fileActions'
 import {getCountries, getProvinces, getCities} from 'src/redux/actions/commonActions/location'
-import makeProvinceSelectorById from '../../redux/selectors/common/location/getProvinceById'
-import {provinceSelector} from '../../redux/selectors/common/location/getProvinceByCountry'
-import makeCountrySelectorById from '../../redux/selectors/common/location/getCountryById'
-import getAllCountries from '../../redux/selectors/common/location/getCountry'
-import makeProductSelectorById from '../../redux/selectors/common/product/getProductById'
+import makeProvinceSelectorById from 'src/redux/selectors/common/location/getProvinceById'
+import {provinceSelector} from 'src/redux/selectors/common/location/getProvinceByCountry'
+import makeCountrySelectorById from 'src/redux/selectors/common/location/getCountryById'
+import getAllCountries from 'src/redux/selectors/common/location/getCountry'
+import makeProductSelectorById from 'src/redux/selectors/common/product/getProductById'
 import {getMessages} from 'src/redux/selectors/translateSelector'
 import GetUserActions from 'src/redux/actions/user/getUserActions'
-import Material from '../common/components/Material'
+import Material from '../../common/components/Material'
 import postActions from 'src/redux/actions/commonActions/postActions'
-import {citySelector} from '../../redux/selectors/common/location/getCityByProvince'
+import {citySelector} from 'src/redux/selectors/common/location/getCityByProvince'
 import {getCategories} from 'src/redux/actions/commonActions/categoryActions'
-import {makeCategorySelector} from '../../redux/selectors/common/category/getCategoriesByParentId'
+import {makeCategorySelector} from 'src/redux/selectors/common/category/getCategoriesByParentId'
 import {NewRightArrow} from 'src/images/icons'
 import {ProductWhite} from 'src/images/icons'
-import productActions from '../../redux/actions/commonActions/productActions'
+import productActions from 'src/redux/actions/commonActions/productActions'
 
 
 class ProductView extends Component {
@@ -80,7 +80,7 @@ class ProductView extends Component {
 
   render() {
     const {hideTopBar} = this.state
-    const {match, translate, product, country, province, product_owner, product_category, current_user_identity, countries, provinces, cities, categories, actions} = this.props
+    const {match, translate, product, country, province, product_owner, product_category, current_user_identity, countries, provinces, cities, categories, actions, posts} = this.props
     const {getProvinces, getCities} = actions
     const {path, url} = match
     return (
@@ -113,11 +113,7 @@ class ProductView extends Component {
               </NavLink>
 
               <NavLink to={`${url}/Posts`} className='header-container-item' activeClassName='header-container-item-active'>
-                <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material-first' content='دیدگاه مشتریان'/>
-              </NavLink>
-
-              <NavLink to={`${url}/Certificates`} className='header-container-item' activeClassName='header-container-item-active'>
-                <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content='تاریخچه عرضه'/>
+                <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material-first' content='تاریخچه عرضه'/>
               </NavLink>
             </div>
 
@@ -130,14 +126,11 @@ class ProductView extends Component {
                           current_user_identity={current_user_identity}
               />
               <PropsRoute path={`${path}/Posts`}
+                          posts={posts}
                           component={ProductPosts}
                           product={product}
                           translator={translate}
               />
-              {/*<PropsRoute path={`${path}/Certificates`} component={ProductCertificates}*/}
-              {/*productId={productId}/>*/}
-              {/*<PropsRoute path={`${path}/Ratings`} component={ProductRating} productId={productId} translator={translate}/>*/}
-              {/*<PropsRoute path={`${path}/Represents`} component={Represents} productId={productId} translator={translate}/>*/}
             </Switch>
           </div>
         </div>
@@ -160,6 +153,7 @@ const mapStateToProps = (state, props) => {
     product_owner: state.identities.list[product.product_owner.id ? product.product_owner.id : product.product_owner],
     product_category: state.common.category.list[product.product_category],
     current_user_identity: state.auth.client.identity.content,
+    posts: state.common.post.list,
     translate: getMessages(state),
   }
 }

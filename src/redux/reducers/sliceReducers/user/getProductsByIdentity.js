@@ -1,4 +1,4 @@
-import constants from '../../../../consts/constants'
+import constants from 'src/consts/constants'
 
 const base = (state, action) => {
   const {productOwnerId} = action.payload || {}

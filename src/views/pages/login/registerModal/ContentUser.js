@@ -4,7 +4,7 @@ import PropTypes from "prop-types"
 import FontAwesome from "react-fontawesome"
 
 import {TickSvgIcon, OnePersonSvg, SocialPersonSvg, DefaultUserIcon} from "src/images/icons";
-import constants from "../../../../consts/constants";
+import constants from "src/consts/constants";
 
 type ContentUserProps = {
   translate: { [string]: string },

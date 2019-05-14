@@ -1,10 +1,10 @@
 import {call, fork, put, take} from "redux-saga/effects";
-import api from "../../../../consts/api";
-import results from "../../../../consts/resultName";
-import urls from "../../../../consts/URLS";
+import api from "src/consts/api";
+import results from "src/consts/resultName";
+import urls from "src/consts/URLS";
 import types from "../../../actions/types";
 import {objNormalizer} from 'src/consts/helperFunctions/normalizer'
-import constants from '../../../../consts/constants'
+import constants from 'src/consts/constants'
 
 
 function* getProductInfo(action) { // action = {type, id}
