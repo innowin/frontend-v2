@@ -2,8 +2,8 @@ import api from 'src/consts/api'
 import urls from 'src/consts/URLS'
 import results from 'src/consts/resultName'
 import types from 'src/redux/actions/types'
-import {select, put, take, fork, call, all} from "redux-saga/effects"
-import constants from "src/consts/constants";
+import {select, put, take, fork, call, all} from 'redux-saga/effects'
+import constants from 'src/consts/constants'
 import uuid from 'uuid'
 
 export function* createPost(action) {
@@ -17,12 +17,12 @@ export function* createPost(action) {
     const data = yield take(socketChannel)
     yield put({
       type: types.SUCCESS.COMMON.POST.CREATE_POST,
-      payload: {data, postOwnerId, postParentId, postParentType}
+      payload: {data, postOwnerId, postParentId, postParentType},
     })
     yield all(postFileIds.map(fileId => {
       return put({
         type: types.COMMON.FILE.UPDATE_FILE,
-        payload: {id: fileId, formData: {file_related_parent: data.id}, fileParentType: constants.FILE_PARENT.POST}
+        payload: {id: fileId, formData: {file_related_parent: data.id}, fileParentType: constants.FILE_PARENT.POST},
       })
     }))
     const postIdentity = data.post_related_identity
@@ -34,18 +34,20 @@ export function* createPost(action) {
           id: uuid(),
           type: constants.TOAST_TYPE.SUCCESS,
           content: {
-            text: translate['Create post done']
-          }
-        }
-      }
+            text: translate['Create post done'],
+          },
+        },
+      },
     })
-  } catch (error) {
+  }
+  catch (error) {
     const {message} = error
     yield put({
       type: types.ERRORS.COMMON.POST.CREATE_POST,
-      payload: {message}
+      payload: {message},
     })
-  } finally {
+  }
+  finally {
     socketChannel.close()
   }
 }

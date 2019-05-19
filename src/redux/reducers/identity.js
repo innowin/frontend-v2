@@ -1,13 +1,13 @@
-import initialState from "./initialState"
-import types from "../actions/types/index"
-import slices from "./sliceReducers/identity"
-import userSlices from "./sliceReducers/user"
-import organSlices from "./sliceReducers/organ"
-import constants from "src/consts/constants"
-import setRelatedObjIdForListItem from "./sliceReducers/utilsSlices/setRelatedObjIdForListItem"
+import initialState from './initialState'
+import types from '../actions/types/index'
+import slices from './sliceReducers/identity'
+import userSlices from './sliceReducers/user'
+import organSlices from './sliceReducers/organ'
+import constants from 'src/consts/constants'
+import setRelatedObjIdForListItem from './sliceReducers/utilsSlices/setRelatedObjIdForListItem'
 
 const identities = (state = initialState.identities, action) => {
-  const {userId, data, message, search, organizationId} = action.payload || {}
+  const {userId, data, message, search, organizationId, isLoading} = action.payload || {}
   const defaultObject2 = {content: [], isLoading: false, error: null}
   const previousUser = (state.list[userId] && state.list[userId].user) || {}
   const previousProfile = (state.list[userId] && state.list[userId].profile) || {}
@@ -51,8 +51,8 @@ const identities = (state = initialState.identities, action) => {
           ...state.recoveryPassword,
           searchUserData: {},
           isLoading: true,
-          error: null
-        }
+          error: null,
+        },
       }
     case types.SUCCESS.USER.SEARCH_USER:
       return {
@@ -61,8 +61,8 @@ const identities = (state = initialState.identities, action) => {
           ...state.recoveryPassword,
           searchUserData: data,
           isLoading: false,
-          error: null
-        }
+          error: null,
+        },
       }
     case types.ERRORS.USER.SEARCH_USER:
       return {
@@ -71,8 +71,8 @@ const identities = (state = initialState.identities, action) => {
           ...state.recoveryPassword,
           searchUserData: {},
           isLoading: false,
-          error: message
-        }
+          error: message,
+        },
       }
       // -------------------- request by email
     case types.USER.PASSWORD_RECOVERY_BY_EMAIL:
@@ -83,8 +83,8 @@ const identities = (state = initialState.identities, action) => {
           userId: null,
           step_name: constants.RESET_PASSWORD_STEP.REQUEST,
           isLoading: true,
-          error: null
-        }
+          error: null,
+        },
       }
     case types.SUCCESS.USER.PASSWORD_RECOVERY_BY_EMAIL:
       return {
@@ -94,8 +94,8 @@ const identities = (state = initialState.identities, action) => {
           userId,
           step_name: constants.RESET_PASSWORD_STEP.REQUEST,
           isLoading: false,
-          error: null
-        }
+          error: null,
+        },
       }
     case types.ERRORS.USER.PASSWORD_RECOVERY_BY_EMAIL:
       return {
@@ -105,8 +105,8 @@ const identities = (state = initialState.identities, action) => {
           userId: null,
           step_name: constants.RESET_PASSWORD_STEP.REQUEST,
           isLoading: false,
-          error: message
-        }
+          error: message,
+        },
       }
       // ---------------- request
     case types.USER.PASSWORD_RESET_BY_SMS_REQUEST:
@@ -117,8 +117,8 @@ const identities = (state = initialState.identities, action) => {
           userId: null,
           step_name: constants.RESET_PASSWORD_STEP.REQUEST,
           isLoading: true,
-          error: null
-        }
+          error: null,
+        },
       }
     case types.SUCCESS.USER.PASSWORD_RESET_BY_SMS_REQUEST:
       return {
@@ -128,8 +128,8 @@ const identities = (state = initialState.identities, action) => {
           userId,
           step_name: constants.RESET_PASSWORD_STEP.REQUEST,
           isLoading: false,
-          error: null
-        }
+          error: null,
+        },
       }
     case types.ERRORS.USER.PASSWORD_RESET_BY_SMS_REQUEST:
       return {
@@ -139,8 +139,8 @@ const identities = (state = initialState.identities, action) => {
           userId: null,
           step_name: constants.RESET_PASSWORD_STEP.REQUEST,
           isLoading: false,
-          error: message
-        }
+          error: message,
+        },
       }
       // ----------------- checking code
     case types.USER.PASSWORD_RESET_BY_SMS_CHECK_CODE:
@@ -151,8 +151,8 @@ const identities = (state = initialState.identities, action) => {
           userId,
           step_name: constants.RESET_PASSWORD_STEP.CHECK_CODE,
           isLoading: true,
-          error: null
-        }
+          error: null,
+        },
       }
     case types.SUCCESS.USER.PASSWORD_RESET_BY_SMS_CHECK_CODE:
       const {VerificationCode} = action.payload || {}
@@ -164,8 +164,8 @@ const identities = (state = initialState.identities, action) => {
           userId,
           step_name: constants.RESET_PASSWORD_STEP.CHECK_CODE,
           isLoading: false,
-          error: null
-        }
+          error: null,
+        },
       }
     case types.ERRORS.USER.PASSWORD_RESET_BY_SMS_CHECK_CODE:
       return {
@@ -175,8 +175,8 @@ const identities = (state = initialState.identities, action) => {
           userId,
           step_name: constants.RESET_PASSWORD_STEP.CHECK_CODE,
           isLoading: false,
-          error: message
-        }
+          error: message,
+        },
       }
       // -------------------- reset finally
     case types.USER.PASSWORD_RESET_BY_SMS:
@@ -186,8 +186,8 @@ const identities = (state = initialState.identities, action) => {
           ...state.recoveryPassword,
           step_name: constants.RESET_PASSWORD_STEP.RESET,
           isLoading: true,
-          error: null
-        }
+          error: null,
+        },
       }
     case types.SUCCESS.USER.PASSWORD_RESET_BY_SMS:
       return {
@@ -196,8 +196,8 @@ const identities = (state = initialState.identities, action) => {
           ...state.recoveryPassword,
           step_name: constants.RESET_PASSWORD_STEP.RESET,
           isLoading: false,
-          error: null
-        }
+          error: null,
+        },
       }
     case types.ERRORS.USER.PASSWORD_RESET_BY_SMS:
       return {
@@ -206,21 +206,21 @@ const identities = (state = initialState.identities, action) => {
           ...state.recoveryPassword,
           step_name: constants.RESET_PASSWORD_STEP.RESET,
           isLoading: false,
-          error: message
-        }
+          error: message,
+        },
       }
       // ------------------------------------ reset initial state of recoveryPassword
     case types.USER.RESET_RECOVERY_PASSWORD_REDUX_STATE:
       return {
         ...state,
         recoveryPassword: {
-          VerificationCode: "",
+          VerificationCode: '',
           userId: null,
           searchUserData: {},
-          step_name: "",
+          step_name: '',
           isLoading: false,
-          error: null
-        }
+          error: null,
+        },
       }
 
       /** -------------------------- get user -------------------------> **/
@@ -233,8 +233,8 @@ const identities = (state = initialState.identities, action) => {
             ...state.list[userId],
             ...previousUser,
             ...data,
-          }
-        }
+          },
+        },
       }
     case types.ERRORS.USER.GET_USER_BY_USER_ID:
       return {
@@ -244,15 +244,15 @@ const identities = (state = initialState.identities, action) => {
           [userId]: {
             ...state.list[userId],
             ...previousUser,
-          }
-        }
+          },
+        },
       }
     case types.SUCCESS.USER.GET_USERS:
       return {
         ...state,
         list: {...state.list, ...data},
         isLoading: false,
-        error: null
+        error: null,
       }
 
       /** ------------------------------ get all users ------------------------- **/
@@ -261,15 +261,15 @@ const identities = (state = initialState.identities, action) => {
       data.forEach(user => {
             objectData[user.id] = {
               ...state.list[user.id],
-              ...user
+              ...user,
             }
-          }
+          },
       )
       return {
         ...state,
         list: {...state.list, ...objectData},
-        search: search,
-        isLoading: false
+        search,
+        isLoading,
       }
 
       /** -------------------------- reset search user -------------------------> **/
@@ -277,7 +277,7 @@ const identities = (state = initialState.identities, action) => {
       return {
         ...state,
         search: null,
-        loading: false
+        loading: false,
       }
 
       /** -------------------------- get profile -------------------------> **/
@@ -292,10 +292,10 @@ const identities = (state = initialState.identities, action) => {
             profile: {
               ...previousProfile,
               isLoading: true,
-              error: null
-            }
-          }
-        }
+              error: null,
+            },
+          },
+        },
       }
     case types.SUCCESS.USER.GET_PROFILE_BY_USER_ID:
       return {
@@ -307,10 +307,10 @@ const identities = (state = initialState.identities, action) => {
             profile: {
               ...previousProfile,
               content: {...previousProfile.content, ...data},
-              isLoading: false
-            }
-          }
-        }
+              isLoading: false,
+            },
+          },
+        },
       }
     case types.ERRORS.USER.GET_PROFILE_BY_USER_ID:
       return {
@@ -322,10 +322,10 @@ const identities = (state = initialState.identities, action) => {
             profile: {
               ...previousProfile,
               error: message,
-              isLoading: false
-            }
-          }
-        }
+              isLoading: false,
+            },
+          },
+        },
       }
 
     case types.SUCCESS.USER.SET_PROFILE_MEDIA:
@@ -341,10 +341,10 @@ const identities = (state = initialState.identities, action) => {
             identity: {
               ...previousIdentity,
               isLoading: true,
-              error: null
-            }
-          }
-        }
+              error: null,
+            },
+          },
+        },
       }
       // case types.SUCCESS.USER.GET_USER_IDENTITY:
       //   return {
@@ -371,10 +371,10 @@ const identities = (state = initialState.identities, action) => {
             identity: {
               ...previousIdentity,
               isLoading: false,
-              error: message
-            }
-          }
-        }
+              error: message,
+            },
+          },
+        },
       }
       /** -------------------------- get badges -------------------------> **/
     case types.COMMON.SET_BADGES_IN_USER:
@@ -387,10 +387,10 @@ const identities = (state = initialState.identities, action) => {
             badges: {
               ...previousBadgesUser,
               isLoading: true,
-              error: null
-            }
-          }
-        }
+              error: null,
+            },
+          },
+        },
       }
     case types.SUCCESS.COMMON.SET_BADGES_IN_USER:
       const ArrayOfBadgeUserId = data.map((badge) => badge.id)
@@ -403,10 +403,10 @@ const identities = (state = initialState.identities, action) => {
             badges: {
               ...previousBadgesUser,
               content: ArrayOfBadgeUserId,
-              isLoading: false
-            }
-          }
-        }
+              isLoading: false,
+            },
+          },
+        },
       }
     case types.ERRORS.COMMON.SET_BADGES_IN_USER:
       return {
@@ -418,10 +418,10 @@ const identities = (state = initialState.identities, action) => {
             badges: {
               ...previousBadgesUser,
               isLoading: false,
-              error: message
-            }
-          }
-        }
+              error: message,
+            },
+          },
+        },
       }
       /** -------------------------- update user by user id -------------------------> **/
     case types.USER.UPDATE_USER_BY_USER_ID:
@@ -541,7 +541,7 @@ const identities = (state = initialState.identities, action) => {
       /** -------------------------- reset users -------------------------> **/
       /** <----------------- add skill id to user ---------------**/
     case types.USER.ADD_SKILL_ID_TO_USER:
-      return setRelatedObjIdForListItem.success(state, action, "skills")
+      return setRelatedObjIdForListItem.success(state, action, 'skills')
       /** -------------- get Certificate -------------> **/
     case types.SUCCESS.COMMON.CERTIFICATE.GET_CERTIFICATES_BY_IDENTITY:
       return userSlices.getCertificatesByIdentity.success(state, action)
@@ -565,10 +565,10 @@ const identities = (state = initialState.identities, action) => {
             identity: {
               content: data.id,
               isLoading: false,
-              error: null
-            }
-          }
-        }
+              error: null,
+            },
+          },
+        },
       }
       /** -------------------------- get organ -------------------------> **/
     case types.ORG.GET_ORGANIZATION:
@@ -580,9 +580,9 @@ const identities = (state = initialState.identities, action) => {
             ...state.list[organizationId],
             ...previousOrgan,
             isLoading: true,
-            error: null
-          }
-        }
+            error: null,
+          },
+        },
       }
     case types.SUCCESS.ORG.GET_ORGANIZATION:
       return {
@@ -593,9 +593,9 @@ const identities = (state = initialState.identities, action) => {
             ...state.list[organizationId],
             ...previousOrgan,
             content: data,
-            isLoading: false
-          }
-        }
+            isLoading: false,
+          },
+        },
       }
     case types.ERRORS.ORG.GET_ORGANIZATION:
       return {
@@ -606,9 +606,9 @@ const identities = (state = initialState.identities, action) => {
             ...state.list[organizationId],
             ...previousOrgan,
             isLoading: false,
-            error: message
-          }
-        }
+            error: message,
+          },
+        },
       }
 
     case types.SUCCESS.ORG.SET_ORGANIZATION_INFO_MEDIA:
@@ -623,8 +623,8 @@ const identities = (state = initialState.identities, action) => {
           [data.id]: {
             ...state.list[data.id],
             ...data,
-          }
-        }
+          },
+        },
       }
     case types.ERRORS.ORG.UPDATE_ORGANIZATION_INFO:
       return {
@@ -635,9 +635,9 @@ const identities = (state = initialState.identities, action) => {
             ...state.list[organizationId],
             ...previousOrgan,
             isLoading: false,
-            error: message
-          }
-        }
+            error: message,
+          },
+        },
       }
       /** -------------------------- badge -------------------------> **/
     case types.COMMON.SET_BADGES_IN_ORG:
@@ -650,10 +650,10 @@ const identities = (state = initialState.identities, action) => {
             badges: {
               ...previousBadgesOrgan,
               isLoading: true,
-              error: null
-            }
-          }
-        }
+              error: null,
+            },
+          },
+        },
       }
     case types.SUCCESS.COMMON.SET_BADGES_IN_ORG:
       const ArrayOfBadgeOrganId = data.map((badge) => badge.id)
@@ -666,10 +666,10 @@ const identities = (state = initialState.identities, action) => {
             badges: {
               ...previousBadgesOrgan,
               content: ArrayOfBadgeOrganId,
-              isLoading: false
-            }
-          }
-        }
+              isLoading: false,
+            },
+          },
+        },
       }
     case types.ERRORS.COMMON.SET_BADGES_IN_ORG:
       return {
@@ -681,10 +681,10 @@ const identities = (state = initialState.identities, action) => {
             badges: {
               ...previousBadgesOrgan,
               isLoading: false,
-              error: message
-            }
-          }
-        }
+              error: message,
+            },
+          },
+        },
       }
     case types.ORG.GET_CUSTOMERS_BY_ORGANIZATION_ID:
       return organSlices.getCustomersByOrganizationId.base(state, action)

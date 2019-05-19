@@ -143,7 +143,7 @@ class HomePosts extends PureComponent {
     const {deletePost, updatePost} = actions
     return (
         <VerifyWrapper isLoading={false} error={error} className={className}>
-          {(exchangeId) ?
+          {exchangeId &&
               <React.Fragment>
                 {showCreatePostSmall
                     ? <CreatePostNew
@@ -162,7 +162,6 @@ class HomePosts extends PureComponent {
 
                       <div className={hideTopBar ? 'top-bar-entity show top-bar-entity-top' : 'top-bar-entity show'}>
                         <NewRightArrowSvg onClick={unSetExchangeId} className='back-button'/>
-                        {/*<FontAwesome onClick={unSetExchangeId} className='back-button' name='arrow-right'/>*/}
                         <Link to={'/exchange/' + exchangeId} className='profile-top-bar'>
                           {selectedExchange.exchange_image
                               ? <img src={selectedExchange.exchange_image.file} alt='profile' className='profile-top-bar '/>
@@ -177,7 +176,7 @@ class HomePosts extends PureComponent {
                       <FrameCard className="-frameCardPost border-top-0">
                         <ListGroup>
                           {
-                            (posts.length > 0) ? (posts.map((post) => (post &&
+                            posts.length > 0 ? (posts.map((post) => (post &&
                                     <Post
                                         posts={posts}
                                         post={post}
@@ -190,14 +189,9 @@ class HomePosts extends PureComponent {
                                   <DesertIcon width="100%" text="پستی بارگذاری نشده"/>
                                 </div>
                           }
-                          {
-                            // TODO mohsen: handle loading scroll and scrolling error
-                          }
                         </ListGroup>
                       </FrameCard>
-                      {/*button for scroll to top*/}
-                      <div className={this.state.scrollButton ? 'go-up-logo-cont' : 'go-up-logo-cont-hide'}
-                           onClick={this.goUp}>
+                      <div className={this.state.scrollButton ? 'go-up-logo-cont' : 'go-up-logo-cont-hide'} onClick={this.goUp}>
                         <RightArrow className='go-up-logo'/>
                       </div>
 
@@ -208,7 +202,6 @@ class HomePosts extends PureComponent {
                     </div>
                 }
               </React.Fragment>
-              : ('')
           }
         </VerifyWrapper>
     )

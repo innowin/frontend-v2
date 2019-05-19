@@ -1,8 +1,8 @@
-import api from "src/consts/api"
-import results from "src/consts/resultName"
-import types from "src/redux/actions/types"
-import urls from "src/consts/URLS"
-import {take, put, fork, call} from "redux-saga/effects"
+import api from 'src/consts/api'
+import results from 'src/consts/resultName'
+import types from 'src/redux/actions/types'
+import urls from 'src/consts/URLS'
+import {take, put, fork, call} from 'redux-saga/effects'
 
 
 export function* getUserByUserId(action) {
@@ -16,43 +16,47 @@ export function* getUserByUserId(action) {
     if (data.profile_media !== null) {
       yield put({type: types.COMMON.FILE.GET_FILE, payload: {fileId: data.profile_media}})
     }
-  } catch (e) {
+  }
+  catch (e) {
     const {message} = e
     yield put({type: types.ERRORS.USER.GET_USER_BY_USER_ID, payload: {message, userId}})
-  } finally {
+  }
+  finally {
     socketChannel.close()
   }
 }
 
-export function* getUsers(action) {
-  // const {payload} = action
+export function* getUsers() {
   let socketChannel
   try {
     socketChannel = yield call(api.createSocketChannel, results.USER.GET_USERS)
-  } catch (e) {
+  }
+  catch (e) {
     console.log(e)
   }
-
   try {
     yield fork(api.get, urls.USER.GET_USERS, results.USER.GET_USERS, `?limit=50`)
     const data = yield take(socketChannel)
     yield put({type: types.SUCCESS.USER.GET_USERS, payload: {data}})
-  } catch (e) {
+  }
+  catch (e) {
     const {message} = e
     yield put({type: types.ERRORS.USER.GET_USERS, payload: {message}})
-  } finally {
+  }
+  finally {
     socketChannel.close()
   }
 }
 
 export function* getAllUsers(action) {
   const {limit, offset, search, justOrgan} = action.payload
+  yield put({type: types.SUCCESS.USER.GET_ALL_USERS, payload: {data: [], search, isLoading: true}})
   let params = search !== null ? `?username=${search}` : `?limit=${limit}&offset=${offset}`
-  if (justOrgan !== undefined && justOrgan === true) {
-    params += "&identity_type=organization"
+  if (justOrgan) {
+    params += '&identity_type=organization'
   }
-  else if (justOrgan !== undefined && justOrgan === false) {
-    params += "&identity_type=user"
+  else {
+    params += '&identity_type=user'
   }
   const socketChannel = yield call(api.createSocketChannel, results.USER.GET_ALL_USERS)
   try {
@@ -60,17 +64,19 @@ export function* getAllUsers(action) {
         api.get,
         urls.USER.GET_ALL_USERS,
         results.USER.GET_ALL_USERS,
-        encodeURI(params)
+        encodeURI(params),
     )
     const data = yield take(socketChannel)
-    yield put({type: types.SUCCESS.USER.GET_ALL_USERS, payload: {data, search}})
-  } catch (err) {
+    yield put({type: types.SUCCESS.USER.GET_ALL_USERS, payload: {data, search, isLoading: false}})
+  }
+  catch (err) {
     const {message} = err
     yield put({
       type: types.ERROR.USER.GET_ALL_USERS,
-      payload: {message}
+      payload: {message},
     })
-  } finally {
+  }
+  finally {
     socketChannel.close()
   }
 }

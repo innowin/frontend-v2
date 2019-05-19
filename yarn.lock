@@ -5026,6 +5026,11 @@ jalaali-js@^0.2.0:
   resolved "https://registry.yarnpkg.com/jalaali-js/-/jalaali-js-0.2.0.tgz#1096b3c720fc74e3dd2adf7a6fc01ea4fbb4ba1c"
   integrity sha1-EJazxyD8dOPdKt96b8AepPu0uhw=
 
+jalali-date@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/jalali-date/-/jalali-date-1.0.2.tgz#1b1993cb9de024f1d88ff38365e51b97b3b113eb"
+  integrity sha1-GxmTy53gJPHYj/ODZeUbl7OxE+s=
+
 jest-changed-files@^23.4.2:
   version "23.4.2"
   resolved "https://registry.yarnpkg.com/jest-changed-files/-/jest-changed-files-23.4.2.tgz#1eed688370cd5eebafe4ae93d34bb3b64968fe83"

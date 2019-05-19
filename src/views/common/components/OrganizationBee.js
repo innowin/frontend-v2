@@ -13,6 +13,7 @@ import FileActions from 'src/redux/actions/commonActions/fileActions'
 import TempActions from 'src/redux/actions/tempActions'
 import uuid from 'uuid'
 import constants from 'src/consts/constants'
+import AuthActions from 'src/redux/actions/authActions'
 
 class OrganizationBee extends Component {
   constructor(props) {
@@ -42,6 +43,11 @@ class OrganizationBee extends Component {
 
       bioText: '',
       bioSubmitted: false,
+
+      done: false,
+
+      close: false,
+
     }
   }
 
@@ -74,51 +80,53 @@ class OrganizationBee extends Component {
   }
 
   componentWillReceiveProps(nextProps, nextContext) {
-    const {currentUser, profileIdTemp, resumeIdTemp, temp} = nextProps
-    const {profileMediaId, resumeId, resume} = this.state
-    const {nike_name, biography, telegram_account, web_site, profile_media} = currentUser
+    if (!this.state.done) {
+      const {currentUser, profileIdTemp, resumeIdTemp, temp, actions} = nextProps
+      const {profileMediaId, resumeId, resume} = this.state
+      const {nike_name, biography, telegram_account, web_site, profile_media} = currentUser
 
-    let setResume = resume
-    let image = 0
-    let name = 0
-    let graduate = 0
-    let bio = 0
+      let setResume = resume
+      let image = 0
+      let name = 0
+      let graduate = 0
+      let bio = 0
 
-    if (profile_media) {
-      image = 30
-    }
-
-    if (nike_name && nike_name.trim().length > 0) {
-      name = 25
-    }
-    if (biography && biography.trim().length > 0) {
-      bio = 25
-    }
-    if ((telegram_account && telegram_account.length > 0) || (web_site && web_site.length > 0)) {
-      graduate = 20
-    }
-
-    if (profileMediaId && temp[profileMediaId] && temp[profileMediaId].progress === 100 && profileIdTemp) {
-      const {actions, currentUser} = nextProps
-      const formFormat = {
-        profile_media: profileIdTemp,
-        organization_logo: profileIdTemp,
+      if (profile_media) {
+        image = 30
       }
-      actions.updateUserByUserId(formFormat, currentUser.id)
-      actions.removeFileFromTemp('profile_media')
-      actions.removeFileFromTemp(profileMediaId)
-    }
+      if (nike_name && nike_name.trim().length > 0) {
+        name = 25
+      }
+      if (biography && biography.trim().length > 0) {
+        bio = 25
+      }
+      if ((telegram_account && telegram_account.length > 0) || (web_site && web_site.length > 0)) {
+        graduate = 20
+      }
 
-    if (resumeId && temp[resumeId] && temp[resumeId].progress === 100 && resumeIdTemp) {
-      const {actions} = nextProps
-      setResume = true
-      actions.removeFileFromTemp('resume')
-      actions.removeFileFromTemp(resumeId)
-    }
+      if (profileMediaId && temp[profileMediaId] && temp[profileMediaId].progress === 100 && profileIdTemp) {
+        const formFormat = {
+          profile_media: profileIdTemp,
+          organization_logo: profileIdTemp,
+        }
+        actions.updateUserByUserId(formFormat, currentUser.id)
+        actions.removeFileFromTemp('profile_media')
+        actions.removeFileFromTemp(profileMediaId)
+      }
 
-    this.setState({...this.state, image, name, graduate, bio, resume: setResume}, () => {
-      if (image === 30) this.setState({...this.state, imageLoading: false, profileMediaId: null})
-    })
+      if (resumeId && temp[resumeId] && temp[resumeId].progress === 100 && resumeIdTemp) {
+        setResume = true
+        actions.removeFileFromTemp('resume')
+        actions.removeFileFromTemp(resumeId)
+      }
+
+      this.setState({...this.state, image, name, graduate, bio, resume: setResume}, () => {
+        if (image === 30) this.setState({...this.state, imageLoading: false, profileMediaId: null})
+        if (image === 30 && name === 25 && bio === 25 && graduate === 20) {
+          this.setState({...this.state, done: true}, () => setTimeout(() => actions.setBeeDone(true), 30000))
+        }
+      })
+    }
   }
 
   _handleCancel = () => {
@@ -238,6 +246,8 @@ class OrganizationBee extends Component {
     this.setState({...this.state, telText: e.target.value.trim()})
   }
 
+  _handleClose = () => this.setState({...this.state, close: true})
+
   renderLevel() {
     const {level, image, name, graduate, bio, resume} = this.state
     const {translate, currentUser} = this.props
@@ -245,7 +255,7 @@ class OrganizationBee extends Component {
       return (
           <div>
             <div className='bee-text'>{translate['Awesome']}</div>
-            <div className='bee-close'>✕</div>
+            <div className='bee-close' onClick={this._handleClose}>✕</div>
 
             <div className='bee-text-graduate'>{translate['Congrats, Your Profile Have Been Completed.']}</div>
 
@@ -279,7 +289,7 @@ class OrganizationBee extends Component {
         return (
             <div>
               <div className='bee-text'>{translate['Choose a Photo For Profile']}</div>
-              <div className='bee-close'>✕</div>
+              <div className='bee-close' onClick={this._handleClose}>✕</div>
 
               <div className='bee-background-cont'>
                 <BeeBackground className='bee-background'/>
@@ -309,7 +319,7 @@ class OrganizationBee extends Component {
         return (
             <div>
               <div className='bee-text'>{translate['Enter Your Team Name']}</div>
-              <div className='bee-close'>✕</div>
+              <div className='bee-close' onClick={this._handleClose}>✕</div>
 
               <div className='bee-background-cont'>
                 <BeeBackground className='bee-background'/>
@@ -341,7 +351,7 @@ class OrganizationBee extends Component {
         return (
             <div>
               <div className='bee-text'>{translate['The Ways to Connect With Your Collection']}</div>
-              <div className='bee-close'>✕</div>
+              <div className='bee-close' onClick={this._handleClose}>✕</div>
 
               <div className='bee-background-cont'>
                 <BeeBackground className='bee-background'/>
@@ -377,7 +387,7 @@ class OrganizationBee extends Component {
         return (
             <div>
               <div className='bee-text'>{translate['Bio']}</div>
-              <div className='bee-close'>✕</div>
+              <div className='bee-close' onClick={this._handleClose}>✕</div>
 
               <div className='bee-text-graduate'>{translate['Write a Short Introduction Of Team Or Organization, Your Activities Or Your Interests']}</div>
 
@@ -409,13 +419,15 @@ class OrganizationBee extends Component {
   }
 
   render() {
-    return (
-        <div className='bee-panel-cont'>
-          {
-            this.renderLevel()
-          }
-        </div>
-    )
+    if (!this.state.close)
+      return (
+          <div className='bee-panel-cont'>
+            {
+              this.renderLevel()
+            }
+          </div>
+      )
+    else return null
   }
 }
 
@@ -438,6 +450,7 @@ const mapDispatchToProps = dispatch => ({
     updateUserByUserId: updateUserByUserIdAction.updateUser,
     createFile: FileActions.createFile,
     removeFileFromTemp: TempActions.removeFileFromTemp,
+    setBeeDone: AuthActions.setBeeDone,
   }, dispatch),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(OrganizationBee)

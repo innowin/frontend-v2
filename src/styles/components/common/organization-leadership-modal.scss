@@ -10,7 +10,7 @@
   left: 0;
   transition-duration: $animation-timing;
   padding-top: $topBarHeight + 10px;
-  bottom: 120px;
+  bottom: 80px;
   overflow-y: auto;
 }
 
@@ -37,9 +37,11 @@
   left: 0;
   transition-duration: $animation-timing;
   bottom: 0;
-  height: 120px;
+  height: 80px;
   overflow-y: auto;
   display: flex;
+  //border-top: 1px solid #cdcdcd;
+  box-shadow: 0 -2px 6px 1px rgba(0, 0, 0, .1);
 }
 
 .organization-leadership-container {
@@ -73,6 +75,11 @@
     margin-top: 10px;
     margin-bottom: 20px;
   }
+
+  textarea {
+    margin-top: 10px;
+    margin-bottom: 20px;
+  }
 }
 
 .organization-leadership-job-input {
@@ -86,6 +93,88 @@
   &:focus {
     border: 1.25px solid $secondary-color;
     transition-duration: $animation-timing-long;
+    outline: none;
+  }
+}
+
+.organization-leadership-expertise-input {
+  width: 100%;
+  height: 150px;
+  border: 1.25px solid #cdcdcd;
+  transition-duration: $animation-timing-short;
+  border-radius: $border-radius-size;
+  padding: 9px 10px 9px 10px;
+  font-size: $font-size-regular;
+  resize: vertical;
+
+  &:focus {
+    border: 1.25px solid $secondary-color;
+    transition-duration: $animation-timing-short;
+    outline: none;
+  }
+}
+
+.organization-leadership-post-view-header {
+  position: absolute;
+  top: 11.5px;
+  left: 10px;
+  right: 2px;
+  height: 60px;
+  padding: 15px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 85%, rgba(255, 255, 255, 0) 110%);
+  border-top-left-radius: $border-radius-size;
+  border-top-right-radius: $border-radius-size;
+}
+
+.organization-leadership-post-view-picture-con {
+  width: 45px;
+  height: 45px;
+  cursor: pointer;
+  overflow: hidden;
+  border-radius: 50%;
+  text-align: center;
+  vertical-align: top;
+  display: inline-block;
+  background-color: $background-color;
+}
+
+.organization-leadership-post-view-picture {
+  width: 45px;
+  height: 45px;
+  object-fit: cover;
+}
+
+.organization-leadership-post-view-info {
+  display: inline-block;
+  vertical-align: top;
+  padding: 2px 15px;
+}
+
+.organization-leadership-post-view-name {
+  font-size: $font-size-regular;
+  color: $foreground-color;
+  margin-bottom: 2px;
+  font-weight: bold;
+}
+
+.organization-leadership-post-view-date {
+  font-size: $font-size-description;
+  color: $disable-color;
+}
+
+.organization-leadership-post-view-input {
+  width: 100%;
+  height: 260px;
+  border: 1.25px solid #cdcdcd;
+  transition-duration: $animation-timing-short;
+  border-radius: $border-radius-size;
+  padding: 62px 75px 9px 10px;
+  font-size: $font-size-regular;
+  resize: vertical;
+
+  &:focus {
+    border: 1.25px solid $secondary-color;
+    transition-duration: $animation-timing-short;
     outline: none;
   }
 }
@@ -113,9 +202,8 @@
   font-size: $font-size-description;
   color: $primary-color-light3;
   background-color: $background-color;
-  min-width: 50px;
   min-height: 30px;
-  padding: 4px 9px;
+  padding: 4px 10px;
   vertical-align: top;
   display: inline-block;
   border-radius: 25px;
@@ -144,9 +232,8 @@
   font-size: $font-size-description;
   color: $background-color;
   background-color: $primary-color-light3;
-  min-width: 50px;
   min-height: 30px;
-  padding: 4px 9px;
+  padding: 4px 16px;
   vertical-align: top;
   display: inline-block;
   border-radius: 25px;
@@ -156,6 +243,7 @@
 
   &:hover {
     color: $primary-color-light3;
+    text-decoration: line-through;
     background-color: $background-color;
     transition-duration: $animation-timing;
     border: 1.25px solid $primary-color-light3;

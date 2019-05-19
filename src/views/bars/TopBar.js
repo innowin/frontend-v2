@@ -433,6 +433,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
                     <p className='name'>{clientName}</p>
                   </div>
                 </div>
+                <Material className='display-block' content={<Link className='hamburger-items-container' onClick={this._hamburgerOff} to='/'>صفحه اصلی</Link>}/>
                 <Material className='display-block' content={<Link className='hamburger-items-container' onClick={this._hamburgerOff} to={linkEditProfile}>تکمیل پروفایل</Link>}/>
                 <div className='hamburger-items-container'>
                   <h4 className='item-title'>{topBarTranslate['Explore']}</h4>

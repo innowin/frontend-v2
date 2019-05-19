@@ -21,10 +21,16 @@ const verifyToken = (token: string) => ({
   },
 })
 
+const setBeeDone = (isDone) => ({
+  type: types.AUTH.SET_BEE_DONE,
+  payload: {isDone}
+})
+
 const AuthActions = {
   signIn,
   signOut,
   verifyToken,
+  setBeeDone
 }
 
 export default AuthActions

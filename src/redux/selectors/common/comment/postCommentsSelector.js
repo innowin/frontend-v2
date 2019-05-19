@@ -1,17 +1,15 @@
 import {createSelector} from 'reselect'
 import helpers from 'src/consts/helperFunctions/helperFunctions'
-import constants from "src/consts/constants"
+import constants from 'src/consts/constants'
 
 const getComments = state => state.common.comment.list
 const getParentComments = (state, props) => {
-  if (props.match && props.commentParentType === constants.COMMENT_PARENT.POST) {
-    const {match} = props
-    const {params} = match
-    const parentId = +params.id
-    if(state.common.post.list[parentId])
+  if (((props.post && props.post.id) || (props.match)) && props.commentParentType === constants.COMMENT_PARENT.POST) {
+    const parentId = props.match ? props.match.params.id : props.post.id
+    if (state.common.post.list[parentId])
       return state.common.post.list[parentId].comments
   }
-  return undefined
+  else return undefined
 }
 
 
@@ -23,6 +21,6 @@ export const userCommentsSelector = createSelector(
         return [...arrayComment]
       }
       return []
-    }
+    },
 )
 

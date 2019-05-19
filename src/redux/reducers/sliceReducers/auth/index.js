@@ -29,13 +29,14 @@ import getProductsByIdentity from './getProductsByIdentity'
 import getResearchByUserId from './getResearchByUserId'
 import getSkillByUserId from './getSkillByUserId'
 import getWorkExperienceByUserId from './getWorkExperienceByUserId'
-import setToken from "./setToken"
-import signIn from "./signIn"
+import setToken from './setToken'
+import signIn from './signIn'
 import updateOrganizationInfo from './updateOrganizationInfo'
 import updateUserByUserId from './updateUserByUserId'
-import setClientPersonMedia from "./setClientPersonMedia"
-import setClientOrganMedia from "./setClientOrganMedia"
-import setSelectedExchange from "./setSelectedExchange"
+import setClientPersonMedia from './setClientPersonMedia'
+import setClientOrganMedia from './setClientOrganMedia'
+import setSelectedExchange from './setSelectedExchange'
+import setBeeDone from './setBeeDone'
 
 export default {
   createAbility,
@@ -75,5 +76,6 @@ export default {
   signIn,
   updateOrganizationInfo,
   updateUserByUserId,
-  setSelectedExchange
+  setSelectedExchange,
+  setBeeDone,
 }

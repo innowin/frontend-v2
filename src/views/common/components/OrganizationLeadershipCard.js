@@ -6,7 +6,7 @@ export default class OrganizationLeadershipCard extends Component {
   constructor() {
     super()
     this.state = {
-      modalIsOpen: true
+      modalIsOpen: false
     }
   }
 
