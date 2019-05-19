@@ -432,6 +432,7 @@ const mapStateToProps = (state, ownProps) => {
     postRelatedIdentityImage,
     comments: userCommentsSelector(state, ownProps),
     translate: getMessages(state),
+    instantViewComments: userInstantCommentsSelector(state, ownProps),
     fileList,
     param: state.param,
   }

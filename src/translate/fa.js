@@ -54,6 +54,8 @@ module.exports = {
   "Password not equal to repeated": "رمز عبور انتخابی با تکرار آن یکسان نیست.",
   "Work Social Media": "شبکه اجتماعی کسب‌و‌کار",
   "Forgot Password": "رمز عبور خود را فراموش کرده اید؟",
+  'Already Registered': 'قبلا ثبت نام کرده اید؟',
+  'Login Now': 'هم اکنون وارد شوید',
   // auth errors
   "Username exists": "نام کاربری قبلا در سامانه ثبت شده است",
   "This username does not exist": "این نام کاربری وجود ندارد!",

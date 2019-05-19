@@ -125,7 +125,7 @@ class SignUpForm extends React.Component<> {
   }
 
   render() {
-    const {handleSubmit, onSubmit, submitting, translator, error, submitFailed, onChangeSignUp} = this.props
+    const {handleSubmit, onSubmit, submitting, translator, error, submitFailed, onChangeSignUp, onSignInClick} = this.props
     const {showPassword, emailTextWidth, emailSuggest} = this.state
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="sign-up-form">
@@ -160,9 +160,14 @@ class SignUpForm extends React.Component<> {
           </div>
           {/*<Field name="passwordConfirm" type="password" component={renderTextField}*/}
           {/*label={translator['Repeat password']} className="signup-field"/>*/}
-          <div>
+          <div className='sign-up-button-container'>
+            <label className="container-checkmark">
+              <input defaultChecked type="checkbox" name="rememberMe"/>
+              <span className="checkmark"/>
+              <p className='rememberme-text'>{translator['Remember me']}</p>
+            </label>
             <button
-                className="login-submit-button"
+                className="sign-up-button"
                 disabled={submitting}>
               {!submitting ? translator['Register'] : (
                   <BeatLoader color="#fff" size={10} margin="auto"/>
@@ -170,6 +175,10 @@ class SignUpForm extends React.Component<> {
             </button>
           </div>
           {submitFailed && <p className="error-message">{error}</p>}
+          <div className="remember-recovery">
+            <span>{translator['Already Registered']}</span>
+            <span className='recovery-button pulse' onClick={onSignInClick}>{translator['Login Now']}</span>
+          </div>
         </form>
     )
   }

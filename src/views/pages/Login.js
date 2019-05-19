@@ -105,43 +105,47 @@ class Login extends Component {
           <PasswordRecovery showRecovery={showRecovery} hideRecoveryClick={this._hideModalClick} translate={translate}/>
 
           <div className="login-container">
-            <HeaderLogin isLoginPage={loginMobile} onBackClick={this._goToHomePage}
-                         isRegisterPage={registerMobile} onSignUpClick={this._showSignUp} translate={translate} iosLink={iosLink} androidLink={androidLink} address={address}
-                         phoneNumber={phoneNumber}/>
+            <HeaderLogin isLoginPage={loginMobile} onBackClick={this._goToHomePage} isRegisterPage={registerMobile}
+                         signIn={SignIn} onSignUpClick={this._showSignUp} onSignInClick={this._showSignIn}
+                         translate={translate}
+                         iosLink={iosLink} androidLink={androidLink} address={address} phoneNumber={phoneNumber}/>
             <div className="content">
               <div className={`login-wrapper ${animateFormClass}`}>
-                <div className={(registerMobile || loginMobile) ? 'sign-in-card login-page-sign-in-card' : 'sign-in-card'}>
+                <div
+                    className={(registerMobile || loginMobile) ? 'sign-in-card login-page-sign-in-card' : 'sign-in-card'}>
                   <div className="login-tab">
                     <h2 className='login-part-title'>
                       {translate['Danesh Boom']}
                     </h2>
-                    <div className='tabs-container'>
-                      {
-                        !SignIn &&
-                        <div className="signup-tab">
-                          <span>{translate['Register']}</span>
-                          <button className="login-signup-button pulse" onClick={this._showSignIn}>
-                            {translate['Login']}
-                          </button>
-                        </div>
-                      }
-                      {
-                        SignIn &&
-                        <div className="signin-tab">
-                          <button className="login-signup-button pulse" onClick={this._showSignUp}>
-                            {translate['Register']}
-                          </button>
-                          <span>{translate['Login']}</span>
-                        </div>
-                      }
-                    </div>
+                    {/*<div className='tabs-container'>*/}
+                    {/*  {*/}
+                    {/*    !SignIn &&*/}
+                    {/*    <div className="signup-tab">*/}
+                    {/*      <span>{translate['Register']}</span>*/}
+                    {/*      <button className="login-signup-button pulse" onClick={this._showSignIn}>*/}
+                    {/*        {translate['Login']}*/}
+                    {/*      </button>*/}
+                    {/*    </div>*/}
+                    {/*  }*/}
+                    {/*  {*/}
+                    {/*    SignIn &&*/}
+                    {/*    <div className="signin-tab">*/}
+                    {/*      <button className="login-signup-button pulse" onClick={this._showSignUp}>*/}
+                    {/*        {translate['Register']}*/}
+                    {/*      </button>*/}
+                    {/*      <span>{translate['Login']}</span>*/}
+                    {/*    </div>*/}
+                    {/*  }*/}
+                    {/*</div>*/}
                   </div>
                   <div className="login-form">
                     {
-                      SignIn && <SignInForm onChangeSignIn={this._onChangeSignIn} initialValues={{rememberMe: true}} recoveryPasswordClick={this._showRecoveryPassword}/>
+                      SignIn && <SignInForm onChangeSignIn={this._onChangeSignIn} initialValues={{rememberMe: true}}
+                                            recoveryPasswordClick={this._showRecoveryPassword}/>
                     }
                     {
-                      SignUp && <RegisterForm inputValues={signUpFields} onChangeSignUp={this._onChangeSignUp} onRegisterClick={this._onRegisterClick}/>
+                      SignUp && <RegisterForm inputValues={signUpFields} onChangeSignUp={this._onChangeSignUp}
+                                              onSignInClick={this._showSignIn} onRegisterClick={this._onRegisterClick}/>
                     }
                   </div>
                   {/*<div className="card-footer social-login">*/}
