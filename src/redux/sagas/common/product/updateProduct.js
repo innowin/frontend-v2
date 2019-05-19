@@ -3,6 +3,8 @@ import urls from 'src/consts/URLS'
 import results from 'src/consts/resultName'
 import types from 'src/redux/actions/types'
 import {put, take, fork, call} from 'redux-saga/effects'
+import uuid from 'uuid'
+import constants from '../../../../consts/constants'
 
 export function* updateProduct(action) {
   const {formValues, productId} = action.payload
@@ -11,6 +13,18 @@ export function* updateProduct(action) {
     yield fork(api.patch, urls.COMMON.PRODUCT, results.COMMON.PRODUCT.UPDATE_PRODUCT, formValues, `${productId}`)
     const data = yield take(socketChannel)
     yield put({type: types.SUCCESS.COMMON.PRODUCT.UPDATE_PRODUCT, payload: {data, productId}})
+    yield put({
+      type: types.TOAST.ADD_TOAST,
+      payload: {
+        data: {
+          id: uuid(),
+          type: constants.TOAST_TYPE.SUCCESS,
+          content: {
+            text: 'اطلاعات محصول با موفقیت به‌روز شد',
+          },
+        },
+      },
+    })
   }
   catch (error) {
     const {message} = error

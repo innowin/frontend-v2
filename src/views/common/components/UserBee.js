@@ -61,6 +61,8 @@ class UserBee extends Component {
 
       getData: false,
 
+      done: false,
+
       close: false,
     }
   }
@@ -74,53 +76,55 @@ class UserBee extends Component {
   }
 
   componentWillReceiveProps(nextProps, nextContext) {
-    const {currentUser, profileIdTemp, resumeIdTemp, temp, actions} = nextProps
-    const {profileMediaId, resumeId, resume} = this.state
+    if (!this.state.done) {
+      const {currentUser, profileIdTemp, resumeIdTemp, temp, actions} = nextProps
+      const {profileMediaId, resumeId, resume} = this.state
 
-    let setResume = resume
-    let image = 0
-    let name = 0
-    let graduate = 0
-    let job = 0
-    let bio = 0
+      let setResume = resume
+      let image = 0
+      let name = 0
+      let graduate = 0
+      let job = 0
+      let bio = 0
 
-    if (currentUser.profile_media) {
-      image = 30
-    }
-    if ((currentUser.last_name && currentUser.last_name.trim().length > 0) || (currentUser.first_name && currentUser.first_name.trim().length > 0)) {
-      name = 20
-    }
-    if (currentUser.description && currentUser.description.trim().length > 0) {
-      bio = 20
-    }
-    if (currentUser.educations && currentUser.educations.content.length > 0) {
-      graduate = 15
-    }
-    if (currentUser.workExperiences && currentUser.workExperiences.content.length > 0) {
-      job = 15
-    }
-
-    if (profileMediaId && temp[profileMediaId] && temp[profileMediaId].progress === 100 && profileIdTemp) {
-      const formFormat = {
-        profile_media: profileIdTemp,
+      if (currentUser.profile_media) {
+        image = 30
       }
-      actions.updateUserByUserId(formFormat, currentUser.id)
-      actions.removeFileFromTemp('profile_media')
-      actions.removeFileFromTemp(profileMediaId)
-    }
-
-    if (resumeId && temp[resumeId] && temp[resumeId].progress === 100 && resumeIdTemp) {
-      setResume = true
-      actions.removeFileFromTemp('resume')
-      actions.removeFileFromTemp(resumeId)
-    }
-
-    this.setState({...this.state, image, name, graduate, job, bio, resume: setResume}, () => {
-      if (image === 30) this.setState({...this.state, imageLoading: false, profileMediaId: null})
-      if (image === 30 && name === 20 && bio === 20 && graduate === 15 && job === 15) {
-        setTimeout(() => actions.setBeeDone(true), 30000)
+      if ((currentUser.last_name && currentUser.last_name.trim().length > 0) || (currentUser.first_name && currentUser.first_name.trim().length > 0)) {
+        name = 20
       }
-    })
+      if (currentUser.description && currentUser.description.trim().length > 0) {
+        bio = 20
+      }
+      if (currentUser.educations && currentUser.educations.content.length > 0) {
+        graduate = 15
+      }
+      if (currentUser.workExperiences && currentUser.workExperiences.content.length > 0) {
+        job = 15
+      }
+
+      if (profileMediaId && temp[profileMediaId] && temp[profileMediaId].progress === 100 && profileIdTemp) {
+        const formFormat = {
+          profile_media: profileIdTemp,
+        }
+        actions.updateUserByUserId(formFormat, currentUser.id)
+        actions.removeFileFromTemp('profile_media')
+        actions.removeFileFromTemp(profileMediaId)
+      }
+
+      if (resumeId && temp[resumeId] && temp[resumeId].progress === 100 && resumeIdTemp) {
+        setResume = true
+        actions.removeFileFromTemp('resume')
+        actions.removeFileFromTemp(resumeId)
+      }
+
+      this.setState({...this.state, image, name, graduate, job, bio, resume: setResume}, () => {
+        if (image === 30) this.setState({...this.state, imageLoading: false, profileMediaId: null})
+        if (image === 30 && name === 20 && bio === 20 && graduate === 15 && job === 15) {
+          this.setState({...this.state, done: true}, () => setTimeout(() => actions.setBeeDone(true), 30000))
+        }
+      })
+    }
   }
 
   _handleCancel = () => {

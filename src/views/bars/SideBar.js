@@ -328,11 +328,14 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
     this.setState({...this.state, [title]: e})
   }
 
+  handleDateCompany = (title, e) => {
+    this.setState({...this.state, [title]: e.target.value.substring(0, 4)})
+  }
+
   handleCountry = (e) => {
     const value = parseInt(e.target.value, 10)
     this.setState({...this.state, editTown: value === 0 ? null : value})
   }
-
 
   handleStaff = (e) => {
     const value = parseInt(e.target.value, 10)
@@ -540,7 +543,12 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
                   <div className='sidebar-position'>
                     <div>
                       <div className='user-edit-name-title'>{sideBarType === constants.USER_TYPES.USER ? 'تاریخ تولد' : 'سال تاسیس'}</div>
-                      <MyDatePicker className='user-edit-name' defaultValue={editBirthDate} getValue={e => this.handleDate('editBirthDate', e)}/>
+                      {
+                        sideBarType === constants.USER_TYPES.USER ?
+                            <MyDatePicker className='user-edit-name' defaultValue={editBirthDate} getValue={e => this.handleDate('editBirthDate', e)}/>
+                            :
+                            <input className='user-edit-name' type='number' value={editBirthDate} onChange={e => this.handleDateCompany('editBirthDate', e)}/>
+                      }
                     </div>
                   </div>
                 }

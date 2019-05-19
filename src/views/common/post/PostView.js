@@ -21,11 +21,11 @@ import type {identityType} from 'src/consts/flowTypes/user/basicInformation'
 import type {paramType} from 'src/consts/flowTypes/paramType'
 import type {postType} from 'src/consts/flowTypes/common/post'
 import {bindActionCreators} from 'redux'
-import {CategoryTitle, VerifyWrapper} from 'src/views/common/cards/Frames'
+import {CategoryTitle} from 'src/views/common/cards/Frames'
 import {Confirm} from '../cards/Confirm'
 import {getMessages} from 'src/redux/selectors/translateSelector'
 import {userCommentsSelector} from 'src/redux/selectors/common/comment/postCommentsSelector'
-import {userInstantCommentsSelector} from 'src/redux/selectors/common/comment/postInstantCommentSelector'
+import {Link} from 'react-router-dom'
 
 type postExtendedViewProps = {
   actions: {
@@ -117,13 +117,13 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     if (!extendedView) {
       const {getFileByFileRelatedParentId} = actions
       getFileByFileRelatedParentId({fileRelatedParentId: post.id, fileParentType: constants.FILE_PARENT.POST})
-      if (self.text && self.text.clientHeight > 74) {
+      if (self.text && self.text.clientHeight > 70) {
         const height = self.text.clientHeight
         if (post.post_description && new RegExp('^[A-Za-z]*$').test(post.post_description[0])) {
           self.text.style.paddingRight = '60px'
         }
         else self.text.style.paddingLeft = '60px'
-        self.text.style.height = '68px'
+        self.text.style.height = '63px'
         this.setState({...this.state, showMore: true, descriptionHeight: height})
       }
     }
@@ -186,13 +186,13 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     let height = null
 
     if (post && post.post_description !== this.props.post.post_description) {
-      if (self.text.clientHeight > 74) {
+      if (self.text.clientHeight > 70) {
         height = self.text.clientHeight
         if (post.post_description && new RegExp('^[A-Za-z]*$').test(post.post_description[0])) {
           self.text.style.paddingRight = '60px'
         }
         else self.text.style.paddingLeft = '60px'
-        self.text.style.height = '68px'
+        self.text.style.height = '63px'
         showMore = true
       }
 
@@ -301,13 +301,11 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     } = this.props
 
     const {menuToggleBottom, menuToggleTop, confirm, showComment, commentOn} = this.state
-    let postDescription = '', postIdentityUserId, postIdentityOrganId, postOwnerId = 0, postFilesArray
+    let postDescription = '', postOwnerId = 0, postFilesArray
 
     if (post) {
       postDescription = post.post_description
-      postIdentityUserId = post.post_related_identity.identity_user && post.post_related_identity.identity_user.id
-      postIdentityOrganId = post.post_related_identity.identity_organization && post.post_related_identity.identity_organization.id
-      postOwnerId = postIdentityUserId || postIdentityOrganId
+      postOwnerId = postIdentity.id
       postFilesArray = post.post_files_array
     }
 
@@ -337,11 +335,23 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                               postMenuId={this.postMenuId + 'top'}
                               clientIdentity={clientIdentity}
                   />
-                  <div className='post-content'
-                       style={new RegExp('^[A-Za-z]*$').test(postDescription && postDescription[0]) ? {direction: 'ltr'} : {direction: 'rtl'}}
-                       ref={e => self.text = e}>
-                    {postDescription}
-                  </div>
+                  {
+                    extendedView ?
+                        <div className='post-content'
+                             style={new RegExp('^[A-Za-z]*$').test(postDescription && postDescription[0]) ? {direction: 'ltr'} : {direction: 'rtl'}}
+                             ref={e => self.text = e}>
+                          {postDescription}
+                        </div>
+                        :
+                        <Link to={postIdentity.identity_type === 'user' ? `/user/${postOwnerId}/Posts/${post.id}` : `/organization/${postOwnerId}/Posts/${post.id}`} className='link-post-decoration'>
+                          <div className='post-content'
+                               style={new RegExp('^[A-Za-z]*$').test(postDescription && postDescription[0]) ? {direction: 'ltr'} : {direction: 'rtl'}}
+                               ref={e => self.text = e}>
+                            {postDescription}
+                          </div>
+                        </Link>
+                  }
+
                   <div className={this.state.showMore ? 'post-content-more' : 'post-content-more-hide'}
                        style={new RegExp('^[A-Za-z]*$').test(postDescription && postDescription[0]) ?
                            {right: '10px'} :
@@ -413,17 +423,14 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const {extendedView} = ownProps
   const fileList = state.common.file.list
   const clientIdentity = state.auth.client.identity.content
   const postId = (ownProps.post && ownProps.post.id) || ownProps.match.params.id
   const post = ownProps.post || state.common.post.list[postId]
-  const postIdentity = post && post.post_related_identity && post.post_related_identity.id ? post.post_related_identity : state.identities.list[post.post_related_identity]
-  const postRelatedIdentityImage = postIdentity && postIdentity.profile_media && postIdentity.profile_media.file ? postIdentity.profile_media : fileList[postIdentity.profile_media]
-  const postRelatedProductId = post && post.post_related_product && post.post_related_product.id ? post.post_related_product.id : post.post_related_product
+  const postIdentity = post && post.post_related_identity
+  const postRelatedIdentityImage = postIdentity && postIdentity.profile_media
+  const postRelatedProductId = post && post.post_related_product
   const postRelatedProduct = postRelatedProductId && {...state.common.product.products.list[postRelatedProductId], product_owner: postIdentity}
-
-  // if (extendedView) {
   return {
     post,
     postIdentity,
@@ -435,17 +442,6 @@ const mapStateToProps = (state, ownProps) => {
     fileList,
     param: state.param,
   }
-  // }
-  // else {
-  //   return {
-  //     postIdentity,
-  //     clientIdentity,
-  //     postRelatedProduct,
-  //     postRelatedIdentityImage,
-  //     instantViewComments: userInstantCommentsSelector(state, ownProps),
-  //     translate: getMessages(state),
-  //   }
-  // }
 }
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({

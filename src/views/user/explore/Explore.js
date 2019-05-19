@@ -64,7 +64,6 @@ class Explore extends PureComponent {
 
   //   window.history.pushState('page2', 'Title', '/user/5')
 
-
   _justFollowing = (checked) => this.setState({...this.state, justFollowing: checked})
 
   _justFollowed = (checked) => this.setState({...this.state, justFollowed: checked})

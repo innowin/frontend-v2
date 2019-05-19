@@ -5,6 +5,11 @@
   font-size: $font-size-boxText;
 }
 
+.link-post-decoration {
+  text-decoration: none;
+  color: #000;
+}
+
 .skillAddTagInput {
   max-width: 50%;
   width: 200px;
@@ -223,7 +228,7 @@
     display: block;
     position: absolute;
     font-size: 13px;
-    top: 89px;
+    top: 87px;
     background-color: white;
     color: $secondary-color;
     padding: 2px 7px;

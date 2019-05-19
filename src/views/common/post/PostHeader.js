@@ -2,14 +2,14 @@ import * as React from 'react'
 import PropTypes from 'prop-types'
 import Moment from 'react-moment'
 import {Link} from 'react-router-dom'
-import DefaultUserIcon from '../../../images/defaults/defaultUser_svg'
+import DefaultUserIcon from 'src/images/defaults/defaultUser_svg'
 import PostMenu from './PostMenu'
 import constants from 'src/consts/constants'
 import Material from '../components/Material'
 import connect from 'react-redux/es/connect/connect'
-import socialActions from '../../../redux/actions/commonActions/socialActions'
+import socialActions from 'src/redux/actions/commonActions/socialActions'
 import {bindActionCreators} from 'redux'
-import {getFollowersSelector} from '../../../redux/selectors/common/social/getFollowers'
+import {getFollowersSelector} from 'src/redux/selectors/common/social/getFollowers'
 
 class PostHeader extends React.Component {
 
@@ -27,21 +27,18 @@ class PostHeader extends React.Component {
   }
 
   mouseMove(e) {
-    if (!this.state.instantView) {
-      let target = this.container
-      let rect = target.getBoundingClientRect()
+    if (this.container && !this.state.instantView) {
+      const rect = this.container.getBoundingClientRect()
       this.setState({...this.state, x: e.clientX - rect.left, y: e.clientY - rect.top})
     }
   }
 
   showInstant() {
-    if (document.body.clientWidth > 480)
-      this.timer = setTimeout(() => this.setState({...this.state, instantView: true}), 500)
+    if (document.body.clientWidth > 480 && this.state.x !== 0) this.timer = setTimeout(() => this.setState({...this.state, instantView: true}), 500)
   }
 
   hideInstant() {
-    clearTimeout(this.timer)
-    this.setState({...this.state, instantView: false})
+    this.setState({...this.state, instantView: false}, () => clearTimeout(this.timer))
   }
 
   _follow() {
