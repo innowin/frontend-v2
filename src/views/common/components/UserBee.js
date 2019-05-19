@@ -16,11 +16,12 @@ import {bindActionCreators} from 'redux'
 import {ClipLoader} from 'react-spinners'
 import {getMessages} from 'src/redux/selectors/translateSelector'
 import {Link} from 'react-router-dom'
-import types from '../../../redux/actions/types'
+import types from 'src/redux/actions/types'
 import uuid from 'uuid'
 import {createFileFunc} from 'src/views/common/Functions'
 import FileActions from 'src/redux/actions/commonActions/fileActions'
 import TempActions from 'src/redux/actions/tempActions'
+import AuthActions from 'src/redux/actions/authActions'
 
 class UserBee extends Component {
 
@@ -59,6 +60,8 @@ class UserBee extends Component {
       jobSubmitted: false,
 
       getData: false,
+
+      close: false,
     }
   }
 
@@ -71,7 +74,7 @@ class UserBee extends Component {
   }
 
   componentWillReceiveProps(nextProps, nextContext) {
-    const {currentUser, profileIdTemp, resumeIdTemp, temp} = nextProps
+    const {currentUser, profileIdTemp, resumeIdTemp, temp, actions} = nextProps
     const {profileMediaId, resumeId, resume} = this.state
 
     let setResume = resume
@@ -98,7 +101,6 @@ class UserBee extends Component {
     }
 
     if (profileMediaId && temp[profileMediaId] && temp[profileMediaId].progress === 100 && profileIdTemp) {
-      const {actions, currentUser} = nextProps
       const formFormat = {
         profile_media: profileIdTemp,
       }
@@ -108,7 +110,6 @@ class UserBee extends Component {
     }
 
     if (resumeId && temp[resumeId] && temp[resumeId].progress === 100 && resumeIdTemp) {
-      const {actions} = nextProps
       setResume = true
       actions.removeFileFromTemp('resume')
       actions.removeFileFromTemp(resumeId)
@@ -116,6 +117,9 @@ class UserBee extends Component {
 
     this.setState({...this.state, image, name, graduate, job, bio, resume: setResume}, () => {
       if (image === 30) this.setState({...this.state, imageLoading: false, profileMediaId: null})
+      if (image === 30 && name === 20 && bio === 20 && graduate === 15 && job === 15) {
+        setTimeout(() => actions.setBeeDone(true), 30000)
+      }
     })
   }
 
@@ -285,6 +289,8 @@ class UserBee extends Component {
     this.setState({...this.state, lastNameText: e.target.value.trim()})
   }
 
+  _handleClose = () => this.setState({...this.state, close: true})
+
   renderLevel() {
     const {level, image, name, graduate, job, bio, resume} = this.state
     const {translate, currentUser} = this.props
@@ -292,7 +298,7 @@ class UserBee extends Component {
       return (
           <div>
             <div className='bee-text'>{translate['Awesome']}</div>
-            <div className='bee-close'>✕</div>
+            <div className='bee-close' onClick={this._handleClose}>✕</div>
 
             <div className='bee-text-graduate'>{translate['Congrats, Your Profile Have Been Completed.']}</div>
 
@@ -325,7 +331,7 @@ class UserBee extends Component {
         return (
             <div>
               <div className='bee-text'>{translate['Choose a Photo For Profile']}</div>
-              <div className='bee-close'>✕</div>
+              <div className='bee-close' onClick={this._handleClose}>✕</div>
 
               <div className='bee-background-cont'>
                 <BeeBackground className='bee-background'/>
@@ -355,7 +361,7 @@ class UserBee extends Component {
         return (
             <div>
               <div className='bee-text'>{translate['Enter Your Name']}</div>
-              <div className='bee-close'>✕</div>
+              <div className='bee-close' onClick={this._handleClose}>✕</div>
 
               <div className='bee-background-cont'>
                 <BeeBackground className='bee-background'/>
@@ -399,7 +405,7 @@ class UserBee extends Component {
         return (
             <div>
               <div className='bee-text'>{translate['Last Education Major']}</div>
-              <div className='bee-close'>✕</div>
+              <div className='bee-close' onClick={this._handleClose}>✕</div>
 
               <div className='bee-text-graduate'>{translate['Enter Your Last Education Major. You Can Change It Later']}</div>
 
@@ -442,7 +448,7 @@ class UserBee extends Component {
         return (
             <div>
               <div className='bee-text'>{translate['Job']}</div>
-              <div className='bee-close'>✕</div>
+              <div className='bee-close' onClick={this._handleClose}>✕</div>
 
               <div className='bee-text-graduate'>{translate['Resume Will Introduce a More Professional Profile.']}</div>
 
@@ -480,7 +486,7 @@ class UserBee extends Component {
         return (
             <div>
               <div className='bee-text'>{translate['Bio']}</div>
-              <div className='bee-close'>✕</div>
+              <div className='bee-close' onClick={this._handleClose}>✕</div>
 
               <div className='bee-text-graduate'>{translate['Write a Short Introduction Of Yourself, Your Activities Or Your Interests']}</div>
 
@@ -512,13 +518,15 @@ class UserBee extends Component {
   }
 
   render() {
-    return (
-        <div className='bee-panel-cont'>
-          {
-            this.renderLevel()
-          }
-        </div>
-    )
+    if (!this.state.close)
+      return (
+          <div className='bee-panel-cont'>
+            {
+              this.renderLevel()
+            }
+          </div>
+      )
+    else return null
   }
 }
 
@@ -549,6 +557,7 @@ const mapDispatchToProps = dispatch => ({
     getEducationFields: getEducationFields,
     createFile: FileActions.createFile,
     removeFileFromTemp: TempActions.removeFileFromTemp,
+    setBeeDone: AuthActions.setBeeDone,
   }, dispatch),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(UserBee)

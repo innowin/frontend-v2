@@ -13,6 +13,7 @@ import FileActions from 'src/redux/actions/commonActions/fileActions'
 import TempActions from 'src/redux/actions/tempActions'
 import uuid from 'uuid'
 import constants from 'src/consts/constants'
+import AuthActions from 'src/redux/actions/authActions'
 
 class OrganizationBee extends Component {
   constructor(props) {
@@ -74,7 +75,7 @@ class OrganizationBee extends Component {
   }
 
   componentWillReceiveProps(nextProps, nextContext) {
-    const {currentUser, profileIdTemp, resumeIdTemp, temp} = nextProps
+    const {currentUser, profileIdTemp, resumeIdTemp, temp, actions} = nextProps
     const {profileMediaId, resumeId, resume} = this.state
     const {nike_name, biography, telegram_account, web_site, profile_media} = currentUser
 
@@ -87,7 +88,6 @@ class OrganizationBee extends Component {
     if (profile_media) {
       image = 30
     }
-
     if (nike_name && nike_name.trim().length > 0) {
       name = 25
     }
@@ -99,7 +99,6 @@ class OrganizationBee extends Component {
     }
 
     if (profileMediaId && temp[profileMediaId] && temp[profileMediaId].progress === 100 && profileIdTemp) {
-      const {actions, currentUser} = nextProps
       const formFormat = {
         profile_media: profileIdTemp,
         organization_logo: profileIdTemp,
@@ -110,7 +109,6 @@ class OrganizationBee extends Component {
     }
 
     if (resumeId && temp[resumeId] && temp[resumeId].progress === 100 && resumeIdTemp) {
-      const {actions} = nextProps
       setResume = true
       actions.removeFileFromTemp('resume')
       actions.removeFileFromTemp(resumeId)
@@ -118,6 +116,9 @@ class OrganizationBee extends Component {
 
     this.setState({...this.state, image, name, graduate, bio, resume: setResume}, () => {
       if (image === 30) this.setState({...this.state, imageLoading: false, profileMediaId: null})
+      if (image === 30 && name === 25 && bio === 25 && graduate === 20) {
+        setTimeout(() => actions.setBeeDone(true), 30000)
+      }
     })
   }
 
@@ -438,6 +439,7 @@ const mapDispatchToProps = dispatch => ({
     updateUserByUserId: updateUserByUserIdAction.updateUser,
     createFile: FileActions.createFile,
     removeFileFromTemp: TempActions.removeFileFromTemp,
+    setBeeDone: AuthActions.setBeeDone,
   }, dispatch),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(OrganizationBee)

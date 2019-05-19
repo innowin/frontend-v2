@@ -11,6 +11,9 @@ const auth = (state = initialState.auth, action) => {
       return slices.signIn.success(state, action)
     case types.ERRORS.AUTH.SIGN_IN:
       return slices.signIn.error(state, action)
+      /** -------------------------- bee done -------------------------> **/
+    case types.AUTH.SET_BEE_DONE:
+      return slices.setBeeDone.success(state, action)
       /** -------------------------- set selected exchange -------------------------> **/
     case types.AUTH.SET_SELECTED_EXCHANGE:
       return slices.setSelectedExchange.base(state, action)
@@ -43,11 +46,11 @@ const auth = (state = initialState.auth, action) => {
     case types.SUCCESS.COMMON.POST.DELETE_POST:
       return slices.deletePost.success(state, action)
       /** -------------------------- get followers  -------------------------> **/
-    // case types.SUCCESS.COMMON.SOCIAL.GET_FOLLOWERS:
-    //   return slices.getFollowers.success(state, action)
+      // case types.SUCCESS.COMMON.SOCIAL.GET_FOLLOWERS:
+      //   return slices.getFollowers.success(state, action)
       /** -------------------------- get followees  -------------------------> **/
-    // case types.SUCCESS.COMMON.SOCIAL.GET_FOLLOWEES:
-    //   return slices.getFollowees.success(state, action)
+      // case types.SUCCESS.COMMON.SOCIAL.GET_FOLLOWEES:
+      //   return slices.getFollowees.success(state, action)
       /** -------------------------- delete follow  -------------------------> **/
     case types.SUCCESS.COMMON.SOCIAL.DELETE_FOLLOW:
       return slices.deleteFollow.success(state, action)

@@ -12,7 +12,6 @@ import Posts from 'src/views/common/post/index'
 import PrivateRoute from '../consts/PrivateRoute'
 import PropTypes from 'prop-types'
 import Exchanges from 'src/views/common/social/exchanges/index'
-// import Exchanges from 'src/views/common/social/index'
 import Following from 'src/views/common/social/following/index'
 import Follower from 'src/views/common/social/follower/index'
 import type {badgeType} from 'src/consts/flowTypes/common/badges'
@@ -35,6 +34,7 @@ import {userPostsSelector} from '../redux/selectors/common/post/userPostsSelecto
 // import Educations from 'src/views/user/educations'
 // import UserBasicInformation from './user/basicInformation'
 // import WorkExperiences from './user/workExperience/index'
+// import Exchanges from 'src/views/common/social/index'
 
 type PropsUser = {
   match: {

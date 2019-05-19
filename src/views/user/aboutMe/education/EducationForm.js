@@ -10,6 +10,7 @@ import type {identityType} from 'src/consts/flowTypes/identityType'
 import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
 import type {userEducationType} from 'src/consts/flowTypes/user/basicInformation'
 import Validations from 'src/helpers/validations/validations'
+import MyDatePicker from '../../../common/components/DatePicker'
 
 type Props = {
   toggleEdit: Function,
@@ -60,7 +61,7 @@ class EducationForm extends React.Component<Props, States> {
       university: false,
       from_date: false,
       to_date: false,
-    }
+    },
   }
 
   componentDidMount(): void {
@@ -74,7 +75,8 @@ class EducationForm extends React.Component<Props, States> {
         from_date: education.from_date,
         to_date: education.to_date,
       })
-    } else {
+    }
+    else {
       this.setState({
         ...this.state,
         errors: {
@@ -82,7 +84,7 @@ class EducationForm extends React.Component<Props, States> {
           grade: Validations.validateRequired({value: this.state.grade, translate}),
           field_of_study: Validations.validateRequired({value: this.state.field_of_study, translate}),
           university: Validations.validateRequired({value: this.state.university, translate}),
-        }
+        },
       })
     }
   }
@@ -101,13 +103,17 @@ class EducationForm extends React.Component<Props, States> {
     let error = false
     if (name === 'grade') {
       error = Validations.validateRequired({value, translate})
-    } else if (name === 'field_of_study') {
+    }
+    else if (name === 'field_of_study') {
       error = Validations.validateRequired({value, translate})
-    } else if (name === 'university') {
+    }
+    else if (name === 'university') {
       error = Validations.validateRequired({value, translate})
-    } else if (name === 'from_date') {
+    }
+    else if (name === 'from_date') {
       error = Validations.validateDate({value, translate})
-    } else if (name === 'to_date') {
+    }
+    else if (name === 'to_date') {
       error = Validations.validateDate({value, translate})
     }
 
@@ -116,8 +122,40 @@ class EducationForm extends React.Component<Props, States> {
       [name]: value,
       errors: {
         ...this.state.errors,
-        [name]: error
-      }
+        [name]: error,
+      },
+    })
+  }
+
+  _onDateFields = (e) => {
+    const {translate} = this.props
+    const value = numberCorrection(e)
+    let error = false
+    error = Validations.validateDate({value, translate})
+
+    this.setState({
+      ...this.state,
+      from_date: value,
+      errors: {
+        ...this.state.errors,
+        from_date: error,
+      },
+    })
+  }
+
+  _onToDateFields = (e) => {
+    const {translate} = this.props
+    const value = numberCorrection(e)
+    let error = false
+    error = Validations.validateDate({value, translate})
+
+    this.setState({
+      ...this.state,
+      to_date: value,
+      errors: {
+        ...this.state.errors,
+        to_date: error,
+      },
     })
   }
 
@@ -126,7 +164,7 @@ class EducationForm extends React.Component<Props, States> {
     const {errors} = this.state
     const {
       grade: gradeError, university: universityError, to_date: toDateError, from_date: fromDateError,
-      field_of_study: fieldOfStudyError
+      field_of_study: fieldOfStudyError,
     } = errors
     e.preventDefault()
     e.stopPropagation()
@@ -145,7 +183,8 @@ class EducationForm extends React.Component<Props, States> {
     if ((gradeError || universityError || toDateError || fromDateError || fieldOfStudyError) === false) {
       if (updateEducation && education) {
         updateEducation({formValues, educationId: education.id, userId: owner.id})
-      } else if (createEducation) {
+      }
+      else if (createEducation) {
         createEducation({formValues, userId: owner.id})
       }
       this._toggle()
@@ -166,7 +205,7 @@ class EducationForm extends React.Component<Props, States> {
     const {errors} = this.state
     const {
       grade: gradeError, field_of_study: fieldOfStudyError, from_date: fromDateError, to_date: toDateError,
-      university: universityError
+      university: universityError,
     } = errors
 
     return (
@@ -214,17 +253,14 @@ class EducationForm extends React.Component<Props, States> {
                 <div className='detail-row-container'>
                   <div className='detail-row'>
                     <p className='title'>{translate['Start date']}</p>
-                    <input placeholder={translate['Date example']} name='from_date' defaultValue={fromDate}
-                           onChange={this._onChangeFields}
-                           className='edit-text-fields'/>
+                    {/*<input placeholder={translate['Date example']} name='from_date' defaultValue={fromDate} onChange={this._onChangeFields} className='edit-text-fields'/>*/}
+                    <MyDatePicker className='edit-text-fields' getValue={this._onDateFields} placeholder={translate['Date example']} defaultValue={fromDate} name='from_date'/>
                     {fromDateError && <div className='text-field-error'>{fromDateError}</div>}
                   </div>
-
                   <div className='detail-row'>
                     <p className='title'>{translate['To date']}</p>
-                    <input placeholder={translate['Date example']} name='to_date' defaultValue={toDate}
-                           onChange={this._onChangeFields}
-                           className='edit-text-fields'/>
+                    {/*<input placeholder={translate['Date example']} name='to_date' defaultValue={toDate} onChange={this._onChangeFields} className='edit-text-fields'/>*/}
+                    <MyDatePicker className='edit-text-fields' getValue={this._onToDateFields} placeholder={translate['Date example']} defaultValue={toDate} name='to_date'/>
                     {toDateError && <div className='text-field-error'>{toDateError}</div>}
                   </div>
                 </div>

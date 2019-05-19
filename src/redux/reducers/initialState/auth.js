@@ -5,7 +5,7 @@ export default {
     identity: {
       content: null, // content is id of identity
       isLoading: false,
-      error: null
+      error: null,
     },
     profile: {},
     user: {},
@@ -19,7 +19,7 @@ export default {
     social: {
       follows: [], /* ids of follows that this client participates at them*/
     },
-    abilities: [],  /* ids of abilities that this organziation client has at them*/
+    abilities: [],  /* ids of abilities that this organization client has at them*/
     rememberMe: null,
     user_type: null,
     isLoggedIn: false,
@@ -27,6 +27,7 @@ export default {
     exchangeMemberships: [], /* ids of exchanges that user is member of that*/
     workExperiences: [], /* ids of workExperiences that this client is member of them*/
     customers: [], /* ids of customers that this org client has them*/
-    selectedExchange: null
-  }
+    selectedExchange: null,
+    isBeeDone: false,
+  },
 }

@@ -34,6 +34,7 @@ import {getFollowersSelector} from 'src/redux/selectors/common/social/getFollowe
 import {getMessages} from 'src/redux/selectors/translateSelector'
 import getAllCountries from '../../redux/selectors/common/location/getCountry'
 import {getCountries} from '../../redux/actions/commonActions/location'
+import MyDatePicker from '../common/components/DatePicker'
 
 
 export const BadgesCard = (props: { badgesImg: (string)[] }) => {
@@ -323,6 +324,10 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
     this.setState({...this.state, [title]: e.target.value})
   }
 
+  handleDate = (title, e) => {
+    this.setState({...this.state, [title]: e})
+  }
+
   handleCountry = (e) => {
     const value = parseInt(e.target.value, 10)
     this.setState({...this.state, editTown: value === 0 ? null : value})
@@ -535,7 +540,7 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
                   <div className='sidebar-position'>
                     <div>
                       <div className='user-edit-name-title'>{sideBarType === constants.USER_TYPES.USER ? 'تاریخ تولد' : 'سال تاسیس'}</div>
-                      <input className='user-edit-name' type={sideBarType === constants.USER_TYPES.USER ? 'text' : 'number'} value={editBirthDate} onChange={e => this.handleParameter('editBirthDate', e)}/>
+                      <MyDatePicker className='user-edit-name' defaultValue={editBirthDate} getValue={e => this.handleDate('editBirthDate', e)}/>
                     </div>
                   </div>
                 }
@@ -603,8 +608,7 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
                                 content={(!editProfile) ? tr && tr['Edit Dashboard'] : (
                                     <button type="submit" className={
                                       (
-                                          ((profileBannerId && this.props.temp[profileBannerId].progress === 100 && bannerIdTemp) || profileBannerId === null)
-                                          &&
+                                          ((profileBannerId && this.props.temp[profileBannerId].progress === 100 && bannerIdTemp) || profileBannerId === null) &&
                                           ((profileMediaId && this.props.temp[profileMediaId].progress === 100 && pictureIdTemp) || profileMediaId === null)
                                       )
                                           ? 'sidebarFollowBottom follow-green-button side-user-follow' : 'disabled sidebarFollowBottom follow-green-button side-user-follow'
