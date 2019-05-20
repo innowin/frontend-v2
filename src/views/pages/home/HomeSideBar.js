@@ -1,16 +1,16 @@
 // @flow
-import * as React from 'react'
-import {Component} from 'react'
-import PropTypes from 'prop-types'
-import ExchangeMembershipActions from 'src/redux/actions/commonActions/exchangeMembershipActions'
-import type {exchangeType} from 'src/consts/flowTypes/exchange/exchange.js'
-import {bindActionCreators} from 'redux'
-import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
-import {ChannelIcon} from 'src/images/icons'
-import {getExchangeMembershipsSelector} from 'src/redux/selectors/common/social/getExchangeMemberships'
-import Material from '../../common/components/Material'
-import UserDetailPanel from '../../common/components/UserDetailPanel'
+import * as React from "react"
+import {Component} from "react"
+import PropTypes from "prop-types"
+import ExchangeMembershipActions from "src/redux/actions/commonActions/exchangeMembershipActions"
+import type {exchangeType} from "src/consts/flowTypes/exchange/exchange.js"
+import {bindActionCreators} from "redux"
+import {connect} from "react-redux"
+import {Link} from "react-router-dom"
+import {ChannelIcon, MainLbarArrow} from "src/images/icons"
+import {getExchangeMembershipsSelector} from "src/redux/selectors/common/social/getExchangeMemberships"
+import Material from "../../common/components/Material"
+import UserDetailPanel from "../../common/components/UserDetailPanel"
 
 
 type PropsSideBarItem = {
@@ -25,14 +25,14 @@ export class SideBarItem extends Component<PropsSideBarItem> {
     super(props)
     this.state =
         {
-          imageLoaded: false
+          imageLoaded: false,
         }
   }
 
   static propTypes = {
     exchange: PropTypes.object.isRequired,
     handleClick: PropTypes.func.isRequired,
-    active: PropTypes.bool
+    active: PropTypes.bool,
   }
 
   componentDidMount() {
@@ -54,17 +54,24 @@ export class SideBarItem extends Component<PropsSideBarItem> {
     const {active} = this.props
     const {exchange_image, name, id: exchangeId} = this.props.exchange
     return (
-        <div className={`item-wrapper ${active ? 'active' : ''}`} onClick={this._onClickHandler}>
+        <div className={`item-wrapper ${active ? "active" : ""}`} onClick={this._onClickHandler}>
           <Material content={
             <div className="header-exchange">
-              <Link to={'/exchange/' + exchangeId} className="default-logo">
+              <a className="default-logo">
                 {exchange_image && this.state.imageLoaded ?
                     <img className="img-logo" src={exchange_image.file} alt="logo"/>
                     :
                     <ChannelIcon className='default-channel-icon'/>
                 }
-              </Link>
-              <div className="exchange-name">{name}</div>
+              </a>
+              <div className={`exchange-name ${active && "active"}`}>{name}
+                <Link to={active && "/exchange/" + exchangeId}>
+                  <div className={`exchange-sub-name-link ${active && "active"}`}>مشاهده پنجره</div>
+                </Link>
+              </div>
+              <div className={active ? "left-arrow-home-exchange-container" : "left-arrow-home-exchange-container-hide"}>
+                <MainLbarArrow className="home-exchange-left-arrow"/>
+              </div>
             </div>
           }/>
         </div>
@@ -114,7 +121,8 @@ class HomeSideBar extends Component<PropsHomeSideBar, StateHomeSideBar> {
         identityId,
         exchangeMembershipOwnerId: identityId,
       })
-    } else this.setState({...this.state, getDataInDidMount: true})
+    }
+    else this.setState({...this.state, getDataInDidMount: true})
   }
 
   componentDidMount() {
@@ -123,7 +131,7 @@ class HomeSideBar extends Component<PropsHomeSideBar, StateHomeSideBar> {
       const {getExchangeMembershipByMemberIdentity} = this.props.actions
       getExchangeMembershipByMemberIdentity({
         identityId,
-        exchangeMembershipOwnerId: identityId
+        exchangeMembershipOwnerId: identityId,
       })
     }
   }
@@ -171,11 +179,11 @@ class HomeSideBar extends Component<PropsHomeSideBar, StateHomeSideBar> {
 
 
 const mapStateToProps = (state, ownProps) => ({
-  clientExchanges: getExchangeMembershipsSelector(state, ownProps)
+  clientExchanges: getExchangeMembershipsSelector(state, ownProps),
 })
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
-    getExchangeMembershipByMemberIdentity: ExchangeMembershipActions.getExchangeMembershipByMemberIdentity
-  }, dispatch)
+    getExchangeMembershipByMemberIdentity: ExchangeMembershipActions.getExchangeMembershipByMemberIdentity,
+  }, dispatch),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(HomeSideBar)

@@ -978,8 +978,35 @@ $sidebar-profile-media-width: 80px;
     flex-flow: row-reverse;
     cursor: pointer;
     align-items: center;
-    padding: 10px 10px 10px 30px;
+    padding: 10px 10px 10px 20px;
     transition-duration: 0.6s;
+
+    .left-arrow-home-exchange-container {
+      align-items: center;
+      display: flex;
+      flex-grow: 2;
+      justify-content: flex-end;
+      opacity: 1;
+      text-align: left;
+      transform: rotate(180deg);
+      transition-duration: $animation-timing-long;
+    }
+
+    .left-arrow-home-exchange-container-hide {
+      align-items: center;
+      display: flex;
+      flex-grow: 2;
+      justify-content: flex-end;
+      opacity: 0;
+      text-align: left;
+      transform: rotate(180deg);
+      transition-duration: $animation-timing-long;
+    }
+
+    .home-exchange-left-arrow {
+      width: 10px;
+      fill: $primary-color-light4;
+    }
 
     .exchange-name {
       transition-duration: 0.6s;
@@ -987,6 +1014,28 @@ $sidebar-profile-media-width: 80px;
       font-size: $font-size-regular;
       font-weight: bold;
       text-align: right;
+      transform: translateY(7px);
+
+      &.active {
+        transform: translateY(-5px);
+        transition: all ease .6s;
+      }
+    }
+
+    .exchange-sub-name-link {
+      transition-duration: 0.6s;
+      font-size: $font-size-small;
+      font-weight: bold;
+      text-align: right;
+      color: $primary-color-light3;
+      opacity: 0;
+      transform: translateY(-15px);
+
+      &.active {
+        transform: translateY(10px);
+        transition: all ease .6s;
+        opacity: 1;
+      }
     }
 
     .default-logo {

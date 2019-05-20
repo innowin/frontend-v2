@@ -4,9 +4,9 @@ import PropTypes from 'prop-types'
 import ExchangeViewBar from '../bars/ExchangeViewBar'
 import ExchangeTabs from './ExchangeView/Exchange_Tabs'
 import {bindActionCreators} from 'redux'
-import exchangeActions from '../../redux/actions/exchangeActions'
+import exchangeActions from 'src/redux/actions/exchangeActions'
 import connect from 'react-redux/es/connect/connect'
-import postActions from '../../redux/actions/commonActions/postActions'
+import postActions from 'src/redux/actions/commonActions/postActions'
 
 
 class ExchangeView extends Component {

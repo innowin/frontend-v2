@@ -1,11 +1,11 @@
 // @flow
 import * as React from 'react'
 import 'moment/locale/fa'
-import connect from 'react-redux/es/connect/connect'
-import FontAwesome from 'react-fontawesome'
 import CommentActions from 'src/redux/actions/commonActions/commentActions'
+import connect from 'react-redux/es/connect/connect'
 import constants from 'src/consts/constants'
 import FileActions from 'src/redux/actions/commonActions/fileActions'
+import FontAwesome from 'react-fontawesome'
 import PostActions from 'src/redux/actions/commonActions/postActions'
 import PostCommentNew from './PostCommentNew'
 import PostComments from './PostComments'
@@ -24,8 +24,9 @@ import {bindActionCreators} from 'redux'
 import {CategoryTitle} from 'src/views/common/cards/Frames'
 import {Confirm} from '../cards/Confirm'
 import {getMessages} from 'src/redux/selectors/translateSelector'
-import {userCommentsSelector} from 'src/redux/selectors/common/comment/postCommentsSelector'
 import {Link} from 'react-router-dom'
+import {userCommentsSelector} from 'src/redux/selectors/common/comment/postCommentsSelector'
+import {userInstantCommentsSelector} from "src/redux/selectors/common/comment/postInstantCommentSelector"
 
 type postExtendedViewProps = {
   actions: {

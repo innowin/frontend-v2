@@ -190,10 +190,21 @@
 .organization-leadership-hashtags-container {
   display: flex;
   justify-content: space-evenly;
+  flex-wrap: wrap;
   align-items: center;
   min-height: 40px;
   width: 100%;
   padding: 0 20px;
+}
+
+.organization-leadership-exchange-container {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  min-height: 150px;
+  width: 100%;
+  padding: 30px 5px;
 }
 
 .organization-leadership-job-hashtags {
@@ -207,7 +218,7 @@
   vertical-align: top;
   display: inline-block;
   border-radius: 25px;
-  margin: auto 3px;
+  margin: 3px;
   transition-duration: $animation-timing-short;
   cursor: pointer;
 
@@ -237,7 +248,7 @@
   vertical-align: top;
   display: inline-block;
   border-radius: 25px;
-  margin: auto 3px;
+  margin: 3px;
   transition-duration: $animation-timing-short;
   cursor: pointer;
 

@@ -1,5 +1,8 @@
 import React, {Component} from "react"
+import exchangeActions from "src/redux/actions/exchangeActions"
+import PostActions from "src/redux/actions/commonActions/postActions"
 import PropTypes from "prop-types"
+import {bindActionCreators} from "redux"
 import {connect} from "react-redux"
 import {DefaultOrganIcon} from "src/images/icons"
 import {Link} from "react-router-dom"
@@ -15,12 +18,23 @@ class OrganizationLeadershipModal extends Component {
       jobExpertise: "",
       jobStatus: "",
       post: "",
+      selectedExchanges: ["5673"],
     }
   }
 
   static proptypes = {
     toggle: PropTypes.func.isRequired,
     modalIsOpen: PropTypes.bool.isRequired,
+  }
+
+  componentDidMount(): void {
+    let {actions} = this.props
+    let {getExchangeById} = actions
+    getExchangeById(5690)
+    getExchangeById(5686)
+    getExchangeById(5681)
+    getExchangeById(5676)
+    getExchangeById(5673)
   }
 
   checkJobType(jobTypeText) {
@@ -37,6 +51,49 @@ class OrganizationLeadershipModal extends Component {
       arr.splice(index, 1)
       this.setState({...this.state, jobTypes: arr.slice()})
     }
+  }
+
+  checkExchange(exchangeId) {
+    console.log(exchangeId)
+    let {selectedExchanges} = this.state
+    let index = selectedExchanges.indexOf(exchangeId)
+    if (index < 0) {
+      let arr = selectedExchanges
+      arr.push(exchangeId)
+      this.setState({...this.state, selectedExchanges: arr.slice()})
+    }
+    else {
+      let arr = selectedExchanges
+      arr.splice(index, 1)
+      this.setState({...this.state, selectedExchanges: arr.slice()})
+    }
+  }
+
+  createLeadershipPost() {
+    let {post, jobTitle, jobTypes, selectedExchanges} = this.state
+    let {clientIdentity, toggle, actions} = this.props
+    let {createPost} = actions
+    selectedExchanges.forEach(exId => {
+      let formValues = {
+        files_count: 0,
+        post_description: post,
+        post_parent: exId,
+        post_related_identity: clientIdentity.id,
+        post_title: "موقعیت شغلی: " + jobTitle + " " + jobTypes.map(p => p),
+        post_type: "demand",
+      }
+      let postOwnerId = clientIdentity.id
+      let postParentId = exId
+      let postParentType = "exchange"
+      createPost({
+        formValues,
+        postOwnerId,
+        postParentId,
+        postParentType,
+        postFileIds: [],
+      })
+    })
+    this.setState({...this.state, level: 1}, toggle())
   }
 
   currentLevel() {
@@ -209,6 +266,70 @@ class OrganizationLeadershipModal extends Component {
               </div>
             </React.Fragment>
         )
+      case 5:
+        let {selectedExchanges} = this.state
+        let {exchanges, clientExchangeMembership, exchangeMemberships} = this.props
+        return (
+            <React.Fragment>
+              <div className="organization-leadership-header">
+                ارسال پست موقعیت شغلی
+              </div>
+
+              <div className="organization-leadership-body">
+                <label>
+                  ارسال در پنجره‌های
+                  <span className={"secondary-color"}> * </span>
+                  <div className="organization-leadership-exchange-container">
+                    {selectedExchanges.map((p, inx) =>
+                        <div key={`${p}${inx}.`}
+                             className="organization-leadership-job-hashtags-selected"
+                             onClick={() => this.checkExchange(p.toString())}>
+                          {exchanges[p] && exchanges[p].name} &nbsp; ✕
+                        </div>,
+                    )}
+                  </div>
+                </label>
+                <label>
+                  پنجره های پیشنهادی برای ارسال موقعیت شغلی
+                  <div className="organization-leadership-exchange-container">
+                    <div className={selectedExchanges.indexOf("5673") < 0 ?
+                        "organization-leadership-job-hashtags" : "organization-leadership-job-hashtags-selected"}
+                         onClick={() => this.checkExchange("5673")}>
+                      {exchanges[5673] && exchanges[5673].name}
+                    </div>
+                    <div className={selectedExchanges.indexOf("5676") < 0 ?
+                        "organization-leadership-job-hashtags" : "organization-leadership-job-hashtags-selected"}
+                         onClick={() => this.checkExchange("5676")}>
+                      {exchanges[5676] && exchanges[5676].name}
+                    </div>
+                    <div className={selectedExchanges.indexOf("5681") < 0 ?
+                        "organization-leadership-job-hashtags" : "organization-leadership-job-hashtags-selected"}
+                         onClick={() => this.checkExchange("5681")}>
+                      {exchanges[5681] && exchanges[5681].name}
+                    </div>
+                    <div className={selectedExchanges.indexOf("5686") < 0 ?
+                        "organization-leadership-job-hashtags" : "organization-leadership-job-hashtags-selected"}
+                         onClick={() => this.checkExchange("5686")}>
+                      {exchanges[5686] && exchanges[5686].name}
+                    </div>
+                    <div className={selectedExchanges.indexOf("5690") < 0 ?
+                        "organization-leadership-job-hashtags" : "organization-leadership-job-hashtags-selected"}
+                         onClick={() => this.checkExchange("5690")}>
+                      {exchanges[5690] && exchanges[5690].name}
+                    </div>
+                    {clientExchangeMembership.map((p, inx) =>
+                        <div key={`${p}${inx}`}
+                             className={selectedExchanges.indexOf(exchangeMemberships[p].exchange_identity_related_exchange.id.toString()) < 0 ?
+                                 "organization-leadership-job-hashtags" : "organization-leadership-job-hashtags-selected"}
+                             onClick={() => this.checkExchange(exchangeMemberships[p].exchange_identity_related_exchange.id.toString())}>
+                          {exchangeMemberships[p] && exchangeMemberships[p].exchange_identity_related_exchange.name}
+                        </div>,
+                    )}
+                  </div>
+                </label>
+              </div>
+            </React.Fragment>
+        )
       default:
         return null
     }
@@ -266,8 +387,19 @@ ${jobStatus}`,
       case 4:
         return (
             <React.Fragment>
-              <div className="org-leadership-next-button" onClick={() => this.setState({...this.state, level: 1}, toggle())}>
-                ذخیره
+              <div className="org-leadership-next-button" onClick={() => this.setState({...this.state, level: ++level})}>
+                ذخیره و ادامه
+              </div>
+              <div className="org-leadership-previous-button" onClick={() => this.setState({...this.state, level: --level})}>
+                قبلی
+              </div>
+            </React.Fragment>
+        )
+      case 5:
+        return (
+            <React.Fragment>
+              <div className="org-leadership-next-button" onClick={() => this.createLeadershipPost()}>
+                ارسال
               </div>
               <div className="org-leadership-previous-button" onClick={() => this.setState({...this.state, level: --level})}>
                 قبلی
@@ -304,14 +436,25 @@ ${jobStatus}`,
   }
 }
 
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators({
+    createPost: PostActions.createPost,
+    getExchangeById: exchangeActions.getExchangeByExId,
+  }, dispatch),
+})
+
 const mapStateToProps = state => {
   const clientId = state.auth.client.identity.content
   const clientIdentity = state.identities.list[clientId]
+  const clientExchangeMembership = state.identities.list[clientId].exchangeMemberships.content
 
   return {
-    clientIdentity: clientIdentity,
+    clientIdentity,
+    clientExchangeMembership,
     files: state.common.file.list,
+    exchanges: state.exchanges.list,
+    exchangeMemberships: state.common.exchangeMembership.list,
   }
 }
 
-export default connect(mapStateToProps)(OrganizationLeadershipModal)
+export default connect(mapStateToProps, mapDispatchToProps)(OrganizationLeadershipModal)
