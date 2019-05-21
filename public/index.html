@@ -15,6 +15,21 @@
 </noscript>
 <div id="root"></div>
 <div id="modal_container"></div>
+
+<script type="text/javascript">
+  !function() {
+    function t() {
+      let t = document.createElement('script')
+      t.type = 'text/javascript', t.async = !0, localStorage.getItem('rayToken') ? t.src = 'https://app.raychat.io/scripts/js/' + o + '?rid=' + localStorage.getItem('rayToken') + '&href=' + window.location.href : t.src = 'https://app.raychat.io/scripts/js/' + o
+      let e = document.getElementsByTagName('script')[0]
+      e.parentNode.insertBefore(t, e)
+    }
+
+    let e = document, a = window, o = 'dce4b879-286f-4ed7-bbb3-d28635a6fed1'
+    'complete' == e.readyState ? t() : a.attachEvent ? a.attachEvent('onload', t) : a.addEventListener('load', t, !1)
+  }()
+</script>
+
 <!-- Start of  Zendesk Widget script -->
 <!--<script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=b9e0c7da-d969-49e6-85a8-b22460db9d29"></script>-->
 <!-- End of  Zendesk Widget script -->

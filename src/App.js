@@ -31,9 +31,13 @@ class App extends React.Component {
 
   _hideModalClick = () => this.setState({...this.state, showRegisterModal: false})
 
-  _onRegisterClick = () => this.setState({...this.state, showRegisterModal: true})
+  _onRegisterClick = () => {
+    const {email, password} = this.state.signUpFields
+    if (email && password && password !== '' && email !== '')
+      this.setState({...this.state, showRegisterModal: true})
+  }
 
-  setSignUpFields = (obj) => this.setState({...this.state, signUpFields: obj})
+  setSignUpFields = (value) => this.setState({...this.state, signUpFields: value})
 
   render() {
     const path = this.props.location.pathname

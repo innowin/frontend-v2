@@ -15,7 +15,8 @@ class FirstLevel extends Component {
   }
 
   _select(selected) {
-    this.setState({...this.state, selected})
+    const {typeOfUser} = this.props
+    this.setState({...this.state, selected}, () => typeOfUser(selected))
   }
 
   _handleFocus = () => {
@@ -137,8 +138,8 @@ class FirstLevel extends Component {
             </div>
           </div>
 
-          <div className='get-data-content-next'>
-            <button className={valid ? 'get-data-content-next-button-on' : 'get-data-content-next-button'} onClick={this.submit}>بعدی</button>
+          <div>
+            <div className={valid ? 'get-data-content-next-button-on' : 'get-data-content-next-button'} onClick={this.submit}>بعدی</div>
           </div>
         </div>
     )

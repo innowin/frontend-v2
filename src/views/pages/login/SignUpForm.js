@@ -97,7 +97,6 @@ class SignUpForm extends React.Component<> {
         for (let domain of this.emailList) {
           if (domain.startsWith(spliceByAt[1])) {
             this.setState({emailSuggest: domain.slice(spliceByAt[1].length, domain.length)})
-            return
           }
         }
       }

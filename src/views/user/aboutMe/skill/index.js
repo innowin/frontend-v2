@@ -57,7 +57,7 @@ class Skill extends React.Component<Props, States> {
     return (
         <CardContainer>
           {
-            !!isEdit
+            isEdit
                 ? <SkillForm createSkill={createSkill} toggleEdit={this._toggleEdit}
                              translate={translate} owner={owner}/>
                 : <SkillView deleteSkill={deleteSkill} updateSkill={updateSkill} skills={skills}
