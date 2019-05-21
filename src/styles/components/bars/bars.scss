@@ -988,7 +988,7 @@ $sidebar-profile-media-width: 80px;
       justify-content: flex-end;
       opacity: 1;
       text-align: left;
-      transform: rotate(180deg);
+      transform: rotate(180deg) translateX(0);
       transition-duration: $animation-timing-long;
     }
 
@@ -999,12 +999,12 @@ $sidebar-profile-media-width: 80px;
       justify-content: flex-end;
       opacity: 0;
       text-align: left;
-      transform: rotate(180deg);
+      transform: rotate(180deg) translateX(-15px);
       transition-duration: $animation-timing-long;
     }
 
     .home-exchange-left-arrow {
-      width: 10px;
+      width: 7px;
       fill: $primary-color-light4;
     }
 
@@ -1025,7 +1025,7 @@ $sidebar-profile-media-width: 80px;
     .exchange-sub-name-link {
       transition-duration: 0.6s;
       font-size: $font-size-small;
-      font-weight: bold;
+      font-weight: normal;
       text-align: right;
       color: $primary-color-light3;
       opacity: 0;
