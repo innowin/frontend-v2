@@ -66,7 +66,7 @@ export class SideBarItem extends Component<PropsSideBarItem> {
               </a>
               <div className={`exchange-name ${active && 'active'}`}>{name}
                 <Link to={active ? '/exchange/' + exchangeId : '/'}>
-                  <div className={`exchange-sub-name-link ${active && 'active'}`}>مشاهده پنجره</div>
+                  <div className={`exchange-sub-name-link ${active && 'active'}`}>پروفایل پنجره</div>
                 </Link>
               </div>
               <div className={active ? 'left-arrow-home-exchange-container' : 'left-arrow-home-exchange-container-hide'}>

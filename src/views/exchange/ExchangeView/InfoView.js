@@ -38,7 +38,7 @@ class InfoView extends Component<props, state> {
     this.state = {
       editBio: false,
       editSocial: false,
-      exchangeBio: ""
+      exchangeBio: "",
     }
   }
 
@@ -70,7 +70,7 @@ class InfoView extends Component<props, state> {
       self.bioError.className = "info-body-bio-text-area-error-hide"
       let formValues = {
         exchange_id: exchangeId,
-        exchange_biography: exchangeBio
+        exchange_biography: exchangeBio,
       }
       editExchange(formValues)
       this.setState({...this.state, editBio: !editBio})
@@ -130,7 +130,7 @@ class InfoView extends Component<props, state> {
                     checkOwner({
                       id: ownerId,
                       children: <a className={editBio ? "info-header-edit-bio-text-hide" : "info-header-edit-bio-text"}
-                                   onClick={() => this._handleEditBioView()}> ویرایش </a>
+                                   onClick={() => this._handleEditBioView()}> ویرایش </a>,
                     })
                   }
 
@@ -171,7 +171,7 @@ class InfoView extends Component<props, state> {
                     checkOwner({
                       id: ownerId,
                       children: <a className={editSocial ? "info-header-edit-bio-text-hide" : "info-header-edit-bio-text"}
-                                   onClick={() => console.log("Handle Edit This One")}> ویرایش </a>
+                                   onClick={() => console.log("Handle Edit This One")}> ویرایش </a>,
                     })
                   }
                 </div>
@@ -274,13 +274,13 @@ class InfoView extends Component<props, state> {
                     checkOwner({
                       id: ownerId,
                       children: <a className={editSocial ? "info-header-edit-bio-text-hide" : "info-header-edit-bio-text"}
-                                   onClick={() => console.log("Handle Edit This Too")}> ویرایش </a>
+                                   onClick={() => console.log("Handle Edit This Too")}> ویرایش </a>,
                     })
                   }
                 </div>
                 <div className={"info-body"}>
                   {currentExchange && currentExchange.exchange_hashtag && currentExchange.exchange_hashtag.length > 0 ?
-                      currentExchange.exchange_hashtag.map((p) => <div className="exchange-hashtags">{p}</div>)
+                      currentExchange.exchange_hashtag.map((p) => <div className="exchange-hashtags">{p.title}</div>)
                       : <div>
                         <div className="exchange-hashtags">
                           پیدا کردن هم‌درس
@@ -418,14 +418,14 @@ const mapStateToProps = (state) => ({
   exchanges: state.exchanges.list,
   identities: state.identities.list,
   translate: getMessages(state),
-  files: state.common.file.list
+  files: state.common.file.list,
 })
 
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators({
     editExchange: exchangeActions.editExchange,
-    getFiles
-  }, dispatch)
+    getFiles,
+  }, dispatch),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(InfoView)
