@@ -1,35 +1,23 @@
 const success = (state, action) => {
-  const { data } = action.payload
-  if (state.list[data.id] && state.list[data.id].exchange)
+  const {data} = action.payload
+  if (state.list[data.id])
     return {
       ...state,
       list: {
         ...state.list,
         [data.id]: {
           ...state.list[data.id],
-          exchange: {
-            content: { ...state.list[data.id].exchange.content, ...data },
-            isLoading: false,
-            error: null
-          }
-        }
-
-      }
+        },
+      },
     }
   else return {
     ...state,
     list: {
       ...state.list,
       [data.id]: {
-        ...data
-        // ...state.list[data.id],
-        // exchange: {
-        //   content: {...data},
-        //   isLoading: false,
-        //   error: null
-        // }
-      }
-    }
+        ...data,
+      },
+    },
   }
 }
 
@@ -44,5 +32,5 @@ const base = (state, action) => {
 export default {
   base,
   error,
-  success
+  success,
 }

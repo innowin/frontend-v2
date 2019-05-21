@@ -1,11 +1,11 @@
-import React, {Component} from 'react'
-import exchangeActions from 'src/redux/actions/exchangeActions'
-import PostActions from 'src/redux/actions/commonActions/postActions'
-import PropTypes from 'prop-types'
-import {bindActionCreators} from 'redux'
-import {connect} from 'react-redux'
-import {DefaultOrganIcon} from 'src/images/icons'
-import {Link} from 'react-router-dom'
+import React, {Component} from "react"
+import exchangeActions from "src/redux/actions/exchangeActions"
+import PostActions from "src/redux/actions/commonActions/postActions"
+import PropTypes from "prop-types"
+import {bindActionCreators} from "redux"
+import {connect} from "react-redux"
+import {DefaultOrganIcon} from "src/images/icons"
+import {Link} from "react-router-dom"
 
 
 class OrganizationLeadershipModal extends Component {
@@ -14,11 +14,11 @@ class OrganizationLeadershipModal extends Component {
     this.state = {
       level: 1,
       jobTypes: [],
-      jobTitle: '',
-      jobExpertise: '',
-      jobStatus: '',
-      post: '',
-      selectedExchanges: ['5673'],
+      jobTitle: "",
+      jobExpertise: "",
+      jobStatus: "",
+      post: "",
+      selectedExchanges: ["5673"],
     }
   }
 
@@ -79,12 +79,12 @@ class OrganizationLeadershipModal extends Component {
         post_description: post,
         post_parent: exId,
         post_related_identity: clientIdentity.id,
-        post_title: 'موقعیت شغلی: ' + jobTitle + ' ' + jobTypes.map(p => p),
-        post_type: 'demand',
+        post_title: "موقعیت شغلی: " + jobTitle + " " + jobTypes.map(p => p),
+        post_type: "demand",
       }
       let postOwnerId = clientIdentity.id
       let postParentId = exId
-      let postParentType = 'exchange'
+      let postParentType = "exchange"
       createPost({
         formValues,
         postOwnerId,
@@ -109,9 +109,9 @@ class OrganizationLeadershipModal extends Component {
               <div className="organization-leadership-body">
                 <label>
                   عنوان شغلی
-                  <span className={'secondary-color'}> * </span>
+                  <span className={"secondary-color"}> * </span>
                 </label>
-                <input type={'text'} className="organization-leadership-job-input" placeholder={'عنوان شغلی'}
+                <input type={"text"} className="organization-leadership-job-input" placeholder={"عنوان شغلی"}
                        onChange={(e) => this.setState({...this.state, jobTitle: e.target.value})} defaultValue={jobTitle}/>
                 <div className="organization-leadership-job-desc">
                   مثال:<br/>
@@ -124,37 +124,37 @@ class OrganizationLeadershipModal extends Component {
                   - پژوهشگر<br/>
                 </div>
                 <div>
-                  <div style={{marginBottom: '10px', marginTop: '20px'}}>
+                  <div style={{marginBottom: "10px", marginTop: "20px"}}>
                     نوع همکاری
                   </div>
                   <div className="organization-leadership-hashtags-container">
-                    <div className={jobTypes.indexOf('تمام‌وقت') < 0 ?
-                        'organization-leadership-job-hashtags' : 'organization-leadership-job-hashtags-selected'}
+                    <div className={jobTypes.indexOf("تمام‌وقت") < 0 ?
+                        "organization-leadership-job-hashtags" : "organization-leadership-job-hashtags-selected"}
                          onClick={(e) => this.checkJobType(e.target.innerText.trim())}>
                       تمام‌وقت
                     </div>
-                    <div className={jobTypes.indexOf('پاره‌وقت') < 0 ?
-                        'organization-leadership-job-hashtags' : 'organization-leadership-job-hashtags-selected'}
+                    <div className={jobTypes.indexOf("پاره‌وقت") < 0 ?
+                        "organization-leadership-job-hashtags" : "organization-leadership-job-hashtags-selected"}
                          onClick={(e) => this.checkJobType(e.target.innerText.trim())}>
                       پاره‌وقت
                     </div>
-                    <div className={jobTypes.indexOf('کارآموز') < 0 ?
-                        'organization-leadership-job-hashtags' : 'organization-leadership-job-hashtags-selected'}
+                    <div className={jobTypes.indexOf("کارآموز") < 0 ?
+                        "organization-leadership-job-hashtags" : "organization-leadership-job-hashtags-selected"}
                          onClick={(e) => this.checkJobType(e.target.innerText.trim())}>
                       کارآموز
                     </div>
-                    <div className={jobTypes.indexOf('فریلنس') < 0 ?
-                        'organization-leadership-job-hashtags' : 'organization-leadership-job-hashtags-selected'}
+                    <div className={jobTypes.indexOf("فریلنس") < 0 ?
+                        "organization-leadership-job-hashtags" : "organization-leadership-job-hashtags-selected"}
                          onClick={(e) => this.checkJobType(e.target.innerText.trim())}>
                       فریلنس
                     </div>
-                    <div className={jobTypes.indexOf('هم‌تیمی/هم‌بنیان‌گذار') < 0 ?
-                        'organization-leadership-job-hashtags' : 'organization-leadership-job-hashtags-selected'}
+                    <div className={jobTypes.indexOf("هم‌تیمی/هم‌بنیان‌گذار") < 0 ?
+                        "organization-leadership-job-hashtags" : "organization-leadership-job-hashtags-selected"}
                          onClick={(e) => this.checkJobType(e.target.innerText.trim())}>
                       هم‌تیمی/هم‌بنیان‌گذار
                     </div>
-                    <div className={jobTypes.indexOf('پروژه‌ای') < 0 ?
-                        'organization-leadership-job-hashtags' : 'organization-leadership-job-hashtags-selected'}
+                    <div className={jobTypes.indexOf("پروژه‌ای") < 0 ?
+                        "organization-leadership-job-hashtags" : "organization-leadership-job-hashtags-selected"}
                          onClick={(e) => this.checkJobType(e.target.innerText.trim())}>
                       پروژه‌ای
                     </div>
@@ -174,9 +174,9 @@ class OrganizationLeadershipModal extends Component {
               <div className="organization-leadership-body">
                 <label>
                   تخصص‌های مورد نظر
-                  <span className={'secondary-color'}> * </span>
+                  <span className={"secondary-color"}> * </span>
                 </label>
-                <textarea className="organization-leadership-expertise-input" placeholder={'تخصص‌های مورد نظر'} key={1}
+                <textarea className="organization-leadership-expertise-input" placeholder={"تخصص‌های مورد نظر"} key={1}
                           onChange={(e) => this.setState({...this.state, jobExpertise: e.target.value})} defaultValue={jobExpertise}/>
                 <div className="organization-leadership-job-desc">
                   مثال:<br/>
@@ -200,9 +200,9 @@ class OrganizationLeadershipModal extends Component {
               <div className="organization-leadership-body">
                 <label>
                   شرایط عمومی
-                  <span className={'secondary-color'}> * </span>
+                  <span className={"secondary-color"}> * </span>
                 </label>
-                <textarea className="organization-leadership-expertise-input" placeholder={'شرایط عمومی'} key={2}
+                <textarea className="organization-leadership-expertise-input" placeholder={"شرایط عمومی"} key={2}
                           onChange={(e) => this.setState({...this.state, jobStatus: e.target.value})} defaultValue={jobStatus}/>
                 <div className="organization-leadership-job-desc">
                   مثال:<br/>
@@ -230,9 +230,9 @@ class OrganizationLeadershipModal extends Component {
               <div className="organization-leadership-body">
                 <label>
                   پیش نمایش
-                  <span className={'secondary-color'}> * </span>
+                  <span className={"secondary-color"}> * </span>
                 </label>
-                <div style={{position: 'relative'}}>
+                <div style={{position: "relative"}}>
                   <div className="organization-leadership-post-view-header">
                     <Link to={`/organization/${clientIdentity.id}`}>
                       <div className="organization-leadership-post-view-picture-con">
@@ -258,7 +258,7 @@ class OrganizationLeadershipModal extends Component {
                   </div>
                   <textarea className="organization-leadership-post-view-input"
                             onChange={(e) => this.setState({...this.state, post: e.target.value})}
-                            defaultValue={post.replace(new RegExp(',', 'g'), '،').replace(new RegExp(' {2}', 'g'), ' ')}/>
+                            defaultValue={post.replace(new RegExp(",", "g"), "،").replace(new RegExp(" {2}", "g"), " ")}/>
                 </div>
                 <div className="organization-leadership-job-desc">
                   میتوانید متن پست را به دلخواه ویرایش کنید.<br/>
@@ -278,7 +278,7 @@ class OrganizationLeadershipModal extends Component {
               <div className="organization-leadership-body">
                 <label>
                   ارسال در پنجره‌های
-                  <span className={'secondary-color'}> * </span>
+                  <span className={"secondary-color"}> * </span>
                   <div className="organization-leadership-exchange-container">
                     {selectedExchanges.map((p, inx) =>
                         <div key={`${p}${inx}.`}
@@ -292,35 +292,35 @@ class OrganizationLeadershipModal extends Component {
                 <label>
                   پنجره های پیشنهادی برای ارسال موقعیت شغلی
                   <div className="organization-leadership-exchange-container">
-                    <div className={selectedExchanges.indexOf('5673') < 0 ?
-                        'organization-leadership-job-hashtags' : 'organization-leadership-job-hashtags-selected'}
-                         onClick={() => this.checkExchange('5673')}>
+                    <div className={selectedExchanges.indexOf("5673") < 0 ?
+                        "organization-leadership-job-hashtags" : "organization-leadership-job-hashtags-selected"}
+                         onClick={() => this.checkExchange("5673")}>
                       {exchanges[5673] && exchanges[5673].name}
                     </div>
-                    <div className={selectedExchanges.indexOf('5676') < 0 ?
-                        'organization-leadership-job-hashtags' : 'organization-leadership-job-hashtags-selected'}
-                         onClick={() => this.checkExchange('5676')}>
+                    <div className={selectedExchanges.indexOf("5676") < 0 ?
+                        "organization-leadership-job-hashtags" : "organization-leadership-job-hashtags-selected"}
+                         onClick={() => this.checkExchange("5676")}>
                       {exchanges[5676] && exchanges[5676].name}
                     </div>
-                    <div className={selectedExchanges.indexOf('5681') < 0 ?
-                        'organization-leadership-job-hashtags' : 'organization-leadership-job-hashtags-selected'}
-                         onClick={() => this.checkExchange('5681')}>
+                    <div className={selectedExchanges.indexOf("5681") < 0 ?
+                        "organization-leadership-job-hashtags" : "organization-leadership-job-hashtags-selected"}
+                         onClick={() => this.checkExchange("5681")}>
                       {exchanges[5681] && exchanges[5681].name}
                     </div>
-                    <div className={selectedExchanges.indexOf('5686') < 0 ?
-                        'organization-leadership-job-hashtags' : 'organization-leadership-job-hashtags-selected'}
-                         onClick={() => this.checkExchange('5686')}>
+                    <div className={selectedExchanges.indexOf("5686") < 0 ?
+                        "organization-leadership-job-hashtags" : "organization-leadership-job-hashtags-selected"}
+                         onClick={() => this.checkExchange("5686")}>
                       {exchanges[5686] && exchanges[5686].name}
                     </div>
-                    <div className={selectedExchanges.indexOf('5690') < 0 ?
-                        'organization-leadership-job-hashtags' : 'organization-leadership-job-hashtags-selected'}
-                         onClick={() => this.checkExchange('5690')}>
+                    <div className={selectedExchanges.indexOf("5690") < 0 ?
+                        "organization-leadership-job-hashtags" : "organization-leadership-job-hashtags-selected"}
+                         onClick={() => this.checkExchange("5690")}>
                       {exchanges[5690] && exchanges[5690].name}
                     </div>
                     {clientExchangeMembership.map((p, inx) =>
                         <div key={`${p}${inx}`}
                              className={selectedExchanges.indexOf(exchangeMemberships[p].exchange_identity_related_exchange.id.toString()) < 0 ?
-                                 'organization-leadership-job-hashtags' : 'organization-leadership-job-hashtags-selected'}
+                                 "organization-leadership-job-hashtags" : "organization-leadership-job-hashtags-selected"}
                              onClick={() => this.checkExchange(exchangeMemberships[p].exchange_identity_related_exchange.id.toString())}>
                           {exchangeMemberships[p] && exchangeMemberships[p].exchange_identity_related_exchange.name}
                         </div>,
@@ -336,13 +336,14 @@ class OrganizationLeadershipModal extends Component {
   }
 
   currentFooter() {
-    let {level} = this.state
+    let {level, jobTypes, jobTitle, jobExpertise, jobStatus} = this.state
     let {toggle} = this.props
     switch (level) {
       case 1:
         return (
             <React.Fragment>
-              <div className="org-leadership-next-button" onClick={() => this.setState({...this.state, level: ++level})}>
+              <div className={jobTitle.length > 2 ? "org-leadership-next-button" : "org-leadership-hidden-button"}
+                   onClick={() => jobTitle.length > 2 && this.setState({...this.state, level: ++level})}>
                 ذخیره و ادامه
               </div>
               <div className="org-leadership-previous-button" onClick={() => toggle()}>
@@ -353,7 +354,8 @@ class OrganizationLeadershipModal extends Component {
       case 2:
         return (
             <React.Fragment>
-              <div className="org-leadership-next-button" onClick={() => this.setState({...this.state, level: ++level})}>
+              <div className={jobExpertise.length > 2 ? "org-leadership-next-button" : "org-leadership-hidden-button"}
+                   onClick={() => jobExpertise.length > 2 && this.setState({...this.state, level: ++level})}>
                 ذخیره و ادامه
               </div>
               <div className="org-leadership-previous-button" onClick={() => this.setState({...this.state, level: --level})}>
@@ -362,15 +364,14 @@ class OrganizationLeadershipModal extends Component {
             </React.Fragment>
         )
       case 3:
-        let {jobTypes, jobTitle, jobExpertise, jobStatus} = this.state
         let {clientIdentity} = this.props
         return (
             <React.Fragment>
-              <div className="org-leadership-next-button"
-                   onClick={() => this.setState({
+              <div className={jobStatus.length > 2 ? "org-leadership-next-button" : "org-leadership-hidden-button"}
+                   onClick={() => jobStatus.length > 2 && this.setState({
                      ...this.state,
                      post:
-                         `شرکت ${clientIdentity.official_name ? clientIdentity.official_name : clientIdentity.nike_name ? clientIdentity.nike_name : clientIdentity.username} از میان واجدین شرایط ${jobTitle} ${jobTypes.length > 0 ? jobTypes.length === 1 ? jobTypes[0] : jobTypes.map(p => ' ' + p) : ''} جذب می‌کند.
+                         `شرکت ${clientIdentity.official_name ? clientIdentity.official_name : clientIdentity.nike_name ? clientIdentity.nike_name : clientIdentity.username} از میان واجدین شرایط ${jobTitle} ${jobTypes.length > 0 ? jobTypes.length === 1 ? jobTypes[0] : jobTypes.map(p => " " + p) : ""} جذب می‌کند.
 تخصص های مورد نیاز:
 ${jobExpertise}
 شرایط عمومی:
@@ -385,9 +386,11 @@ ${jobStatus}`,
             </React.Fragment>
         )
       case 4:
+        let {post} = this.state
         return (
             <React.Fragment>
-              <div className="org-leadership-next-button" onClick={() => this.setState({...this.state, level: ++level})}>
+              <div className={post.length > 3 ? "org-leadership-next-button" : "org-leadership-hidden-button"}
+                   onClick={() => post.length > 3 && this.setState({...this.state, level: ++level})}>
                 ذخیره و ادامه
               </div>
               <div className="org-leadership-previous-button" onClick={() => this.setState({...this.state, level: --level})}>
@@ -396,9 +399,11 @@ ${jobStatus}`,
             </React.Fragment>
         )
       case 5:
+        let {selectedExchanges} = this.state
         return (
             <React.Fragment>
-              <div className="org-leadership-next-button" onClick={() => this.createLeadershipPost()}>
+              <div className={selectedExchanges.length > 0 ? "org-leadership-next-button" : "org-leadership-hidden-button"}
+                   onClick={() => selectedExchanges.length > 0 && this.createLeadershipPost()}>
                 ارسال
               </div>
               <div className="org-leadership-previous-button" onClick={() => this.setState({...this.state, level: --level})}>
@@ -415,7 +420,7 @@ ${jobStatus}`,
     let {modalIsOpen} = this.props
     return (
         <React.Fragment>
-          <div className={modalIsOpen ? 'organization-leadership-bg' : 'organization-leadership-bg-out'}>
+          <div className={modalIsOpen ? "organization-leadership-bg" : "organization-leadership-bg-out"}>
             {
               modalIsOpen ?
                   <React.Fragment>

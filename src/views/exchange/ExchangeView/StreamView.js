@@ -3,12 +3,6 @@ import PostView from "src/views/common/post/PostView"
 import {ClipLoader} from "react-spinners"
 import {connect} from "react-redux"
 import {exchangePostSelector} from "src/redux/selectors/common/post/exchangePostSelector"
-// import DefaultUserIcon from "../../common/post/createPost"
-// import constants from "../../../consts/constants"
-// import DefaultUserIcon from "../../../images/defaults/defaultUser_svg"
-// import Moment from "react-moment"
-// import {VerifyWrapper} from "../../common/cards/Frames"
-// import {Link} from "react-router-dom"
 
 class StreamView extends React.Component {
   constructor(props) {
@@ -32,7 +26,7 @@ class StreamView extends React.Component {
                   // showEdit={this._showEdit}
               />
             </div>
-          </div>
+          </div>,
       )
     }
     else return (
@@ -47,7 +41,7 @@ let mapStateToProps = (state, props) => {
   let {exchangeId} = props
   return {
     exchanges: state.exchanges.list,
-    exchangePosts: exchangePostSelector(state, exchangeId)
+    exchangePosts: exchangePostSelector(state, exchangeId),
   }
 }
 
