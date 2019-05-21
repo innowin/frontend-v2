@@ -25,14 +25,14 @@ class ThirdLevel extends Component {
     const {followed} = this.state
     return (
         <div className='get-data-content'>
-          <div>
+          <div className='get-data-third'>
             {
               Object.values(exchanges).sort((a, b) => a.id - b.id).map((exchange, i) =>
                   <Exchange key={i} data={exchange} followed={followed}/>,
               )
             }
           </div>
-          <div>
+          <div className='get-data-third-next'>
             <div className='get-data-content-next-button-on' onClick={() => hideRegisterModal()}>اینوین</div>
           </div>
         </div>

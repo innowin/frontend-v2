@@ -31,9 +31,10 @@ class GetUserData extends Component {
   }
 
   setThirdLevel = (selected) => {
-    this.setState({...this.state, level: 3}, () =>
-        this.props.actions.getExchanges(24, 0, null, [...selected]),
-    )
+    this.setState({...this.state, level: 3}, () => {
+      this.props.actions.getExchanges(24, 0, null, [...selected])
+      this.props.actions.getExchanges(1, 0, null)
+    })
   }
 
   typeOfUser = (type) => {

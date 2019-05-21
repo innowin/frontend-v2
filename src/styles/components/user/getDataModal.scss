@@ -252,7 +252,7 @@
     transition-duration: 0.3s;
   }
 
-  &:active{
+  &:active {
     background-color: $bee-color;
     border: 1.25px solid $background-color;
     box-shadow: 0 0 0 2px $bee-color;
@@ -350,6 +350,16 @@
   object-fit: contain;
 }
 
-.get-data-hashtags-cont{
+.get-data-hashtags-cont {
   padding: 0 20px;
+}
+
+.get-data-third {
+  padding-top: 10px;
+  height: calc(100% - 80px);
+  overflow: auto;
+}
+
+.get-data-third-next {
+  padding: 45px;
 }
