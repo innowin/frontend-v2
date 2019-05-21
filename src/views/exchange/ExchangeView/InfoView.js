@@ -117,7 +117,7 @@ class InfoView extends Component<props, state> {
       // console.log("ownerEducations", ownerEducations)
       if (owner) {
         return (
-            <div>
+            <div className="standard-exchange-margin-top">
               <div className="info-frame">
                 <div className="info-header">
                   {/*

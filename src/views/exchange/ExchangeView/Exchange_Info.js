@@ -6,56 +6,24 @@ import InfoView from "./InfoView"
 import StatisticView from "./StatisticView"
 import ExchangeManager from "./ExchangeManager"
 import MembersView from "./MembersView"
+import HomePosts from "../../pages/home/HomePosts"
 
 type props = {
   activeTab: string,
   exchangeId: number,
 }
 export default class Exchange_Info extends Component<props> {
-  // constructor(props) {
-  //   super(props)
-  //   this.state = {gotOwner: false}
-  // }
-
-  // componentDidMount() {
-  //   const {
-  //     actions,
-  //     exchangeId,
-  //     exchanges
-  //   } = this.props
-  //   actions.getPosts({postParentId: exchangeId, limit: 100, offset: 0})
-  //   if (exchanges.list[exchangeId]) {
-  //     if (exchanges.list[exchangeId].owner) {
-  //       actions.getUser(exchanges.list[exchangeId].owner.identity_user)
-  //       this.state.gotOwner = true
-  //     }
-  //   }
-  //   // actions.getExchangeById(exchangeId)
-  // }
-
-  // componentDidUpdate() {
-  //   if (!this.state.gotOwner) {
-  //     let {
-  //       actions,
-  //       exchangeId,
-  //       exchanges
-  //     } = this.props
-  //     if (exchanges.list[exchangeId]) {
-  //       if (exchanges.list[exchangeId].owner) {
-  //         actions.getUser(exchanges.list[exchangeId].owner.identity_user)
-  //       }
-  //     }
-  //   }
-  // }
+  backButton = () => {
+    window.history.back()
+  }
 
   render() {
     const {activeTab, exchangeId} = this.props
-    // const {activeTab, exchangeId, exchanges, users} = this.props
-    // let currentExchange = exchanges.list[exchangeId]
     switch (activeTab) {
       case "Stream":
         return (
-            <StreamView exchangeId={exchangeId}/>
+            <HomePosts unSetExchangeId={this.backButton} exchangeId={exchangeId} className="post-wrapper active-exchange" exchangePage={true}/>
+            // <StreamView exchangeId={exchangeId}/>
         )
       case "Info":
         return (

@@ -100,6 +100,7 @@
   border-bottom: 1px solid #cdcdcd;
   filter: grayscale(100%);
   opacity: .5;
+  transition-duration: $animation-timing;
 
   &:last-child {
     padding-bottom: 5px;
@@ -143,6 +144,7 @@
   user-select: none;
   margin: 10px auto;
   border-bottom: 1px solid #cdcdcd;
+  transition-duration: $animation-timing;
 
   &:last-child {
     padding-bottom: 5px;

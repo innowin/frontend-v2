@@ -1,7 +1,11 @@
 @import "../../variables";
 
-.exchange-content-view-frame {
+.standard-exchange-margin-top {
   margin-top: $standard-vertical-margin;
+}
+
+.exchange-content-view-frame {
+  //margin-top: $standard-vertical-margin;
   //margin-right: calc(5% + 340px + 30px);
   display: inline-block;
   vertical-align: top;
@@ -13,6 +17,7 @@
   padding-right: .5%;
   //overflow-y: hidden;
 }
+
 
 .posts-frame-container {
   transition-duration: $animation-timing;

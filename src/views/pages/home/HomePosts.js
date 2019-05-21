@@ -1,17 +1,17 @@
-import * as React from 'react'
-import constant from 'src/consts/constants'
-import CreatePostNew from 'src/views/common/post/createPost/index'
-import PostActions from 'src/redux/actions/commonActions/postActions'
-import PropTypes from 'prop-types'
-import {bindActionCreators} from 'redux'
-import {connect} from 'react-redux'
-import {FrameCard, ListGroup, VerifyWrapper} from 'src/views/common/cards/Frames'
-import {Post} from 'src/views/common/post/Post'
-import {PureComponent} from 'react'
-import {RightArrow, DesertIcon, EditIcon, ChannelIcon} from 'src/images/icons'
-import {exchangePostsSelector} from 'src/redux/selectors/home/homePosts'
-import {Link} from 'react-router-dom'
-import NewRightArrowSvg from 'src/images/common/new_right_arrow'
+import * as React from "react"
+import constant from "src/consts/constants"
+import CreatePostNew from "src/views/common/post/createPost/index"
+import PostActions from "src/redux/actions/commonActions/postActions"
+import PropTypes from "prop-types"
+import {bindActionCreators} from "redux"
+import {connect} from "react-redux"
+import {FrameCard, ListGroup, VerifyWrapper} from "src/views/common/cards/Frames"
+import {Post} from "src/views/common/post/Post"
+import {PureComponent} from "react"
+import {RightArrow, DesertIcon, EditIcon, ChannelIcon} from "src/images/icons"
+import {exchangePostsSelector} from "src/redux/selectors/home/homePosts"
+import {Link} from "react-router-dom"
+import NewRightArrowSvg from "src/images/common/new_right_arrow"
 
 
 class HomePosts extends PureComponent {
@@ -35,7 +35,7 @@ class HomePosts extends PureComponent {
   }
 
   componentWillMount(): void {
-    document.addEventListener('scroll', this._onScroll)
+    document.addEventListener("scroll", this._onScroll)
 
     const {actions, exchangeId} = this.props
     const {filterPostsByPostParentLimitOffset} = actions
@@ -76,7 +76,7 @@ class HomePosts extends PureComponent {
   }
 
   componentWillUnmount() {
-    window.removeEventListener('scroll', this._onScroll)
+    window.removeEventListener("scroll", this._onScroll)
   }
 
   _onScroll = () => {
@@ -125,12 +125,16 @@ class HomePosts extends PureComponent {
   goUp = () => {
     window.scroll({
       top: 0,
-      behavior: 'smooth',
+      behavior: "smooth",
     })
   }
 
   _showCreatePostSmall = () => {
-    this.setState({...this.state, showCreatePostSmall: true})
+    let {exchangePage} = this.props
+    this.setState({...this.state, showCreatePostSmall: true}, exchangePage && window.scroll({
+      top: 350,
+      behavior: "smooth",
+    }))
   }
 
   _hideCreatePostSmall = () => {
@@ -139,69 +143,69 @@ class HomePosts extends PureComponent {
 
   render() {
     const {error, showCreatePostSmall, hideTopBar} = this.state
-    const {actions, className, exchangeId, posts, selectedExchange, unSetExchangeId} = this.props
+    const {actions, className, exchangeId, posts, selectedExchange, unSetExchangeId, exchangePage} = this.props
     const {deletePost, updatePost} = actions
     return (
         <VerifyWrapper isLoading={false} error={error} className={className}>
           {exchangeId &&
-              <React.Fragment>
-                {showCreatePostSmall
-                    ? <CreatePostNew
-                        postParentId={exchangeId}
-                        postParentType={constant.POST_PARENT.EXCHANGE}
-                        postsCountInThisPage={posts.length}
-                        className='create-post-small'
-                        hideCreatePost={this._hideCreatePostSmall}
-                    />
-                    : <div>
-                      <CreatePostNew
-                          postParentId={exchangeId}
-                          postParentType={constant.POST_PARENT.EXCHANGE}
-                          postsCountInThisPage={posts.length}
-                      />
+          <React.Fragment>
+            {showCreatePostSmall
+                ? <CreatePostNew
+                    postParentId={exchangeId}
+                    postParentType={constant.POST_PARENT.EXCHANGE}
+                    postsCountInThisPage={posts.length}
+                    className='create-post-small'
+                    hideCreatePost={this._hideCreatePostSmall}
+                />
+                : <div>
+                  <CreatePostNew
+                      postParentId={exchangeId}
+                      postParentType={constant.POST_PARENT.EXCHANGE}
+                      postsCountInThisPage={posts.length}
+                  />
 
-                      <div className={hideTopBar ? 'top-bar-entity show top-bar-entity-top' : 'top-bar-entity show'}>
-                        <NewRightArrowSvg onClick={unSetExchangeId} className='back-button'/>
-                        <Link to={'/exchange/' + exchangeId} className='profile-top-bar'>
-                          {selectedExchange.exchange_image
-                              ? <img src={selectedExchange.exchange_image.file} alt='profile' className='profile-top-bar '/>
-                              : <ChannelIcon className='profile-top-bar default-profile-organ'/>
-                          }
-                        </Link>
-                        <span className='organ-name'>
+                  <div className={hideTopBar ? "top-bar-entity show top-bar-entity-top" : "top-bar-entity show"}>
+                    <NewRightArrowSvg onClick={unSetExchangeId} className='back-button'/>
+                    <Link to={"/exchange/" + exchangeId} className='profile-top-bar'>
+                      {selectedExchange.exchange_image
+                          ? <img src={selectedExchange.exchange_image.file} alt='profile' className='profile-top-bar '/>
+                          : <ChannelIcon className='profile-top-bar default-profile-organ'/>
+                      }
+                    </Link>
+                    <span className='organ-name'>
                           {selectedExchange.name}
                         </span>
-                      </div>
+                  </div>
 
-                      <FrameCard className="-frameCardPost border-top-0">
-                        <ListGroup>
-                          {
-                            posts.length > 0 ? (posts.map((post) => (post &&
-                                    <Post
-                                        posts={posts}
-                                        post={post}
-                                        key={post.id}
-                                        deletePost={deletePost}
-                                        updatePost={updatePost}
-                                    />
-                                ))) :
-                                <div className="empty-posts">
-                                  <DesertIcon width="100%" text="پستی بارگذاری نشده"/>
-                                </div>
-                          }
-                        </ListGroup>
-                      </FrameCard>
-                      <div className={this.state.scrollButton ? 'go-up-logo-cont' : 'go-up-logo-cont-hide'} onClick={this.goUp}>
-                        <RightArrow className='go-up-logo'/>
-                      </div>
+                  <FrameCard className={exchangePage ? "-frameCardPostEx border-top-0" : "-frameCardPost border-top-0"}>
+                    <ListGroup>
+                      {
+                        posts.length > 0 ? (posts.map((post) => (post &&
+                                <Post
+                                    posts={posts}
+                                    post={post}
+                                    key={post.id}
+                                    deletePost={deletePost}
+                                    updatePost={updatePost}
+                                />
+                            ))) :
+                            <div className="empty-posts">
+                              <DesertIcon width="100%" text="پستی بارگذاری نشده"/>
+                            </div>
+                      }
+                    </ListGroup>
+                  </FrameCard>
+                  <div className={this.state.scrollButton ? "go-up-logo-cont" : "go-up-logo-cont-hide"} onClick={this.goUp}>
+                    <RightArrow className='go-up-logo'/>
+                  </div>
 
-                      <div className={this.state.scrollButton ? 'write-post-hide' : 'write-post'}
-                           onClick={this._showCreatePostSmall}>
-                        <EditIcon className='write-post-logo'/>
-                      </div>
-                    </div>
-                }
-              </React.Fragment>
+                  <div className={this.state.scrollButton ? "write-post-hide" : "write-post"}
+                       onClick={this._showCreatePostSmall}>
+                    <EditIcon className='write-post-logo'/>
+                  </div>
+                </div>
+            }
+          </React.Fragment>
           }
         </VerifyWrapper>
     )

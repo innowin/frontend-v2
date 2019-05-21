@@ -74,7 +74,7 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
                 {/*<EventCard/>*/}
               </div>
             </div>
-            <ChatBar className="-left-sidebar-wrapper"/>
+            {/*<ChatBar className="-left-sidebar-wrapper"/>*/}
           </main>
         </div>
     )

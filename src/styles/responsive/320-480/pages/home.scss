@@ -5,6 +5,7 @@
     .home-page-content {
       flex-wrap: wrap;
       padding: 0;
+
       .right-sidebar {
         flex: 1 1 100%;
         max-width: 100%;
@@ -17,19 +18,23 @@
         .home-sidebar-cont-title {
           display: none;
         }
+
         .home-sidebar-cont {
           margin: 0;
           height: auto;
+
           .header-exchange {
             padding: 10px;
           }
         }
+
         .exchanges-last {
           position: fixed;
           top: 100vh;
           transform: translateY(-95%);
         }
       }
+
       .user-detail-wrapper {
         flex: 1 1 100%;
         max-width: 100%;
@@ -40,6 +45,7 @@
           display: none;
         }
       }
+
       .post-wrapper {
         margin-top: 8px;
         flex: 1 1 100%;
@@ -82,6 +88,7 @@
         cursor: pointer;
         transition: transform $animation-timing ease;
       }
+
       .write-post-logo {
         margin-top: 14px;
         fill: $background-color;
@@ -89,6 +96,43 @@
         height: 20px;
       }
     }
+  }
+  .write-post-hide {
+    display: inherit;
+    position: fixed;
+    bottom: 15px;
+    transform: translate3d(0, 80px, 0);
+    left: 25px;
+    background-color: $primary-color;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    text-align: center;
+    transition: transform $animation-timing ease;
+  }
+
+  .write-post {
+    display: inherit;
+    position: fixed;
+    z-index: 2;
+    opacity: 1;
+    bottom: 15px;
+    left: 25px;
+    background-color: $primary-color;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    text-align: center;
+    box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: transform $animation-timing ease;
+  }
+
+  .write-post-logo {
+    margin-top: 14px;
+    fill: $background-color;
+    width: 20px;
+    height: 20px;
   }
 }
 

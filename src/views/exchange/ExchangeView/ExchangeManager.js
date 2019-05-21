@@ -13,7 +13,7 @@ class ExchangeManager extends Component {
 
   render() {
     return (
-        <div>
+        <div className="standard-exchange-margin-top">
           <div className={"ticket-frame"}>
             <div className={"ticket-header"}>
               <Ticket width="22px" height="22px"
