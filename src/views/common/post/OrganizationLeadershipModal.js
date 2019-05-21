@@ -1,5 +1,6 @@
 import React, {Component} from "react"
 import exchangeActions from "src/redux/actions/exchangeActions"
+import ExchangeMembershipActions from "src/redux/actions/commonActions/exchangeMembershipActions"
 import PostActions from "src/redux/actions/commonActions/postActions"
 import PropTypes from "prop-types"
 import {bindActionCreators} from "redux"
@@ -70,20 +71,26 @@ class OrganizationLeadershipModal extends Component {
   }
 
   createLeadershipPost() {
+    let {clientIdentity, toggle, actions, exchangeMemberships, clientExchangeMembership} = this.props
     let {post, jobTitle, jobTypes, selectedExchanges} = this.state
-    let {clientIdentity, toggle, actions} = this.props
-    let {createPost} = actions
+    let {createPost, followExchange} = actions
+    let followedExchanges = []
+
+    clientExchangeMembership.forEach(id => {
+      followedExchanges.push(exchangeMemberships[id].exchange_identity_related_exchange.id.toString())
+    })
+
     selectedExchanges.forEach(exId => {
       let formValues = {
         files_count: 0,
         post_description: post,
-        post_parent: exId,
+        post_parent: parseInt(exId, 10),
         post_related_identity: clientIdentity.id,
         post_title: "موقعیت شغلی: " + jobTitle + " " + jobTypes.map(p => p),
         post_type: "demand",
       }
       let postOwnerId = clientIdentity.id
-      let postParentId = exId
+      let postParentId = parseInt(exId, 10)
       let postParentType = "exchange"
       createPost({
         formValues,
@@ -94,6 +101,13 @@ class OrganizationLeadershipModal extends Component {
       })
     })
     this.setState({...this.state, level: 1}, toggle())
+
+    setTimeout(() => {
+      selectedExchanges.forEach(exId => {
+        if (followedExchanges.indexOf(exId) < 0)
+          followExchange({identityId: clientIdentity.id, exchangeIdentity: parseInt(exId, 10)})
+      })
+    }, 300)
   }
 
   currentLevel() {
@@ -318,6 +332,13 @@ class OrganizationLeadershipModal extends Component {
                       {exchanges[5690] && exchanges[5690].name}
                     </div>
                     {clientExchangeMembership.map((p, inx) =>
+                        (
+                            exchangeMemberships[p].exchange_identity_related_exchange.id.toString() !== "5673" &&
+                            exchangeMemberships[p].exchange_identity_related_exchange.id.toString() !== "5676" &&
+                            exchangeMemberships[p].exchange_identity_related_exchange.id.toString() !== "5681" &&
+                            exchangeMemberships[p].exchange_identity_related_exchange.id.toString() !== "5686" &&
+                            exchangeMemberships[p].exchange_identity_related_exchange.id.toString() !== "5690"
+                        ) &&
                         <div key={`${p}${inx}`}
                              className={selectedExchanges.indexOf(exchangeMemberships[p].exchange_identity_related_exchange.id.toString()) < 0 ?
                                  "organization-leadership-job-hashtags" : "organization-leadership-job-hashtags-selected"}
@@ -445,6 +466,7 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     createPost: PostActions.createPost,
     getExchangeById: exchangeActions.getExchangeByExId,
+    followExchange: ExchangeMembershipActions.createExchangeMembership,
   }, dispatch),
 })
 
