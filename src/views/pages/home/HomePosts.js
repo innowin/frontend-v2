@@ -199,10 +199,13 @@ class HomePosts extends PureComponent {
                     <RightArrow className='go-up-logo'/>
                   </div>
 
-                  <div className={this.state.scrollButton ? "write-post-hide" : "write-post"}
-                       onClick={this._showCreatePostSmall}>
-                    <EditIcon className='write-post-logo'/>
-                  </div>
+                  {
+                    window.innerWidth <= 480 &&
+                    <div className={this.state.scrollButton ? "write-post-hide" : "write-post"}
+                         onClick={this._showCreatePostSmall}>
+                      <EditIcon className='write-post-logo'/>
+                    </div>
+                  }
                 </div>
             }
           </React.Fragment>
