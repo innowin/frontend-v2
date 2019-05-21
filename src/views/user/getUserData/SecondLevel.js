@@ -21,9 +21,10 @@ class SecondLevel extends Component {
   }
 
   submit = () => {
-    const {updateUserByUserId, current_user_identity} = this.props
+    const {updateUserByUserId, current_user_identity, setThirdLevel} = this.props
     const {selected} = this.state
     updateUserByUserId({identity_hashtag: selected}, current_user_identity)
+    setThirdLevel(selected)
   }
 
   render() {

@@ -5,9 +5,11 @@ import urls from 'src/consts/URLS'
 import {put, take, fork, call, select} from 'redux-saga/effects'
 
 export function* getAllExchanges(action) {
-  const {limit, offset, search} = action.payload
-  const params = search !== null ? `?name=${search}` : `?limit=${limit}&offset=${offset}`
-  yield put({type: types.SUCCESS.EXCHANGE.GET_EXCHANGES, payload: {data: [], search, isLoading: true}})
+  const {limit, offset, search, hashtags} = action.payload
+  let params = search ? `?name=${search}` : `?limit=${limit}&offset=${offset}`
+  if (hashtags) hashtags.forEach(tag => params += `&q=${JSON.stringify(tag)}`)
+  console.log('params: ', params)
+  yield put({type: types.SUCCESS.EXCHANGE.GET_EXCHANGES, payload: {data: [], search, hashtags, isLoading: true}})
   const socketChannel = yield call(api.createSocketChannel, results.EXCHANGE.GET_EXCHANGES)
   try {
     yield fork(
@@ -17,7 +19,8 @@ export function* getAllExchanges(action) {
         encodeURI(params),
     )
     const data = yield take(socketChannel)
-    yield put({type: types.SUCCESS.EXCHANGE.GET_EXCHANGES, payload: {data, search, isLoading: false}})
+    console.log(data)
+    yield put({type: types.SUCCESS.EXCHANGE.GET_EXCHANGES, payload: {data, search, hashtags, isLoading: false}})
 // Added for get membership
     const identityId = yield select((state) => state.auth.client.identity.content)
     yield put({

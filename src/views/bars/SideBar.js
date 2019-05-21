@@ -245,6 +245,7 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
       staff_count: editStaff,
       ...name,
       ...birth_date,
+      // identity_hashtag: [7527,7528]
     }
   }
 

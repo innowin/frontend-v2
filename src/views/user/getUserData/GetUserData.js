@@ -10,6 +10,9 @@ import CreateUserActions from 'src/redux/actions/user/createUserActions'
 import SecondLevel from './SecondLevel'
 import {hashTagsListSelector} from 'src/redux/selectors/common/hashTags/hashTag'
 import updateUserByUserIdAction from '../../../redux/actions/user/updateUserByUserIdAction'
+import {getExchanges} from 'src/redux/selectors/common/exchanges/GetAllExchanges'
+import exchangeActions from 'src/redux/actions/exchangeActions'
+import ThirdLevel from './ThirdLevel'
 
 class GetUserData extends Component {
   constructor(props) {
@@ -17,18 +20,19 @@ class GetUserData extends Component {
     this.state = {
       level: 1,
       typeOfUser: 'user',
+      selected: [],
     }
   }
-  //
-  // componentDidMount() {
-  //   this.props.actions.getHashTags(this.state.typeOfUser)
-  // }
 
   setSecondLevel = () => {
-    // const {hideRegisterModal} = this.props
-    // hideRegisterModal()
     this.setState({...this.state, level: 2}, () =>
         this.props.actions.getHashTags(this.state.typeOfUser),
+    )
+  }
+
+  setThirdLevel = (selected) => {
+    this.setState({...this.state, level: 3}, () =>
+        this.props.actions.getExchanges(24, 0, null, [...selected]),
     )
   }
 
@@ -37,7 +41,7 @@ class GetUserData extends Component {
   }
 
   render() {
-    const {showRegisterModal, email, password, HashTags, current_user_identity, actions} = this.props
+    const {showRegisterModal, email, password, HashTags, current_user_identity, allExchanges, clientExchangeMemberships, exchangeMemberships, hideRegisterModal, actions} = this.props
     const {typeOfUser} = this.state
     const {checkUsername, signIn, createUserPerson, createUserOrgan, updateUserByUserId} = actions
     const {level} = this.state
@@ -77,9 +81,17 @@ class GetUserData extends Component {
                                    typeOfUser={typeOfUser}
                                    updateUserByUserId={updateUserByUserId}
                                    current_user_identity={current_user_identity}
+                                   setThirdLevel={this.setThirdLevel}
                       />
                       :
-                      null
+                      level === 3 ?
+                          <ThirdLevel exchanges={allExchanges}
+                                      clientExchangeMemberships={clientExchangeMemberships}
+                                      exchangeMemberships={exchangeMemberships}
+                                      hideRegisterModal={hideRegisterModal}
+                          />
+                          :
+                          null
             }
 
 
@@ -93,6 +105,9 @@ class GetUserData extends Component {
 const mapStateToProps = (state) => ({
   HashTags: hashTagsListSelector(state),
   current_user_identity: state.auth.client.identity.content,
+  allExchanges: getExchanges(state),
+  clientExchangeMemberships: state.auth.client.exchangeMemberships,
+  exchangeMemberships: state.common.exchangeMembership.list,
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -103,6 +118,7 @@ const mapDispatchToProps = dispatch => ({
     createUserPerson: CreateUserActions.createUserPerson,
     createUserOrgan: CreateUserActions.createUserOrgan,
     getHashTags,
+    getExchanges: exchangeActions.getAllExchanges,
   }, dispatch),
 })
 

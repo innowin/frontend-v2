@@ -1,13 +1,26 @@
 import {createSelector} from 'reselect'
 
 const getAllExchanges = (state) => {
-  let allExchanges = state.exchanges.list
+  const allExchanges = state.exchanges.list
+  let exchanges = {...allExchanges}
   if (state.exchanges.searchByWord)
-    return Object.values(allExchanges).filter(exchange =>
+    exchanges = Object.values(exchanges).filter(exchange =>
         (exchange.name && exchange.name.includes(state.exchanges.searchByWord)) ||
         (exchange.description && exchange.description.includes(state.exchanges.searchByWord)),
     )
-  else return allExchanges
+  if (state.exchanges.searchByHashtags && state.exchanges.searchByHashtags.length > 0) {
+    exchanges = Object.values(exchanges).filter(exchange => {
+          let ok = false
+          state.exchanges.searchByHashtags.forEach(hashtag => {
+            exchange.exchange_hashtag.forEach(tag => {
+              if (!ok) ok = hashtag === tag.id
+            })
+          })
+          return ok
+        },
+    )
+  }
+  return exchanges
 }
 
 export const getExchanges = createSelector(

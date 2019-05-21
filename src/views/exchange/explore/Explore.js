@@ -25,7 +25,7 @@ class Explore extends PureComponent {
   }
 
   componentDidMount() {
-    this.props.actions.getAllExchanges(250, 0, null)
+    this.props.actions.getAllExchanges(24, 0, null, null)
     this.props.actions.getHashTags()
     const {clientExchangeMemberships, exchangeMemberships} = this.props
     if (clientExchangeMemberships.length > 0) {
