@@ -1,5 +1,3 @@
-import constants from "src/consts/constants";
-
 const base = (state, action) => {
 }
 

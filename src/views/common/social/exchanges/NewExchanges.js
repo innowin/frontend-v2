@@ -2,7 +2,7 @@
 import * as React from "react"
 import {Link} from "react-router-dom"
 
-import {DefaultUserIcon, Contacts, QuestionMark, Stream, DefaultExchangeIcon, ChannelIcon} from "src/images/icons"
+import {Contacts, QuestionMark, Stream, ChannelIcon} from "src/images/icons"
 import type {exchangeType} from 'src/consts/flowTypes/exchange/exchange'
 import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
 

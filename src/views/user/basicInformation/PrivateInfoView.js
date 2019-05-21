@@ -1,7 +1,6 @@
 // @flow
 import * as React from "react"
 import PropTypes from "prop-types"
-
 import {LockSvg} from "src/images/icons"
 import {Field, FieldLabel, FieldValue, ItemHeader} from "../../common/cards/Frames"
 import type {userProfileType, userType} from "src/consts/flowTypes/user/basicInformation"

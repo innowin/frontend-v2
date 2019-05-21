@@ -64,7 +64,7 @@ class AddProductModal extends Component {
   }
 
   render() {
-    const {addProductModal, cancelFunc, submitFunc, products, translate, ownerId, actions} = this.props
+    const {addProductModal, cancelFunc, submitFunc, products, actions} = this.props
     const {getProductInfo} = actions
     const {selectedProduct, productLink} = this.state
     return (

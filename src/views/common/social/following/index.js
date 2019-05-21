@@ -1,37 +1,26 @@
 // @flow
-import * as React from "react"
-import {Component} from "react"
-import PropTypes from "prop-types"
-import {connect} from "react-redux"
-
-import GetUserActions from "src/redux/actions/user/getUserActions"
-import OrganizationActions from "src/redux/actions/organization/organizationActions"
-import SocialActions from "src/redux/actions/commonActions/socialActions"
-import type {exchangeType} from "src/consts/flowTypes/exchange/exchange"
-import {bindActionCreators} from "redux"
-import {getMessages} from "src/redux/selectors/translateSelector"
-import {getFolloweesSelector} from "src/redux/selectors/common/social/getFollowees"
-import {getFollowingsSelector} from "src/redux/selectors/common/social/getNewFollowings"
-// import {getFollowersSelector} from 'src/redux/selectors/common/social/getFollowers'
-import {getExchangeMembershipsSelector} from "src/redux/selectors/common/social/getExchangeMemberships"
-import type {paramType} from "src/consts/flowTypes/paramType"
-import constants from "src/consts/constants"
-import NewFollowings from "./NewFollowings"
+import * as React from 'react'
+import {Component} from 'react'
+import PropTypes from 'prop-types'
+import {connect} from 'react-redux'
+import SocialActions from 'src/redux/actions/commonActions/socialActions'
+import type {exchangeType} from 'src/consts/flowTypes/exchange/exchange'
+import {bindActionCreators} from 'redux'
+import {getMessages} from 'src/redux/selectors/translateSelector'
+import {getFollowingsSelector} from 'src/redux/selectors/common/social/getNewFollowings'
+import {getExchangeMembershipsSelector} from 'src/redux/selectors/common/social/getExchangeMemberships'
+import type {paramType} from 'src/consts/flowTypes/paramType'
+import NewFollowings from './NewFollowings'
 
 type PropsSocials = {
   ownerId: number,
   identityId: number,
   actions: {
     getFollowees: Function,
-    // getFollowers: Function,
     deleteFollow: Function,
     getProfileByUserId: Function,
-    // updateFollow: Function,
-    // createFollow: Function,
   },
   translate: { [string]: string },
-  // followers: [],
-  // followees: [],
   exchanges: (exchangeType)[],
   isLoading: boolean,
   error: null | {},
@@ -46,22 +35,15 @@ type StateSocials = {
 class Socials extends Component<PropsSocials, StateSocials> {
   static propTypes = {
     ownerId: PropTypes.number.isRequired,
-    // translate: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired,
-    // isLoading: PropTypes.bool.isRequired,
-    // error: PropTypes.object.isRequired,
-    // followees: PropTypes.array.isRequired,
-    // followers: PropTypes.array.isRequired,
-    // exchanges: PropTypes.array.isRequired,
     identityType: PropTypes.string.isRequired,
-    param: PropTypes.object.isRequired
+    param: PropTypes.object.isRequired,
   }
 
   constructor(props) {
     super(props)
     this.state = {
-      // editExchanges: false,
-      editFollowings: false
+      editFollowings: false,
     }
   }
 
@@ -76,31 +58,8 @@ class Socials extends Component<PropsSocials, StateSocials> {
   }
 
   render() {
-    const {
-      // translate,
-      // followers,
-      // followees,
-      followings,
-      clientFollowings,
-      actions,
-      // exchanges,
-      // user,
-      ownerId
-      // identityType,
-      // param
-    } = this.props
-    const {
-      deleteFollow
-      // deleteExchangeMembership,
-      // updateFollow,
-      // createFollow
-    } = actions
-    // const {
-    // editExchanges,
-    // editFollowings
-    // } = this.state
-
-    // const paramId = identityType === constants.USER_TYPES.USER ? +param.user : +param.organization
+    const {followings, clientFollowings, actions, ownerId} = this.props
+    const {deleteFollow} = actions
 
     return (
         <div>
@@ -123,27 +82,24 @@ const mapStateToProps = (state, ownProps) => {
   return {
     translate: getMessages(state),
     param: state.param,
-    // followers: getFollowersSelector(state, ownProps),
-    // followees: getFolloweesSelector(state, ownProps),
     followings: getFollowingsSelector(state, {
-      userId: ownerId
+      userId: ownerId,
     }),
     clientFollowings: getFollowingsSelector(state, {
-      userId: state.auth.client.identity.content
+      userId: state.auth.client.identity.content,
     }),
     exchanges: getExchangeMembershipsSelector(state, ownProps),
     isLoading: followObject.isLoading,
     error: followObject.error,
-    clientId: state.auth.client.identity.content
+    clientId: state.auth.client.identity.content,
   }
 }
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     getFollowees: SocialActions.getFollowees,
-    // getFollowers: SocialActions.getFollowers,
-    deleteFollow: SocialActions.deleteFollow
-  }, dispatch)
+    deleteFollow: SocialActions.deleteFollow,
+  }, dispatch),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Socials)

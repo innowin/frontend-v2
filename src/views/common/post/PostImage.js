@@ -4,7 +4,7 @@ import PropTypes from "prop-types"
 
 import {DefaultImage} from "src/images/icons"
 import type {postType} from "src/consts/flowTypes/common/post"
-import constants from "../../../consts/constants"
+import constants from "src/consts/constants"
 import PostSlider from "./PostSlider"
 
 type postImageProps = {

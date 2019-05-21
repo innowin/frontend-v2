@@ -1,8 +1,5 @@
-import React, {Component} from "react"
+import {Component} from "react"
 import PropTypes from "prop-types"
-
-import FontAwesome from "react-fontawesome"
-import {ContactMenuIcon} from "src/images/icons"
 
 
 class ContactMenu extends Component {
@@ -22,12 +19,6 @@ class ContactMenu extends Component {
     super(props)
     this.state = {search: ""}
   }
-
-  _submitSearchByWord = () => {
-    return null
-    // TODO :define _submitSearchByWord
-  }
-
 
   render() {
     return null

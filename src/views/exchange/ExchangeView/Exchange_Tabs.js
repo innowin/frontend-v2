@@ -57,10 +57,9 @@ class Exchange_Tabs extends Component<props, states> {
     let {actions, exchangeId, clientIdentityId, clientId, exchanges} = this.props
 
     if (exchangeId) {
-      let {getExchangeMembers, getFollowingAction, getUser, getEducationsByUserId} = actions
+      let {getExchangeMembers, getFollowingAction, getEducationsByUserId} = actions
       getFollowingAction({followOwnerIdentity: clientIdentityId, followOwnerId: clientId, notProfile: true})
       getExchangeMembers({exchangeId: exchangeId})
-      // getUser(exchanges[exchangeId] ? exchanges[exchangeId].owner.id : null)
       getEducationsByUserId({
         userId: exchanges[exchangeId] ? exchanges[exchangeId].owner.id : null
       })

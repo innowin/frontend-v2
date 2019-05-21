@@ -1,16 +1,16 @@
 // @flow
-import * as React from "react"
-import {Component} from "react"
-import PropTypes from "prop-types"
-import ExchangeMembershipActions from "src/redux/actions/commonActions/exchangeMembershipActions"
-import type {exchangeType} from "src/consts/flowTypes/exchange/exchange.js"
-import {bindActionCreators} from "redux"
-import {connect} from "react-redux"
-import {Link} from "react-router-dom"
-import {ChannelIcon, MainLbarArrow} from "src/images/icons"
-import {getExchangeMembershipsSelector} from "src/redux/selectors/common/social/getExchangeMemberships"
-import Material from "../../common/components/Material"
-import UserDetailPanel from "../../common/components/UserDetailPanel"
+import * as React from 'react'
+import {Component} from 'react'
+import PropTypes from 'prop-types'
+import ExchangeMembershipActions from 'src/redux/actions/commonActions/exchangeMembershipActions'
+import type {exchangeType} from 'src/consts/flowTypes/exchange/exchange.js'
+import {bindActionCreators} from 'redux'
+import {connect} from 'react-redux'
+import {Link} from 'react-router-dom'
+import {ChannelIcon, MainLbarArrow} from 'src/images/icons'
+import {getExchangeMembershipsSelector} from 'src/redux/selectors/common/social/getExchangeMemberships'
+import Material from '../../common/components/Material'
+import UserDetailPanel from '../../common/components/UserDetailPanel'
 
 
 type PropsSideBarItem = {
@@ -54,7 +54,7 @@ export class SideBarItem extends Component<PropsSideBarItem> {
     const {active} = this.props
     const {exchange_image, name, id: exchangeId} = this.props.exchange
     return (
-        <div className={`item-wrapper ${active ? "active" : ""}`} onClick={this._onClickHandler}>
+        <div className={`item-wrapper ${active ? 'active' : ''}`} onClick={this._onClickHandler}>
           <Material content={
             <div className="header-exchange">
               <a className="default-logo">
@@ -64,12 +64,12 @@ export class SideBarItem extends Component<PropsSideBarItem> {
                     <ChannelIcon className='default-channel-icon'/>
                 }
               </a>
-              <div className={`exchange-name ${active && "active"}`}>{name}
-                <Link to={active && "/exchange/" + exchangeId}>
-                  <div className={`exchange-sub-name-link ${active && "active"}`}>مشاهده پنجره</div>
+              <div className={`exchange-name ${active && 'active'}`}>{name}
+                <Link to={active ? '/exchange/' + exchangeId : '/'}>
+                  <div className={`exchange-sub-name-link ${active && 'active'}`}>مشاهده پنجره</div>
                 </Link>
               </div>
-              <div className={active ? "left-arrow-home-exchange-container" : "left-arrow-home-exchange-container-hide"}>
+              <div className={active ? 'left-arrow-home-exchange-container' : 'left-arrow-home-exchange-container-hide'}>
                 <MainLbarArrow className="home-exchange-left-arrow"/>
               </div>
             </div>

@@ -859,7 +859,7 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
   render() {
     const {
       hideCreatePost, post, hideEdit, className, isUpdate, followers, exchanges, currentUserIdentity,
-      currentUserMedia, currentUserName, translate, currentUserId, tempFiles, actions
+      currentUserMedia, currentUserName, translate, tempFiles, actions
     } = this.props
     const {
       postImg1, postImg2, postImg3, open, attachMenu, labels, link, contactMenu, linkModal, postFile, postMedia,

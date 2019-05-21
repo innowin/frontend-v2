@@ -1,7 +1,6 @@
 // @flow
 import * as React from 'react'
 import BeePanel from '../common/components/BeePanel'
-import EventCard from '../common/components/EventCard'
 import ChatBar from '../bars/ChatBar'
 import HomePosts from './home/HomePosts'
 import HomeSideBar from './home/HomeSideBar'

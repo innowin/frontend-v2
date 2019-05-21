@@ -5,7 +5,7 @@ import {MainLbarArrow} from "src/images/icons"
 
 class PostSlider extends Component {
   static propTypes = {
-    images: PropTypes.array.isRequired,
+    images: PropTypes.array,
     closeModal: PropTypes.func.isRequired,
     modalIsOpen: PropTypes.bool.isRequired,
     imageIndex: PropTypes.number.isRequired,

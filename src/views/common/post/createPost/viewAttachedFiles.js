@@ -21,7 +21,7 @@ class ViewAttachedFiles extends React.Component <> {
   render() {
     const {
       translate, postImg1, postImg2, postImg3, postMedia, deleteMedia, focused, postFile,
-      deleteFile, attachPhotoIdArray, tempFiles, attachVideoId, attachFileId
+      deleteFile, attachPhotoIdArray, tempFiles, attachFileId
     } = this.props
     const postPictures = [postImg1, postImg2, postImg3].filter(img => img) //filter imges that not null & not undefined
     const postPicturesLength = postPictures.length

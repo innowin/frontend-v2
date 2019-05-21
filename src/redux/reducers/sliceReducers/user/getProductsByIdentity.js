@@ -1,5 +1,3 @@
-import constants from 'src/consts/constants'
-
 const base = (state, action) => {
   const {productOwnerId} = action.payload || {}
   const defaultObject2 = {content: [], isLoading: false, error: null}

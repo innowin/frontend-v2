@@ -5,7 +5,6 @@ import {Component} from "react"
 import {connect} from "react-redux"
 import {bindActionCreators} from "redux"
 import {getMessages} from "src/redux/selectors/translateSelector"
-import {Info, Ticket, QuestionMark, DefaultUserIcon} from "src/images/icons"
 import {Link} from "react-router-dom"
 import checkOwner from "../../common/CheckOwner"
 import exchangeActions from "../../../redux/actions/exchangeActions"
@@ -107,14 +106,14 @@ class InfoView extends Component<props, state> {
   }
 
   render() {
-    const {educations, translate, exchanges, exchangeId, files} = this.props
+    const {/*educations, files,*/ translate, exchanges, exchangeId} = this.props
     const {editBio, exchangeBio, editSocial} = this.state
     if (exchanges[exchangeId] && exchanges[exchangeId].owner) {
       const currentExchange = exchanges[exchangeId]
       console.log("currentExchange", currentExchange)
       const ownerId = parseInt(currentExchange.owner.id, 10)
       const owner = exchanges[exchangeId].owner
-      const ownerEducations = Object.values(educations).filter(p => p.education_related_identity === ownerId)
+      // const ownerEducations = Object.values(educations).filter(p => p.education_related_identity === ownerId)
       // console.log("ownerEducations", ownerEducations)
       if (owner) {
         return (
