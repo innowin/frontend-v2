@@ -234,15 +234,12 @@
   transition-duration: 0.3s;
 }
 
-.get-data-content-next {
-}
-
 .get-data-content-next-button-on {
-  width: 85px;
+  width: 90px;
   border-radius: 20px;
-  padding: 3px 0;
+  padding: 5px 0;
   background-color: $bee-color;
-  border: 1px solid $bee-color;
+  border: 1.25px solid $bee-color;
   color: white;
   margin: auto;
   cursor: pointer;
@@ -252,6 +249,14 @@
   &:hover {
     background-color: white;
     color: $bee-color;
+    transition-duration: 0.3s;
+  }
+
+  &:active{
+    background-color: $bee-color;
+    border: 1.25px solid $background-color;
+    box-shadow: 0 0 0 2px $bee-color;
+    color: $background-color;
     transition-duration: 0.3s;
   }
 }
@@ -343,4 +348,8 @@
   width: 50px;
   height: 50px;
   object-fit: contain;
+}
+
+.get-data-hashtags-cont{
+  padding: 0 20px;
 }

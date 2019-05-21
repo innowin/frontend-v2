@@ -56,7 +56,7 @@ class Education extends React.Component<Props, States> {
     return (
         <CardContainer>
           {
-            !!isEdit
+            isEdit
                 ? <EducationForm createEducation={createEducation} toggleEdit={this._toggleEdit}
                                  translate={translate} owner={owner}/>
                 : <EducationView deleteEducation={deleteEducation} updateEducation={updateEducation} educations={educations} owner={owner}

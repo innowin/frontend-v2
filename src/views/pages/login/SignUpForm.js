@@ -5,7 +5,7 @@ import CreateUserActions from 'src/redux/actions/user/createUserActions'
 import {BeatLoader} from 'react-spinners'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
-import {Field, reduxForm, /*SubmissionError*/} from 'redux-form'
+import {Field, reduxForm /*SubmissionError*/} from 'redux-form'
 import {getMessages} from 'src/redux/selectors/translateSelector'
 import {routerActions} from 'react-router-redux'
 import {validateSignUpForm, asyncValidateSignUp} from './signUpValidations'
@@ -97,6 +97,7 @@ class SignUpForm extends React.Component<> {
         for (let domain of this.emailList) {
           if (domain.startsWith(spliceByAt[1])) {
             this.setState({emailSuggest: domain.slice(spliceByAt[1].length, domain.length)})
+            onChangeSignUp(event)
             return
           }
         }

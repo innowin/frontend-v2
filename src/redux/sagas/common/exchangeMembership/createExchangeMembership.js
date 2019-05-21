@@ -6,7 +6,6 @@ import {put, take, fork, call, select} from "redux-saga/effects"
 import constants from "src/consts/constants"
 import uuid from 'uuid'
 
-
 export function* createExchangeMembership(action) {
   const payload = action.payload
   const {identityId, exchangeIdentity} = payload

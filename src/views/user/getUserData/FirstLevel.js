@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import Material from 'src/views/common/components/Material'
 import {WelcomeOrgan, WelcomeUser} from 'src/images/icons'
+import {ClipLoader} from 'react-spinners'
 
 class FirstLevel extends Component {
   constructor(props) {
@@ -11,20 +12,20 @@ class FirstLevel extends Component {
       username: '',
       valid: false,
       error: false,
+      loading: false
     }
   }
 
   _select(selected) {
-    this.setState({...this.state, selected})
+    const {typeOfUser} = this.props
+    this.setState({...this.state, selected}, () => typeOfUser(selected))
   }
 
   _handleFocus = () => {
     this.setState({...this.state, isFocused: true})
   }
 
-  _handleBlur = () => {
-    this.setState({...this.state, isFocused: false})
-  }
+  _handleBlur = () => this.setState({...this.state, isFocused: false})
 
   _handleChange = (e) => {
     const username = e.target.value.trim()
@@ -62,23 +63,25 @@ class FirstLevel extends Component {
 
   submit = () => {
     if (this.state.valid) {
-      const {username} = this.state
-      const {checkUsername, setSecondLevel} = this.props
-      checkUsername(username, (res) => {
-        if (parseInt(res, 10) === 1) {
-          this.setState({...this.state, error: true}, () => this.errText.innerText = 'نام کاربری قبلا در سامانه ثبت شده است.')
-        }
-        else if (parseInt(res, 10) === 0) {
-          this.createUser()
-              .then(() => setSecondLevel())
-              .catch(() => this.setState({...this.state, error: true}, () => this.errText.innerText = 'سیستم با خطا مواجه شده است.'))
-        }
-      }, () => this.setState({...this.state, error: true}, () => this.errText.innerText = 'شامل حروف underline ، 0-9 ، A - Z , dot حداقل 5 و حداکثر 32 کاراکتر.'))
+      this.setState({...this.state, loading: true}, () => {
+        const {username} = this.state
+        const {checkUsername, setSecondLevel} = this.props
+        checkUsername(username, (res) => {
+          if (parseInt(res, 10) === 1) {
+            this.setState({...this.state, error: true}, () => this.errText.innerText = 'نام کاربری قبلا در سامانه ثبت شده است.')
+          }
+          else if (parseInt(res, 10) === 0) {
+            this.createUser()
+                .then(() => setSecondLevel())
+                .catch(() => this.setState({...this.state, error: true}, () => this.errText.innerText = 'سیستم با خطا مواجه شده است.'))
+          }
+        }, () => this.setState({...this.state, error: true}, () => this.errText.innerText = 'شامل حروف underline ، 0-9 ، A - Z , dot حداقل 5 و حداکثر 32 کاراکتر.'))
+      })
     }
   }
 
   render() {
-    const {error, username, valid, selected, isFocused} = this.state
+    const {error, username, valid, selected, isFocused, loading} = this.state
     return (
         <div className='get-data-content'>
           <div className='get-data-content-welcome'>
@@ -137,8 +140,12 @@ class FirstLevel extends Component {
             </div>
           </div>
 
-          <div className='get-data-content-next'>
-            <button className={valid ? 'get-data-content-next-button-on' : 'get-data-content-next-button'} onClick={this.submit}>بعدی</button>
+          <div>
+            <div className={valid ? 'get-data-content-next-button-on' : 'get-data-content-next-button'} onClick={this.submit}>
+              {
+                loading ? <ClipLoader size={17}/> : 'بعدی'
+              }
+            </div>
           </div>
         </div>
     )

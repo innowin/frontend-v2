@@ -58,7 +58,7 @@ class WorkExperience extends React.Component<Props, States> {
     return (
         <CardContainer>
           {
-            !!isEdit
+            isEdit
                 ? <WorkExperienceForm createWorkExperience={createWorkExperience} toggleEdit={this._toggleEdit}
                                       translate={translate} owner={owner}/>
                 : <WorkExperienceView deleteWorkExperience={deleteWorkExperience}

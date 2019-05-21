@@ -9,28 +9,41 @@ import AuthActions from 'src/redux/actions/authActions'
 import CreateUserActions from 'src/redux/actions/user/createUserActions'
 import SecondLevel from './SecondLevel'
 import {hashTagsListSelector} from 'src/redux/selectors/common/hashTags/hashTag'
+import updateUserByUserIdAction from '../../../redux/actions/user/updateUserByUserIdAction'
+import {getExchanges} from 'src/redux/selectors/common/exchanges/GetAllExchanges'
+import exchangeActions from 'src/redux/actions/exchangeActions'
+import ThirdLevel from './ThirdLevel'
 
 class GetUserData extends Component {
   constructor(props) {
     super(props)
     this.state = {
       level: 1,
+      typeOfUser: 'user',
+      selected: [],
     }
   }
 
-  componentDidMount() {
-    this.props.actions.getHashTags()
+  setSecondLevel = () => {
+    this.setState({...this.state, level: 2}, () =>
+        this.props.actions.getHashTags(this.state.typeOfUser),
+    )
   }
 
-  setSecondLevel = () => {
-    const {hideRegisterModal} = this.props
-    hideRegisterModal()
-    // this.setState({...this.state, level: 2})
+  setThirdLevel = (selected) => {
+    this.setState({...this.state, level: 3}, () =>
+        this.props.actions.getExchanges(24, 0, null, [...selected]),
+    )
+  }
+
+  typeOfUser = (type) => {
+    this.setState({...this.state, typeOfUser: type})
   }
 
   render() {
-    const {showRegisterModal, email, password, actions} = this.props
-    const {checkUsername, signIn, createUserPerson, createUserOrgan} = actions
+    const {showRegisterModal, email, password, HashTags, current_user_identity, allExchanges, clientExchangeMemberships, exchangeMemberships, hideRegisterModal, actions} = this.props
+    const {typeOfUser} = this.state
+    const {checkUsername, signIn, createUserPerson, createUserOrgan, updateUserByUserId} = actions
     const {level} = this.state
     return (
         <React.Fragment>
@@ -55,6 +68,7 @@ class GetUserData extends Component {
               level === 1 ?
                   <FirstLevel email={email}
                               password={password}
+                              typeOfUser={this.typeOfUser}
                               setSecondLevel={this.setSecondLevel}
                               checkUsername={checkUsername}
                               signIn={signIn}
@@ -63,9 +77,21 @@ class GetUserData extends Component {
                   />
                   :
                   level === 2 ?
-                      <SecondLevel/>
+                      <SecondLevel HashTags={HashTags}
+                                   typeOfUser={typeOfUser}
+                                   updateUserByUserId={updateUserByUserId}
+                                   current_user_identity={current_user_identity}
+                                   setThirdLevel={this.setThirdLevel}
+                      />
                       :
-                      null
+                      level === 3 ?
+                          <ThirdLevel exchanges={allExchanges}
+                                      clientExchangeMemberships={clientExchangeMemberships}
+                                      exchangeMemberships={exchangeMemberships}
+                                      hideRegisterModal={hideRegisterModal}
+                          />
+                          :
+                          null
             }
 
 
@@ -77,16 +103,22 @@ class GetUserData extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  getHashTags: hashTagsListSelector(state),
+  HashTags: hashTagsListSelector(state),
+  current_user_identity: state.auth.client.identity.content,
+  allExchanges: getExchanges(state),
+  clientExchangeMemberships: state.auth.client.exchangeMemberships,
+  exchangeMemberships: state.common.exchangeMembership.list,
 })
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
+    updateUserByUserId: updateUserByUserIdAction.updateUser,
     checkUsername: CheckUsernameAction.checkUsername,
     signIn: AuthActions.signIn,
     createUserPerson: CreateUserActions.createUserPerson,
     createUserOrgan: CreateUserActions.createUserOrgan,
     getHashTags,
+    getExchanges: exchangeActions.getAllExchanges,
   }, dispatch),
 })
 
