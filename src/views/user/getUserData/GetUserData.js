@@ -1,6 +1,14 @@
 import React, {Component} from 'react'
 import FirstLevel from './FirstLevel'
-import {WelcomeBox, WelcomePhone, WelcomeRocket} from '../../../images/icons'
+import {WelcomeBox, WelcomePhone, WelcomeRocket} from 'src/images/icons'
+import {getHashTags} from 'src/redux/actions/commonActions/hashTagActions'
+import {bindActionCreators} from 'redux'
+import connect from 'react-redux/es/connect/connect'
+import CheckUsernameAction from 'src/redux/actions/user/checkUsernameAction'
+import AuthActions from 'src/redux/actions/authActions'
+import CreateUserActions from 'src/redux/actions/user/createUserActions'
+import SecondLevel from './SecondLevel'
+import {hashTagsListSelector} from 'src/redux/selectors/common/hashTags/hashTag'
 
 class GetUserData extends Component {
   constructor(props) {
@@ -10,12 +18,19 @@ class GetUserData extends Component {
     }
   }
 
+  componentDidMount() {
+    this.props.actions.getHashTags()
+  }
+
   setSecondLevel = () => {
-    this.props.hideRegisterModal()
+    const {hideRegisterModal} = this.props
+    hideRegisterModal()
+    // this.setState({...this.state, level: 2})
   }
 
   render() {
-    const {showRegisterModal, email, password} = this.props
+    const {showRegisterModal, email, password, actions} = this.props
+    const {checkUsername, signIn, createUserPerson, createUserOrgan} = actions
     const {level} = this.state
     return (
         <React.Fragment>
@@ -36,8 +51,22 @@ class GetUserData extends Component {
               </div>
             </div>
 
-
-            {level === 1 ? <FirstLevel email={email} password={password} setSecondLevel={this.setSecondLevel}/> : null}
+            {
+              level === 1 ?
+                  <FirstLevel email={email}
+                              password={password}
+                              setSecondLevel={this.setSecondLevel}
+                              checkUsername={checkUsername}
+                              signIn={signIn}
+                              createUserPerson={createUserPerson}
+                              createUserOrgan={createUserOrgan}
+                  />
+                  :
+                  level === 2 ?
+                      <SecondLevel/>
+                      :
+                      null
+            }
 
 
           </div>
@@ -47,4 +76,18 @@ class GetUserData extends Component {
   }
 }
 
-export default GetUserData
+const mapStateToProps = (state) => ({
+  getHashTags: hashTagsListSelector(state),
+})
+
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators({
+    checkUsername: CheckUsernameAction.checkUsername,
+    signIn: AuthActions.signIn,
+    createUserPerson: CreateUserActions.createUserPerson,
+    createUserOrgan: CreateUserActions.createUserOrgan,
+    getHashTags,
+  }, dispatch),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(GetUserData)

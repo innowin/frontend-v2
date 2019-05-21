@@ -9,6 +9,7 @@ import {ClipLoader} from 'react-spinners'
 import {getExchanges} from 'src/redux/selectors/common/exchanges/GetAllExchanges.js'
 import {PureComponent} from 'react'
 import MobileHeader from '../../user/explore/MobileHeader'
+import {getHashTags} from 'src/redux/actions/commonActions/hashTagActions'
 
 class Explore extends PureComponent {
   constructor(props) {
@@ -25,6 +26,7 @@ class Explore extends PureComponent {
 
   componentDidMount() {
     this.props.actions.getAllExchanges(250, 0, null)
+    this.props.actions.getHashTags()
     const {clientExchangeMemberships, exchangeMemberships} = this.props
     if (clientExchangeMemberships.length > 0) {
       const followed = clientExchangeMemberships.reduce((sum, exId) =>
@@ -111,6 +113,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     getAllExchanges: exchangeActions.getAllExchanges,
+    getHashTags,
   }, dispatch),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Explore)

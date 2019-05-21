@@ -7,7 +7,7 @@ const createUserPerson = (formValues:{}, resolve:Function, reject:Function) => (
 })
 
 const createUserOrgan = (formValues:{}, resolve:Function, reject:Function) => ({
-  type:types.USER.CREATE_USER_ORGAN,
+  type: types.USER.CREATE_USER_ORGAN,
   payload:{formValues, resolve, reject}
 })
 

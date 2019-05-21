@@ -15,7 +15,6 @@ import SkillActions from 'src/redux/actions/user/skillActions'
 import {getCategories} from 'src/redux/actions/commonActions/categoryActions'
 import {getCountries, getProvinces, getCities} from 'src/redux/actions/commonActions/location'
 import {getFormValues} from 'src/redux/selectors/formValuesSelectors'
-import {getHashTags} from 'src/redux/actions/commonActions/hashTagActions'
 import {getMessages} from '../../../redux/selectors/translateSelector'
 import {hashTagsListSelector} from 'src/redux/selectors/common/hashTags/hashTag'
 import {makeCategorySelector} from 'src/redux/selectors/common/category/getCategoriesByParentId'
@@ -60,7 +59,6 @@ type AddingContributionProps = {
   _getCategories: Function,
   _getCities: Function,
   _getCountries: Function,
-  _getHashTags: Function,
   _getProvinces: Function,
   createFile: Function,
   categories: list,
@@ -160,11 +158,9 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
     const {
       _getCategories,
       _getCountries,
-      // _getHashTags,
     } = this.props
     _getCategories()
     _getCountries()
-    // _getHashTags()
   }
 
   componentDidUpdate(prevProps, prevState, ss) {
@@ -1289,7 +1285,6 @@ const mapDispatchToProps = dispatch =>
     bindActionCreators(
         {
           _getCategories: getCategories,
-          _getHashTags: getHashTags,
           _createProduct: createProductAsContribution,
           _getCountries: getCountries,
           _getProvinces: getProvinces,

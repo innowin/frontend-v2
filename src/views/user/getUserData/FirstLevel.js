@@ -1,12 +1,6 @@
 import React, {Component} from 'react'
 import Material from 'src/views/common/components/Material'
-import {bindActionCreators} from 'redux'
-import connect from 'react-redux/es/connect/connect'
-import CheckUsernameAction from 'src/redux/actions/user/checkUsernameAction'
-import AuthActions from 'src/redux/actions/authActions'
-import CreateUserActions from 'src/redux/actions/user/createUserActions'
 import {WelcomeOrgan, WelcomeUser} from 'src/images/icons'
-
 
 class FirstLevel extends Component {
   constructor(props) {
@@ -48,8 +42,7 @@ class FirstLevel extends Component {
   createUser() {
     return new Promise((resolve, reject) => {
       const {selected, username} = this.state
-      const {password, email, actions} = this.props
-      const {signIn, createUserPerson, createUserOrgan} = actions
+      const {password, email, signIn, createUserPerson, createUserOrgan} = this.props
       if (selected === 'user') {
         createUserPerson(
             {username, password, email},
@@ -70,8 +63,7 @@ class FirstLevel extends Component {
   submit = () => {
     if (this.state.valid) {
       const {username} = this.state
-      const {actions, setSecondLevel} = this.props
-      const {checkUsername} = actions
+      const {checkUsername, setSecondLevel} = this.props
       checkUsername(username, (res) => {
         if (parseInt(res, 10) === 1) {
           this.setState({...this.state, error: true}, () => this.errText.innerText = 'نام کاربری قبلا در سامانه ثبت شده است.')
@@ -153,14 +145,5 @@ class FirstLevel extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({})
 
-const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({
-    checkUsername: CheckUsernameAction.checkUsername,
-    signIn: AuthActions.signIn,
-    createUserPerson: CreateUserActions.createUserPerson,
-    createUserOrgan: CreateUserActions.createUserOrgan,
-  }, dispatch),
-})
-export default connect(mapStateToProps, mapDispatchToProps)(FirstLevel)
+export default FirstLevel

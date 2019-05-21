@@ -4,12 +4,10 @@ import helpers from 'src/consts/helperFunctions/helperFunctions'
 const getComments = state => state.common.comment.list
 const getParentComments = (state, props) => {
   const {post} = props
-  const parentId = post.id
-
+  const parentId = post && post.id
   if (state.common.post.list[parentId])
     return state.common.post.list[parentId].comments
 }
-
 
 export const userInstantCommentsSelector = createSelector(
     [getComments, getParentComments],
@@ -19,6 +17,6 @@ export const userInstantCommentsSelector = createSelector(
         return [...arrayComment]
       }
       return []
-    }
+    },
 )
 

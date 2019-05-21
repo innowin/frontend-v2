@@ -11,7 +11,6 @@ export function* createPost(action) {
   const socketChannel = yield call(api.createSocketChannel, results.COMMON.POST.CREATE_POST)
   const state = yield select()
   const translate = state.intl.messages
-
   try {
     yield fork(api.post, urls.COMMON.POST, results.COMMON.POST.CREATE_POST, formValues)
     const data = yield take(socketChannel)
@@ -25,7 +24,7 @@ export function* createPost(action) {
         payload: {id: fileId, formData: {file_related_parent: data.id}, fileParentType: constants.FILE_PARENT.POST},
       })
     }))
-    const postIdentity = data.post_related_identity
+    const postIdentity = data.post_related_identity.id ? data.post_related_identity.id : data.post_related_identity
     yield put({type: types.COMMON.POST.GET_POST_BY_IDENTITY, payload: {postIdentity, postOwnerId}})
     yield put({
       type: types.TOAST.ADD_TOAST,
