@@ -20,9 +20,9 @@ const deleteExchange = (id) => ({
   payload: {id},
 })
 
-const getAllExchanges = (limit, offset, search, hashtags) => ({
+const getAllExchanges = (limit, offset, search, hashtags, getAll) => ({
   type: types.EXCHANGE.GET_EXCHANGES,
-  payload: {limit, offset, search, hashtags},
+  payload: {limit, offset, search, hashtags, getAll},
 })
 
 const ExchangeActions = {
