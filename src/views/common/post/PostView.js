@@ -18,7 +18,6 @@ import PropTypes from 'prop-types'
 import type {commentType} from 'src/consts/flowTypes/common/comment'
 import type {fileType} from 'src/consts/flowTypes/common/fileType'
 import type {identityType} from 'src/consts/flowTypes/user/basicInformation'
-import type {paramType} from 'src/consts/flowTypes/paramType'
 import type {postType} from 'src/consts/flowTypes/common/post'
 import {bindActionCreators} from 'redux'
 import {CategoryTitle} from 'src/views/common/cards/Frames'
@@ -26,27 +25,19 @@ import {Confirm} from '../cards/Confirm'
 import {getMessages} from 'src/redux/selectors/translateSelector'
 import {Link} from 'react-router-dom'
 import {userCommentsSelector} from 'src/redux/selectors/common/comment/postCommentsSelector'
-import {userInstantCommentsSelector} from "src/redux/selectors/common/comment/postInstantCommentSelector"
+import {userInstantCommentsSelector} from 'src/redux/selectors/common/comment/postInstantCommentSelector'
 
 type postExtendedViewProps = {
   actions: {
-    getPost: Function,
     getFile: Function,
     getCommentsByParentId: Function,
     deleteComment: Function,
     deletePost: Function,
     getFileByFileRelatedParentId: Function,
   },
-  match: {
-    params: {
-      id: string,
-    },
-    url: string,
-  },
   translate: { [string]: string },
   post: postType,
   postIdentity?: identityType | number,
-  param?: paramType,
   extendedView?: boolean,
   showEdit?: Function,
   comments?: Array<commentType>,
@@ -64,13 +55,11 @@ type postViewState = {
   commentOn: commentType,
   showMore: boolean,
   descriptionHeight: ?number,
-  getInDidMount: boolean,
 }
 
 class PostView extends React.Component<postExtendedViewProps, postViewState> {
   static propTypes = {
     post: PropTypes.object.isRequired,
-    param: PropTypes.object,
     translate: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired,
     postIdentity: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
@@ -112,8 +101,8 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
 
   componentDidMount() {
     const self: any = this
-    const {extendedView, post, match, actions} = this.props
-    const {getFileByFileRelatedParentId, getPost, getCommentsByParentId} = actions
+    const {extendedView, post, actions} = this.props
+    const {getFileByFileRelatedParentId, getCommentsByParentId} = actions
 
     if (!extendedView) {
       const {getFileByFileRelatedParentId} = actions
@@ -129,13 +118,9 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
       }
     }
     else {
-      const {params, url} = match
-      const postId = +params.id
-      const spliced = url.split('/')
-      const postOwnerId = +spliced[2]
-      getCommentsByParentId({parentId: postId, commentParentType: constants.COMMENT_PARENT.POST})
-      getFileByFileRelatedParentId({fileRelatedParentId: postId, fileParentType: constants.FILE_PARENT.POST})
-      getPost({postId, postOwnerId})
+      getCommentsByParentId({parentId: post.id, commentParentType: constants.COMMENT_PARENT.POST})
+      getFileByFileRelatedParentId({fileRelatedParentId: post.id, fileParentType: constants.FILE_PARENT.POST})
+      // getPost({postId: post.id, postOwnerId: post.post_related_identity})
     }
 
     if (self.text) {
@@ -442,12 +427,10 @@ const mapStateToProps = (state, ownProps) => {
     translate: getMessages(state),
     instantViewComments: userInstantCommentsSelector(state, ownProps),
     fileList,
-    param: state.param,
   }
 }
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
-    getPost: PostActions.getPost,
     deletePost: PostActions.deletePost,
     getFile: FileActions.getFile,
     getCommentsByParentId: CommentActions.getCommentsByParentId,
