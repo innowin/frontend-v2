@@ -3,7 +3,6 @@ import * as React from "react"
 import CommentActions from "src/redux/actions/commonActions/commentActions"
 import {AttachFileIcon, DefaultUserIcon, PostSendIcon} from "src/images/icons"
 import {bindActionCreators} from "redux"
-import {Component} from "react"
 import {connect} from "react-redux"
 import {getMessages} from "src/redux/selectors/translateSelector"
 import type {commentType} from "src/consts/flowTypes/common/comment";
@@ -17,6 +16,8 @@ type props = {
   translate: { [string]: string },
   handleShowComment: Function,
   commentOn: commentType,
+  removeCommentOn: Function,
+  instantViewComments: boolean,
 }
 
 type states = {
@@ -24,42 +25,88 @@ type states = {
   commentBody: string,
   descriptionClass: string,
   open: boolean,
+  replySender: string,
 }
 
-class PostCommentNew extends Component<props, states> {
+class PostCommentNew extends React.Component<props, states> {
   constructor(props) {
     super(props)
     this.state = {
       open: false,
       commentBody: "comment-body",
       descriptionClass: "hide-message",
-      comment: "",
+      comment: '',
+      replySender: '',
     }
     const self: any = this
     self._handleChangeText = self._handleChangeText.bind(self)
   }
 
-  createComment(commentOn, commentTextField) {
+  componentDidMount() {
+    const self: any = this
+    const {commentOn} = this.props
+    if (self.text) {
+      self.text.focus()
+    }
+    if (commentOn && self.text) {
+      self.text.focus()
+      const replySender = commentOn.comment_sender.username + '@ '
+      self.text.value = replySender
+      this.setState({...this.state, replySender})
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const self: any = this
+    const {commentOn} = this.props
+    if (commentOn && self.text) {
+      self.text.focus()
+    }
+    if (commentOn !== prevProps.commentOn && commentOn) {
+      const replySender = commentOn.comment_sender.username + '@ '
+      self.text.value = replySender
+      this.setState({...this.state, replySender})
+    }
+  }
+
+  createComment(commentOn, commentText, commentTextField) {
     const {handleShowComment} = this.props
-    if (commentTextField && commentTextField.value && commentTextField.value.length > 4 && commentTextField.value.length <= 750) {
+    if (commentText.length > 4 && commentText.length <= 750) {
       const {actions, post} = this.props
+      const {replySender} = this.state
       const {createComment} = actions
+
+      if (replySender) {
+        if (commentText.startsWith(replySender)) {
+          commentText = commentText.substr(replySender.length)
+        }
+      }
+
       let formValues
       if (commentOn) {
-        formValues = {text: commentTextField.value, comment_parent: post.id, comment_replied: commentOn.id}
-      }
-      else {
-        formValues = {text: commentTextField.value, comment_parent: post.id}
+        formValues = {text: commentText, comment_parent: post.id, comment_replied: commentOn.id}
+      } else {
+        formValues = {text: commentText, comment_parent: post.id}
       }
       commentTextField.value = ""
       createComment({formValues, parentId: post.id, commentParentType: constants.COMMENT_PARENT.POST})
-    }
-    else console.log("Handle Notification for Illegal Comment")
-    handleShowComment()
+    } else console.log("Handle Notification for Illegal Comment")
+    // handleShowComment()
   }
 
   _handleChangeText(e) {
-    const comment = e.target.value
+    let comment = e.target.value
+    const {removeCommentOn} = this.props
+    const {replySender} = this.state
+    if (replySender) {
+      if (!comment.startsWith(replySender)) {
+        removeCommentOn()
+        this.setState({...this.state, replySender: ''})
+      } else {
+        comment = comment.substr(replySender.length)
+      }
+    }
+
     if (comment.length < 751) this.setState({...this.state, comment}, () => checkCharacter(comment))
     else e.target.value = this.state.comment
     const checkCharacter = (description) => {
@@ -81,11 +128,11 @@ class PostCommentNew extends Component<props, states> {
 
   render() {
     const {commentBody, open, descriptionClass, comment} = this.state
-    const {currentUserMedia, translate, commentOn} = this.props
+    const {currentUserMedia, translate, commentOn, instantViewComments} = this.props
     const self: any = this
     // console.log(currentUserMedia)
     return (
-        <div className={"comment-container"}>
+        <div className="comment-container">
           <div>
             {currentUserMedia !== null && currentUserMedia !== undefined ?
                 <img alt='profile' src={currentUserMedia} className={"comment-owner"}/>
@@ -108,7 +155,7 @@ class PostCommentNew extends Component<props, states> {
                             comment.length === 0 ? "hide-message" : "error-message" :
                             comment.length > 750 ? "error-message" : "neutral-message"
                       })}
-                      onBlur={(e) => e.target.value.length === 0 ? this.setState({
+                      onBlur={(e) => (e.target.value.length === 0 && !instantViewComments) ? this.setState({
                             ...this.state,
                             open: false,
                             commentBody: "comment-body",
@@ -119,14 +166,16 @@ class PostCommentNew extends Component<props, states> {
                             open: true,
                             commentBody: "comment-body",
                             descriptionClass: "hide-message",
-                          })}
+                          })
+                      }
             />
             <div className='comment-icons' contentEditable={false}>
                   <span onClick={() => console.log("Handle Show Menu")}>
                     <AttachFileIcon className='post-component-footer-send-attach'/>
                   </span>
-              <span onClick={this.createComment.bind(this, commentOn, self.text)}>
-                  <PostSendIcon className={comment.length > 4 ? "post-component-footer-send-attach" : "post-component-footer-send-attach-inactive"}/>
+              <span onClick={this.createComment.bind(this, commentOn, comment, self.text)}>
+                  <PostSendIcon className={comment.length > 4 ? "post-component-footer-send-attach"
+                      : "post-component-footer-send-attach-inactive"}/>
                 </span>
             </div>
           </div>

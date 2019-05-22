@@ -244,6 +244,9 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
   _setCommentOn = (comment) => {
     this.setState({...this.state, commentOn: comment, showComment: true})
   }
+  _removeCommentOn = () => {
+    this.setState({...this.state, commentOn: undefined})
+  }
 
   _showConfirm() {
     this.setState({...this.state, confirm: true})
@@ -393,7 +396,9 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                     commentParentType={commentParentType}
                     post={post}
                     handleShowComment={this._handleShowComment}
-                    commentOn={commentOn}/>
+                    commentOn={commentOn}
+                    removeCommentOn={this._removeCommentOn}
+                    instantViewComments={instantViewComments}/>
                 }
 
                 {showComment && !extendedView && instantViewComments && instantViewComments.length > 0 &&
@@ -405,7 +410,8 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                   <PostComments comments={instantViewComments}
                                 translate={translate}
                                 replyComment={(comment) => this._setCommentOn(comment)}
-                                deleteComment={this.deleteComment}/>
+                                deleteComment={this.deleteComment}
+                  />
                 </React.Fragment>
                 }
 
@@ -415,8 +421,6 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                               replyComment={(comment) => this._setCommentOn(comment)}
                               deleteComment={this.deleteComment}/>
                 }
-
-                {showComment}
               </div>
             </div>
     )
