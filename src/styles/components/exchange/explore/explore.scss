@@ -637,6 +637,7 @@
 }
 
 .exchange-followed {
+  text-align: center;
   border: 1.5px solid $secondary-color;
   background-color: $secondary-color;
   padding: 5px 0;
@@ -1031,4 +1032,84 @@
   @media screen and (max-width: 480px) and (min-width: 0) {
     margin-top: -20px;
   }
+}
+
+.exchange-suggest-cont {
+  font-size: $font-size-regular;
+  display: flex;
+  padding: 15px 0;
+  border-bottom: 1px solid #E6E6E6;
+
+  &:last-child {
+    border-bottom: none;
+    padding: 15px 0 5px 0;
+  }
+}
+
+.exchange-model-suggest {
+  display: inline-block;
+  vertical-align: top;
+  margin-top: 12px;
+  padding-left: 10px;
+  width: calc(100% - 120px);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  overflow: hidden;
+}
+
+.exchange-model-avatar-suggest {
+  display: inline-block;
+  position: relative;
+  width: 45px;
+  min-width: 45px;
+  height: 45px;
+  margin-left: 15px;
+  background-color: #f3f3f3;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.exchange-suggest-followed {
+  margin-top: 7px;
+  text-align: center;
+  border: 1.5px solid $secondary-color;
+  background-color: $secondary-color;
+  padding: 4px 0;
+  border-radius: 30px;
+  width: 70px;
+  color: white;
+  cursor: pointer;
+  transition-duration: 0.25s;
+  font-size: $font-size-regular;
+
+  &:hover {
+    background-color: transparent;
+    color: $secondary-color;
+    transition-duration: 0.25s;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &:active {
+    background-color: $secondary-color;
+    color: white;
+  }
+}
+
+.exchange-model-suggest-following {
+  margin-top: 6px;
+  text-align: center;
+  height: 33px;
+  background-color: transparent;
+  border: 1.5px solid $secondary-color;
+  color: white;
+  padding: 7px 0;
+  border-radius: 30px;
+  width: 70px;
+  cursor: pointer;
+  font-size: $font-size-smallText;
+  transition-duration: 0.25s;
 }
