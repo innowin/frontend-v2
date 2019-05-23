@@ -10,7 +10,8 @@
   left: 0;
   transition-duration: $animation-timing;
   padding-top: $topBarHeight + 10px;
-  bottom: 80px;
+  bottom: 0;
+  padding-bottom: 80px;
   overflow-y: auto;
 }
 
