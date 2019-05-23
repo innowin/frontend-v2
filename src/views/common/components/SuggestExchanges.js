@@ -13,6 +13,9 @@ class SuggestExchanges extends Component {
     }
   }
 
+  componentDidMount() {
+    this.props.actions.getAllExchanges(24, 0, null, null)
+  }
 
   componentWillReceiveProps(nextProps, nextContext) {
     const {clientExchangeMemberships, exchangeMemberships} = nextProps
