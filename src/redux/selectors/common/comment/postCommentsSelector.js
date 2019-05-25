@@ -20,7 +20,7 @@ export const userCommentsSelector = createSelector(
         const arrayComment = helpers.getObjectOfArrayKeysSortByReverseCreateTime(parentComments, comments)
         return [...arrayComment]
       }
-      return []
+      else return []
     },
 )
 

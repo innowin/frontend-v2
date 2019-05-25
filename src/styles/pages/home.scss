@@ -259,6 +259,7 @@ $heightOfContentBox: 140px;
   box-shadow: 0 3px 3px $box-shadow-color;
   padding: 10px 15px;
   position: relative;
+  margin-bottom: 10px;
 }
 
 .bee-text {
@@ -393,7 +394,7 @@ $heightOfContentBox: 140px;
     transition-duration: 0.3s;
   }
 
-  input{
+  input {
     cursor: pointer;
   }
 }
@@ -585,14 +586,14 @@ $heightOfContentBox: 140px;
   }
 }
 
-.bee-button-submit:last-child{
+.bee-button-submit:last-child {
   margin-top: 15px;
   position: relative;
   background-color: $bee-color;
   border: 1.5px solid $bee-color;
   cursor: pointer !important;
 
-  &:hover{
+  &:hover {
     color: $bee-color;
     background-color: white;
   }

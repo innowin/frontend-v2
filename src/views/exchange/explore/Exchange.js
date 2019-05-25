@@ -46,7 +46,7 @@ class Exchange extends Component {
 
   _renderFollowButton() {
     if (this.props.followed[this.props.data.id])
-      return <Material className='exchange-follow' content={''} onClick={this.unFollow}/>
+      return <Material className='exchange-follow' content='' onClick={this.unFollow}/>
     else if (this.state.followLoading) {
       return <div className='exchange-model-following'><ClipLoader color='#008057' size={19}/></div>
     }
@@ -64,9 +64,7 @@ class Exchange extends Component {
             <div className='exchange-model-avatar'>
               {
                 data.exchange_image ?
-                    <img src={data.exchange_image.file.includes('innowin.ir') ?
-                        data.exchange_image.file : REST_URL + data.exchange_image.file} alt={data.name}
-                         className='exchange-model-avatar-img'/>
+                    <img src={data.exchange_image.file.includes('innowin.ir') ? data.exchange_image.file : REST_URL + data.exchange_image.file} alt={data.name} className='exchange-model-avatar-img'/>
                     :
                     <ChannelIcon className='exchange-model-avatar-default'/>
               }

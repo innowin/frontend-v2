@@ -1,7 +1,5 @@
 // @flow
 import * as React from 'react'
-import BeePanel from '../common/components/BeePanel'
-import ChatBar from '../bars/ChatBar'
 import HomePosts from './home/HomePosts'
 import HomeSideBar from './home/HomeSideBar'
 import PropTypes from 'prop-types'
@@ -11,7 +9,10 @@ import {Component} from 'react'
 import {connect} from 'react-redux'
 import {getMessages} from 'src/redux/selectors/translateSelector'
 import constants from 'src/consts/constants'
-import OrganizationLeadershipCard from "../common/components/OrganizationLeadershipCard"
+import OrganizationLeadershipCard from '../common/components/OrganizationLeadershipCard'
+import OrganizationBee from '../common/components/OrganizationBee'
+import UserBee from '../common/components/UserBee'
+import SuggestExchanges from '../common/components/SuggestExchanges'
 
 
 type HomeProps = {|
@@ -52,7 +53,7 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
   }
 
   render() {
-    const {identityId, identityType} = this.props
+    const {identityId, identityType, isBeeDone} = this.props
     const {activeExchangeId} = this.state
     return (
         <div className="home-wrapper global-wrapper">
@@ -70,7 +71,8 @@ class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
               <HomePosts unSetExchangeId={this._unSetExchangeId} exchangeId={activeExchangeId} className={activeExchangeId ? 'post-wrapper active-exchange' : 'post-wrapper'}/>
               <div className={activeExchangeId ? 'user-detail-wrapper active-exchange' : 'user-detail-wrapper'}>
                 {identityType === constants.USER_TYPES.ORG && <OrganizationLeadershipCard/>}
-                <BeePanel/>
+                {isBeeDone ? null : identityType === constants.USER_TYPES.ORG ? <OrganizationBee/> : <UserBee/>}
+                <SuggestExchanges />
                 {/*<EventCard/>*/}
               </div>
             </div>
@@ -93,6 +95,7 @@ const mapStateToProps = state => {
     identityId: clientIdentityId,
     identityType: identityType,
     translate: getMessages(state),
+    isBeeDone: state.auth.client.isBeeDone,
     selectedExchange,
   }
 }

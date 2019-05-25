@@ -1,17 +1,18 @@
 import * as React from "react"
 import constant from "src/consts/constants"
 import CreatePostNew from "src/views/common/post/createPost/index"
+import NewRightArrowSvg from "src/images/common/new_right_arrow"
 import PostActions from "src/redux/actions/commonActions/postActions"
 import PropTypes from "prop-types"
+// import Vibrant from "node-vibrant"
 import {bindActionCreators} from "redux"
 import {connect} from "react-redux"
+import {exchangePostsSelector} from "src/redux/selectors/home/homePosts"
 import {FrameCard, ListGroup, VerifyWrapper} from "src/views/common/cards/Frames"
+import {Link} from "react-router-dom"
 import {Post} from "src/views/common/post/Post"
 import {PureComponent} from "react"
 import {RightArrow, DesertIcon, EditIcon, ChannelIcon} from "src/images/icons"
-import {exchangePostsSelector} from "src/redux/selectors/home/homePosts"
-import {Link} from "react-router-dom"
-import NewRightArrowSvg from "src/images/common/new_right_arrow"
 
 
 class HomePosts extends PureComponent {
@@ -31,6 +32,7 @@ class HomePosts extends PureComponent {
       showCreatePostSmall: false,
       getDataInDidMount: false,
       hideTopBar: false,
+      dynamicBackground: false,
     }
   }
 
@@ -73,6 +75,14 @@ class HomePosts extends PureComponent {
         postParentId: exchangeId, postType: null, limit, offset, postParentType: constant.POST_PARENT.EXCHANGE,
       })
     }
+    //
+    // let {dynamicBackground} = this.state
+    // if (this.headerImg && this.headerImg.src) {
+    //   if (!dynamicBackground) {
+    //     Vibrant.from("https://www.w3schools.com/w3css/img_lights.jpg").getPalette((err, palette) => err ? console.log(err) : console.log(palette))
+    //     this.setState({...this.state, dynamicBackground: true})
+    //   }
+    // }
   }
 
   componentWillUnmount() {
@@ -168,7 +178,7 @@ class HomePosts extends PureComponent {
                     <NewRightArrowSvg onClick={unSetExchangeId} className='back-button'/>
                     <Link to={"/exchange/" + exchangeId} className='profile-top-bar'>
                       {selectedExchange.exchange_image
-                          ? <img src={selectedExchange.exchange_image.file} alt='profile' className='profile-top-bar '/>
+                          ? <img ref={e => this.headerImg = e} src={selectedExchange.exchange_image.file} alt='profile' className='profile-top-bar'/>
                           : <ChannelIcon className='profile-top-bar default-profile-organ'/>
                       }
                     </Link>
