@@ -54,11 +54,11 @@ export default {
     PHD: 'Phd',
   },
   SERVER_LEVELS: {
-    VERY_LOW: 'Very low',
-    LOW: 'Low',
-    MEDIUM: 'Medium',
-    GOOD: 'Good',
-    VERY_GOOD: 'Very good',
+    VERY_LOW: '1',
+    LOW: '2',
+    MEDIUM: '3',
+    GOOD: '4',
+    VERY_GOOD: '5',
   },
   TAG_FILTERS: {
     FINANCIAL: 'financial',

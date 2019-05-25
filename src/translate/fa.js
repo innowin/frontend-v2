@@ -206,11 +206,13 @@ module.exports = {
   'Skill level': 'سطح مهارت',
   'Skill title': 'عنوان مهارت',
   'Skill title tip': 'مثال: برنامه نویسی، زبان خارجی، مهارت توسعه محصول',
-  'Very low': ' خیلی ضعیف',
-  'Low': 'ضعیف',
-  'Medium': 'متوسط',
-  'Good': 'خوب',
-  'Very good': 'خیلی خوب',
+  skills: {
+    '1': ' خیلی ضعیف',
+    '2': 'ضعیف',
+    '3': 'متوسط',
+    '4': 'خوب',
+    '5': 'خیلی خوب',
+  },
 
   'Add new expereince': 'تجربه جدیدی به پروفایل خود اضافه کنید:',
 
@@ -436,7 +438,7 @@ module.exports = {
 
   "Edit": 'ویرایش',
   'Resume File': 'فایل رزومه',
-  'Resume':  'رزومه',
+  'Resume': 'رزومه',
   'Upload Resume File': 'بارگزاری فایل رزومه',
   'Upload Attach File': 'بارگزاری فایل ضمیمه',
   'Complete the profile with resume': 'تکمیل پروفایل با فایل رزومه',

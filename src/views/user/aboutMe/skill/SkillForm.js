@@ -155,19 +155,19 @@ class SkillForm extends React.Component<Props, States> {
                   <select className='edit-text-fields' defaultValue={level} name='level'
                           onChange={this._onChangeFields}>
                     <option value={constants.SERVER_LEVELS.VERY_LOW}>
-                      {translate[constants.SERVER_LEVELS.VERY_LOW]}
+                      {translate.skills[constants.SERVER_LEVELS.VERY_LOW]}
                     </option>
                     <option value={constants.SERVER_LEVELS.LOW}>
-                      {translate[constants.SERVER_LEVELS.LOW]}
+                      {translate.skills[constants.SERVER_LEVELS.LOW]}
                     </option>
                     <option value={constants.SERVER_LEVELS.MEDIUM}>
-                      {translate[constants.SERVER_LEVELS.MEDIUM]}
+                      {translate.skills[constants.SERVER_LEVELS.MEDIUM]}
                     </option>
                     <option value={constants.SERVER_LEVELS.GOOD}>
-                      {translate[constants.SERVER_LEVELS.GOOD]}
+                      {translate.skills[constants.SERVER_LEVELS.GOOD]}
                     </option>
                     <option value={constants.SERVER_LEVELS.VERY_GOOD}>
-                      {translate[constants.SERVER_LEVELS.VERY_GOOD]}
+                      {translate.skills[constants.SERVER_LEVELS.VERY_GOOD]}
                     </option>
                   </select>
                   {levelError && <div className='text-field-error'>{levelError}</div>}

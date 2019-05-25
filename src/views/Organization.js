@@ -147,7 +147,7 @@ export class Organization extends React.Component<PropsOrganization, StatesOrgan
                       : <DefaultOrganIcon className='profile-top-bar default-profile-organ'/>
                   }
                   <span className='organ-name'>
-                  {userObject.nike_name || userObject.official_name || userObject.username}
+                  {userObject.nike_name || userObject.official_name || userObject.nike_name}
                   </span>
                 </div>
                 <div className={showSecondHeader ? '-main page-content has-two-header' : '-main page-content'}>

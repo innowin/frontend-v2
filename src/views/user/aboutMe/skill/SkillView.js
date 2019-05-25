@@ -102,6 +102,14 @@ class SkillView extends React.Component <SkillProps, SkillStates> {
                                                onClick={() => this._toggleDeleteSkill(skill.id)}/>
                                 </CheckOwner>
                                 <p className='text'>{skill.title}</p>
+                                {
+                                  [1, 2, 3, 4, 5].map((level, index) =>
+                                      <span key={'skill level' + index} className={skill.level >= level
+                                          ? 'level-dot fill'
+                                          : 'level-dot empty'
+                                      }/>
+                                  )
+                                }
                               </div>
                             </CardRowContainer>
                             <ConfirmDeleteModal key={'delete skill ' + skill.id} translate={translate}

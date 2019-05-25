@@ -83,6 +83,19 @@
             }
           }
         }
+
+        .level-dot {
+          width: 10px;
+          height: 10px;
+          display: inline-block;
+          margin-left: 10px;
+          border-radius: 10px;
+          background: $text-light-color;
+
+          &.fill {
+            background: $primary-color;
+          }
+        }
       }
 
       .card-row-content-image {
@@ -99,6 +112,7 @@
       object-fit: cover;
     }
   }
+
   .card-row-date {
     position: relative;
     display: block;
