@@ -1,7 +1,7 @@
 // @flow
 import * as React from "react"
 import {Component} from "react"
-import StreamView from "./StreamView"
+// import StreamView from "./StreamView"
 import InfoView from "./InfoView"
 import StatisticView from "./StatisticView"
 import ExchangeManager from "./ExchangeManager"

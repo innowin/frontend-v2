@@ -70,7 +70,7 @@ class PostCommentNew extends React.Component<props, states> {
   }
 
   createComment(commentOn, commentText, commentTextField) {
-    const {handleShowComment} = this.props
+    // const {handleShowComment} = this.props
     if (commentText.length > 4 && commentText.length <= 750) {
       const {actions, post} = this.props
       const {replySender} = this.state

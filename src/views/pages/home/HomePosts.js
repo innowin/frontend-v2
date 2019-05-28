@@ -4,7 +4,6 @@ import CreatePostNew from "src/views/common/post/createPost/index"
 import NewRightArrowSvg from "src/images/common/new_right_arrow"
 import PostActions from "src/redux/actions/commonActions/postActions"
 import PropTypes from "prop-types"
-// import Vibrant from "node-vibrant"
 import {bindActionCreators} from "redux"
 import {connect} from "react-redux"
 import {exchangePostsSelector} from "src/redux/selectors/home/homePosts"
@@ -19,7 +18,7 @@ class HomePosts extends PureComponent {
 
   static propTypes = {
     className: PropTypes.string,
-    exchangeId: PropTypes.number,
+    exchangeId: PropTypes.number.isRequired,
     unSetExchangeId: PropTypes.func,
   }
 
@@ -32,7 +31,6 @@ class HomePosts extends PureComponent {
       showCreatePostSmall: false,
       getDataInDidMount: false,
       hideTopBar: false,
-      dynamicBackground: false,
     }
   }
 
@@ -52,6 +50,23 @@ class HomePosts extends PureComponent {
   }
 
   componentDidMount() {
+    // setTimeout(() => {
+    //   if (this.headerImg) {
+    //     this.headerImg.onload = () => {
+    //       let can = this.headerCanvas
+    //       let canCtx = can.getContext("2d")
+    //       let img = this.headerImg
+    //       let imgRect = img.getBoundingClientRect()
+    //
+    //       canCtx.drawImage(img, 0, 0)
+    //       console.log(canCtx.getImageData(0, 0, imgRect.width, imgRect.height))
+    //     }
+    //   }
+    //   else {
+    //     alert("Header Img not Found")
+    //   }
+    // }, 250)
+
     if (this.state.getDataInDidMount) {
       const {actions, exchangeId} = this.props
       const {filterPostsByPostParentLimitOffset} = actions
@@ -75,14 +90,6 @@ class HomePosts extends PureComponent {
         postParentId: exchangeId, postType: null, limit, offset, postParentType: constant.POST_PARENT.EXCHANGE,
       })
     }
-    //
-    // let {dynamicBackground} = this.state
-    // if (this.headerImg && this.headerImg.src) {
-    //   if (!dynamicBackground) {
-    //     Vibrant.from("https://www.w3schools.com/w3css/img_lights.jpg").getPalette((err, palette) => err ? console.log(err) : console.log(palette))
-    //     this.setState({...this.state, dynamicBackground: true})
-    //   }
-    // }
   }
 
   componentWillUnmount() {
@@ -178,7 +185,13 @@ class HomePosts extends PureComponent {
                     <NewRightArrowSvg onClick={unSetExchangeId} className='back-button'/>
                     <Link to={"/exchange/" + exchangeId} className='profile-top-bar'>
                       {selectedExchange.exchange_image
-                          ? <img ref={e => this.headerImg = e} src={selectedExchange.exchange_image.file} alt='profile' className='profile-top-bar'/>
+                          ?
+                          <React.Fragment>
+                            <img ref={e => this.headerImg = e} src={selectedExchange.exchange_image.file} alt='profile' className='profile-top-bar'/>
+                            <canvas ref={e => this.headerCanvas = e} className='profile-top-bar' style={{borderRadius: "0"}}>مرورگر شما این ویژگی
+                              را پشتیبانی نمیکند
+                            </canvas>
+                          </React.Fragment>
                           : <ChannelIcon className='profile-top-bar default-profile-organ'/>
                       }
                     </Link>
