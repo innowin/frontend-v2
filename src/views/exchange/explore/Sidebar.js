@@ -41,7 +41,7 @@ class Sidebar extends Component {
 
           <div className='users-explore-filter-header'>
             <Material backgroundColor='rgba(255,255,255,0.5)' className='back-button-material-no-margin' content={<NewRightArrow className='back-button-product'/>} onClick={() => window.history.back()}/>
-            <div className='product-header-title'>فیلتر پروفایل ها</div>
+            <div className='product-header-title'>فیلتر پنجره ها</div>
           </div>
 
           <div className='exchanges-explore-sidebar-searchbox'>
