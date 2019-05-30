@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react'
-import {DefaultUserIcon} from "src/images/icons"
+import {DefaultUserIcon} from 'src/images/icons'
 
 const User_Skeleton = () => {
   return (
@@ -27,18 +27,11 @@ const User_Skeleton = () => {
           <div id="line" style={{animationDelay: '0.3s'}}/>
         </div>
 
-        {/*<div className='user-baj-container'>*/}
-        {/*{*/}
-        {/*data.badges.map((badge, i) =>*/}
-        {/*<img key={i} src={REST_URL + badge.badge_related_badge_category.badge_related_media.file} className='user-baj' alt='badge'/>*/}
-        {/*)*/}
-        {/*}*/}
-        {/*</div>*/}
-
-        <button className='user-follow-skeleton'><span> </span>
-          <div id="line"/>
-        </button>
-
+        <div className='user-followed-small'>
+          <button className='user-follow-skeleton'><span> </span>
+            <div id="line"/>
+          </button>
+        </div>
       </div>
   )
 }

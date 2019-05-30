@@ -64,6 +64,10 @@
   background-color: #f3f3f3;
   position: relative;
   overflow: hidden;
+
+  @media screen and (max-width: 480px) {
+    display: none;
+  }
 }
 
 .user-profile-photo {
@@ -125,6 +129,15 @@
   border: 3px solid white;
   margin-top: -40px;
   position: relative;
+
+  @media screen and (max-width: 480px) {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    margin-top: 0;
+    transform: scale(0.6);
+    transform-origin: top right;
+  }
 }
 
 .user-name-id-cont {
@@ -191,6 +204,11 @@
   border-radius: 3px;
   position: relative;
   overflow: hidden;
+
+
+  @media screen and (max-width: 480px) {
+    display: none;
+  }
 }
 
 .user-id-skeleton {
@@ -205,6 +223,16 @@
   border-radius: 3px;
   position: relative;
   overflow: hidden;
+
+
+  @media screen and (max-width: 480px) {
+    position: absolute;
+    top: 30px;
+    right: 90px;
+    width: calc(100% - 220px);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
 }
 
 .user-description {
@@ -242,6 +270,14 @@
   color: $text-title-menu-color;
   position: relative;
   overflow: hidden;
+
+  @media screen and (max-width: 480px) {
+    margin-top: 65px;
+    margin-right: 80px;
+    margin-left: 15px;
+    height: auto;
+    text-align-last: right;
+  }
 }
 
 .user-description-row-skeleton {
@@ -278,25 +314,6 @@
     width: 90px;
     left: 20px;
     top: 23px;
-  }
-}
-
-.user-follow-skeleton {
-  padding: 5px 0;
-  border-radius: 30px;
-  width: 100px;
-  background-color: #f3f3f3;
-  border: none;
-  float: left;
-  margin-left: 10px;
-  margin-top: 3px;
-  transition-duration: 0.25s;
-  font-size: $font-size-smallText;
-  overflow: hidden;
-  position: relative;
-
-  &:focus {
-    outline: none;
   }
 }
 
@@ -342,7 +359,6 @@
   width: 100px;
   background-color: #f3f3f3;
   border: none;
-  float: left;
   margin-left: 10px;
   margin-top: 3px;
   transition-duration: 0.25s;
@@ -352,6 +368,11 @@
 
   &:focus {
     outline: none;
+  }
+
+  @media screen and (max-width: 480px) {
+    width: 90px;
+    margin-left: 0;
   }
 }
 
@@ -540,5 +561,15 @@
     z-index: 1;
     background-color: white;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.user-followed-small {
+  display: inline-block;
+  float: left;
+  @media screen and (max-width: 480px) {
+    position: absolute;
+    left: 20px;
+    top: 23px;
   }
 }

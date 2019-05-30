@@ -10,6 +10,15 @@
   color: #000;
 }
 
+.link-post-decoration-delete-on-small {
+  text-decoration: none;
+  color: #000;
+
+  @media screen and (max-width: 480px) {
+    display: none;
+  }
+}
+
 .skillAddTagInput {
   max-width: 50%;
   width: 200px;

@@ -8,7 +8,7 @@ class Material extends React.Component {
     className: PropTypes.string,
     onClick: PropTypes.func,
     content: PropTypes.any.isRequired,
-    backgroundColor: PropTypes.string
+    backgroundColor: PropTypes.string,
   }
 
   constructor(props) {
@@ -35,7 +35,8 @@ class Material extends React.Component {
       setTimeout(() => {
         try {
           target.removeChild(ripple)
-        } catch (e) {
+        }
+        catch (e) {
           console.log('material failed')
         }
       }, 600)
@@ -47,7 +48,8 @@ class Material extends React.Component {
           try {
             this.container.removeChild(this.ripple)
             this.ripple = null
-          } catch (e) {
+          }
+          catch (e) {
             console.log('material failed')
           }
         }
@@ -85,7 +87,8 @@ class Material extends React.Component {
           try {
             this.container.removeChild(this.ripple)
             this.ripple = null
-          } catch (e) {
+          }
+          catch (e) {
             console.log('material failed')
           }
         }
@@ -94,11 +97,8 @@ class Material extends React.Component {
   }
 
   render() {
-    return <div ref={e => this.container = e} className={this.props.className ? 'material ' + this.props.className : 'material'}
-                onMouseDown={this.onMouseDown} onMouseUp={this.handleButtonRelease} onMouseLeave={this.handleLeave} onClick={this.props.onClick}>
-      {/*<div className='material-content'>*/}
+    return <div ref={e => this.container = e} className={this.props.className ? 'material ' + this.props.className : 'material'} onMouseDown={this.onMouseDown} onMouseUp={this.handleButtonRelease} onMouseLeave={this.handleLeave} onClick={this.props.onClick}>
       {this.props.content}
-      {/*</div>*/}
     </div>
   }
 }

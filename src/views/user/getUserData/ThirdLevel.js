@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import Exchange from '../../exchange/explore/Exchange'
+import ExchangeSuggestView from '../../common/components/ExchangeSuggestView'
 
 class ThirdLevel extends Component {
   constructor(props) {
@@ -26,11 +26,16 @@ class ThirdLevel extends Component {
     return (
         <div className='get-data-content'>
           <div className='get-data-third'>
-            {
-              Object.values(exchanges).sort((a, b) => a.id - b.id).map((exchange, i) =>
-                  <Exchange key={i} data={exchange} followed={followed}/>,
-              )
-            }
+            <div className='get-data-hashtags-cont'>
+              {
+                Object.values(exchanges)
+                    .sort((a, b) => a.id - b.id)
+                    .filter(ex => !followed[ex.id])
+                    .map((exchange, i) =>
+                    <ExchangeSuggestView description={true} data={exchange} followed={followed} key={i}/>,
+                )
+              }
+            </div>
           </div>
           <div className='get-data-third-next'>
             <div className='get-data-content-next-button-on' onClick={() => hideRegisterModal()}>اینوین</div>

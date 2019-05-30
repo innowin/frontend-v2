@@ -46,7 +46,7 @@ class Exchange extends Component {
 
   _renderFollowButton() {
     if (this.props.followed[this.props.data.id])
-      return <Material className='exchange-follow' content='' onClick={this.unFollow}/>
+      return <div className='exchange-followed-small'><Material className='exchange-follow' content=' ' onClick={this.unFollow}/></div>
     else if (this.state.followLoading) {
       return <div className='exchange-model-following'><ClipLoader color='#008057' size={19}/></div>
     }
@@ -57,10 +57,11 @@ class Exchange extends Component {
 
   render() {
     const {data, translate} = this.props
+
     return (
         <div className='exchange-model'>
 
-          <Link to={`/exchange/${data.id}`} style={{textDecoration: 'none', color: 'black'}}>
+          <Link to={`/exchange/${data.id}`} className='link-post-decoration'>
             <div className='exchange-model-avatar'>
               {
                 data.exchange_image ?
@@ -72,7 +73,7 @@ class Exchange extends Component {
             <div className='exchange-model-title'>
               {data.name}
             </div>
-            <div className='exchange-model-description'>
+            <div className={data.description ? 'exchange-model-description' : 'exchange-model-description-nullable'}>
               {data.description}
             </div>
 
@@ -91,7 +92,7 @@ class Exchange extends Component {
           </Link>
 
           <div className='exchange-follow-green-buttons'>
-            <Link to={`/exchange/${data.id}`} style={{textDecoration: 'none'}}>
+            <Link to={`/exchange/${data.id}`} className='link-post-decoration-delete-on-small'>
               <Material className='exchange-link' content='مشاهده'/>
             </Link>
             {

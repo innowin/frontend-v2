@@ -4,7 +4,7 @@ const Exchange_Skeleton = () => {
   return (
       <div className='exchange-model'>
 
-        <div className='exchange-model-avatar-skeleton'>
+        <div className='exchange-model-avatar'>
           <div id='line'/>
         </div>
 
@@ -26,6 +26,7 @@ const Exchange_Skeleton = () => {
               </div>
             </div>
           </div>
+
         </div>
 
 
@@ -33,9 +34,11 @@ const Exchange_Skeleton = () => {
           <button className='exchange-followed-skeleton'><span> </span>
             <div id='line'/>
           </button>
-          <button className='exchange-followed-skeleton'><span> </span>
-            <div id='line'/>
-          </button>
+          <div className='exchange-followed-small'>
+            <button className='exchange-followed-skeleton-butt'><span> </span>
+              <div id='line'/>
+            </button>
+          </div>
         </div>
 
       </div>

@@ -48,21 +48,27 @@ class ExchangeSuggestView extends Component {
   }
 
   render() {
-    const {data} = this.props
+    const {data, description, noBorder} = this.props
     return (
-        <div className='exchange-suggest-cont'>
-          <div className='exchange-model-avatar-suggest'>
-            {
-              data.exchange_image ?
-                  <img src={data.exchange_image.file.includes('innowin.ir') ? data.exchange_image.file : REST_URL + data.exchange_image.file} alt={data.name} className='exchange-model-avatar-img'/>
-                  :
-                  <ChannelIcon className='exchange-model-avatar-default'/>
-            }
+        <div className={description ? 'exchange-model-suggest-container' : ''}>
+          <div className={description ? 'exchange-suggest-cont-without-border' : 'exchange-suggest-cont'} style={noBorder && !description ? {borderBottom: 'none', padding: '15px 0 5px 0'} : {}}>
+            <div className='exchange-model-avatar-suggest'>
+              {
+                data.exchange_image ?
+                    <img src={data.exchange_image.file.includes('innowin.ir') ? data.exchange_image.file : REST_URL + data.exchange_image.file} alt={data.name} className='exchange-model-avatar-img'/>
+                    :
+                    <ChannelIcon className='exchange-model-avatar-default'/>
+              }
+            </div>
+            <div className='exchange-model-suggest'>
+              {data.name}
+            </div>
+            <div>{this._renderFollowButton()}</div>
           </div>
-          <div className='exchange-model-suggest'>
-            {data.name}
-          </div>
-          <div>{this._renderFollowButton()}</div>
+          {
+            description &&
+            <div className='exchange-model-des-suggest'>{data.description}</div>
+          }
         </div>
     )
   }

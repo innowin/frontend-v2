@@ -39,21 +39,16 @@ const Users = (props) => {
   }
 
   if (usersArr.length > 0) {
-    return <React.Fragment>
-      {
-        usersArr.map((user, i) =>
-            <User followees={followees} key={i} data={user} identities={identities} files={files} translate={translate} currentUser={currentUser}/>,
-        )}
-    </React.Fragment>
+    return usersArr.map((user, i) =>
+        <User followees={followees} key={i} data={user} identities={identities} files={files} translate={translate} currentUser={currentUser}/>,
+    )
   }
   else if (!props.loading) {
     return <div className='exchanges-explore-not-found'>کاربری یافت نشد!</div>
   }
-  else return <React.Fragment>
-      {loadingArr.map((user, i) =>
-          <UserSkeleton key={i}/>,
-      )}
-    </React.Fragment>
+  else return loadingArr.map((user, i) =>
+        <UserSkeleton key={i}/>,
+    )
 }
 
 export default Users

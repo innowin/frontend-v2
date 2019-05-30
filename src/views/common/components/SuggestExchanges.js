@@ -39,7 +39,7 @@ class SuggestExchanges extends Component {
                   .filter(ex => !followed[ex.id])
                   .slice(0, 3)
                   .map((exchange, i) =>
-                      <ExchangeSuggestView data={exchange} followed={followed} key={i}/>,
+                      <ExchangeSuggestView data={exchange} noBorder={i === 2} followed={followed} key={i}/>,
                   )
             }
           </div>

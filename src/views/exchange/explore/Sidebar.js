@@ -1,6 +1,8 @@
 import React from 'react'
 import {Component} from 'react'
 import FontAwesome from 'react-fontawesome'
+import Material from '../../common/components/Material'
+import {NewRightArrow} from '../../../images/icons'
 
 class Sidebar extends Component {
   constructor(props) {
@@ -35,7 +37,13 @@ class Sidebar extends Component {
     const {searchLength} = this.state
 
     return (
-        <div className='exchanges-explore-sidebar exchanges-explore-sidebar-hide'>
+        <div className={!window.location.pathname.includes('search') ? 'exchanges-explore-sidebar exchanges-explore-sidebar-hide' : 'exchanges-explore-sidebar'}>
+
+          <div className='users-explore-filter-header'>
+            <Material backgroundColor='rgba(255,255,255,0.5)' className='back-button-material-no-margin' content={<NewRightArrow className='back-button-product'/>} onClick={() => window.history.back()}/>
+            <div className='product-header-title'>فیلتر پروفایل ها</div>
+          </div>
+
           <div className='exchanges-explore-sidebar-searchbox'>
             <input type='text' className='exchanges-explore-sidebar-searchbox-input' placeholder='جستجو'
                    ref={e => this.searchInput = e} onKeyUp={this._submitSearchByWord} onChange={this._handleLength}/>

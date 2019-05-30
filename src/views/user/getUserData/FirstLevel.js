@@ -12,7 +12,7 @@ class FirstLevel extends Component {
       username: '',
       valid: false,
       error: false,
-      loading: false
+      loading: false,
     }
   }
 
@@ -68,14 +68,14 @@ class FirstLevel extends Component {
         const {checkUsername, setSecondLevel} = this.props
         checkUsername(username, (res) => {
           if (parseInt(res, 10) === 1) {
-            this.setState({...this.state, error: true}, () => this.errText.innerText = 'نام کاربری قبلا در سامانه ثبت شده است.')
+            this.setState({...this.state, error: true, loading: false}, () => this.errText.innerText = 'نام کاربری قبلا در سامانه ثبت شده است.')
           }
           else if (parseInt(res, 10) === 0) {
             this.createUser()
                 .then(() => setSecondLevel())
-                .catch(() => this.setState({...this.state, error: true}, () => this.errText.innerText = 'سیستم با خطا مواجه شده است.'))
+                .catch(() => this.setState({...this.state, error: true, loading: false}, () => this.errText.innerText = 'سیستم با خطا مواجه شده است.'))
           }
-        }, () => this.setState({...this.state, error: true}, () => this.errText.innerText = 'شامل حروف underline ، 0-9 ، A - Z , dot حداقل 5 و حداکثر 32 کاراکتر.'))
+        }, () => this.setState({...this.state, error: true, loading: false}, () => this.errText.innerText = 'شامل حروف underline ، 0-9 ، A - Z , dot حداقل 5 و حداکثر 32 کاراکتر.'))
       })
     }
   }
@@ -123,7 +123,7 @@ class FirstLevel extends Component {
 
           <div>
             <div className='get-data-content-username-container'>
-              <div className={isFocused || username.length > 0 ? 'get-data-content-username-container-title-out' : 'get-data-content-username-container-title'} onClick={this.onUserOut}>نام کاربری</div>
+              <div className={isFocused || username.length > 0 ? 'get-data-content-username-container-title-out' : 'get-data-content-username-container-title'} onClick={this.onUserOut}>نام کاربری (انگلیسی)</div>
               <div className={isFocused || username.length > 0 ? 'get-data-content-username-container-close' : 'get-data-content-username-container-close-hide'}>
                 {valid ? <span style={{color: '#4dab9f'}}>✔</span> : <span style={{color: '#dd5145'}}>✖</span>}
               </div>

@@ -67,7 +67,7 @@
 
 .get-data-progress-box {
   flex-grow: 1;
-  background-color: $context-menu-background;
+  background-color: #F7EFDA;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -334,14 +334,15 @@
 }
 
 .get-data-welcome {
-  width: 95%;
-  height: 95%;
+  width: 70%;
+  height: 70%;
   object-fit: contain;
   transition: all linear 0.3s;
 }
 
 .get-data-welcome-fade {
   opacity: 0.3;
+  background-color: $context-menu-background;
 }
 
 .get-data-icon {
@@ -351,7 +352,11 @@
 }
 
 .get-data-hashtags-cont {
-  padding: 0 20px;
+  width: 500px;
+  margin: 0 auto;
+  @media screen and (max-width: 510px) {
+    width: 92%;
+  }
 }
 
 .get-data-third {
@@ -364,5 +369,7 @@
   position: relative;
   z-index: 1;
   padding: 45px;
-  box-shadow: 0 -2px 8px 0 rgba(0, 0, 0, 0.1);
+  @media screen and (max-width: 510px) {
+    box-shadow: 0 -2px 8px 0 rgba(0, 0, 0, 0.1);
+  }
 }

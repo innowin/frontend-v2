@@ -162,7 +162,9 @@ class HomeSideBar extends Component<PropsHomeSideBar, StateHomeSideBar> {
           <div className='home-sidebar-cont'>
             {
               (clientExchanges && clientExchanges.length > 0) ? (
-                  clientExchanges.map((exchange, i) => {
+                  clientExchanges
+                      .sort((a, b) => a.updated_time - b.updated_time)
+                      .map((exchange, i) => {
                     return <SideBarItem key={i}
                                         exchange={exchange}
                                         handleClick={this._handleClick}
