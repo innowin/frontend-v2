@@ -13,7 +13,7 @@ const base = (state, action) => {
 const success = (state, action) => {
   const {commentId} = action.payload
   const {[`${commentId}`]: deleted, ...deleteRest} = state.list
-  const commentReplied = deleted.comment_replied
+  const commentReplied = deleted.comment_replied_to
   if(commentReplied !== null) {
     const commentRepliedId = commentReplied.id || commentReplied
     if (deleteRest[commentRepliedId]) {

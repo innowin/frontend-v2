@@ -9,6 +9,7 @@ import CheckOwner from "../CheckOwner"
 
 type postCommentsProps = {
   comments: [commentType],
+  stateComments: {number: commentType},
   translate: { [string]: string },
   replyComment: Function,
   deleteComment: Function,
@@ -18,6 +19,7 @@ class PostComments extends React.Component<postCommentsProps, {}> {
 
   static propTypes = {
     comments: PropTypes.array.isRequired,
+    stateComments: PropTypes.object.isRequired,
     translate: PropTypes.object.isRequired,
     replyComment: PropTypes.func.isRequired,
     deleteComment: PropTypes.func.isRequired,
@@ -38,13 +40,13 @@ class PostComments extends React.Component<postCommentsProps, {}> {
   }
 
   render() {
-    const {comments, translate, replyComment, deleteComment} = this.props
+    const {comments, translate, replyComment, deleteComment, stateComments} = this.props
     return (
         <div ref={commentList => this.commentList = commentList} className='comments-wrapper'>
           {
             comments.map(comment => {
                   const commentSender = comment.comment_sender
-                  const commentRepliedSender = comment.comment_replied && comment.comment_replied.comment_sender
+                  const commentRepliedSender = comment.comment_replied_to && stateComments[comment.comment_replied_to].comment_sender
                   const name = (commentSender.first_name || commentSender.last_name)
                       ? commentSender.first_name + ' ' + commentSender.last_name
                       : commentSender.username

@@ -46,6 +46,7 @@ type postExtendedViewProps = {
   commentParentType: string,
   fileList: {},
   postRelatedProduct: {},
+  stateComments: {number: commentType},
 }
 type postViewState = {
   menuToggleTop: boolean,
@@ -286,7 +287,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
 
     const {
       post, translate, postIdentity, postRelatedIdentityImage, extendedView, showEdit, comments, fileList,
-      instantViewComments, commentParentType, postRelatedProduct, clientIdentity,
+      instantViewComments, commentParentType, postRelatedProduct, clientIdentity, stateComments
     } = this.props
 
     const {menuToggleBottom, menuToggleTop, confirm, showComment, commentOn} = this.state
@@ -393,6 +394,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                     <div onClick={this.showMoreComment} className='show-more-comment'>{translate['Show More Comments']}</div>
                   }
                   <PostComments comments={instantViewComments}
+                                stateComments={stateComments}
                                 translate={translate}
                                 replyComment={(comment) => this._setCommentOn(comment)}
                                 deleteComment={this.deleteComment}
@@ -402,6 +404,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
 
                 {extendedView && comments && comments.length > 0 &&
                 <PostComments comments={comments}
+                              stateComments={stateComments}
                               translate={translate}
                               replyComment={(comment) => this._setCommentOn(comment)}
                               deleteComment={this.deleteComment}/>
@@ -428,6 +431,7 @@ const mapStateToProps = (state, ownProps) => {
     postRelatedProduct,
     postRelatedIdentityImage,
     comments: userCommentsSelector(state, ownProps),
+    stateComments: state.common.comment.list,
     translate: getMessages(state),
     instantViewComments: userInstantCommentsSelector(state, ownProps),
     fileList,

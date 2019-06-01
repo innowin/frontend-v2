@@ -22,7 +22,7 @@ export type commentType = {
     username: string,
   },
   comment_picture: {},
-  comment_replied: {
+  comment_replied_to: {
     id: number,
     comment_sender: {
       id: number,
@@ -48,6 +48,6 @@ export type commentType = {
     text: string,
     comment_parent: number,
     comment_picture: {},
-    comment_replied: {}
+    comment_replied_to: {}
   }
 }

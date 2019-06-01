@@ -84,7 +84,7 @@ class PostCommentNew extends React.Component<props, states> {
 
       let formValues
       if (commentOn) {
-        formValues = {text: commentText, comment_parent: post.id, comment_replied: commentOn.id}
+        formValues = {text: commentText, comment_parent: post.id, comment_replied_to: commentOn.id}
       } else {
         formValues = {text: commentText, comment_parent: post.id}
       }

@@ -3,11 +3,12 @@ const base = (state, action) => {
 
 const success = (state, action) => {
   const {data} = action.payload
-  const commentReplied = data.comment_replied
+  const commentReplied = data.comment_replied_to
   let prevCommentReplied = undefined
 
-  if (commentReplied !== null) {
-    prevCommentReplied = state.list[commentReplied] || {comments: []}
+  if (commentReplied) {
+    prevCommentReplied = state.list[commentReplied]
+    const prevComments = prevCommentReplied.comments ? prevCommentReplied.comments : []
     return {
       ...state,
       list: {
@@ -15,7 +16,7 @@ const success = (state, action) => {
         [data.id]: {...data, isLoading: false, error: null, comments: []},
         [commentReplied]: {
           ...prevCommentReplied,
-          comments: [...new Set([...prevCommentReplied.comments, data.id])],
+          comments: [...new Set([...prevComments, data.id])],
         }
       }
     }
