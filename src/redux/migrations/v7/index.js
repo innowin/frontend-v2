@@ -1,4 +1,4 @@
-import translate from "./translate"
+import translate from './translate'
 
 export default {
   ROOT: state => ({
@@ -6,6 +6,6 @@ export default {
     common: {
       ...state.common,
     },
-    intl: translate(state.intl)
-  })
+    intl: translate(state.intl),
+  }),
 }

@@ -28,7 +28,7 @@ const encryptor = createEncryptor({
   secretKey: 'root-secret-key-is:podifohgr903485kljdsjf88923.,sdf985rnhsdfh9823834;jjfddd',
   onError: (error) => {
     throw new Error(error)
-  }
+  },
 })
 
 const persistConfig = {
@@ -36,7 +36,7 @@ const persistConfig = {
   transforms: [encryptor],
   storage,
   version: migrations.LATEST_VERSION,
-  migrate: createMigrate(migrations.ROOT, {debug: true}),
+  migrate: createMigrate(migrations.ROOT, {debug: false}),
   blacklist: ['form', 'param', 'toast', 'temp'],
   stateReconciler: autoMergeLevel2,
 }
@@ -44,13 +44,13 @@ const persistedReducer = persistReducer(persistConfig, rootReducer)
 
 const configureStore = () => {
   return createStore(persistedReducer,
-      window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
+      process.env.NODE_ENV && window.__REDUX_DEVTOOLS_EXTENSION__(),
       applyMiddleware(
           navMiddleware,
           sagaMiddleware,
           gaMiddleware,
-          logger
-      )
+          logger,
+      ),
   )
 }
 export const runSaga = () => sagaMiddleware.run(rootSaga)
