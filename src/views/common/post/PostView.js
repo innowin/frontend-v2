@@ -46,7 +46,7 @@ type postExtendedViewProps = {
   commentParentType: string,
   fileList: {},
   postRelatedProduct: {},
-  stateComments: {number: commentType},
+  stateComments: { number: commentType },
 }
 type postViewState = {
   menuToggleTop: boolean,
@@ -108,6 +108,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     if (!extendedView) {
       const {getFileByFileRelatedParentId} = actions
       getFileByFileRelatedParentId({fileRelatedParentId: post.id, fileParentType: constants.FILE_PARENT.POST})
+
       if (self.text && self.text.clientHeight > 70) {
         const height = self.text.clientHeight
         if (post.post_description && new RegExp('^[A-Za-z]*$').test(post.post_description[0])) {
@@ -118,10 +119,12 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
         this.setState({...this.state, showMore: true, descriptionHeight: height})
       }
     }
-    else {
-      getCommentsByParentId({parentId: post.id, commentParentType: constants.COMMENT_PARENT.POST})
-      getFileByFileRelatedParentId({fileRelatedParentId: post.id, fileParentType: constants.FILE_PARENT.POST})
-      // getPost({postId: post.id, postOwnerId: post.post_related_identity})
+    else if (!post) {
+      const {match, ownerId} = this.props
+      const {getPost} = actions
+      getCommentsByParentId({parentId: match.params.id, commentParentType: constants.COMMENT_PARENT.POST})
+      getFileByFileRelatedParentId({fileRelatedParentId: match.params.id, fileParentType: constants.FILE_PARENT.POST})
+      getPost({postId: match.params.id, postOwnerId: ownerId})
     }
 
     if (self.text) {
@@ -287,7 +290,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
 
     const {
       post, translate, postIdentity, postRelatedIdentityImage, extendedView, showEdit, comments, fileList,
-      instantViewComments, commentParentType, postRelatedProduct, clientIdentity, stateComments
+      instantViewComments, commentParentType, postRelatedProduct, clientIdentity, stateComments,
     } = this.props
 
     const {menuToggleBottom, menuToggleTop, confirm, showComment, commentOn} = this.state
@@ -418,8 +421,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
 const mapStateToProps = (state, ownProps) => {
   const fileList = state.common.file.list
   const clientIdentity = state.auth.client.identity.content
-  const postId = (ownProps.post && ownProps.post.id) || ownProps.match.params.id
-  const post = ownProps.post || state.common.post.list[postId]
+  const post = ownProps.post || state.common.post.list[ownProps.match.params.id]
   const postIdentity = post && post.post_related_identity
   const postRelatedIdentityImage = postIdentity && postIdentity.profile_media
   const postRelatedProductId = post && post.post_related_product
@@ -439,6 +441,7 @@ const mapStateToProps = (state, ownProps) => {
 }
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
+    getPost: PostActions.getPost,
     deletePost: PostActions.deletePost,
     getFile: FileActions.getFile,
     getCommentsByParentId: CommentActions.getCommentsByParentId,

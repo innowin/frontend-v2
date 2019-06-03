@@ -226,6 +226,7 @@ class User extends Component<PropsUser, StatesUser> {
                                       component={PostExtendedView}
                                       extendedView={true}
                                       commentParentType={constants.COMMENT_PARENT.POST}
+                                      ownerId={this.props.match.params.id}
                         />
                         <PrivateRoute path={`${path}/basicInformation`}
                                       component={UserAboutMe}
