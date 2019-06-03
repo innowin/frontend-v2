@@ -18,7 +18,7 @@ export const userPostsSelector = createSelector(
         const arrayPost = helpers.getObjectOfArrayKeys(userPosts, posts)
         return [...arrayPost]
       }
-      return []
+      else return []
     },
 )
 

@@ -80,7 +80,7 @@ class SideBar extends Component {
     this.setState({
       ...this.state,
       edit: true,
-      price: 'specified',
+      price: product.product_price_type,
       newName: product.name.trim(),
       selectedCountry: product.product_related_country,
       selectedProvince: product.product_related_province,
@@ -252,6 +252,7 @@ class SideBar extends Component {
                 product_related_province: selectedCountry ? selectedProvince : null,
                 product_related_town: selectedProvince ? selectedCity : null,
                 product_category,
+                product_price_type: price
               }
           , productId: product.id,
         })
@@ -474,7 +475,7 @@ class SideBar extends Component {
                   }
                   <div className='product-view-sidebar-details'>
                     <span className='product-view-sidebar-details-grey'>قیمت: </span>
-                    <span className='product-view-sidebar-details-red'>{product_price && product_price.length > 0 ? this.addCamma(product_price[product_price.length - 1].value) : 'تماس بگیرید'}
+                    <span className='product-view-sidebar-details-red'>{product.product_price_type === 'call' ? 'تماس بگیرید' : product_price && product_price.length > 0 ? this.addCamma(product_price[product_price.length - 1].value) : 'تماس بگیرید'}
                     </span>
                     <br/>
                     <span className='product-view-sidebar-details-grey'>فروشنده: </span>

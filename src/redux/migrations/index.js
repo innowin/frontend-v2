@@ -8,9 +8,10 @@ import VERSION_6 from './v6'
 import VERSION_7 from './v7'
 import VERSION_8 from './v8'
 import VERSION_9 from './v9'
+import VERSION_10 from './v10'
 
 export default {
-  LATEST_VERSION: 9,
+  LATEST_VERSION: 10,
   ROOT: {
     0: VERSION_0.ROOT,
     1: VERSION_1.ROOT,
@@ -22,5 +23,6 @@ export default {
     7: VERSION_7.ROOT,
     8: VERSION_8.ROOT,
     9: VERSION_9.ROOT,
+    10: VERSION_10.ROOT,
   },
 }

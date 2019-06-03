@@ -27,6 +27,8 @@ import RightArrowSvg from '../images/common/right_arrow_svg'
 import type {fileType} from '../consts/flowTypes/common/fileType'
 import DefaultOrganIcon from '../images/defaults/defaultOrganization_svg'
 import ProductActions from '../redux/actions/commonActions/productActions'
+import {userPostsSelector} from '../redux/selectors/common/post/userPostsSelector'
+import PostActions from '../redux/actions/commonActions/postActions'
 
 type PropsOrganization = {
   userObject: organStateObject,
@@ -93,17 +95,18 @@ export class Organization extends React.Component<PropsOrganization, StatesOrgan
   }
 
   componentDidMount() {
-    document.addEventListener('scroll', this._onScroll)
     const {params} = this.props.match
-    const {getUserByUserId, setParamUserId, getProducts} = this.props.actions
+    const {getUserByUserId, setParamUserId, getProducts, getPostByIdentity} = this.props.actions
     const userId: number = +params.id
+    getPostByIdentity({postIdentity: userId, postOwnerId: userId})
     getUserByUserId(userId)
     setParamUserId({id: userId})
     getProducts({productOwnerId: userId})
+    document.addEventListener('scroll', this._onScroll)
   }
 
   componentWillUnmount() {
-    window.removeEventListener('scroll', this._onScroll)
+    document.removeEventListener('scroll', this._onScroll)
     const {removeParamUserId} = this.props.actions
     removeParamUserId()
   }
@@ -128,11 +131,12 @@ export class Organization extends React.Component<PropsOrganization, StatesOrgan
 
   render() {
     const {showSecondHeader} = this.state
-    const {match, userObject, badges, translate, profileMedia} = this.props
+    const {match, userObject, badges, translate, profileMedia, actions, posts} = this.props
+    const {updatePost, deletePost} = actions
     const {path, url, params} = match
     const userId: number = +params.id
     const isLoading = userObject.id ? false : userObject.isLoading ? userObject.isLoading : true
-    
+
     return (
         <div className="-userOrganBackgroundImg">
 
@@ -213,13 +217,18 @@ export class Organization extends React.Component<PropsOrganization, StatesOrgan
                       {/*identityType={constants.USER_TYPES.ORG}*/}
                       {/*isUser={false}*/}
                       {/*/>*/}
-                      <PrivateRoute exact={true} path={`${path}/Posts`} component={Posts}
-                                    id={userId}
-                                    identityType={constants.USER_TYPES.ORG}
+                      <PrivateRoute exact={true}
+                                    path={`${path}/Posts`}
+                                    component={Posts}
+                                    updatePost={updatePost}
+                                    deletePost={deletePost}
+                                    posts={posts}
                       />
-                      <PrivateRoute path={`${path}/Posts/:id`} component={PostExtendedView}
+                      <PrivateRoute path={`${path}/Posts/:id`}
+                                    component={PostExtendedView}
                                     extendedView={true}
                                     commentParentType={constants.COMMENT_PARENT.POST}
+                                    ownerId={userId}
                       />
                       <PrivateRoute exact path={`${path}/basicInformation`} component={OrganAboutUs}
                                     organization={userObject}
@@ -280,6 +289,7 @@ const mapStateToProps = (state, ownProps) => {
     translate: getMessages(state),
     profileMedia,
     badges,
+    posts: userPostsSelector(state, {id: userId}),
   }
 }
 
@@ -290,6 +300,9 @@ const mapDispatchToProps = dispatch => ({
     getUserBadges: BadgeActions.getUserBadges,
     setParamUserId: ParamActions.setParamUserId,
     removeParamUserId: ParamActions.removeParamUserId,
+    getPostByIdentity: PostActions.getPostByIdentity,
+    updatePost: PostActions.updatePost,
+    deletePost: PostActions.deletePost,
   }, dispatch),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Organization)

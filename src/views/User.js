@@ -105,11 +105,11 @@ class User extends Component<PropsUser, StatesUser> {
     getUserByUserId(userId)
     setParamUserId({id: userId})
     getProducts({productOwnerId: userId})
-    window.addEventListener('scroll', this._onScroll)
+    document.addEventListener('scroll', this._onScroll)
   }
 
   componentWillUnmount() {
-    window.removeEventListener('scroll', this._onScroll)
+    document.removeEventListener('scroll', this._onScroll)
     const {removeParamUserId} = this.props.actions
     removeParamUserId()
   }
@@ -226,7 +226,7 @@ class User extends Component<PropsUser, StatesUser> {
                                       component={PostExtendedView}
                                       extendedView={true}
                                       commentParentType={constants.COMMENT_PARENT.POST}
-                                      ownerId={this.props.match.params.id}
+                                      ownerId={userId}
                         />
                         <PrivateRoute path={`${path}/basicInformation`}
                                       component={UserAboutMe}
