@@ -13,6 +13,7 @@ import {getCountries, getProvinces, getCities} from 'src/redux/actions/commonAct
 import makeProvinceSelectorById from 'src/redux/selectors/common/location/getProvinceById'
 import {provinceSelector} from 'src/redux/selectors/common/location/getProvinceByCountry'
 import makeCountrySelectorById from 'src/redux/selectors/common/location/getCountryById'
+import {priceListSelector} from 'src/redux/selectors/common/product/getProductPrices'
 import getAllCountries from 'src/redux/selectors/common/location/getCountry'
 import makeProductSelectorById from 'src/redux/selectors/common/product/getProductById'
 import {getMessages} from 'src/redux/selectors/translateSelector'
@@ -80,7 +81,7 @@ class ProductView extends Component {
 
   render() {
     const {hideTopBar} = this.state
-    const {match, translate, product, country, province, product_owner, product_category, current_user_identity, countries, provinces, cities, categories, actions, posts} = this.props
+    const {match, translate, product, country, province, product_owner, product_category, current_user_identity, countries, provinces, cities, categories, actions, posts, product_price} = this.props
     const {getProvinces, getCities} = actions
     const {path, url} = match
     return (
@@ -104,6 +105,7 @@ class ProductView extends Component {
                    getProvinces={getProvinces}
                    getCities={getCities}
                    categories={categories}
+                   product_price={product_price}
           />
 
           <div className='product-container'>
@@ -143,6 +145,7 @@ const mapStateToProps = (state, props) => {
   const product = makeProductSelectorById()(state, productId)
   const {product_related_country, product_related_province} = product
   return {
+    product_price: priceListSelector(state, productId),
     product,
     country: makeCountrySelectorById()(state, product_related_country),
     province: makeProvinceSelectorById()(state, product_related_province),

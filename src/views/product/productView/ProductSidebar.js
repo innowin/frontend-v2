@@ -34,6 +34,33 @@ class SideBar extends Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.state.edit) {
+      const {temp} = nextProps
+      let error = false
+
+      if (temp[this.state['image1']] && !temp[this.state['image1']].uploadedFileId) {
+        error = true
+      }
+      else if (temp[this.state['image2']] && !temp[this.state['image2']].uploadedFileId) {
+        error = true
+      }
+      else if (temp[this.state['image3']] && !temp[this.state['image3']].uploadedFileId) {
+        error = true
+      }
+      else if (temp[this.state['image4']] && !temp[this.state['image4']].uploadedFileId) {
+        error = true
+      }
+      else if (temp[this.state['image5']] && !temp[this.state['image5']].uploadedFileId) {
+        error = true
+      }
+      else if (temp[this.state['image6']] && !temp[this.state['image6']].uploadedFileId) {
+        error = true
+      }
+      this.setState({...this.state, error})
+    }
+  }
+
   _showGallery = () => {
     const {product} = this.props
     const {pictures_array} = product
@@ -129,17 +156,9 @@ class SideBar extends Component {
   _uploadHandler(fileString, tempName, name, deleteItem) {
     const reader = new FileReader()
     let deleteArr = [...this.state.deleteArr]
-    if (deleteItem && deleteItem.id) {
-      deleteArr.push(deleteItem.id)
-    }
+    if (deleteItem && deleteItem.id) deleteArr.push(deleteItem.id)
     if (fileString) {
-      reader.onload = () => {
-        this.setState({
-          ...this.state,
-          [tempName]: reader.result,
-          deleteArr,
-        }, () => this._createFile(tempName, name, fileString))
-      }
+      reader.onload = () => this.setState({...this.state, [tempName]: reader.result, deleteArr}, () => this._createFile(tempName, name, fileString))
       reader.readAsDataURL(fileString)
     }
   }
@@ -154,31 +173,15 @@ class SideBar extends Component {
     })
   }
 
-
-  componentWillReceiveProps(nextProps) {
-    if (this.state.edit) {
-      const {temp} = nextProps
-      let error = false
-
-      if (temp[this.state['image1']] && !temp[this.state['image1']].uploadedFileId) {
-        error = true
+  addCamma(input) {
+    if (input) {
+      let output = input.toFixed(0).toString().split('').reverse().join('')
+      let index = 3
+      while (output[index] !== undefined) {
+        output = output.slice(0, index) + ',' + output.slice(index)
+        index += 4
       }
-      else if (temp[this.state['image2']] && !temp[this.state['image2']].uploadedFileId) {
-        error = true
-      }
-      else if (temp[this.state['image3']] && !temp[this.state['image3']].uploadedFileId) {
-        error = true
-      }
-      else if (temp[this.state['image4']] && !temp[this.state['image4']].uploadedFileId) {
-        error = true
-      }
-      else if (temp[this.state['image5']] && !temp[this.state['image5']].uploadedFileId) {
-        error = true
-      }
-      else if (temp[this.state['image6']] && !temp[this.state['image6']].uploadedFileId) {
-        error = true
-      }
-      this.setState({...this.state, error})
+      return output.split('').reverse().join('')
     }
   }
 
@@ -187,9 +190,9 @@ class SideBar extends Component {
       this.setState({...this.state, edit: false}, () => {
 
         const {product, actions, temp} = this.props
-        const {newName, selectedCountry, selectedProvince, selectedCity, firstCategory, secondCategory, thirdCategory, deleteArr} = this.state
+        const {newName, selectedCountry, selectedProvince, selectedCity, firstCategory, secondCategory, thirdCategory, deleteArr, newPrice, price} = this.state
         const product_category = thirdCategory && secondCategory && firstCategory ? thirdCategory : secondCategory && firstCategory ? secondCategory : firstCategory
-        const {updateProduct, updateFile, getFileByFileRelatedParentId} = actions
+        const {updateProduct, updateFile, getFileByFileRelatedParentId, addPrice} = actions
 
         deleteArr.forEach(id => {
           updateFile({
@@ -212,7 +215,6 @@ class SideBar extends Component {
             formData: {file_related_parent: product.id},
             fileParentType: constants.FILE_PARENT.PRODUCT,
           })
-
         }
         if (temp[this.state['image3']] && temp[this.state['image3']].uploadedFileId) {
           updateFile({
@@ -254,15 +256,16 @@ class SideBar extends Component {
           , productId: product.id,
         })
 
-        setTimeout(() => getFileByFileRelatedParentId({fileRelatedParentId: product.id, fileParentType: constants.FILE_PARENT.PRODUCT}), 500)
+        price === 'specified' && newPrice && newPrice.length > 0 && addPrice(product.id, newPrice)
 
+        setTimeout(() => getFileByFileRelatedParentId({fileRelatedParentId: product.id, fileParentType: constants.FILE_PARENT.PRODUCT}), 500)
       })
     }
   }
 
   render() {
     const {galleryModal, image, edit, selectedCountry, selectedProvince, price, firstCategory, secondCategory, error} = this.state
-    const {product, country, province, product_owner, product_category, current_user_identity, countries, provinces, cities, categories} = this.props
+    const {product, country, province, product_owner, product_category, current_user_identity, countries, provinces, cities, categories, product_price} = this.props
     const {name, created_time, pictures_array} = product
 
     return (
@@ -453,8 +456,8 @@ class SideBar extends Component {
 
                 <div>
                   <div className='product-view-sidebar-name'>{name}</div>
-                  <div className='product-view-sidebar-main-img-cont'>
-                    <img className='product-view-sidebar-main-img' style={pictures_array && pictures_array.length > 0 ? {} : {display: 'none'}} src={pictures_array && pictures_array[0] ? pictures_array[0].file : ''} alt='' onClick={this._showGallery}/>
+                  <div className='product-view-sidebar-main-img-cont' style={pictures_array && pictures_array.length > 0 ? {} : {display: 'none'}}>
+                    <img className='product-view-sidebar-main-img' src={pictures_array && pictures_array[0] ? pictures_array[0].file : ''} alt='' onClick={this._showGallery}/>
                   </div>
                   <div style={pictures_array && pictures_array.length > 1 ? {} : {display: 'none'}} className='product-view-sidebar-images'>
                     {
@@ -470,7 +473,9 @@ class SideBar extends Component {
                     country && country.name && province && province.name && <div className='product-view-sidebar-location'><Location className='product-view-sidebar-svg'/>{country.name}، {province.name}</div>
                   }
                   <div className='product-view-sidebar-details'>
-                    <span className='product-view-sidebar-details-grey'>قیمت: </span><span className='product-view-sidebar-details-red'>{'2,000,000 ریال'}</span>
+                    <span className='product-view-sidebar-details-grey'>قیمت: </span>
+                    <span className='product-view-sidebar-details-red'>{product_price && product_price.length > 0 ? this.addCamma(product_price[product_price.length - 1].value) : 'تماس بگیرید'}
+                    </span>
                     <br/>
                     <span className='product-view-sidebar-details-grey'>فروشنده: </span>
                     <span className='product-view-sidebar-details-blue'>
@@ -525,6 +530,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     updateProduct: productActions.updateProduct,
+    addPrice: productActions.addProductPrice,
     createFile: FileActions.createFile,
     updateFile: FileActions.updateFile,
     getFileByFileRelatedParentId: FileActions.getFileByFileRelatedParentId,

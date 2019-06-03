@@ -485,8 +485,6 @@ $sidebar-profile-media-width: 80px;
   background: $text-lightest-color;
   box-shadow: 0 0 14px rgba(0, 0, 0, 0.2);
   border-radius: $border-radius-size;
-  overflow: hidden;
-  transform: perspective(0);
   width: 100%;
   margin-bottom: 20px;
 }
@@ -795,6 +793,10 @@ $sidebar-profile-media-width: 80px;
   height: 100%;
   display: block;
   object-fit: cover;
+}
+
+.banner-radius {
+  border-radius: 5px 5px 0 0;
 }
 
 .sidebarBottomParent {
@@ -2554,34 +2556,198 @@ $sidebar-profile-media-width: 80px;
 }
 
 .user-sidebar-status {
+  position: relative;
   padding: 20px;
   width: calc(100% - 40px);
   border-top: 1px solid lighten($text-lighter-color, 3.6%);
   text-align: center;
 }
 
-.user-sidebar-status-border {
-  padding: 1px;
-  border: 1px solid transparent;
-  border-radius: 18px;
+.user-sidebar-status-change {
+  font-size: $tag-font-size;
+  font-weight: bold;
+  position: absolute;
+  bottom: 0;
+  left: -323px;
+  width: 300px;
+  background-color: $more-button-color;
+  border-radius: 3px;
   overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  user-select: none;
+  text-align: right;
+
+
+  &.show {
+    z-index: 2;
+    transition: all linear 0.3s, z-index linear 0s 0s;
+  }
+
+  &.hide {
+    opacity: 0;
+    z-index: -1;
+    transition: all linear 0.3s, z-index linear 0s 0.4s;
+  }
+}
+
+.user-sidebar-status-change-material {
+  display: block;
+  padding: 15px 10px 15px 15px;
   cursor: pointer;
-  transition: all linear 0.3s;
+  border-bottom: 2px solid #E5E5E5;
+  vertical-align: top;
+
+  div {
+    margin-top: 1px;
+    display: inline-block;
+    margin-right: 15px;
+  }
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+
+.user-sidebar-status-changed-show {
+  display: block;
+  vertical-align: top;
+
+  div {
+    display: inline-block;
+    margin-right: 10px;
+  }
+}
+
+.user-profile-status {
+  width: 20px;
+  height: 20px;
+  vertical-align: top;
+}
+
+.status-hire {
+  fill: #9F78B6;
+}
+
+.status-hire-class {
+  background-color: #9F78B6;
+  transition-duration: $animation-timing-short;
+  border: 1.25px solid transparent;
+
+  .status-hire {
+    fill: white;
+    margin-right: -10px;
+  }
 
   &:hover {
-    border: 1px solid rgba(255, 194, 65, 0.7);
-    transition: all linear 0.3s;
+    transition-duration: $animation-timing-short;
+    box-shadow: 0 0 0 2px #9F78B6;
+    border: 1.25px solid white;
+  }
+}
+
+.status-full-time {
+  fill: #7A8894;
+}
+
+.status-full-time-class {
+  fill: white;
+  background-color: #7A8894;
+  transition-duration: $animation-timing-short;
+  border: 1.25px solid transparent;
+
+  .status-full-time {
+    fill: white;
+    margin-right: -10px;
+  }
+
+  &:hover {
+    transition-duration: $animation-timing-short;
+    box-shadow: 0 0 0 2px #7A8894;
+    border: 1.25px solid white;
+  }
+}
+
+.status-part-time {
+  fill: #8ACABE;
+}
+
+.status-part-time-class {
+  fill: white;
+  background-color: #8ACABE;
+  transition-duration: $animation-timing-short;
+  border: 1.25px solid transparent;
+
+  .status-part-time {
+    fill: white;
+    margin-right: -10px;
+  }
+
+  &:hover {
+    transition-duration: $animation-timing-short;
+    box-shadow: 0 0 0 2px #8ACABE;
+    border: 1.25px solid white;
+  }
+}
+
+.status-intern {
+  fill: #FFC242;
+}
+
+.status-intern-class {
+  fill: white;
+  background-color: #FFC242;
+  transition-duration: $animation-timing-short;
+  border: 1.25px solid transparent;
+
+  .status-intern {
+    fill: white;
+    margin-right: -10px;
+  }
+
+  &:hover {
+    transition-duration: $animation-timing-short;
+    box-shadow: 0 0 0 2px #FFC242;
+    border: 1.25px solid white;
+  }
+}
+
+.status-close {
+  fill: #D1D1D1;
+}
+
+.status-close-class {
+  fill: white;
+  background-color: #D1D1D1;
+  transition-duration: $animation-timing-short;
+  border: 1.25px solid transparent;
+
+  .status-close {
+    fill: white;
+    margin-right: -10px;
+  }
+
+  &:hover {
+    transition-duration: $animation-timing-short;
+    box-shadow: 0 0 0 2px #D1D1D1;
+    border: 1.25px solid white;
   }
 }
 
 .user-sidebar-status-content {
+  cursor: pointer;
   display: block;
   padding: 6px 0;
-  background-color: $bee-color;
   text-align: center;
-  font-size: 14px;
+  font-size: 13px;
   color: white;
   border-radius: 17px;
+  fill: white;
+}
+
+.user-sidebar-status-default {
+  background-color: $eee-color;
+  color: black;
 }
 
 .user-sidebar-skelete-status-border {

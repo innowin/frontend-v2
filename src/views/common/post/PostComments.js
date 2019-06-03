@@ -46,7 +46,7 @@ class PostComments extends React.Component<postCommentsProps, {}> {
           {
             comments.map(comment => {
                   const commentSender = comment.comment_sender
-                  const commentRepliedSender = comment.comment_replied_to && stateComments[comment.comment_replied_to].comment_sender
+                  const commentRepliedSender = comment.comment_replied_to && stateComments[comment.comment_replied_to] && stateComments[comment.comment_replied_to].comment_sender
                   const name = (commentSender.first_name || commentSender.last_name)
                       ? commentSender.first_name + ' ' + commentSender.last_name
                       : commentSender.username

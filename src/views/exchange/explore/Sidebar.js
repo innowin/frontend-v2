@@ -33,8 +33,21 @@ class Sidebar extends Component {
     window.scrollTo({top: 0, behavior: 'smooth'})
   }
 
+  addTag(id) {
+    let tags = this.props.tags ? [...this.props.tags] : []
+    if (tags.indexOf(id) !== -1) {
+      tags.splice(tags.indexOf(id), 1)
+      this.setState({...this.state, tags})
+      this.props.searchByTags(tags)
+    }
+    else {
+      this.props.searchByTags([...tags, id])
+    }
+  }
+
   render() {
     const {searchLength} = this.state
+    const {HashTags,tags} = this.props
 
     return (
         <div className={!window.location.pathname.includes('search') ? 'exchanges-explore-sidebar exchanges-explore-sidebar-hide' : 'exchanges-explore-sidebar'}>
@@ -62,6 +75,14 @@ class Sidebar extends Component {
                 دنبال شده
               </label>
             </div>
+          </div>
+
+          <div className='exchanges-explore-sidebar-labels'>
+            {
+              Object.values(HashTags).map((tag, index) =>
+                  <div key={index} className={tags && tags.indexOf(tag.id) !== -1 ? 'organization-leadership-job-hashtags-selected' : 'organization-leadership-job-hashtags'} onClick={() => this.addTag(tag.id)}>{tag.title}</div>,
+              )
+            }
           </div>
         </div>
     )

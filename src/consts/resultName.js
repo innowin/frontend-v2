@@ -58,6 +58,7 @@ const results = {
     CREATE_PRODUCT_PICTURE: 'create-product-picture-result',
     GET_PRODUCT_PICTURES_BY_PRODUCT_ID: 'get-product-pictures-by-product-id-result',
     GET_PRICE_BY_PRODUCT_ID: 'get-price-by-product-id-result',
+    ADD_PRICE_BY_PRODUCT_ID: 'add-price-by-product-id-result',
 
 
     FILE: {

@@ -1,12 +1,13 @@
-import getProductInfo from "./getProductInfo"
-import createProduct from "./creataProductAsContribution"
+import getProductInfo from './getProductInfo'
+import createProduct from './creataProductAsContribution'
 import {getProductsByIdentity} from './getProductsByIdentity'
 import {deleteProduct} from './deleteProduct'
-import {updateProduct} from "./updateProduct"
-import types from "../../../actions/types"
-import {takeEvery} from "redux-saga/effects"
-import {getAllProducts} from "./getAllProducts"
-import {getProductPrice} from "./getProductPrice"
+import {updateProduct} from './updateProduct'
+import types from '../../../actions/types'
+import {takeEvery} from 'redux-saga/effects'
+import {getAllProducts} from './getAllProducts'
+import {getProductPrice} from './getProductPrice'
+import {addProductPrice} from './addProductPrice'
 
 function* watchGetAllProductInfo() {
   yield takeEvery(types.COMMON.GET_ALL_PRODUCTS, getAllProducts)
@@ -14,6 +15,10 @@ function* watchGetAllProductInfo() {
 
 function* watchGetProductPrice() {
   yield takeEvery(types.COMMON.PRODUCT.GET_PRODUCT_PRICE, getProductPrice)
+}
+
+function* watchAddProductPrice() {
+  yield takeEvery(types.COMMON.PRODUCT.ADD_PRODUCT_PRICE, addProductPrice)
 }
 
 function* watchGetProductInfo() {
@@ -43,5 +48,6 @@ export default [
   watchCreateProduct(),
   watchGetProductsByIdentity(),
   watchDeleteProductByIdentity(),
-  watchGetProductPrice()
+  watchGetProductPrice(),
+  watchAddProductPrice(),
 ]

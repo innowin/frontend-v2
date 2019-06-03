@@ -572,7 +572,6 @@ const StateToProps = (state, ownProps) => {
 const DispatchToProps = dispatch => ({
   actions: bindActionCreators({
     getExchangeMembershipByExchangeId: ExchangeMembershipActions.getExchangeMembershipByExchangeId,
-    getExchangeByExId: exchangeActions.getExchangeByExId,
     editExchange: exchangeActions.editExchange,
     deleteExchange: exchangeActions.deleteExchange,
     follow: ExchangeMembershipActions.createExchangeMembership,

@@ -7,16 +7,12 @@ export const getAllProductInfo = (limit, offset, search) => ({
 
 export const getProductInfo = (id) => ({
   type: types.COMMON.GET_PRODUCT_INFO,
-  payload: {
-    id,
-  },
+  payload: {id},
 })
 
 export const createProductAsContribution = (formData) => ({
   type: types.COMMON.CREATE_PRODUCT,
-  payload: {
-    formData,
-  },
+  payload: {formData},
 })
 
 const getProductsByIdentity = ({productOwnerId}) => ({
@@ -39,6 +35,11 @@ const getProductPrice = (productId) => ({
   payload: {productId},
 })
 
+const addProductPrice = (productId, price) => ({
+  type: types.COMMON.PRODUCT.ADD_PRODUCT_PRICE,
+  payload: {productId, price},
+})
+
 const ProductActions = {
   getAllProductInfo,
   getProductsByIdentity,
@@ -46,6 +47,7 @@ const ProductActions = {
   deleteProduct,
   getProductInfo,
   getProductPrice,
+  addProductPrice
 }
 
 export default ProductActions

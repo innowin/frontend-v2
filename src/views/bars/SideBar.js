@@ -36,26 +36,6 @@ import getAllCountries from '../../redux/selectors/common/location/getCountry'
 import {getCountries} from '../../redux/actions/commonActions/location'
 import MyDatePicker from '../common/components/DatePicker'
 
-
-export const BadgesCard = (props: { badgesImg: (string)[] }) => {
-  return props.badgesImg.map((badgeImg, i) =>
-      <span key={i + 'BadgesCard'}>
-          <img src={badgeImg} alt=""/>
-      </span>,
-  )
-}
-
-export const TagsBox = (props: { tags: ({ title: string })[] }) => {
-  return <React.Fragment>
-    {
-      props.tags.map((tag, i) =>
-          <div className="mb-1" key={i + 'TagsBox'}>
-            <span className="badge -myBadge" dir="ltr">{tag.title}</span>
-          </div>)
-    }
-  </React.Fragment>
-}
-
 type PropsSideBarContent = {
   sideBarType: string,
   owner: userType | organizationType,
@@ -114,12 +94,14 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
     this.state = {
       menuToggle: false,
       editProfile: false,
+      editStatus: false,
       saving: false,
       descriptionState: '',
       selectedImageFile: '',
       selectedImage: '',
       selectedBannerFile: '',
       selectedBanner: '',
+      editStatusTitle: null,
       descriptionClass: 'hide-message',
       processing: false,
       processingBanner: false,
@@ -136,17 +118,6 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
     }
   }
 
-  componentDidUpdate() {
-    const {profileBannerId, profileMediaId, saving} = this.state
-    const {bannerIdTemp, pictureIdTemp, temp} = this.props
-    if (
-        ((profileBannerId && temp[profileBannerId].progress === 100 && bannerIdTemp) || profileBannerId === null) &&
-        ((profileMediaId && temp[profileMediaId].progress === 100 && pictureIdTemp) || profileMediaId === null)
-    ) {
-      if (saving) this._save()
-    }
-  }
-
   componentDidMount() {
     const {actions, description, paramId, owner} = this.props
     const {getFollowers, getFile, getCountries} = actions || {}
@@ -159,6 +130,17 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
     getFile(owner.profile_banner)
     getCountries()
     this.setState({...this.state, descriptionState: description}, () => this._checkCharacter(description))
+  }
+
+  componentDidUpdate() {
+    const {profileBannerId, profileMediaId, saving} = this.state
+    const {bannerIdTemp, pictureIdTemp, temp} = this.props
+    if (
+        ((profileBannerId && temp[profileBannerId].progress === 100 && bannerIdTemp) || profileBannerId === null) &&
+        ((profileMediaId && temp[profileMediaId].progress === 100 && pictureIdTemp) || profileMediaId === null)
+    ) {
+      if (saving) this._save()
+    }
   }
 
   _uploadHandler = (fileString: any) => {
@@ -225,7 +207,7 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
 
   _getValues = () => {
     const {owner, bannerIdTemp, pictureIdTemp, sideBarType} = this.props
-    const {descriptionState, editName, editLastName, editTown, editBirthDate, editTelegram, editInstagram, editLinkedIn, editTwitter, editStaff} = this.state
+    const {descriptionState, editName, editLastName, editTown, editBirthDate, editTelegram, editInstagram, editLinkedIn, editTwitter, editStaff, editStatusTitle} = this.state
     const bannerId = bannerIdTemp ? bannerIdTemp : owner.profile_banner
     const pictureId = pictureIdTemp ? pictureIdTemp : owner.profile_media
     const name = sideBarType === constants.USER_TYPES.USER ? {first_name: editName, last_name: editLastName} : {nike_name: editName, official_name: editLastName}
@@ -243,6 +225,7 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
       linkedin_account: editLinkedIn,
       twitter_account: editTwitter,
       staff_count: editStaff,
+      work_status: editStatusTitle,
       ...name,
       ...birth_date,
       // identity_hashtag: [7527,7528]
@@ -254,8 +237,8 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
     const {descriptionState, editName, editLastName} = this.state
     const descriptionLength = descriptionState ? descriptionState.trim().length : 0
     const descriptionError = descriptionLength > 70
-    const nameError = editName.length === 0
-    const lastNameError = editLastName.length === 0
+    const nameError = editName && editName.length === 0
+    const lastNameError = editLastName && editLastName.length === 0
     const validates = [
       descriptionError,
       nameError,
@@ -294,7 +277,19 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
       editLinkedIn: owner.linkedin_account,
       editTwitter: owner.twitter_account,
       editProfile: !this.state.editProfile,
+      editStatus: false,
+      editStatusTitle: owner.work_status,
     })
+  }
+
+  changeStatus(status) {
+    this.setState({...this.state, editStatusTitle: status.name, editStatus: false})
+  }
+
+  _changeEditStatus = () => {
+    if (this.state.editProfile) {
+      this.setState({...this.state, editStatus: !this.state.editStatus})
+    }
   }
 
   _createFollow = () => {
@@ -406,7 +401,7 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
     const {
       editProfile, selectedBanner, selectedImage, descriptionState, descriptionClass, processing,
       processingBanner, profileBannerId, profileMediaId, showModalState, editName, editLastName,
-      editBirthDate, editTelegram, editInstagram, editLinkedIn, editTwitter,
+      editBirthDate, editTelegram, editInstagram, editLinkedIn, editTwitter, editStatus, editStatusTitle,
     } = this.state
     const {sideBarType, badges, translate: tr, paramId, followers, clientIdentityId, owner, files, bannerIdTemp, pictureIdTemp, actions, temp, countries} = this.props
     const {createWorkExperience, createEducation, createCertificate, createSkill, createResearch} = actions
@@ -426,8 +421,8 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
             <div className="editable-profile-img">
               {
                 !bannerString ?
-                    <div className="background-strips banner covered-img"/> :
-                    <img alt="" src={bannerString} className="banner covered-img" style={{opacity: temp[profileBannerId] && temp[profileBannerId].progress ? temp[profileBannerId].progress / 100 : 1}}/>
+                    <div className="background-strips banner banner-radius covered-img"/> :
+                    <img alt="" src={bannerString} className="banner banner-radius covered-img" style={{opacity: temp[profileBannerId] && temp[profileBannerId].progress ? temp[profileBannerId].progress / 100 : 1}}/>
               }
               {
                 editProfile ?
@@ -572,18 +567,71 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
 
               </div>
               {
-                chosenBadgesImg.length > 0 ? (
-                    <div className="badgesCard">
-                      <BadgesCard badgesImg={chosenBadgesImg}/>
-                    </div>
-                ) : ('')
+                chosenBadgesImg.length > 0 &&
+                <div className="badgesCard">
+                  {
+                    chosenBadgesImg.map((badgeImg, i) =>
+                        <span key={i + 'BadgesCard'}><img src={badgeImg} alt=""/></span>,
+                    )
+                  }
+                </div>
               }
 
-              <section className='user-sidebar-status'>
-                <div className='user-sidebar-status-border'>
-                  <Material className='user-sidebar-status-content' content='فرصت کارآموزی'/>
-                </div>
-              </section>
+              {
+                (owner.work_status || editProfile) &&
+                <section className='user-sidebar-status'>
+                  <Material className={`user-sidebar-status-content ${
+                      editStatusTitle || owner.work_status ?
+                          sideBarType === constants.USER_TYPES.ORG ? constants.PROFILE_STATUS.ORG[editStatusTitle || owner.work_status].buttonClass
+                              :
+                              constants.PROFILE_STATUS.USER[editStatusTitle || owner.work_status].buttonClass
+                          :
+                          'user-sidebar-status-default'
+                      }`}
+                            content={editStatusTitle || owner.work_status ?
+                                <div className='user-sidebar-status-changed-show'>
+                                  <div>
+                                    <div>{tr[editStatusTitle || owner.work_status]}</div>
+                                    {
+                                      editStatusTitle || owner.work_status ?
+                                          sideBarType === constants.USER_TYPES.ORG ? constants.PROFILE_STATUS.ORG[editStatusTitle || owner.work_status].icon
+                                              :
+                                              constants.PROFILE_STATUS.USER[editStatusTitle || owner.work_status].icon
+                                          :
+                                          null
+                                    }
+                                  </div>
+                                </div>
+                                :
+                                'انتخاب وضعیت'
+                            }
+                            onClick={this._changeEditStatus}
+                  />
+
+                  <div className={`user-sidebar-status-change ${editProfile && editStatus ? 'show' : 'hide'}`}>
+                    {
+                      sideBarType === constants.USER_TYPES.ORG ?
+                          Object.values(constants.PROFILE_STATUS.ORG).map((status, index) =>
+                              <Material key={index} className='user-sidebar-status-change-material' content={
+                                <div>
+                                  <div>{tr[status.name]}</div>
+                                  {status.icon}
+                                </div>
+                              } onClick={() => this.changeStatus(status)}/>,
+                          )
+                          :
+                          Object.values(constants.PROFILE_STATUS.USER).map((status, index) =>
+                              <Material key={index} className='user-sidebar-status-change-material' content={
+                                <div>
+                                  <div>{tr[status.name]}</div>
+                                  {status.icon}
+                                </div>
+                              } onClick={() => this.changeStatus(status)}/>,
+                          )
+                    }
+                  </div>
+                </section>
+              }
 
               {
                 !editProfile &&

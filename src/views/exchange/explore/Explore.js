@@ -10,6 +10,7 @@ import {getExchanges} from 'src/redux/selectors/common/exchanges/GetAllExchanges
 import {PureComponent} from 'react'
 import MobileHeader from '../../user/explore/MobileHeader'
 import {getHashTags} from 'src/redux/actions/commonActions/hashTagActions'
+import {hashTagsListSelector} from 'src/redux/selectors/common/hashTags/hashTag'
 
 class Explore extends PureComponent {
   constructor(props) {
@@ -19,6 +20,7 @@ class Explore extends PureComponent {
       scrollLoading: false,
       justFollowing: false,
       search: null,
+      tags: null,
       scrollButton: false,
       followed: [],
     }
@@ -58,7 +60,7 @@ class Explore extends PureComponent {
       let scrollHeight = document.body ? document.body.scrollHeight : 0
       if (((window.innerHeight + window.scrollY) >= (scrollHeight - 250)) && (scrollHeight > activeScrollHeight)) {
         this.setState({...this.state, activeScrollHeight: scrollHeight, scrollLoading: true},
-            () => this.props.actions.getAllExchanges(24, Object.values(allExchanges).length, this.state.search))
+            () => this.props.actions.getAllExchanges(24, Object.values(allExchanges).length, this.state.search, this.state.tags))
       }
       if (window.scrollY > 1000)
         this.setState({...this.state, scrollButton: true})
@@ -66,9 +68,15 @@ class Explore extends PureComponent {
     }
   }
 
-  _search = (search) => {
+  _search = search => {
     this.setState({...this.state, search: search, activeScrollHeight: 0}, () => {
-      this.props.actions.getAllExchanges(24, 0, search)
+      this.props.actions.getAllExchanges(24, 0, search, this.state.tags)
+    })
+  }
+
+  _searchByTags = tags => {
+    this.setState({...this.state, tags, activeScrollHeight: 0}, () => {
+      this.props.actions.getAllExchanges(24, 0, this.state.search, [...tags])
     })
   }
 
@@ -82,13 +90,13 @@ class Explore extends PureComponent {
   }
 
   render() {
-    const {allExchanges, loading} = this.props
-    const {justFollowing, scrollButton, followed} = this.state
+    const {allExchanges, loading, HashTags} = this.props
+    const {justFollowing, scrollButton, followed, tags} = this.state
 
     return (
         <div className='all-exchanges-parent'>
           <MobileHeader search={this._search} path='/exchange/Exchange_Explorer/search'/>
-          <Sidebar search={this._search} justFollowing={this._justFollowing}/>
+          <Sidebar HashTags={HashTags} tags={tags} searchByTags={this._searchByTags} search={this._search} justFollowing={this._justFollowing}/>
           <div className='all-exchanges-container'>
             <Exchanges exchanges={allExchanges} justFollowing={justFollowing} loading={loading} followed={followed}/>
             <div className='exchange-model-hide'/>
@@ -109,6 +117,7 @@ const mapStateToProps = (state) => ({
   loading: state.exchanges.isLoading,
   clientExchangeMemberships: state.auth.client.exchangeMemberships,
   exchangeMemberships: state.common.exchangeMembership.list,
+  HashTags: hashTagsListSelector(state),
 })
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({

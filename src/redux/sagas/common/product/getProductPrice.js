@@ -12,17 +12,19 @@ export function* getProductPrice(action) {
         api.get,
         urls.COMMON.PRICE,
         results.COMMON.GET_PRICE_BY_PRODUCT_ID,
-        `?product_id=${productId}`
+        `?product_id=${productId}`,
     )
     const data = yield take(socketChannel)
-    yield put({type: types.SUCCESS.COMMON.PRODUCT.GET_PRODUCT_PRICE, payload: {data}})
-  } catch (err) {
+    yield put({type: types.SUCCESS.COMMON.PRODUCT.GET_PRODUCT_PRICE, payload: {productId, data}})
+  }
+  catch (err) {
     const {message} = err
     yield put({
       type: types.ERRORS.COMMON.PRODUCT.GET_PRODUCT_PRICE,
-      payload: {message}
+      payload: {message},
     })
-  } finally {
+  }
+  finally {
     socketChannel.close()
   }
 }

@@ -3,7 +3,6 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types'
 import {defaultImg} from "../../images/icons";
 import {VerifyWrapper} from "../common/cards/Frames";
-import {BadgesCard, TagsBox} from "./SideBar";
 import {getExchange, getExchangeMember} from "../../crud/exchange/exchange";
 import {ExchangeIcon} from "src/images/icons"
 import {getExchangePostsByPostType, getExchangePostsHasProduct} from "../../crud/post/exchangePost";

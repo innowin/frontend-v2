@@ -1,3 +1,6 @@
+import {StatusClose, StatusHire, StatusIntern, StatusPartTime} from '../images/icons'
+import React from 'react'
+
 export default {
   TOP_BAR_PAGES: {
     EXCHANGE_EXPLORER: '/exchange/Exchange_Explorer',
@@ -11,7 +14,7 @@ export default {
     USER: 'user',
   },
   POST_PARENT: {
-    EXCHANGE: 'exchange'
+    EXCHANGE: 'exchange',
   },
   FILE_PARENT: {
     POST: 'post',
@@ -25,14 +28,14 @@ export default {
     PRICE_TYPE: {
       SPECIFIED: 'specified',
       CALL: 'call',
-    }
+    },
   },
   POST: {
     POST_TYPE: {
       POST: 'post',
       SUPPLY: 'supply',
       DEMAND: 'demand',
-    }
+    },
   },
   GENDER: {
     MALE: 'male',
@@ -71,12 +74,12 @@ export default {
     PHOTO: ['jpg', 'jpeg', 'png'],
     FILE: ['pdf', 'xlsx', 'doc', 'docx'],
     VIDEO: ['mp4'],
-    AUDIO: ['mp3']
+    AUDIO: ['mp3'],
   },
   RESET_PASSWORD_STEP: {
     REQUEST: 'request_step',
     CHECK_CODE: 'check_code_step',
-    RESET: 'reset_step'
+    RESET: 'reset_step',
   },
   TOAST_TYPE: {
     SUCCESS: 'success',
@@ -98,9 +101,9 @@ export default {
     CODE_SENDED: 'code sended',
   },
   STATISTICS: {
-    SUPPLY: "عرضه",
-    DEMAND: "تقاضا",
-    MEMBERS: "اعضا"
+    SUPPLY: 'عرضه',
+    DEMAND: 'تقاضا',
+    MEMBERS: 'اعضا',
   },
   CREATE_FILE_TYPES: {
     IMAGE: 'image',
@@ -126,10 +129,10 @@ export default {
       FILE: 'file',
     },
     EXCHANGE: {
-      IMAGE: 'exchange-image'
+      IMAGE: 'exchange-image',
     },
     PRODUCT: {
-      IMAGE: 'product-image'
+      IMAGE: 'product-image',
     },
     CERTIFICATE: {
       PICTURE: 'certificate-picture',
@@ -141,12 +144,12 @@ export default {
     CERTIFICATE: {
       PICTURE: 'certificatePicture',
       LOGO: 'certificateLogo',
-    }
+    },
   },
   WORK_STATUS: {
     EMPLOYED: 'employed',
     SEARCH_FOR_A_BETTER_JOB: 'search_for_a_better_job',
-    UNEMPLOYED: 'unemployed'
+    UNEMPLOYED: 'unemployed',
   },
   WORK_STATUS_FA: {
     EMPLOYED: 'شاغل',
@@ -158,13 +161,29 @@ export default {
     APPLYING: 'applying',
     SERVING: 'serving',
     THE_END_OF_SERVING: 'the_end_of_serving',
-    PERMANENT_EXEMPTION: 'permanent_exemption'
+    PERMANENT_EXEMPTION: 'permanent_exemption',
   },
   MILITARY_SERVING_STATUS_FA: {
     EDUCATION_PARDON: 'معافیت تحصیلی',
     APPLYING: 'در حال اعزام',
     SERVING: 'در حال خدمت',
     THE_END_OF_SERVING: 'انجام شده',
-    PERMANENT_EXEMPTION: 'معافیت دائم'
+    PERMANENT_EXEMPTION: 'معافیت دائم',
+  },
+  PROFILE_STATUS: {
+    USER: {
+      'to_get_hired': {name: 'to_get_hired', icon: <StatusHire className='user-profile-status status-hire'/>, buttonClass: 'status-hire-class'},
+      'full_time_hiring': {name: 'full_time_hiring', icon: <StatusPartTime className='user-profile-status status-full-time'/>, buttonClass: 'status-full-time-class'},
+      'part_time_hiring': {name: 'part_time_hiring', icon: <StatusPartTime className='user-profile-status status-part-time'/>, buttonClass: 'status-part-time-class'},
+      'internship_hiring': {name: 'internship_hiring', icon: <StatusIntern className='user-profile-status status-intern'/>, buttonClass: 'status-intern-class'},
+      'not_interested_to_job': {name: 'not_interested_to_job', icon: <StatusClose className='user-profile-status status-close'/>, buttonClass: 'status-close-class'},
+    },
+    ORG: {
+      'hire': {name: 'hire', icon: <StatusHire className='user-profile-status status-hire'/>, buttonClass: 'status-hire-class'},
+      'full_time_hire': {name: 'full_time_hire', icon: <StatusPartTime className='user-profile-status status-full-time'/>, buttonClass: 'status-full-time-class'},
+      'part_time_hire': {name: 'part_time_hire', icon: <StatusPartTime className='user-profile-status status-part-time'/>, buttonClass: 'status-part-time-class'},
+      'internship_hire': {name: 'internship_hire', icon: <StatusIntern className='user-profile-status status-intern'/>, buttonClass: 'status-intern-class'},
+      'not_hiring': {name: 'not_hiring', icon: <StatusClose className='user-profile-status status-close'/>, buttonClass: 'status-close-class'},
+    },
   },
 }

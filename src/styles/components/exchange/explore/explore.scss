@@ -426,8 +426,13 @@
 }
 
 .exchanges-explore-sidebar-check {
-  width: 90%;
-  margin: 10px auto;
+  padding-top: 12px;
+  border-top: 1px solid $eee-color;
+  border-bottom: 1px solid $eee-color;
+}
+
+.exchanges-explore-sidebar-labels {
+  padding: 12px 0;
 }
 
 .users-explore-sidebar-check {
