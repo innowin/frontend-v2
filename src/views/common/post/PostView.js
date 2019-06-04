@@ -126,6 +126,10 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
       getFileByFileRelatedParentId({fileRelatedParentId: match.params.id, fileParentType: constants.FILE_PARENT.POST})
       getPost({postId: match.params.id, postOwnerId: ownerId})
     }
+    else {
+      const {match} = this.props
+      getCommentsByParentId({parentId: match.params.id, commentParentType: constants.COMMENT_PARENT.POST})
+    }
 
     if (self.text) {
       const allWords = self.text.innerText.replace(/\n/g, ' ').split(' ')
@@ -170,12 +174,11 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
   }
 
   componentWillReceiveProps(nextProps) {
-    const {post} = nextProps
-    const self: any = this
-    let showMore = false
-    let height = null
-
-    if (post && post.post_description !== this.props.post.post_description) {
+    const {post, extendedView} = nextProps
+    if (!extendedView && post && post.post_description !== this.props.post.post_description) {
+      const self: any = this
+      let showMore = false
+      let height = null
       if (self.text.clientHeight > 70) {
         height = self.text.clientHeight
         if (post.post_description && new RegExp('^[A-Za-z]*$').test(post.post_description[0])) {
@@ -185,7 +188,6 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
         self.text.style.height = '63px'
         showMore = true
       }
-
       this.setState({...this.state, showMore, descriptionHeight: height})
     }
   }
