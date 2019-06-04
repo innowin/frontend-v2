@@ -87,7 +87,7 @@ class ContactForm extends React.Component <ContactProps, ContactStates> {
       web_site: numberCorrection(form.web_site.value),
     }
 
-    if (web_site === false && email === false && phone === false) {
+    if (Boolean(web_site || email || phone) === false) {
       updateOrganization({formValues, organizationId: organization.id})
       toggleEdit()
     }

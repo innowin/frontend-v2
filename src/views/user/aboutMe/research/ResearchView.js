@@ -44,7 +44,7 @@ class ResearchView extends React.Component <ResearchProps, ResearchStates> {
     isLoading: {},
   }
 
-  _toggleEditResearch(id: number) {
+  _toggleEditResearch = (id: number) => {
     let {isEdit} = this.state
     if (!isEdit[id]) {
       isEdit[id] = false
@@ -52,7 +52,7 @@ class ResearchView extends React.Component <ResearchProps, ResearchStates> {
     this.setState({...this.state, isEdit: {...isEdit, [id]: !isEdit[id]}})
   }
 
-  _toggleDeleteResearch(id: number) {
+  _toggleDeleteResearch = (id: number) => {
     let {isDelete} = this.state
     if (!isDelete[id]) {
       isDelete[id] = false

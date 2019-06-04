@@ -44,12 +44,12 @@ class ResumeView extends React.Component <ResumeProps, ResumeStates> {
     isLoading: false,
   }
 
-  _toggleEditResume() {
+  _toggleEditResume = () => {
     let {isEdit} = this.state
     this.setState({...this.state, isEdit: !isEdit})
   }
 
-  _toggleDeleteResume() {
+  _toggleDeleteResume = () => {
     let {isDelete} = this.state
     this.setState({...this.state, isDelete: !isDelete})
   }

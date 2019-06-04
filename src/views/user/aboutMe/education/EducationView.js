@@ -44,7 +44,7 @@ class EducationView extends React.Component <EducationProps, EducationStates> {
     deleteEducation: PropTypes.func.isRequired,
   }
 
-  _toggleEditEducation(id: number) {
+  _toggleEditEducation = (id: number) => {
     let {isEdit} = this.state
     if (!isEdit[id]) {
       isEdit[id] = false
@@ -52,7 +52,7 @@ class EducationView extends React.Component <EducationProps, EducationStates> {
     this.setState({...this.state, isEdit: {...isEdit, [id]: !isEdit[id]}})
   }
 
-  _toggleDeleteEducation(id: number) {
+  _toggleDeleteEducation = (id: number) => {
     let {isDelete} = this.state
     if (!isDelete[id]) {
       isDelete[id] = false

@@ -102,6 +102,18 @@ const agencyRequest = (description, hideLoading) => ({
   }
 })
 
+const getOrganizationsFilterByOfficialName = ({officialName}) => ({
+  type: types.ORG.GET_ORGANIZATION_FILTER_BY_OFFICIAL_NAME,
+  payload: {
+    officialName,
+  }
+})
+
+const emptySearchedOrganization = () => ({
+  type: types.ORG.EMPTY_SEARCHED_ORGANIZATION,
+  payload: {}
+})
+
 
 const OrganizationActions = {
   getMetaDataOrganization,
@@ -118,6 +130,8 @@ const OrganizationActions = {
   addPicture,
   getOrgStaff,
   agencyRequest,
+  getOrganizationsFilterByOfficialName,
+  emptySearchedOrganization,
 };
 
 export default OrganizationActions;

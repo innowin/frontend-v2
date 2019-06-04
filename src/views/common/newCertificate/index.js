@@ -9,6 +9,7 @@ import type {certificateType} from 'src/consts/flowTypes/user/others'
 import type {fileType} from 'src/consts/flowTypes/common/fileType'
 import type {identityType} from 'src/consts/flowTypes/identityType'
 import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
+import type {organizationType} from 'src/consts/flowTypes/organization/organization'
 
 type Props = {
   owner: identityType,
@@ -19,6 +20,9 @@ type Props = {
   updateCertificate: Function,
   deleteCertificate: Function,
   files: { [number]: fileType },
+  emptySearchedOrganization: Function,
+  getOrganizationsFilterByOfficialName: Function,
+  searchedOrganizations: [organizationType],
 }
 
 type States = {
@@ -36,6 +40,9 @@ class Certificate extends React.Component<Props, States> {
     updateCertificate: PropTypes.func.isRequired,
     deleteCertificate: PropTypes.func.isRequired,
     files: PropTypes.object.isRequired,
+    emptySearchedOrganization: PropTypes.func.isRequired,
+    getOrganizationsFilterByOfficialName: PropTypes.func.isRequired,
+    searchedOrganizations: PropTypes.array.isRequired,
   }
 
   state = {
@@ -56,27 +63,25 @@ class Certificate extends React.Component<Props, States> {
   }
 
   render() {
-    const {owner, translate, createCertificate, files, updateCertificate, deleteCertificate} = this.props
+    const {
+      owner, translate, createCertificate, files, updateCertificate, deleteCertificate, certificates,
+      getOrganizationsFilterByOfficialName, searchedOrganizations, emptySearchedOrganization,
+    } = this.props
     const {isEdit} = this.state
-
-    const certificates = [
-      {
-        id: 1,
-        title: 'اولی',
-        certificate_parent: 5692,
-        certificate_picture: 4149,
-        certificate_logo: 4173,
-        created_time: "2019-03-22T14:36:10.964533Z",
-      }
-    ]
     return (
         <CardContainer>
           {
             isEdit
                 ? <CertificateForm createCertificate={createCertificate} toggleEdit={this._toggleEdit}
-                                   translate={translate} owner={owner}/>
+                                   translate={translate} owner={owner}
+                                   getOrganizationsFilterByOfficialName={getOrganizationsFilterByOfficialName}
+                                   searchedOrganization={searchedOrganizations}
+                                   emptySearchedOrganization={emptySearchedOrganization}/>
                 : <CertificateView updateCertificate={updateCertificate} files={files} certificates={certificates}
                                    owner={owner} translate={translate} toggleEdit={this._toggleEdit}
+                                   getOrganizationsFilterByOfficialName={getOrganizationsFilterByOfficialName}
+                                   searchedOrganization={searchedOrganizations}
+                                   emptySearchedOrganization={emptySearchedOrganization}
                                    deleteCertificate={deleteCertificate}/>
           }
         </CardContainer>

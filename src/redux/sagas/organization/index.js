@@ -18,6 +18,7 @@ import {
   getProductPicture,
   getProductsSuccess,
 } from "./organization"
+import {getOrganizationsFilterByOfficialName} from './getOrganizationsFilterByOfficialName'
 
 /**********    %% WATCHERS %%    **********/
 
@@ -86,6 +87,10 @@ function* watchAgencyRequest() {
   yield takeEvery(types.ORG.AGENCY_REQUEST, agencyRequest)
 }
 
+function* watchGetOrganizationsFilterByOfficialName() {
+  yield takeEvery(types.ORG.GET_ORGANIZATION_FILTER_BY_OFFICIAL_NAME, getOrganizationsFilterByOfficialName)
+}
+
 export default [
   watchGetOrganizationByOrganId(),
   watchGetOrganizationMembers(),
@@ -101,4 +106,5 @@ export default [
   watchCreateCustomer(),
   watchDeleteCustomer(),
   watchAgencyRequest(),
+  watchGetOrganizationsFilterByOfficialName(),
 ]

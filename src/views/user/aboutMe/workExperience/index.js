@@ -8,6 +8,7 @@ import WorkExperienceForm from './WorkExperienceForm'
 import type {identityType} from 'src/consts/flowTypes/identityType'
 import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
 import type {workExperienceType} from 'src/consts/flowTypes/user/others'
+import type {organizationType} from 'src/consts/flowTypes/organization/organization'
 
 type Props = {
   owner: identityType,
@@ -17,6 +18,9 @@ type Props = {
   deleteWorkExperience: Function,
   updateWorkExperience: Function,
   getWorkExperiences: Function,
+  getOrganizationsFilterByOfficialName: Function,
+  emptySearchedOrganization: Function,
+  searchedOrganizations: [organizationType],
 }
 
 type States = {
@@ -33,6 +37,9 @@ class WorkExperience extends React.Component<Props, States> {
     deleteWorkExperience: PropTypes.func.isRequired,
     updateWorkExperience: PropTypes.func.isRequired,
     getWorkExperiences: PropTypes.func.isRequired,
+    getOrganizationsFilterByOfficialName: PropTypes.func.isRequired,
+    emptySearchedOrganization: PropTypes.func.isRequired,
+    searchedOrganizations: PropTypes.array.isRequired,
   }
 
   state = {
@@ -52,7 +59,10 @@ class WorkExperience extends React.Component<Props, States> {
   }
 
   render() {
-    const {owner, translate, createWorkExperience, updateWorkExperience, workExperiences, deleteWorkExperience} = this.props
+    const {
+      owner, translate, createWorkExperience, updateWorkExperience, workExperiences, deleteWorkExperience,
+      getOrganizationsFilterByOfficialName, searchedOrganizations, emptySearchedOrganization
+    } = this.props
     const {isEdit} = this.state
 
     return (
@@ -60,10 +70,16 @@ class WorkExperience extends React.Component<Props, States> {
           {
             isEdit
                 ? <WorkExperienceForm createWorkExperience={createWorkExperience} toggleEdit={this._toggleEdit}
-                                      translate={translate} owner={owner}/>
+                                      getOrganizationsFilterByOfficialName={getOrganizationsFilterByOfficialName}
+                                      searchedOrganization={searchedOrganizations}
+                                      emptySearchedOrganization={emptySearchedOrganization} translate={translate}
+                                      owner={owner}/>
                 : <WorkExperienceView deleteWorkExperience={deleteWorkExperience}
                                       updateWorkExperience={updateWorkExperience} workExperiences={workExperiences}
-                                      owner={owner} translate={translate} toggleEdit={this._toggleEdit}/>
+                                      getOrganizationsFilterByOfficialName={getOrganizationsFilterByOfficialName}
+                                      searchedOrganization={searchedOrganizations}
+                                      emptySearchedOrganization={emptySearchedOrganization} owner={owner}
+                                      translate={translate} toggleEdit={this._toggleEdit}/>
           }
         </CardContainer>
     )

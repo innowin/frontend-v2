@@ -114,7 +114,7 @@ class SkillForm extends React.Component<Props, States> {
       skill_related_identity: owner.id,
     }
 
-    if (titleError || levelError === false) {
+    if (Boolean(titleError || levelError) === false) {
       if (updateSkill && skill) {
         updateSkill({formValues, skillId: skill.id, userId: owner.id})
       } else if (createSkill) {

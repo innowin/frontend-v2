@@ -7,7 +7,8 @@ import type {identityType} from 'src/consts/flowTypes/identityType'
 import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
 import type {workExperienceType} from 'src/consts/flowTypes/user/others'
 import Validations from 'src/helpers/validations/validations'
-import numberCorrection from '../../../../helpers/numberCorrection'
+import numberCorrection from 'src/helpers/numberCorrection'
+import type {organizationType} from 'src/consts/flowTypes/organization/organization'
 
 type Props = {
   toggleEdit: Function,
@@ -15,20 +16,26 @@ type Props = {
   workExperience?: workExperienceType,
   createWorkExperience?: Function,
   updateWorkExperience?: Function,
+  getOrganizationsFilterByOfficialName: Function,
+  emptySearchedOrganization: Function,
+  searchedOrganization: [organizationType],
   owner: identityType,
 }
 
 type States = {
   modalIsOpen: boolean,
   name: string,
-  position: string,
+  work_experience_organization_name: string,
+  selectedOrganization: ?number,
   errors: {
     name: boolean,
-    position: boolean,
+    work_experience_organization_name: boolean,
   }
 }
 
 class WorkExperienceForm extends React.Component<Props, States> {
+
+  form: SyntheticEvent<HTMLFormElement>
 
   static propTypes = {
     toggleEdit: PropTypes.func.isRequired,
@@ -36,26 +43,31 @@ class WorkExperienceForm extends React.Component<Props, States> {
     workExperience: PropTypes.object,
     createWorkExperience: PropTypes.func,
     updateWorkExperience: PropTypes.func,
+    getOrganizationsFilterByOfficialName: PropTypes.func.isRequired,
+    emptySearchedOrganization: PropTypes.func.isRequired,
+    searchedOrganization: PropTypes.array.isRequired,
     owner: PropTypes.object.isRequired,
   }
 
   state = {
     modalIsOpen: true,
     name: '',
-    position: '',
+    work_experience_organization_name: '',
+    selectedOrganization: undefined,
     errors: {
       name: false,
-      position: false,
+      work_experience_organization_name: false,
     }
   }
 
   componentDidMount(): void {
-    const {workExperience, translate} = this.props
+    const {workExperience, translate, emptySearchedOrganization} = this.props
     if (workExperience) {
       this.setState({
         ...this.state,
         name: workExperience.name,
-        position: workExperience.position,
+        work_experience_organization_name: workExperience.work_experience_organization_name,
+        selectedOrganization: workExperience.work_experience_organization,
       })
     } else {
       this.setState({
@@ -63,10 +75,15 @@ class WorkExperienceForm extends React.Component<Props, States> {
         errors: {
           ...this.state.errors,
           name: Validations.validateRequired({value: this.state.name, translate}),
-          position: Validations.validateRequired({value: this.state.position, translate})
+          work_experience_organization_name: Validations.validateRequired({
+            value: this.state.work_experience_organization_name,
+            translate
+          })
         }
       })
     }
+
+    emptySearchedOrganization()
   }
 
   _toggle = () => {
@@ -76,15 +93,18 @@ class WorkExperienceForm extends React.Component<Props, States> {
   }
 
   _onChangeFields = (event: SyntheticEvent<HTMLInputElement>) => {
-    const {translate} = this.props
+    const {translate, getOrganizationsFilterByOfficialName} = this.props
     const target = event.target
     const value = target.type === 'checkbox' ? target.checked : numberCorrection(target.value)
     const name = target.name
     let error = false
     if (name === 'name') {
       error = Validations.validateRequired({value, translate})
-    } else if (name === 'position') {
+    } else if (name === 'work_experience_organization_name') {
       error = Validations.validateRequired({value, translate})
+      if (!error && value.length >= 3) {
+        getOrganizationsFilterByOfficialName({officialName: value})
+      }
     }
 
     this.setState({
@@ -93,14 +113,15 @@ class WorkExperienceForm extends React.Component<Props, States> {
       errors: {
         ...this.state.errors,
         [name]: error
-      }
+      },
+      selectedOrganization: undefined,
     })
   }
 
   _onSubmit = (e: SyntheticEvent<HTMLFormElement>) => {
     const {createWorkExperience, owner, updateWorkExperience, workExperience} = this.props
-    const {errors} = this.state
-    const {name: nameError, position: positionError} = errors
+    const {errors, selectedOrganization} = this.state
+    const {name: nameError, work_experience_organization_name: workExperienceOrganizationNameError} = errors
     e.preventDefault()
     e.stopPropagation()
 
@@ -108,12 +129,23 @@ class WorkExperienceForm extends React.Component<Props, States> {
 
     let formValues = {
       name: form.name.value,
-      position: form.position.value,
       work_experience_related_identity: owner.id,
-      work_experience_organization: 4309,
+    }
+    if (selectedOrganization) {
+      formValues = {
+        ...formValues,
+        work_experience_organization: selectedOrganization,
+        work_experience_organization_name: ''
+      }
+    } else {
+      formValues = {
+        ...formValues,
+        work_experience_organization_name: form.work_experience_organization_name.value,
+        work_experience_organization: null
+      }
     }
 
-    if (nameError || positionError === false) {
+    if (Boolean(nameError || workExperienceOrganizationNameError) === false) {
       if (updateWorkExperience && workExperience) {
         updateWorkExperience({formValues, workExperienceId: workExperience.id})
       } else if (createWorkExperience) {
@@ -123,21 +155,37 @@ class WorkExperienceForm extends React.Component<Props, States> {
     }
   }
 
+  setSearchedOrganization = (organization: organizationType) => {
+    const {emptySearchedOrganization} = this.props
+    emptySearchedOrganization()
+    this.setState({
+      ...this.state,
+      selectedOrganization: organization.id,
+      work_experience_organization_name: organization.official_name,
+      errors: {
+        ...this.state.errors,
+        work_experience_organization_name: false,
+      }
+    })
+    this.form.work_experience_organization_name.value = organization.official_name
+  }
+
   render() {
     const {modalIsOpen} = this.state
-    const {translate, workExperience} = this.props
-    let name = '', position = ''
+    const {translate, workExperience, searchedOrganization} = this.props
+    let name = '', work_experience_organization_name = ''
     if (workExperience) {
       name = workExperience.name
-      position = workExperience.position
+      work_experience_organization_name = workExperience.work_experience_organization_name || workExperience.organizationOfficialName
     }
     const {errors} = this.state
-    const {name: nameError, position: positionError} = errors
+    const {name: nameError, work_experience_organization_name: workExperienceOrganizationNameError} = errors
 
     return (
         <div className="event-card">
           <Modal open={modalIsOpen} closer={this._toggle}>
-            <form method='POST' onSubmit={this._onSubmit} className="event-modal edit-modal">
+            <form ref={(e: any) => this.form = e} method='POST' onSubmit={this._onSubmit}
+                  className="event-modal edit-modal">
               <div className="head">
                 <div className="title">{translate['Add workExperience']}</div>
               </div>
@@ -152,10 +200,23 @@ class WorkExperienceForm extends React.Component<Props, States> {
 
                 <div className='detail-row'>
                   <p className='title'>{translate['Name work']} <span className='required-star'>*</span></p>
-                  <input defaultValue={position} onChange={this._onChangeFields} name='position'
+                  <input defaultValue={work_experience_organization_name} onChange={this._onChangeFields}
+                         name='work_experience_organization_name'
                          className='edit-text-fields' placeholder={translate['Name work']}/>
+                  <div className='searched-container'>
+                    {
+                      searchedOrganization.map(organization =>
+                          <div className='searched-item' key={'searched organization ' + organization.id}
+                               onClick={() => this.setSearchedOrganization(organization)}>
+                            {organization.official_name}
+                          </div>
+                      )
+                    }
+                  </div>
                   <div className='modal-tip'>{translate['WorkExperience position tip']}</div>
-                  {positionError && <div className='text-field-error'>{positionError}</div>}
+                  {workExperienceOrganizationNameError &&
+                  <div className='text-field-error'>{workExperienceOrganizationNameError}</div>
+                  }
                 </div>
 
               </div>

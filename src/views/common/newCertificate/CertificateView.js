@@ -2,6 +2,7 @@
 import * as React from "react"
 import FontAwesome from 'react-fontawesome'
 import PropTypes from 'prop-types'
+import {Link} from 'react-router-dom'
 
 import CardRowContainer from 'src/views/common/components/CardRowContainer'
 import CertificateForm from './CertificateForm'
@@ -12,6 +13,7 @@ import type {fileType} from 'src/consts/flowTypes/common/fileType'
 import type {identityType} from 'src/consts/flowTypes/identityType'
 import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
 import {EditIcon, LinkedInIcon} from 'src/images/icons'
+import type {organizationType} from 'src/consts/flowTypes/organization/organization'
 
 type CertificateProps = {
   owner: identityType,
@@ -21,6 +23,9 @@ type CertificateProps = {
   files: { [number]: fileType },
   updateCertificate: Function,
   deleteCertificate: Function,
+  getOrganizationsFilterByOfficialName: Function,
+  searchedOrganization: [organizationType],
+  emptySearchedOrganization: Function,
 }
 
 type CertificateStates = {
@@ -39,6 +44,9 @@ class CertificateView extends React.Component <CertificateProps, CertificateStat
     files: PropTypes.object.isRequired,
     updateCertificate: PropTypes.func.isRequired,
     deleteCertificate: PropTypes.func.isRequired,
+    searchedOrganization: PropTypes.array.isRequired,
+    getOrganizationsFilterByOfficialName: PropTypes.func.isRequired,
+    emptySearchedOrganization: PropTypes.func.isRequired,
   }
 
   state = {
@@ -47,7 +55,7 @@ class CertificateView extends React.Component <CertificateProps, CertificateStat
     isLoading: {},
   }
 
-  _toggleEditCertificate(id: number) {
+  _toggleEditCertificate = (id: number) => {
     let {isEdit} = this.state
     if (!isEdit[id]) {
       isEdit[id] = false
@@ -55,7 +63,7 @@ class CertificateView extends React.Component <CertificateProps, CertificateStat
     this.setState({...this.state, isEdit: {...isEdit, [id]: !isEdit[id]}})
   }
 
-  _toggleDeleteCertificate(id: number) {
+  _toggleDeleteCertificate = (id: number) => {
     let {isDelete} = this.state
     if (!isDelete[id]) {
       isDelete[id] = false
@@ -66,13 +74,16 @@ class CertificateView extends React.Component <CertificateProps, CertificateStat
   _deleteCertificate = (id: number) => {
     const {deleteCertificate, owner} = this.props
     const {isLoading} = this.state
-    !isLoading[id] && deleteCertificate({certificateId: id, userId: owner.id})
+    !isLoading[id] && deleteCertificate({certificateId: id, certificateOwnerId: owner.id})
 
     this.setState({...this.state, isLoading: {...isLoading, [id]: true}})
   }
 
   render() {
-    const {translate, certificates, owner, toggleEdit, files, updateCertificate} = this.props
+    const {
+      translate, certificates, owner, toggleEdit, files, updateCertificate, searchedOrganization,
+      getOrganizationsFilterByOfficialName, emptySearchedOrganization
+    } = this.props
     const {isEdit, isDelete} = this.state
     return (
         <React.Fragment>
@@ -89,40 +100,54 @@ class CertificateView extends React.Component <CertificateProps, CertificateStat
 
           <div className="content">
             {certificates.map(certificate => {
-                  const certificatePicture = certificate.certificate_picture
-                  return (
-                      !isEdit[certificate.id]
-                          ? <React.Fragment key={'certificate ' + certificate.id}>
-                            <CardRowContainer title={translate['Certificate']} svgImage={<LinkedInIcon/>}
-                                              createdTime={certificate.created_time}
-                                //entityImage={certificatePicture && files[certificatePicture]}>
-                            >
-                              <div className='card-row-content-right card-row-entity'>
-                                <CheckOwner id={owner.id}>
-                                  <EditIcon className='edit-icon pulse'
-                                            clickHandler={() => this._toggleEditCertificate(certificate.id)}/>
-                                  <FontAwesome className='trash-icon pulse' name='trash'
-                                               onClick={() => this._toggleDeleteCertificate(certificate.id)}/>
-                                </CheckOwner>
-                                {certificate.title}
-                                {certificatePicture && files[certificatePicture] &&
-                                <a className='attach-file' href={files[certificatePicture].file}>
-                                  <FontAwesome className='attach-file-icon' name='paperclip'/>
-                                  {translate['Attached file']}
-                                </a>
-                                }
-                              </div>
-                            </CardRowContainer>
-                            <ConfirmDeleteModal key={'delete certificate ' + certificate.id} translate={translate}
-                                                closer={() => this._toggleDeleteCertificate(certificate.id)}
-                                                deleteEntity={() => this._deleteCertificate(certificate.id)}
-                                                open={isDelete[certificate.id]}/>
-                          </React.Fragment>
-                          : <CertificateForm key={'certificate form' + certificate.id} updateCertificate={updateCertificate}
-                                             translate={translate} owner={owner} certificate={certificate}
-                                             toggleEdit={() => this._toggleEditCertificate(certificate.id)}/>
-                  )
-                }
+              const certificatePicture = (certificate.certificate_picture && certificate.certificate_picture.id) || certificate.certificate_picture
+              const organizationId = (certificate.certificate_organization && certificate.certificate_organization.id) || certificate.certificate_organization
+              return (
+                  !isEdit[certificate.id]
+                      ? <React.Fragment key={'certificate ' + certificate.id}>
+                        <CardRowContainer title={translate['Certificate']} svgImage={<LinkedInIcon/>}
+                                          createdTime={certificate.created_time}
+                            //entityImage={certificatePicture && files[certificatePicture]}>
+                        >
+                          <div className='card-row-content-right card-row-entity'>
+                            <CheckOwner id={owner.id}>
+                              <EditIcon className='edit-icon pulse'
+                                        clickHandler={() => this._toggleEditCertificate(certificate.id)}/>
+                              <FontAwesome className='trash-icon pulse' name='trash'
+                                           onClick={() => this._toggleDeleteCertificate(certificate.id)}/>
+                            </CheckOwner>
+                            <p className='text'>{certificate.title}</p>
+                            {
+                              certificate.organizationOfficialName ?
+                                  <Link to={'/organization/' + organizationId}
+                                        className='blue-text'>
+                                    {certificate.organizationOfficialName}
+                                  </Link>
+                                  : <p className='text'>
+                                    {certificate.certificate_organization_name}
+                                  </p>
+                            }
+                            {certificatePicture && files[certificatePicture] &&
+                            <a className='attach-file' href={files[certificatePicture].file}>
+                              <FontAwesome className='attach-file-icon' name='paperclip'/>
+                              {translate['Attached file']}
+                            </a>
+                            }
+                          </div>
+                        </CardRowContainer>
+                        <ConfirmDeleteModal key={'delete certificate ' + certificate.id} translate={translate}
+                                            closer={() => this._toggleDeleteCertificate(certificate.id)}
+                                            deleteEntity={() => this._deleteCertificate(certificate.id)}
+                                            open={isDelete[certificate.id]}/>
+                      </React.Fragment>
+                      : <CertificateForm key={'certificate form' + certificate.id} updateCertificate={updateCertificate}
+                                         translate={translate} owner={owner} certificate={certificate}
+                                         toggleEdit={() => this._toggleEditCertificate(certificate.id)}
+                                         emptySearchedOrganization={emptySearchedOrganization}
+                                         getOrganizationsFilterByOfficialName={getOrganizationsFilterByOfficialName}
+                                         searchedOrganization={searchedOrganization}/>
+              )
+            }
             )}
           </div>
         </React.Fragment>
