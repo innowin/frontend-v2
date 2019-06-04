@@ -180,7 +180,7 @@ class EducationForm extends React.Component<Props, States> {
       education_related_identity: numberCorrection(owner.id),
     }
 
-    if ((gradeError || universityError || toDateError || fromDateError || fieldOfStudyError) === false) {
+    if (Boolean(gradeError || universityError || toDateError || fromDateError || fieldOfStudyError) === false) {
       if (updateEducation && education) {
         updateEducation({formValues, educationId: education.id, userId: owner.id})
       }

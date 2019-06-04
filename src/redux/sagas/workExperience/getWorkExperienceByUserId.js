@@ -12,12 +12,19 @@ export function* getWorkExperienceByUserId(action) {
     yield fork(api.get, urls.WORK_EXPERIENCE, results.WORK_EXPERIENCE.GET_USER_WORK_EXPERIENCES_BY_USER_ID, `?work_experience_related_identity=${userId}`)
     const data = yield take(socketChannel)
     yield put({type: types.SUCCESS.WORK_EXPERIENCE.GET_USER_WORK_EXPERIENCES_BY_USER_ID, payload: {data, userId}})
-  }
-  catch (e) {
+    for (let i = 0; i < data.length; i++) {
+      const workExperience = data[i]
+      if (workExperience.work_experience_organization) {
+        yield put({
+          type: types.USER.GET_USER_BY_USER_ID,
+          payload: {userId: workExperience.work_experience_organization}
+        })
+      }
+    }
+  } catch (e) {
     const {message} = e
     yield put({type: types.ERRORS.WORK_EXPERIENCE.GET_USER_WORK_EXPERIENCES_BY_USER_ID, payload: {message, userId}})
-  }
-  finally {
+  } finally {
     socketChannel.close()
   }
 }

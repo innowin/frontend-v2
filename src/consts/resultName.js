@@ -49,6 +49,8 @@ const results = {
     DELETE_CUSTOMER: 'delete-org-customer',
     UPDATE_CUSTOMER: 'update-org-customer',
 
+    GET_ORGANIZATION_FILTER_BY_OFFICIAL_NAME: 'get-organizations-filter-by-official-name',
+
   },
   COMMON: {
     // product

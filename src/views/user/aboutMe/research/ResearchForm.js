@@ -115,7 +115,7 @@ class ResearchForm extends React.Component<Props, States> {
       research_related_identity: owner.id,
     }
 
-    if (titleError || researchLinkError === false) {
+    if (Boolean(titleError || researchLinkError) === false) {
       if (updateResearch && research) {
         updateResearch({formValues, researchId: research.id, userId: owner.id})
       } else if (createResearch) {

@@ -35,6 +35,20 @@
           padding-bottom: 15px;
         }
       }
+
+      .searched-container {
+        border: 1px solid $text-light-color;
+        border-top: none;
+        border-bottom: none;
+        max-height: 300px;
+        overflow-y: auto;
+        .searched-item {
+          font-size: $font-size-regular;
+          padding: 5px 5px;
+          border-bottom: 1px solid $text-light-color;
+          cursor: pointer;
+        }
+      }
     }
     
     .detail-row-container {

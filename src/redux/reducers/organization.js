@@ -1,5 +1,6 @@
 import initialState from './initialState';
 import types from '../actions/types';
+import slice from './sliceReducers/organization'
 
 const organization = (state = initialState.organization, action) => {
 	let error;
@@ -111,6 +112,17 @@ const organization = (state = initialState.organization, action) => {
 		case types.SUCCESS.ORG.AGENCY_REQUEST:
 			return{...state,agencyReqest:{...state.agencyReqest, isLoading:false,error:{message:''}}};
 
+		/** -------------------------- get searched organization -----------------------------------> **/
+		case types.ORG.GET_ORGANIZATION_FILTER_BY_OFFICIAL_NAME:
+			return slice.getOrganizationsFilterByOfficialName.base(state, action)
+		case types.SUCCESS.ORG.GET_ORGANIZATION_FILTER_BY_OFFICIAL_NAME:
+			return slice.getOrganizationsFilterByOfficialName.success(state, action)
+		case types.ERRORS.ORG.GET_ORGANIZATION_FILTER_BY_OFFICIAL_NAME:
+			return slice.getOrganizationsFilterByOfficialName.error(state, action)
+
+		/** -------------------------- empty searched organization -----------------------------------> **/
+		case types.ORG.EMPTY_SEARCHED_ORGANIZATION:
+			return slice.emptySearchedOrganization.success(state, action)
 
 		case types.ERRORS.ORG.ADD_PRODUCT_PICTURE://TODO amir
 			error = action.payload.error

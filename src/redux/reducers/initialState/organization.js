@@ -11,5 +11,10 @@ export default {
     isLoading: false,
     error: false,
     content: []
+  },
+  searchedOrganizations: {
+    isLoading: false,
+    error: false,
+    content: {},
   }
 }

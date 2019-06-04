@@ -43,7 +43,7 @@ class SkillView extends React.Component <SkillProps, SkillStates> {
     deleteSkill: PropTypes.func.isRequired,
   }
 
-  _toggleEditSkill(id: number) {
+  _toggleEditSkill = (id: number) => {
     let {isEdit} = this.state
     if (!isEdit[id]) {
       isEdit[id] = false
@@ -51,7 +51,7 @@ class SkillView extends React.Component <SkillProps, SkillStates> {
     this.setState({...this.state, isEdit: {...isEdit, [id]: !isEdit[id]}})
   }
 
-  _toggleDeleteSkill(id: number) {
+  _toggleDeleteSkill = (id: number) => {
     let {isDelete} = this.state
     if (!isDelete[id]) {
       isDelete[id] = false
