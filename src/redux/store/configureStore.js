@@ -36,7 +36,7 @@ const persistConfig = {
   transforms: [encryptor],
   storage,
   version: migrations.LATEST_VERSION,
-  migrate: createMigrate(migrations.ROOT, {debug: false}),
+  migrate: createMigrate(migrations.ROOT, {debug: true}),
   blacklist: ['form', 'param', 'toast', 'temp'],
   stateReconciler: autoMergeLevel2,
 }
@@ -44,7 +44,7 @@ const persistedReducer = persistReducer(persistConfig, rootReducer)
 
 const configureStore = () => {
   return createStore(persistedReducer,
-      process.env.NODE_ENV && window.__REDUX_DEVTOOLS_EXTENSION__(),
+      window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
       applyMiddleware(
           navMiddleware,
           sagaMiddleware,
