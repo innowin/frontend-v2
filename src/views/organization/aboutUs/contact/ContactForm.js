@@ -116,7 +116,7 @@ class ContactForm extends React.Component <ContactProps, ContactStates> {
             </div>
             <div className='detail-row'>
               <p className='title'>{translate['Phone']}</p>
-              <input name='phone' onChange={this._onChangeFields} defaultValue={organization.phone}
+              <input name='phone' onChange={this._onChangeFields} defaultValue={organization.phone} placeholder='02188776655'
                      className='edit-text-fields ltr'/>
             </div>
             {phone && <div className='text-field-error'>{phone}</div>}

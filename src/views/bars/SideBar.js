@@ -456,9 +456,9 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
                   {
                     editProfile ?
                         <div>
-                          <div className='user-edit-name-title-required'>{sideBarType === constants.USER_TYPES.USER ? 'نام' : 'نام مستعار'}</div>
+                          <div className='user-edit-name-title-required'>{sideBarType === constants.USER_TYPES.USER ? 'نام' : 'نام کاربری'}</div>
                           <input className='user-edit-name' type='text' value={editName} onChange={e => this.handleParameter('editName', e)}/>
-                          <div className='user-edit-name-title-required-second'>{sideBarType === constants.USER_TYPES.USER ? 'نام خانوادگی' : 'نام رسمی'}</div>
+                          <div className={sideBarType === constants.USER_TYPES.USER ? 'user-edit-name-title-required-second' : 'user-edit-name-title-second'}>{sideBarType === constants.USER_TYPES.USER ? 'نام خانوادگی' : 'نام رسمی'}</div>
                           <input className='user-edit-name' type='text' value={editLastName} onChange={e => this.handleParameter('editLastName', e)}/>
                         </div>
                         :
@@ -522,10 +522,10 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
                             <span>
                               <StaffCount className='user-view-staff-sidebar-svg'/>
                               {
-                                owner.staff_count === 10 ? '10 - 50' :
-                                    owner.staff_count === 50 ? '50 - 100' :
-                                        owner.staff_count === 100 ? '100 - 200' :
-                                            owner.staff_count === 200 ? '200 به بالا' : owner.staff_count
+                                owner.staff_count === 10 ? '1 - 10' :
+                                    owner.staff_count === 50 ? '10 - 20' :
+                                        owner.staff_count === 100 ? '20 - 50' :
+                                            owner.staff_count === 200 ? 'بیشتر از 50' : owner.staff_count
                               }
                               <span> عضو</span>
                             </span>
@@ -543,7 +543,7 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
                         sideBarType === constants.USER_TYPES.USER ?
                             <MyDatePicker className='user-edit-name' defaultValue={editBirthDate} getValue={e => this.handleDate('editBirthDate', e)}/>
                             :
-                            <input className='user-edit-name' type='number' value={editBirthDate} onChange={e => this.handleDateCompany('editBirthDate', e)}/>
+                            <input className='user-edit-name' type='number' placeholder='مثال: 1397' value={editBirthDate} onChange={e => this.handleDateCompany('editBirthDate', e)}/>
                       }
                     </div>
                   </div>
@@ -556,10 +556,10 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
                       <div className='user-edit-name-title'>تعداد اعضا</div>
                       <select className='user-edit-name' onChange={this.handleStaff}>
                         <option className='user-edit-name' value={0}>انتخاب</option>
-                        <option className='user-edit-name' selected={owner.staff_count === 10} value={10}>10 - 50</option>
-                        <option className='user-edit-name' selected={owner.staff_count === 50} value={50}>50 - 100</option>
-                        <option className='user-edit-name' selected={owner.staff_count === 100} value={100}>100 - 200</option>
-                        <option className='user-edit-name' selected={owner.staff_count === 200} value={200}>200 به بالا</option>
+                        <option className='user-edit-name' selected={owner.staff_count === 10} value={10}>1 - 10</option>
+                        <option className='user-edit-name' selected={owner.staff_count === 50} value={50}>10 - 20</option>
+                        <option className='user-edit-name' selected={owner.staff_count === 100} value={100}>20 - 50</option>
+                        <option className='user-edit-name' selected={owner.staff_count === 200} value={200}>بیشتر از 50</option>
                       </select>
                     </div>
                   </div>
