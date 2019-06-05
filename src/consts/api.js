@@ -121,14 +121,14 @@ const getEmit = (url, resultName, query = '', token, noToken) => {
   if (noToken) {
     socket.emit(REST_REQUEST, {
       method: 'get',
-      url: REST_URL + '/' + url + '/' + query,
+      url: encodeURI(REST_URL + '/' + url + '/' + query),
       result: resultName,
     })
   }
   else {
     socket.emit(REST_REQUEST, {
       method: 'get',
-      url: REST_URL + '/' + url + '/' + query,
+      url: encodeURI(REST_URL + '/' + url + '/' + query),
       result: resultName,
       token,
     })
@@ -138,6 +138,7 @@ const getEmit = (url, resultName, query = '', token, noToken) => {
 const patchEmit = (urll, resultName, data, query = '', token) => {
   let url
   query === '' ? url = REST_URL + '/' + urll + '/' : url = REST_URL + '/' + urll + '/' + query + '/'
+  url = encodeURI(url)
   socket.emit(REST_REQUEST, {
     method: 'patch',
     result: resultName,
@@ -150,6 +151,7 @@ const patchEmit = (urll, resultName, data, query = '', token) => {
 const delEmit = (urll, resultName, data, query = '', token) => {
   let url
   query === '' ? url = REST_URL + '/' + urll + '/' : url = REST_URL + '/' + urll + '/' + query + '/'
+  url = encodeURI(url)
   socket.emit(REST_REQUEST, {
     method: 'del',
     url,
@@ -163,7 +165,7 @@ const postEmit = (url, resultName, data, query = '', token, noToken) => {
   if (noToken) {
     socket.emit(REST_REQUEST, {
       method: 'post',
-      url: REST_URL + '/' + url + '/' + query,
+      url: encodeURI(REST_URL + '/' + url + '/' + query),
       result: resultName,
       data,
     })
@@ -171,7 +173,7 @@ const postEmit = (url, resultName, data, query = '', token, noToken) => {
   else {
     socket.emit(REST_REQUEST, {
       method: 'post',
-      url: REST_URL + '/' + url + '/' + query,
+      url: encodeURI(REST_URL + '/' + url + '/' + query),
       result: resultName,
       data,
       token,

@@ -15,8 +15,16 @@ export function* getCertificatesByIdentity(action) {
       payload: {data, identityId, certificateOwnerId}
     })
     for (let certificate of data) {
-      yield put({type: types.ENTITY.SET_FILE, payload: {data: certificate.certificate_picture}})
-      yield put({type: types.ENTITY.SET_FILE, payload: {data: certificate.certificate_logo}})
+      if (certificate.certificate_picture)
+        yield put({type: types.ENTITY.SET_FILE, payload: {data: certificate.certificate_picture}})
+      if (certificate.certificate_logo)
+        yield put({type: types.ENTITY.SET_FILE, payload: {data: certificate.certificate_logo}})
+      if (certificate.certificate_organization) {
+        yield put({
+          type: types.USER.GET_USER_BY_USER_ID,
+          payload: {userId: certificate.certificate_organization}
+        })
+      }
     }
   } catch (error) {
     const {message} = error
