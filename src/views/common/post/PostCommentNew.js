@@ -14,10 +14,10 @@ type props = {
   currentUserMedia: ?number,
   post: { id: number },
   translate: { [string]: string },
-  handleShowComment: Function,
   commentOn: commentType,
   removeCommentOn: Function,
   instantViewComments: boolean,
+  extendedView: boolean,
 }
 
 type states = {
@@ -70,7 +70,7 @@ class PostCommentNew extends React.Component<props, states> {
   }
 
   createComment(commentOn, commentText, commentTextField) {
-    // const {handleShowComment} = this.props
+    const {extendedView} = this.props
     if (commentText.length > 4 && commentText.length <= 750) {
       const {actions, post} = this.props
       const {replySender} = this.state
@@ -89,9 +89,8 @@ class PostCommentNew extends React.Component<props, states> {
         formValues = {text: commentText, comment_parent: post.id}
       }
       commentTextField.value = ""
-      createComment({formValues, parentId: post.id, commentParentType: constants.COMMENT_PARENT.POST})
+      createComment({formValues, parentId: post.id, commentParentType: constants.COMMENT_PARENT.POST, getComments: extendedView})
     } else console.log("Handle Notification for Illegal Comment")
-    // handleShowComment()
   }
 
   _handleChangeText(e) {

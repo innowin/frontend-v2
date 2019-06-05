@@ -94,7 +94,6 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     self._readMore = this._readMore.bind(this)
     self._showConfirm = this._showConfirm.bind(this)
     self.showMoreComment = this.showMoreComment.bind(this)
-    self._handleShowComment = this._handleShowComment.bind(this)
     self._delete = this._delete.bind(this)
   }
 
@@ -192,6 +191,14 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     }
   }
 
+  componentDidUpdate(prevProps, prevState){
+    const {instantViewComments, actions, post} = this.props
+    const {getCommentsByParentId} = actions
+    if (instantViewComments && prevProps.instantViewComments && prevProps.instantViewComments.length > instantViewComments.length && instantViewComments.length < 3) {
+      getCommentsByParentId({parentId: post.id, commentParentType: constants.COMMENT_PARENT.POST, limit: 3})
+    }
+  }
+
   componentWillUnmount() {
     document.removeEventListener('click', this._handleClickOutMenuBoxTop)
     document.removeEventListener('click', this._handleClickOutMenuBoxBottom)
@@ -215,7 +222,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     let {showComment} = this.state
     this.setState({...this.state, showComment: !showComment, commentOn: undefined})
 
-    if (!extendedView && (!instantViewComments || (instantViewComments && instantViewComments.length === 0))) {
+    if (!extendedView && (!instantViewComments || (instantViewComments && instantViewComments.length < 3))) {
       getCommentsByParentId({parentId: post.id, commentParentType: constants.COMMENT_PARENT.POST, limit: 3})
     }
   }
@@ -386,10 +393,10 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
                 <PostCommentNew
                     commentParentType={commentParentType}
                     post={post}
-                    handleShowComment={this._handleShowComment}
                     commentOn={commentOn}
                     removeCommentOn={this._removeCommentOn}
-                    instantViewComments={instantViewComments}/>
+                    instantViewComments={instantViewComments}
+                    extendedView={extendedView}/>
                 }
 
                 {showComment && !extendedView && instantViewComments && instantViewComments.length > 0 &&

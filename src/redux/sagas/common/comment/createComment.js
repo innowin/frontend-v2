@@ -8,7 +8,7 @@ import uuid from "uuid"
 
 export function* createComment(action) {
 
-  const {formValues, parentId, commentParentType} = action.payload
+  const {formValues, parentId, commentParentType, getComments} = action.payload
   const socketChannel = yield call(api.createSocketChannel, results.COMMON.COMMENT.CREATE_COMMENT)
   const state = yield select()
   const translate = state.intl.messages
@@ -29,7 +29,7 @@ export function* createComment(action) {
         }
       }
     })
-    yield put({type: types.COMMON.COMMENT.GET_COMMENTS_BY_PARENT_ID, payload: {parentId, commentParentType}})
+    yield put({type: types.COMMON.COMMENT.GET_COMMENT_BY_ID, payload: {commentId: data.id}})
   } catch (error) {
     const {message} = error
     yield put({

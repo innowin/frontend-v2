@@ -18,6 +18,9 @@ const comment = (state = initialState.common.comment, action) => {
       return slices.deleteComment.success(state, action)
     case types.ERRORS.COMMON.COMMENT.DELETE_COMMENT:
       return slices.deleteComment.error(state, action)
+    /** -------------------------- get comment -------------------------> **/
+    case types.SUCCESS.COMMON.COMMENT.GET_COMMENT_BY_ID:
+      return slices.getCommentById.success(state, action)
     /** ----------------- reset -----------------> **/
     case types.RESET:
       return initialState.common.comment

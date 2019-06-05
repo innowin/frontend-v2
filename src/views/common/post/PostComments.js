@@ -1,15 +1,12 @@
 import * as React from "react"
-import Moment from "react-moment"
 import PropTypes from 'prop-types'
-import FontAwesome from "react-fontawesome"
 
-import ReplyArrow from "src/images/common/reply_arrow_svg"
 import type {commentType} from "src/consts/flowTypes/common/comment"
-import CheckOwner from "../CheckOwner"
+import Comment from './Comment'
 
 type postCommentsProps = {
   comments: [commentType],
-  stateComments: {number: commentType},
+  stateComments: { number: commentType },
   translate: { [string]: string },
   replyComment: Function,
   deleteComment: Function,
@@ -25,60 +22,23 @@ class PostComments extends React.Component<postCommentsProps, {}> {
     deleteComment: PropTypes.func.isRequired,
   }
 
-  commentList: HTMLDivElement
+  // commentList: HTMLDivElement
 
-  constructor(props: postCommentsProps) {
-    super(props)
-    this.state = {menuToggle: false}
-  }
-
-  getSnapshotBeforeUpdate(prevProps: postCommentsProps) {
-    if (prevProps.comments.length < this.props.comments.length) {
-      this.commentList.scrollTop = 0;
-    }
-    return null
-  }
+  // getSnapshotBeforeUpdate(prevProps: postCommentsProps) {
+  //   if (prevProps.comments.length < this.props.comments.length) {
+  //     this.commentList.scrollTop = 0;
+  //   }
+  //   return null
+  // }
 
   render() {
     const {comments, translate, replyComment, deleteComment, stateComments} = this.props
     return (
-        <div ref={commentList => this.commentList = commentList} className='comments-wrapper'>
+        <div /*ref={commentList => this.commentList = commentList}*/ className='comments-wrapper'>
           {
-            comments.map(comment => {
-                  const commentSender = comment.comment_sender
-                  const commentRepliedToId = comment.comment_replied_to && comment.comment_replied_to.id
-                  const commentRepliedSender = commentRepliedToId && stateComments[commentRepliedToId].comment_sender
-                  const name = (commentSender.first_name || commentSender.last_name)
-                      ? commentSender.first_name + ' ' + commentSender.last_name
-                      : commentSender.username
-
-                  return (
-                      <div key={'comment ' + comment.id} className='comment-container-extended-view'>
-                        <div className='header'>
-                          <h5 className='sender-name'>{name}</h5>
-                          <h5 className='sender-username'>{comment.comment_sender.name}</h5>
-                          <button className='svg-post-container pulse' onClick={() => replyComment(comment)}>
-                            <ReplyArrow/>
-                          </button>
-                          <CheckOwner id={commentSender && commentSender.id}>
-                            <button className='svg-post-container pulse' onClick={() => deleteComment(comment)}>
-                              <FontAwesome name="trash" className='delete-icon'/>
-                            </button>
-                          </CheckOwner>
-                          <div className='comment-date'>
-                            <Moment element="span" fromNow ago>{comment.created_time}</Moment>
-                            <span> {translate['Last']}</span>
-                          </div>
-                        </div>
-                        <div className='content'>
-                          {commentRepliedSender &&
-                          <p className='replied-username'>{'@' + commentRepliedSender.username}</p>
-                          }
-                          <p className='post-text-comment'>{comment.text}</p>
-                        </div>
-                      </div>
-                  )
-                }
+            comments.map(comment =>
+                <Comment key={'comment ' + comment.id} comment={comment} stateComments={stateComments} translate={translate}
+                         replyComment={replyComment} deleteComment={deleteComment}/>
             )
           }
         </div>

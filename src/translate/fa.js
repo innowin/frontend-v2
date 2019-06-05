@@ -450,6 +450,9 @@ module.exports = {
   'Complete the profile with catalog': 'تکمیل پروفایل با فایل کاتالوگ',
   'Upload catalog tip': 'در صورت تمایل، اینوین پروفایل شما را مطابق فایل کاتالوگ تکمیل می کند.',
 
+  'Report': 'گزارش تخلف',
+  'Delete Comment': 'حذف کامنت',
+
   // TopBar
   topBar: {
     'My Profile': 'پروفایل من',

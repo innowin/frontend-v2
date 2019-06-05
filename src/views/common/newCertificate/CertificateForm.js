@@ -118,7 +118,7 @@ class CertificateForm extends React.Component<Props, States> {
       error = Validations.validateRequired({value, translate})
     } else if (name === 'certificate_organization_name') {
       error = Validations.validateRequired({value, translate})
-      if (!error && value.length >= 3) {
+      if (!error && value.length >= 4) {
         getOrganizationsFilterByOfficialName({officialName: value})
       }
     }

@@ -5,9 +5,14 @@ const getCommentsByParentId = ({parentId, commentParentType, limit, offset}) => 
   payload: {parentId, commentParentType, limit, offset},
 })
 
-const createComment = ({formValues, parentId, commentParentType}) => ({
+const getCommentById = ({commentId}) => ({
+  type: types.COMMON.COMMENT.GET_COMMENT_BY_ID,
+  payload: {commentId},
+})
+
+const createComment = ({formValues, parentId, commentParentType, getComments = true}) => ({
   type: types.COMMON.COMMENT.CREATE_COMMENT,
-  payload: {formValues, parentId, commentParentType},
+  payload: {formValues, parentId, commentParentType, getComments},
 })
 
 const deleteComment = ({commentId, parentId, commentParentType}) => ({
@@ -19,6 +24,7 @@ const CommentActions = {
   getCommentsByParentId,
   createComment,
   deleteComment,
+  getCommentById,
 }
 
 export default CommentActions
