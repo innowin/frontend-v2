@@ -74,6 +74,7 @@ class DescriptionForm extends React.Component <Props, States> {
       updateOrganization({formValues, organizationId: organization.id})
       toggleEdit()
     }
+    else alert('fuk')
   }
 
   render() {

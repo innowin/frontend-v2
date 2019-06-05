@@ -44,7 +44,7 @@ const persistedReducer = persistReducer(persistConfig, rootReducer)
 
 const configureStore = () => {
   return createStore(persistedReducer,
-      window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
+      process.env.NODE_ENV !== 'production' ? window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__() : undefined,
       applyMiddleware(
           navMiddleware,
           sagaMiddleware,

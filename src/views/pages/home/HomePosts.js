@@ -18,7 +18,7 @@ class HomePosts extends PureComponent {
 
   static propTypes = {
     className: PropTypes.string,
-    exchangeId: PropTypes.number.isRequired,
+    exchangeId: PropTypes.number,
     unSetExchangeId: PropTypes.func,
   }
 
