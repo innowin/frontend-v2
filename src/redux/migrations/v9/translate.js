@@ -9,5 +9,8 @@ export default state => ({
     "Product Catalog": "کاتالوگ محصول",
     "Stream": "پست‌ها",
     "Info": "دربارۀ پنجره",
+
+    'Report': 'گزارش تخلف',
+    'Delete Comment': 'حذف کامنت',
   }
 })

@@ -12,6 +12,7 @@ import getPostViewerCount from "./getPostViewerCount"
 import updatePost from './updatePost'
 import updateFile from './updateFile'
 import deleteFile from './deleteFile'
+import getCommentById from './getCommentById'
 
 export default {
   createComment,
@@ -28,4 +29,5 @@ export default {
   updatePost,
   updateFile,
   deleteFile,
+  getCommentById,
 }

@@ -52,9 +52,12 @@ const post = (state = initialState.common.post, action) => {
     /** -------------------------- update file  -------------------------> **/
     case types.SUCCESS.COMMON.FILE.UPDATE_FILE:
       return slices.updateFile.success(state, action)
-      /** -------------------------- delete file  -------------------------> **/
+    /** -------------------------- delete file  -------------------------> **/
     case types.SUCCESS.COMMON.FILE.DELETE_FILE:
       return slices.deleteFile.success(state, action)
+    /** -------------------------- get comment  -------------------------> **/
+    case types.SUCCESS.COMMON.COMMENT.GET_COMMENT_BY_ID:
+      return slices.getCommentById.success(state, action)
     /** -------------------------- reset -------------------------> **/
     case types.RESET:
       return initialState.common.post

@@ -20,6 +20,8 @@ export type commentType = {
     first_name: string,
     last_name: string,
     username: string,
+    profile_media_url: string,
+    identity_type: string,
   },
   comment_picture: {},
   comment_replied_to: {

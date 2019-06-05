@@ -368,70 +368,135 @@
   .comments-wrapper {
     max-height: 600px;
     overflow-y: auto;
-    background: lighten($text-lighter-color, 7%);
     border-top: 1px solid lighten($text-lighter-color, 2%);
 
-    .comment-container-extended-view {
-      margin: 25px 18px 20px 25px;
+    .comment-item-wrapper {
+      display: flex;
 
-      .header {
-        display: flex;
-        margin-bottom: 8px;
+      .comment-sender-container {
+        flex: 0 1 50px;
+        max-width: 50px;
+        padding: 15px 15px 0 0;
 
-        .sender-name {
-          font-size: $font-size-normalText;
-          color: #000000;
-          margin-left: 15px;
-        }
+        .comment-sender-image {
+          width: 40px;
+          height: 40px;
+          border-radius: 30px;
 
-        .sender-username {
-          direction: ltr;
-          font-size: $font-size-normalText;
-          color: $text-light-color;
-          margin-left: 15px;
-        }
-
-        .comment-date {
-          font-size: $font-size-regular;
-          color: $text-light-color;
-          margin-right: auto;
-        }
-
-        .svg-post-container {
-          border: 0;
-          background: inherit;
-          outline: 0;
-          padding: 0;
-          height: 18px;
-          margin-left: 15px;
-
-          svg {
-            width: 16px;
-            height: 16px;
-          }
-
-          .delete-icon {
-            font-size: 18px;
-            position: relative;
-            top: -1px;
+          &.organ-image {
+            padding: 8px !important;
+            border: 1px solid $text-light-color;
           }
         }
       }
+      .comment-container-extended-view {
+        flex: 1 1 100%;
+        margin: 15px 18px;
+        padding: 15px;
+        border-radius: $border-radius-size;
+        background: lighten($text-lighter-color, 10%);
 
-      .content {
-        display: flex;
-        font-size: $font-size-regular;
+        .header {
+          display: flex;
+          margin-bottom: 8px;
 
-        .replied-username {
-          direction: ltr;
-          color: $success-color;
-          margin-left: 15px;
+          .sender-name {
+            font-size: $font-size-regular;
+            color: #000000;
+            margin-left: 15px;
+          }
+
+          .sender-username {
+            direction: ltr;
+            font-size: $font-size-regular;
+            color: $text-light-color;
+            margin-left: 15px;
+          }
+
+          .comment-date {
+            font-size: $font-size-regular;
+            color: $text-light-color;
+          }
+
+          .menu-container {
+            margin-right: auto;
+            position: relative;
+
+            .more-option-svg {
+              cursor: pointer;
+              fill: $text-light-color;
+              width: 22px;
+              height: 22px;
+              padding: 5px;
+              border-radius: 15px;
+              transition: all $animation-timing;
+
+              &:hover {
+                background-color: lighten($text-light-color, 20%);
+              }
+            }
+            .menu-box-comment {
+              position: absolute;
+              height: auto;
+              background: white;
+              border-radius: $border-radius-size;
+              box-shadow: 0 1px 7px 1px rgba(0, 0, 0, 0.15);
+              font-size: $font-size-regular;
+              left: 0;
+              top: 20px;
+
+              .item {
+                padding: 8px;
+                width: 120px;
+                display: block;
+                transition: all $animation-timing;
+                cursor: pointer;
+
+                &:hover {
+                  background-color: darken($eee-color, 2%);
+                }
+              }
+            }
+          }
+
+          .svg-post-container {
+            border: 0;
+            background: inherit;
+            outline: 0;
+            padding: 0;
+            height: 18px;
+            margin-left: 15px;
+
+            svg {
+              width: 16px;
+              height: 16px;
+              fill: $text-light-color;
+            }
+
+            .delete-icon {
+              font-size: 18px;
+              position: relative;
+              top: -1px;
+              color: $text-light-color;
+            }
+          }
         }
 
-        .post-text-comment {
-          white-space: pre-wrap;
-          text-align: justify;
-          word-break: break-word;
+        .content {
+          display: flex;
+          font-size: $font-size-regular;
+
+          .replied-username {
+            direction: ltr;
+            color: $success-color;
+            margin-left: 15px;
+          }
+
+          .post-text-comment {
+            white-space: pre-wrap;
+            text-align: justify;
+            word-break: break-word;
+          }
         }
       }
     }
