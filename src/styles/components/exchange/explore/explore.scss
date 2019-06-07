@@ -881,9 +881,9 @@
 
 .go-up-logo-cont-hide {
   position: fixed;
-  bottom: 15px;
+  bottom: 20px;
   transform: translate3d(0, 80px, 0);
-  right: 45px;
+  right: 90px;
   background-color: white;
   width: 50px;
   height: 50px;
@@ -896,8 +896,8 @@
   position: fixed;
   z-index: 2;
   opacity: 1;
-  bottom: 15px;
-  right: 45px;
+  bottom: 20px;
+  right: 90px;
   background-color: white;
   width: 50px;
   height: 50px;
@@ -909,7 +909,7 @@
 
   &:hover {
     transition-duration: 0.25s;
-    transform: scale3d(1.05, 1.05, 1) translate3d(0, -5px, 0);
+    transform: scale3d(1.05, 1.05, 1) translate3d(0, -2.5px, 0);
     background-color: $primary-color;
 
     .go-up-logo {
