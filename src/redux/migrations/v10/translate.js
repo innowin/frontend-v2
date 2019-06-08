@@ -12,5 +12,7 @@ export default state => ({
     'full_time_hire': 'کارت تمام وقت',
     'internship_hire': 'فرصت کارآموزی',
     'not_hiring': 'جذب نیرو نداریم',
+    'Report': 'گزارش تخلف',
+    'Delete Comment': 'حذف کامنت',
   },
 })
