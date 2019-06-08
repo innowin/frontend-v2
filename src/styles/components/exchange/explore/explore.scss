@@ -597,6 +597,7 @@
 
 .all-products-parent {
   transition-duration: 0.3s;
+  padding-top: 70px;
   @media screen and (max-width: 10000px) and (min-width: 1366px) {
     margin: 0 138px;
   }
@@ -611,7 +612,7 @@
   }
   @media screen and (max-width: 480px) and (min-width: 0) {
     margin: 0 10px;
-    padding-top: 50px;
+    padding-top: 100px;
   }
 }
 

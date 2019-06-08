@@ -9,12 +9,13 @@ import Home from './views/pages/Home'
 import User from './views/User'
 import Organization from './views/Organization'
 import Exchange from './views/Exchange'
-import Product from './views/Product'
 import User_Explorer from './views/user/explore/Explore'
 import PrivateRoute from './consts/PrivateRoute'
 import ToastContainer from './views/common/components/ToastContainer'
 import NotFound from './views/pages/NotFound'
 import GetUserData from './views/user/getUserData/GetUserData'
+import ProductExplorer from './views/product/explore/Explore'
+import ProductView from './views/product/productView/ProductView'
 
 
 class App extends React.Component {
@@ -64,7 +65,8 @@ class App extends React.Component {
                   <PrivateRoute path="/user/:id" component={User}/>
                   <PrivateRoute path="/organization/:id" component={Organization}/>
                   <PrivateRoute path="/exchange" component={Exchange}/>
-                  <PrivateRoute path="/product" component={Product}/>
+                  <PrivateRoute path="/product/Product_Explorer" component={ProductExplorer}/>
+                  <PrivateRoute path="/product/:id" component={ProductView}/>
                   <PrivateRoute path="/users/Users_Explorer" component={User_Explorer}/>
 
                   <PrivateRoute path="*" component={NotFound}/>

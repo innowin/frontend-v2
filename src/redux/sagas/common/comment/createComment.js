@@ -2,13 +2,13 @@ import api from 'src/consts/api'
 import urls from 'src/consts/URLS'
 import results from 'src/consts/resultName'
 import types from 'src/redux/actions/types'
-import {put, take, fork, call, select} from "redux-saga/effects"
+import {put, take, fork, call, select} from 'redux-saga/effects'
 import constants from 'src/consts/constants'
-import uuid from "uuid"
+import uuid from 'uuid'
 
 export function* createComment(action) {
 
-  const {formValues, parentId, commentParentType, getComments} = action.payload
+  const {formValues, parentId, commentParentType} = action.payload
   const socketChannel = yield call(api.createSocketChannel, results.COMMON.COMMENT.CREATE_COMMENT)
   const state = yield select()
   const translate = state.intl.messages
@@ -24,19 +24,21 @@ export function* createComment(action) {
           id: uuid(),
           type: constants.TOAST_TYPE.SUCCESS,
           content: {
-            text: translate['Create Comment Done']
-          }
-        }
-      }
+            text: translate['Create Comment Done'],
+          },
+        },
+      },
     })
     yield put({type: types.COMMON.COMMENT.GET_COMMENT_BY_ID, payload: {commentId: data.id}})
-  } catch (error) {
+  }
+  catch (error) {
     const {message} = error
     yield put({
       type: types.ERRORS.COMMON.COMMENT.CREATE_COMMENT,
-      payload: {message}
+      payload: {message},
     })
-  } finally {
+  }
+  finally {
     socketChannel.close()
   }
 }

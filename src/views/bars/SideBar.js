@@ -228,7 +228,7 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
       work_status: editStatusTitle,
       ...name,
       ...birth_date,
-      // identity_hashtag: [7527,7528]
+      // identity_hashtag: [7529,7528]
     }
   }
 
