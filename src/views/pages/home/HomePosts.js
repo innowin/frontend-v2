@@ -112,6 +112,7 @@ class HomePosts extends PureComponent {
             console.log(imageData.data)
           } catch (e) {
             console.log("Header Img Error Catch")
+            console.log(e)
             imageData = {data: [37, 53, 69, 255]}
           }
 
