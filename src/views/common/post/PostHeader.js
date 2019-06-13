@@ -72,7 +72,8 @@ class PostHeader extends React.Component {
               <div className="-img-col">
                 {postRelatedIdentityImage && postRelatedIdentityImage.file ?
                     <img className="rounded-circle covered-img" src={postRelatedIdentityImage.file} alt=""/>
-                    : <DefaultUserIcon className="rounded-circle covered-svg"/>
+                    :
+                    <DefaultUserIcon className="rounded-circle covered-svg"/>
                 }
               </div>
               <div className="-item-titlePost">

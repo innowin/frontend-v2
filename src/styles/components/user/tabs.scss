@@ -190,6 +190,9 @@
       text-decoration: none;
 
       .-img-col {
+        width: 45px;
+        height: 45px;
+        overflow: hidden;
         img, svg {
           width: 45px;
           height: 45px;
@@ -246,7 +249,7 @@
     display: block;
     position: absolute;
     font-size: 13px;
-    top: 87px;
+    top: 78px;
     background-color: white;
     color: $secondary-color;
     padding: 2px 7px;

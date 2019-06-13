@@ -46,7 +46,6 @@ type PropsTopBar = {|
     showModal: Function,
   },
   clientName: ?string,
-  collapseClassName: string,
   isLoggedIn: boolean,
   path: string,
   translate: { topBar: { [string]: string }, [string]: string },
@@ -79,7 +78,6 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
 
   static propTypes = {
     actions: PropTypes.object.isRequired,
-    collapseClassName: PropTypes.string.isRequired,
     translate: PropTypes.object.isRequired,
   }
 
@@ -438,15 +436,15 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
                 <div className='hamburger-items-container'>
                   <h4 className='item-title'>{topBarTranslate['Explore']}</h4>
                   <Material className='display-block' content={
-                    <Link onClick={this._hamburgerOff} to='/exchange/Exchange_Explorer'
+                    <Link onClick={this._hamburgerOff} to='/exchange/exchange_explorer'
                           className='item-text'>{translate['Windows']}</Link>
                   }/>
                   <Material className='display-block' content={
-                    <Link onClick={this._hamburgerOff} to={'/product/Product_Explorer'}
+                    <Link onClick={this._hamburgerOff} to={'/product/product_explorer'}
                           className='item-text'>{translate['Products']}</Link>
                   }/>
                   <Material className='display-block' content={
-                    <Link onClick={this._hamburgerOff} to={'/users/Users_Explorer'}
+                    <Link onClick={this._hamburgerOff} to='/users/users_explorer'
                           className='item-text'>{topBarTranslate['Persons']}</Link>
                   }/>
                 </div>
@@ -613,10 +611,7 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
   renderAbout() {
     let {selectedAbout} = this.state
 
-    if (selectedAbout === 'FAQ') {
-      return null
-    }
-    else if (selectedAbout === 'Introduce Badges') {
+    if (selectedAbout === 'Introduce Badges') {
       return <IntroduceBadges/>
     }
     else if (selectedAbout === 'Terms & Conditions') {
@@ -628,11 +623,14 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
     else if (selectedAbout === 'About Us') {
       return <AboutUs/>
     }
-  }
+    else if (selectedAbout === 'FAQ') {
+      return null
+    }
 
+  }
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
   const clientIdentityId = state.auth.client.identity.content
   const clientIdentity = state.identities.list[clientIdentityId]
 

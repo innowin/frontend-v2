@@ -125,11 +125,10 @@
 }
 
 .product-view-sidebar {
-
-  @media screen and (max-width: 10000px) and (min-width: 480px) {
+  @media screen and (min-width: 480px) {
     min-height: 100px;
     padding: 15px 20px;
-    width: 25%;
+    width: calc(25% - 40px);
     background-color: white;
     display: inline-block;
     margin-top: 10px;
