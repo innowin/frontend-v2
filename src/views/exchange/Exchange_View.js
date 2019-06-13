@@ -26,8 +26,8 @@ class ExchangeView extends Component {
     const exchangeId = +params.id
     return (
         <div className='all-exchanges-parent'>
-          <main className={'exchange-page'}>
-            <div className={`exchange-view-sidebar`}>
+          <main className='exchange-page'>
+            <div className='exchange-view-sidebar'>
               <ExchangeViewBar exchangeId={exchangeId}/>
             </div>
             <ExchangeTabs exchangeId={exchangeId}/>

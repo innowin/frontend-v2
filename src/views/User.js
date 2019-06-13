@@ -222,12 +222,6 @@ class User extends Component<PropsUser, StatesUser> {
                                       deletePost={deletePost}
                                       posts={posts}
                         />
-                        <PrivateRoute path={`${path}/Posts/:id`}
-                                      component={PostExtendedView}
-                                      extendedView={true}
-                                      commentParentType={constants.COMMENT_PARENT.POST}
-                                      ownerId={userId}
-                        />
                         <PrivateRoute path={`${path}/basicInformation`}
                                       component={UserAboutMe}
                                       userId={userId}
@@ -256,6 +250,12 @@ class User extends Component<PropsUser, StatesUser> {
                                       ownerId={userId}
                                       identityType={constants.USER_TYPES.USER}
                                       user={userObject}
+                        />
+                        <PrivateRoute path={`${path}/Posts/:id`}
+                                      component={PostExtendedView}
+                                      extendedView={true}
+                                      commentParentType={constants.COMMENT_PARENT.POST}
+                                      ownerId={userId}
                         />
 
                         {/*<PrivateRoute path={`${path}/basicInformation`} component={UserBasicInformation}*/}

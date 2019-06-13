@@ -1,6 +1,5 @@
 import React from 'react'
 
-
 const MenuProgressive = ({activeStep, steps, status, stepsClassName, className}) => {
     return (
         <div className={`steps ${stepsClassName} ${className}`}>

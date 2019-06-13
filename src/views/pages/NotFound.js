@@ -20,13 +20,13 @@ class NotFound extends Component {
               <Link to={`/${userType}/${id}`}>
                 <div>پروفایل من</div>
               </Link>
-              <Link to='/exchange/Exchange_Explorer'>
+              <Link to='/exchange/exchange_explorer'>
                 <div>پنجره ها</div>
               </Link>
-              <Link to='/users/Users_Explorer'>
+              <Link to='/users/users_explorer'>
                 <div>افراد و شرکت ها</div>
               </Link>
-              <Link to='/product/Product_Explorer'>
+              <Link to='/product/product_explorer'>
                 <div>محصولات و خدمات</div>
               </Link>
             </div>

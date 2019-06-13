@@ -12,7 +12,6 @@ import {getExchangeMembershipsSelector} from 'src/redux/selectors/common/social/
 import Material from '../../common/components/Material'
 import UserDetailPanel from '../../common/components/UserDetailPanel'
 
-
 type PropsSideBarItem = {
   exchange: exchangeType,
   handleClick: Function,
@@ -21,18 +20,17 @@ type PropsSideBarItem = {
 
 export class SideBarItem extends Component<PropsSideBarItem> {
 
-  constructor(props) {
-    super(props)
-    this.state =
-        {
-          imageLoaded: false,
-        }
-  }
-
   static propTypes = {
     exchange: PropTypes.object.isRequired,
     handleClick: PropTypes.func.isRequired,
     active: PropTypes.bool,
+  }
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      imageLoaded: false,
+    }
   }
 
   componentDidMount() {
@@ -82,7 +80,6 @@ export class SideBarItem extends Component<PropsSideBarItem> {
 
 type StateHomeSideBar = {|
   activeId: ?number,
-  getDataInDidMount: ?boolean
 |}
 
 type PropsHomeSideBar = {|
@@ -110,45 +107,24 @@ class HomeSideBar extends Component<PropsHomeSideBar, StateHomeSideBar> {
 
   constructor(props) {
     super(props)
-    this.state = {activeId: null, getDataInDidMount: false}
-  }
-
-  componentWillMount(): void {
-    const {identityId, identityType} = this.props
-    const {getExchangeMembershipByMemberIdentity} = this.props.actions
-    if (identityId && identityType) {
-      getExchangeMembershipByMemberIdentity({
-        identityId,
-        exchangeMembershipOwnerId: identityId,
-      })
-    }
-    else this.setState({...this.state, getDataInDidMount: true})
+    this.state = {activeId: null}
   }
 
   componentDidMount() {
-    if (this.state.getDataInDidMount) {
-      const {identityId} = this.props
-      const {getExchangeMembershipByMemberIdentity} = this.props.actions
-      getExchangeMembershipByMemberIdentity({
-        identityId,
-        exchangeMembershipOwnerId: identityId,
-      })
-    }
+    const {identityId, identityType} = this.props
+    const {getExchangeMembershipByMemberIdentity} = this.props.actions
+    if (identityId && identityType)
+      getExchangeMembershipByMemberIdentity({identityId, exchangeMembershipOwnerId: identityId})
   }
 
   componentWillReceiveProps(nextProps) {
-    if (window.innerWidth > 480) {
-      if (!this.props.activeExchangeId && nextProps.clientExchanges.length > 0) {
-        const {setExchangeId, clientExchanges} = nextProps
-        setExchangeId(clientExchanges[0].id)
-      }
+    if (!this.props.activeExchangeId && window.innerWidth > 480 && nextProps.clientExchanges.length > 0) {
+      const {setExchangeId, clientExchanges} = nextProps
+      setExchangeId(clientExchanges[0].id)
     }
   }
 
-  _handleClick = (id) => {
-    const {setExchangeId} = this.props
-    setExchangeId(id)
-  }
+  _handleClick = (id) => this.props.setExchangeId(id)
 
   render() {
     const {clientExchanges, classNames, activeExchangeId} = this.props
@@ -157,20 +133,20 @@ class HomeSideBar extends Component<PropsHomeSideBar, StateHomeSideBar> {
           <UserDetailPanel/>
           <div className='home-sidebar-cont-title'>
             <div className='home-sidebar-cont-item'>پنجره ها</div>
-            <Link to='/Exchange/Exchange_Explorer' className='home-sidebar-cont-item-more'>بیشتر</Link>
+            <Link to='/exchange/exchange_Explorer' className='home-sidebar-cont-item-more'>بیشتر</Link>
           </div>
           <div className='home-sidebar-cont'>
             {
-              (clientExchanges && clientExchanges.length > 0) ? (
+              clientExchanges && clientExchanges.length > 0 ?
                   clientExchanges
                       .sort((a, b) => a.updated_time - b.updated_time)
                       .map((exchange, i) => {
-                    return <SideBarItem key={i}
-                                        exchange={exchange}
-                                        handleClick={this._handleClick}
-                                        active={exchange.id === activeExchangeId}/>
-                  })
-              ) : (<p className="mt-3 pr-3"><b>شما عضو هیچ پنجره ای نیستید!</b></p>)
+                        return <SideBarItem key={i}
+                                            exchange={exchange}
+                                            handleClick={this._handleClick}
+                                            active={exchange.id === activeExchangeId}/>
+                      })
+                  : <p className="mt-3 pr-3"><b>شما عضو هیچ پنجره ای نیستید!</b></p>
             }
           </div>
           <div className='exchanges-last'/>
@@ -179,10 +155,10 @@ class HomeSideBar extends Component<PropsHomeSideBar, StateHomeSideBar> {
   }
 }
 
-
 const mapStateToProps = (state, ownProps) => ({
   clientExchanges: getExchangeMembershipsSelector(state, ownProps),
 })
+
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     getExchangeMembershipByMemberIdentity: ExchangeMembershipActions.getExchangeMembershipByMemberIdentity,

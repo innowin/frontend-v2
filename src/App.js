@@ -8,7 +8,6 @@ import TopBar from './views/bars/TopBar'
 import Home from './views/pages/Home'
 import User from './views/User'
 import Organization from './views/Organization'
-import Exchange from './views/Exchange'
 import User_Explorer from './views/user/explore/Explore'
 import PrivateRoute from './consts/PrivateRoute'
 import ToastContainer from './views/common/components/ToastContainer'
@@ -16,6 +15,9 @@ import NotFound from './views/pages/NotFound'
 import GetUserData from './views/user/getUserData/GetUserData'
 import ProductExplorer from './views/product/explore/Explore'
 import ProductView from './views/product/productView/ProductView'
+import ExchangeExplorer from './views/exchange/explore/Explore'
+import ExchangeView from './views/exchange/Exchange_View'
+import Notifications from './views/pages/Notifications'
 
 
 class App extends React.Component {
@@ -54,23 +56,24 @@ class App extends React.Component {
 
           <Switch>
 
-            <PropsRoute path="/login" _hideModalClick={this._hideModalClick} _onRegisterClick={this._onRegisterClick} setSignUpFields={this.setSignUpFields} component={Login}/>
+            <PropsRoute path='/login' _hideModalClick={this._hideModalClick} _onRegisterClick={this._onRegisterClick} setSignUpFields={this.setSignUpFields} component={Login}/>
 
             <React.Fragment>
               <div className='pages-wrapper global-wrapper'>
-                <TopBar path={path} collapseClassName="col user-sidebar-width"/>
+                <TopBar path={path}/>
 
                 <Switch>
-                  <PrivateRoute exact path="/" component={Home}/>
-                  <PrivateRoute path="/user/:id" component={User}/>
-                  <PrivateRoute path="/organization/:id" component={Organization}/>
-                  <PrivateRoute path="/exchange" component={Exchange}/>
-                  <PrivateRoute path="/product/Product_Explorer" component={ProductExplorer}/>
-                  <PrivateRoute path="/product/:id" component={ProductView}/>
-                  <PrivateRoute path="/users/Users_Explorer" component={User_Explorer}/>
+                  <PrivateRoute exact path='/' component={Home}/>
+                  <PrivateRoute path='/user/:id' component={User}/>
+                  <PrivateRoute path='/organization/:id' component={Organization}/>
+                  <PrivateRoute path='/exchange/exchange_explorer' component={ExchangeExplorer}/>
+                  <PrivateRoute path='/exchange/:id' component={ExchangeView}/>
+                  <PrivateRoute path='/product/product_explorer' component={ProductExplorer}/>
+                  <PrivateRoute path='/product/:id' component={ProductView}/>
+                  <PrivateRoute path='/users/users_explorer' component={User_Explorer}/>
+                  <PrivateRoute path='/notifications' component={Notifications}/>
 
-                  <PrivateRoute path="*" component={NotFound}/>
-
+                  <PrivateRoute path='*' component={NotFound}/>
                 </Switch>
                 <ToastContainer/>
               </div>

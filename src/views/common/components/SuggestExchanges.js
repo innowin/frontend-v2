@@ -30,21 +30,23 @@ class SuggestExchanges extends Component {
   render() {
     const {exchanges} = this.props
     const {followed} = this.state
-    return (
-        <div className='bee-panel-cont'>
-          <div className='bee-text'>پنجره های پیشنهادی برای شما</div>
-          <div>
-            {
-              Object.values(exchanges).sort((a, b) => a.id - b.id)
-                  .filter(ex => !followed[ex.id])
-                  .slice(0, 3)
-                  .map((exchange, i) =>
-                      <ExchangeSuggestView data={exchange} noBorder={i === 2} followed={followed} key={i}/>,
-                  )
-            }
+    if (Object.values(exchanges).sort((a, b) => a.id - b.id).filter(ex => !followed[ex.id]).length > 0)
+      return (
+          <div className='bee-panel-cont'>
+            <div className='bee-text'>پنجره های پیشنهادی برای شما</div>
+            <div>
+              {
+                Object.values(exchanges).sort((a, b) => a.id - b.id)
+                    .filter(ex => !followed[ex.id])
+                    .slice(0, 3)
+                    .map((exchange, i) =>
+                        <ExchangeSuggestView data={exchange} noBorder={i === 2} followed={followed} key={i}/>,
+                    )
+              }
+            </div>
           </div>
-        </div>
-    )
+      )
+    else return null
   }
 }
 

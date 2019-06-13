@@ -1,5 +1,5 @@
 // @flow
-import * as React from "react"
+import * as React from 'react'
 import FontAwesome from 'react-fontawesome'
 import PropTypes from 'prop-types'
 
@@ -55,20 +55,21 @@ class CatalogView extends React.Component <CatalogProps, CatalogStates> {
   }
 
   _deleteCatalog = () => {
-    const {deleteFile, owner, updateUser} = this.props
+    const {deleteFile, owner, updateUser, updateProduct} = this.props
     const {isLoading} = this.state
 
     if (!isLoading) {
       deleteFile({
         fileId: owner.related_catalog,
         fileParentId: owner.id,
-        fileParentType: constants.FILE_PARENT.PROFILE
+        fileParentType: updateProduct ? constants.FILE_PARENT.PRODUCT : constants.FILE_PARENT.PROFILE,
       })
 
       const formValues = {
         related_catalog: '',
       }
-      updateUser(formValues, owner.id)
+      updateUser && updateUser(formValues, owner.id)
+      updateProduct && updateProduct({formValues, productId: owner.id})
     }
 
     this.setState({...this.state, isLoading: true})
@@ -85,7 +86,7 @@ class CatalogView extends React.Component <CatalogProps, CatalogStates> {
               {translate['Upload Catalog']}
             </div>
             {!owner.related_catalog &&
-            <CheckOwner id={owner.id}>
+            <CheckOwner id={owner.product_owner ? owner.product_owner.id ? owner.product_owner.id : owner.product_owner : owner.id}>
               <div className='add-button pulse' onClick={toggleEdit}>
                 + {translate['Add']}
               </div>

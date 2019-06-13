@@ -224,14 +224,9 @@ export class Organization extends React.Component<PropsOrganization, StatesOrgan
                                     deletePost={deletePost}
                                     posts={posts}
                       />
-                      <PrivateRoute path={`${path}/Posts/:id`}
-                                    component={PostExtendedView}
-                                    extendedView={true}
-                                    commentParentType={constants.COMMENT_PARENT.POST}
-                                    ownerId={userId}
-                      />
-                      <PrivateRoute exact path={`${path}/basicInformation`} component={OrganAboutUs}
-                                    organization={userObject}
+                      <PrivateRoute exact path={`${path}/basicInformation`}
+                                    component={OrganAboutUs}
+                                    user={userObject}
                                     userId={userId}
                       />
                       <PrivateRoute path={`${path}/Followers`} component={Followers}
@@ -248,6 +243,12 @@ export class Organization extends React.Component<PropsOrganization, StatesOrgan
                                     ownerId={userId}
                                     identityType={constants.USER_TYPES.ORG}
                                     user={userObject}
+                      />
+                      <PrivateRoute path={`${path}/Posts/:id`}
+                                    component={PostExtendedView}
+                                    extendedView={true}
+                                    commentParentType={constants.COMMENT_PARENT.POST}
+                                    ownerId={userId}
                       />
                       {/*<PrivateRoute path={`${path}/Customers`} component={Customers}*/}
                       {/*organizationId={userId}*/}

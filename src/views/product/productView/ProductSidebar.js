@@ -270,7 +270,7 @@ class SideBar extends Component {
     const {name, created_time, pictures_array} = product
 
     return (
-        <div className='product-view-sidebar'>
+        <section className='product-view-sidebar'>
           {
             edit ?
                 <div>
@@ -518,7 +518,7 @@ class SideBar extends Component {
             </div>
           </div>
 
-        </div>
+        </section>
     )
   }
 }

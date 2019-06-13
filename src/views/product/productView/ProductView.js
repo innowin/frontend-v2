@@ -88,7 +88,7 @@ class ProductView extends Component {
         <div className='all-products-parent'>
 
           <div className={hideTopBar ? 'product-header-top' : 'product-header'}>
-            <Link to='/product/Product_Explorer'><Material backgroundColor='rgba(255,255,255,0.5)' className='back-button-material' content={<NewRightArrow className='back-button-product'/>}/></Link>
+            <Link to='/product/product_explorer'><Material backgroundColor='rgba(255,255,255,0.5)' className='back-button-material' content={<NewRightArrow className='back-button-product'/>}/></Link>
             <ProductWhite className='product-header-svg'/>
             <div className='product-header-title'>{product.name}</div>
           </div>
@@ -108,7 +108,7 @@ class ProductView extends Component {
                    product_price={product_price}
           />
 
-          <div className='product-container'>
+          <main className='product-container'>
             <div className='header-container'>
               <NavLink to={`${url}/basicInformation`} className='header-container-item' activeClassName='header-container-item-active'>
                 <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content='درباره محصول'/>
@@ -126,6 +126,7 @@ class ProductView extends Component {
                           product={product}
                           translator={translate}
                           current_user_identity={current_user_identity}
+                          product_owner={product_owner}
               />
               <PropsRoute path={`${path}/Posts`}
                           posts={posts}
@@ -134,7 +135,7 @@ class ProductView extends Component {
                           translator={translate}
               />
             </Switch>
-          </div>
+          </main>
         </div>
     )
   }
