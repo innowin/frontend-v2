@@ -28,6 +28,7 @@ class Certificate extends React.Component<Props, States> {
     translate: PropTypes.object.isRequired,
     deleteFile: PropTypes.func.isRequired,
     updateUser: PropTypes.func.isRequired,
+    updateProduct: PropTypes.func,
     files: PropTypes.object.isRequired,
   }
 
@@ -41,16 +42,17 @@ class Certificate extends React.Component<Props, States> {
   }
 
   render() {
-    const {owner, translate, files, deleteFile, updateUser} = this.props
+    const {owner, translate, files, deleteFile, updateUser, updateProduct} = this.props
     const {isEdit} = this.state
 
     return (
         <CardContainer>
           {
             isEdit
-                ? <CatalogForm toggleEdit={this._toggleEdit} translate={translate} owner={owner}/>
-                : <CatalogView updateUser={updateUser} files={files} owner={owner} translate={translate}
-                               toggleEdit={this._toggleEdit} deleteFile={deleteFile}/>
+                ? <CatalogForm updateProduct={updateProduct} updateUser={updateUser} owner={owner} toggleEdit={this._toggleEdit}
+                               translate={translate} deleteFile={deleteFile}/>
+                : <CatalogView updateProduct={updateProduct} updateUser={updateUser} owner={owner} toggleEdit={this._toggleEdit}
+                               translate={translate} deleteFile={deleteFile} files={files}/>
           }
         </CardContainer>
     )

@@ -1,25 +1,26 @@
 //@flow
-import * as React from "react"
+import * as React from 'react'
 import PropTypes from 'prop-types'
-import {bindActionCreators} from "redux"
-import {connect} from "react-redux"
+import {bindActionCreators} from 'redux'
+import {connect} from 'react-redux'
 import Catalog from './catalog'
-import Certificate from "../../common/newCertificate";
+import Certificate from '../../common/newCertificate'
 import CertificateActions from 'src/redux/actions/commonActions/certificateActions'
 import Contact from './contact'
-import Description from "./description";
+import Description from './description'
 import ModalActions from 'src/redux/actions/modalActions'
 import OrganizationActions from 'src/redux/actions/organization/organizationActions'
 import type {certificateType} from 'src/consts/flowTypes/user/others'
 import type {fileType} from 'src/consts/flowTypes/common/fileType'
 import type {identityType} from 'src/consts/flowTypes/identityType'
 import updateUserByUserIdAction from 'src/redux/actions/user/updateUserByUserIdAction'
-import {getMessages} from "src/redux/selectors/translateSelector";
-import {TranslatorType} from "src/consts/flowTypes/common/commonTypes";
+import {getMessages} from 'src/redux/selectors/translateSelector'
+import {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
 import {userCertificatesSelector} from 'src/redux/selectors/common/certificate/userCertificatesSelector'
 import {getProductsSelector} from '../../../redux/selectors/common/product/userGetProductSelector'
 import Products from '../../user/aboutMe/product/Products'
 import FileActions from '../../../redux/actions/commonActions/fileActions'
+import getSearchedOrganizationsSelector from '../../../redux/selectors/organization/getOrganizationsFilterByOfficialName'
 
 type OrganAboutUsProps = {
   certificates: [certificateType],
@@ -40,25 +41,27 @@ type OrganAboutUsProps = {
 }
 
 const OrganAboutUs = (props: OrganAboutUsProps) => {
-  const {translate, organization, actions, products, certificates, files} = props
+  const {translate, user, actions, products, certificates, files, searchedOrganizations} = props
   const {
     getCertificatesByIdentity, updateOrganization, createCertificate, updateCertificate,
-    deleteCertificate, updateUser, deleteFile
+    deleteCertificate, updateUser, deleteFile, emptySearchedOrganization, getOrganizationsFilterByOfficialName,
   } = actions
   return (
       <div className="about-us">
-        <Description updateOrganization={updateOrganization} translate={translate} organization={organization}/>
+        <Description updateOrganization={updateOrganization} translate={translate} organization={user}/>
 
         <Products translate={translate} products={products}/>
 
         <Certificate deleteCertificate={deleteCertificate} updateCertificate={updateCertificate} files={files}
-                     translate={translate} owner={organization}
+                     translate={translate} owner={user}
                      certificates={certificates} getCertificatesByIdentity={getCertificatesByIdentity}
-                     createCertificate={createCertificate}/>
+                     createCertificate={createCertificate} emptySearchedOrganization={emptySearchedOrganization}
+                     getOrganizationsFilterByOfficialName={getOrganizationsFilterByOfficialName}
+                     searchedOrganizations={searchedOrganizations}/>
 
-        <Contact updateOrganization={updateOrganization} translate={translate} organization={organization}/>
+        <Contact updateOrganization={updateOrganization} translate={translate} organization={user}/>
 
-        <Catalog updateUser={updateUser} translate={translate} owner={organization} files={files} deleteFile={deleteFile}/>
+        <Catalog updateUser={updateUser} translate={translate} owner={user} files={files} deleteFile={deleteFile}/>
       </div>
   )
 }
@@ -67,19 +70,18 @@ OrganAboutUs.propTypes = {
   certificates: PropTypes.array.isRequired,
   products: PropTypes.array.isRequired,
   files: PropTypes.object.isRequired,
-  organization: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
   translate: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired,
 }
 
-const mapStateToProps = (state, ownProps) => {
-  return {
+const mapStateToProps = (state, ownProps) => ({
     translate: getMessages(state),
-    certificates: userCertificatesSelector(state, ownProps),
     files: state.common.file.list,
+    certificates: userCertificatesSelector(state, ownProps),
     products: getProductsSelector(state, {ownerId: ownProps.userId}),
-  }
-};
+    searchedOrganizations: getSearchedOrganizationsSelector(state),
+})
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
@@ -91,7 +93,9 @@ const mapDispatchToProps = dispatch => ({
     updateCertificate: CertificateActions.updateCertificate,
     updateUser: updateUserByUserIdAction.updateUser,
     deleteFile: FileActions.deleteFile,
+    emptySearchedOrganization: OrganizationActions.emptySearchedOrganization,
+    getOrganizationsFilterByOfficialName: OrganizationActions.getOrganizationsFilterByOfficialName,
   }, dispatch),
-});
+})
 
-export default connect(mapStateToProps, mapDispatchToProps)(OrganAboutUs);
+export default connect(mapStateToProps, mapDispatchToProps)(OrganAboutUs)

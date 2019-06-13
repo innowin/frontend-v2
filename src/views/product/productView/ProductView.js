@@ -126,6 +126,7 @@ class ProductView extends Component {
                           product={product}
                           translator={translate}
                           current_user_identity={current_user_identity}
+                          product_owner={product_owner}
               />
               <PropsRoute path={`${path}/Posts`}
                           posts={posts}

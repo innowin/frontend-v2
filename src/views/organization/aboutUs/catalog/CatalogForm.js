@@ -3,14 +3,12 @@ import * as React from 'react'
 import PropTypes from 'prop-types'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
-
 import constants from 'src/consts/constants'
 import FileActions from 'src/redux/actions/commonActions/fileActions'
 import Modal from '../../../pages/modal/modal'
 import TempActions from 'src/redux/actions/tempActions'
 import type {identityType} from 'src/consts/flowTypes/identityType'
 import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
-import updateUserByUserIdAction from 'src/redux/actions/user/updateUserByUserIdAction'
 import UploadFile from '../../../common/components/UploadFile'
 
 type Props = {
@@ -19,9 +17,7 @@ type Props = {
   owner: identityType,
   actions: {
     removeFileFromTemp: Function,
-    deleteFile: Function,
     updateFile: Function,
-    updateUser: Function,
   },
   newCatalog: Object,
 }
@@ -53,8 +49,8 @@ class CatalogForm extends React.Component<Props, States> {
   }
 
   _onSubmit = (e: SyntheticEvent<HTMLFormElement>) => {
-    const {owner, actions, newCatalog} = this.props
-    const {deleteFile, updateFile, updateUser} = actions
+    const {owner, actions, newCatalog, updateUser, updateProduct, deleteFile} = this.props
+    const {updateFile} = actions
     e.preventDefault()
     e.stopPropagation()
 
@@ -66,16 +62,18 @@ class CatalogForm extends React.Component<Props, States> {
           : (removedCatalogId ? '' : owner.related_catalog),
     }
 
-    updateUser(formValues, owner.id)
+    updateUser && updateUser(formValues, owner.id)
+    updateProduct && updateProduct({formValues, productId: owner.id})
+
     newCatalogId && updateFile({
       id: newCatalogId,
       formData: {file_related_parent: owner.id},
-      fileParentType: constants.FILE_PARENT.PROFILE
+      fileParentType: updateProduct ? constants.FILE_PARENT.PRODUCT : constants.FILE_PARENT.PROFILE,
     })
     removedCatalogId && deleteFile({
       fileId: removedCatalogId,
       fileParentId: owner.id,
-      fileParentType: constants.FILE_PARENT.PROFILE
+      fileParentType: updateProduct ? constants.FILE_PARENT.PRODUCT : constants.FILE_PARENT.PROFILE,
     })
     this._toggle()
   }
@@ -123,19 +121,15 @@ class CatalogForm extends React.Component<Props, States> {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  return {
-    newCatalog: state.temp.file[constants.TEMP_FILE_KEYS.CATALOG],
-  }
-};
+const mapStateToProps = (state) => ({
+  newCatalog: state.temp.file[constants.TEMP_FILE_KEYS.CATALOG],
+})
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     removeFileFromTemp: TempActions.removeFileFromTemp,
-    deleteFile: FileActions.deleteFile,
     updateFile: FileActions.updateFile,
-    updateUser: updateUserByUserIdAction.updateUser,
-  }, dispatch)
+  }, dispatch),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CatalogForm)
