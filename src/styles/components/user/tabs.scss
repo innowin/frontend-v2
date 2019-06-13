@@ -56,15 +56,6 @@
   background: #ffffff;
   padding: .09px;
   transition-duration: $animation-timing;
-  //transform: translateZ(0);
-  //backface-visibility: hidden;
-  &:hover {
-    // deleted for better performance (Hoseyn)
-    //transition-duration: $animation-timing;
-    //box-shadow: 0 13px 10px -7px $box-shadow-color;
-    //transform: translateY(-2px);
-    //border: 2px solid $post-hover-border-color;
-  }
 
   .pictures-section {
     margin-bottom: 18px;
@@ -200,11 +191,14 @@
       }
 
       .-item-titlePost {
+        direction: rtl;
+        text-align: right;
         display: flex;
         flex-direction: column;
         padding: 0 8px;
 
         .post-name {
+          display: inline-block;
           font-size: $font-size-regular;
           font-weight: bold;
           color: $text-dark-color;
@@ -214,6 +208,10 @@
         .post-username {
           font-size: $font-size-regular;
           padding: 0 8px;
+          display: inline-block;
+          @media screen and (max-width: 480px) {
+            display: none;
+          }
         }
 
         .extended-post-username {

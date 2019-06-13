@@ -181,7 +181,7 @@ class UserDetailPanel extends React.Component<UserDetailPanelProps, UserDetailPa
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
   const identityId = state.auth.client.identity.content
   const identity = state.identities.list[identityId]
   const profileMediaId = identity.profile_media

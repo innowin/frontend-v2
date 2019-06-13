@@ -177,7 +177,6 @@
   color: $text-dark-color;
   border-radius: $border-radius-size;
   background: $text-lightest-color;
-  box-shadow: 0 3px 3px $box-shadow-color;
   @media screen and (max-width: 10000px) and (min-width: 1366px) {
     right: 138px;
     width: calc(0.25 * (100% - 276px));

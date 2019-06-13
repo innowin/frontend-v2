@@ -4,7 +4,7 @@ import types from "src/redux/actions/types"
 import urls from "src/consts/URLS"
 import {take, put, fork, call} from "redux-saga/effects"
 
-export function* getFavorites(action) {
+export function* getFavorites() {
   const socketChannel = yield call(api.createSocketChannel, results.FAVORITE.GET_FAVORITES)
   try {
     yield fork(api.get, urls.FAVORITE, results.FAVORITE.GET_FAVORITES, ``)

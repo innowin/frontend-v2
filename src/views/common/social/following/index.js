@@ -60,16 +60,12 @@ class Socials extends Component<PropsSocials, StateSocials> {
   render() {
     const {followings, clientFollowings, actions, ownerId} = this.props
     const {deleteFollow} = actions
-
-    return (
-        <div>
-          <NewFollowings
-              userId={ownerId}
-              deleteFollow={deleteFollow}
-              followings={followings}
-              clientFollowings={clientFollowings}/>
-        </div>
-    )
+    return <NewFollowings
+        userId={ownerId}
+        deleteFollow={deleteFollow}
+        followings={followings}
+        clientFollowings={clientFollowings}
+    />
   }
 }
 
