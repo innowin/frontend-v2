@@ -31,6 +31,7 @@ class HomePosts extends PureComponent {
       showCreatePostSmall: false,
       getDataInDidMount: false,
       hideTopBar: false,
+      averageColor: [37, 53, 69],
     }
   }
 
@@ -53,13 +54,14 @@ class HomePosts extends PureComponent {
     // setTimeout(() => {
     //   if (this.headerImg) {
     //     this.headerImg.onload = () => {
+    //       alert("LOADING")
     //       let can = this.headerCanvas
     //       let canCtx = can.getContext("2d")
     //       let img = this.headerImg
     //       let imgRect = img.getBoundingClientRect()
     //
     //       canCtx.drawImage(img, 0, 0)
-    //       console.log(canCtx.getImageData(0, 0, imgRect.width, imgRect.height))
+    //       // console.log(canCtx.getImageData(0, 0, imgRect.width, imgRect.height))
     //     }
     //   }
     //   else {
@@ -89,6 +91,47 @@ class HomePosts extends PureComponent {
       filterPostsByPostParentLimitOffset({
         postParentId: exchangeId, postType: null, limit, offset, postParentType: constant.POST_PARENT.EXCHANGE,
       })
+    }
+    if (this.headerImg && this.headerCanvas && exchangeId && prevProps.exchangeId !== exchangeId) {
+      this.headerImg.onload = () => {
+        console.log("Header Img Loaded")
+        let can = this.headerCanvas
+        let canCtx = can.getContext("2d")
+        let img = this.headerImg
+        let imgRect = img.getBoundingClientRect()
+        let newImg = new Image()
+        newImg.src = img.src
+        let imageData
+        newImg.onload = (e) => {
+          can.width = e.path[0].width
+          can.height = e.path[0].height
+          canCtx.drawImage(img, 0, 0)
+          try {
+            console.log("Header Img Data Success")
+            imageData = canCtx.getImageData(0, 0, imgRect.width, imgRect.height)
+            console.log(imageData.data)
+          } catch (e) {
+            console.log("Header Img Error Catch")
+            imageData = {data: [37, 53, 69, 255]}
+          }
+
+          let rPlate = 0, gPlate = 0, bPlate = 0, counter = 0
+          for (let i = 0; i < imageData.data.length + 4; i += 4) {
+            if (imageData.data[i + 3] === 255) {
+              counter++
+              rPlate += imageData.data[i]
+              gPlate += imageData.data[i + 1]
+              bPlate += imageData.data[i + 2]
+            }
+          }
+          rPlate = ~~(rPlate / counter)
+          gPlate = ~~(gPlate / counter)
+          bPlate = ~~(bPlate / counter)
+
+          counter !== 0 ?
+              this.setState({...this.state, averageColor: [rPlate, gPlate, bPlate]}) : this.setState({...this.state, averageColor: [37, 53, 69]})
+        }
+      }
     }
   }
 
@@ -159,7 +202,7 @@ class HomePosts extends PureComponent {
   }
 
   render() {
-    const {error, showCreatePostSmall, hideTopBar} = this.state
+    const {error, showCreatePostSmall, hideTopBar, averageColor} = this.state
     const {actions, className, exchangeId, posts, selectedExchange, unSetExchangeId, exchangePage} = this.props
     const {deletePost, updatePost} = actions
     return (
@@ -181,14 +224,15 @@ class HomePosts extends PureComponent {
                       postsCountInThisPage={posts.length}
                   />
 
-                  <div className={hideTopBar ? "top-bar-entity show top-bar-entity-top" : "top-bar-entity show"}>
+                  <div style={{background: `rgba(${averageColor[0]}, ${averageColor[1]}, ${averageColor[2]})`}}
+                       className={hideTopBar ? "top-bar-entity show top-bar-entity-top" : "top-bar-entity show"}>
                     <NewRightArrowSvg onClick={unSetExchangeId} className='back-button'/>
                     <Link to={"/exchange/" + exchangeId} className='profile-top-bar'>
                       {selectedExchange.exchange_image
                           ?
                           <React.Fragment>
                             <img ref={e => this.headerImg = e} src={selectedExchange.exchange_image.file} alt='profile' className='profile-top-bar'/>
-                            <canvas ref={e => this.headerCanvas = e} className='profile-top-bar' style={{borderRadius: "0"}}>مرورگر شما این ویژگی
+                            <canvas ref={e => this.headerCanvas = e} width={"auto"} height={"auto"} style={{display: "none"}}>مرورگر شما این ویژگی
                               را پشتیبانی نمیکند
                             </canvas>
                           </React.Fragment>
