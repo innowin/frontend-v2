@@ -6,7 +6,7 @@ import types from 'src/redux/actions/types'
 
 function* getFile(action) {
   const {fileId} = action.payload
-  const file = yield select((state) => state.common.files.list[fileId])
+  const file = yield select((state) => state.common.file.list[fileId])
   // use fileId in resultName because multi get file in same time be handle
   if (!file && fileId) {
     const resultName = results.COMMON.FILE.GET_FILE + fileId

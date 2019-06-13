@@ -19,6 +19,9 @@ export function* getUserByUserId(action) {
     if (data.related_cv !== null) {
       yield put({type: types.COMMON.FILE.GET_FILE, payload: {fileId: data.related_cv}})
     }
+    if (data.related_catalog !== null) {
+      yield put({type: types.COMMON.FILE.GET_FILE, payload: {fileId: data.related_catalog}})
+    }
   }
   catch (e) {
     const {message} = e
