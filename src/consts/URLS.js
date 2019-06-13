@@ -3,7 +3,7 @@ import io from "socket.io-client"
 export const SOCKET_URL = "https://socket.innowin.ir"
 export const REST_URL = "https://back.beta.innowin.ir"
 export const DOMAIN = "http://innowin.ir"
-export const SOCKET = io(SOCKET_URL, {secure: true, extraHeader: {'Access-Control-Allow-Origin': '*'}})
+export const SOCKET = io(SOCKET_URL, {secure: true, extraHeader: {"Access-Control-Allow-Origin": "*"}})
 
 const urls = {
   SIGN_IN: "api-token-auth",
@@ -22,11 +22,11 @@ const urls = {
     GET_USERS: "users",
     GET_ALL_USERS: "users/identities",
     GET_IDENTITY: "users/identities",
-    PASSWORD_RESET_BY_SMS_REQUEST: 'users/password_reset_by_sms_request',
-    PASSWORD_RESET_BY_SMS_CHECK_CODE: 'users/password_reset_by_sms_check_code',
-    PASSWORD_RESET_BY_SMS: 'users/password_reset_by_sms',
-    PASSWORD_RECOVERY_BY_EMAIL: 'users/forget-password',
-    SEARCH_USER: 'users/search_users',
+    PASSWORD_RESET_BY_SMS_REQUEST: "users/password_reset_by_sms_request",
+    PASSWORD_RESET_BY_SMS_CHECK_CODE: "users/password_reset_by_sms_check_code",
+    PASSWORD_RESET_BY_SMS: "users/password_reset_by_sms",
+    PASSWORD_RECOVERY_BY_EMAIL: "users/forget-password",
+    SEARCH_USER: "users/search_users",
   },
   ORG: {
     GET_ORGANIZATION: "organizations",
@@ -86,8 +86,8 @@ const urls = {
     PROVINCE: "base/provinces",
     CITY: "base/towns",
 
-    UNIVERSITY: 'users/universities',
-    EDUCATION_FIELDS: 'users/university-fields',
+    UNIVERSITY: "users/universities",
+    EDUCATION_FIELDS: "users/university-fields",
 
     POST: "base/posts",
 
@@ -102,6 +102,6 @@ const urls = {
   SKILL: "users/skills",
   FAVORITE: "base/favorites",
   EVENTS: "base/events",
-  EVENT_ASSIGNMENT: 'base/event-assignments',
+  EVENT_ASSIGNMENT: "base/event-assignments",
 }
 export default urls

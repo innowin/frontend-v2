@@ -16,6 +16,9 @@ export function* getUserByUserId(action) {
     if (data.profile_media !== null) {
       yield put({type: types.COMMON.FILE.GET_FILE, payload: {fileId: data.profile_media}})
     }
+    if (data.related_cv !== null) {
+      yield put({type: types.COMMON.FILE.GET_FILE, payload: {fileId: data.related_cv}})
+    }
   }
   catch (e) {
     const {message} = e

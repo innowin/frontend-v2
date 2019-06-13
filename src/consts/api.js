@@ -1,25 +1,25 @@
-import {REST_URL, SOCKET as socket} from './URLS'
-import {GET_VIEWS_COUNT, NEW_VIEW, REST_REQUEST} from './Events'
-import {eventChannel} from 'redux-saga'
-import {apply, select} from 'redux-saga/effects'
-import axios from 'axios'
+import {REST_URL, SOCKET as socket} from "./URLS"
+import {GET_VIEWS_COUNT, NEW_VIEW, REST_REQUEST} from "./Events"
+import {eventChannel} from "redux-saga"
+import {apply, select} from "redux-saga/effects"
+import axios from "axios"
 
 axios.defaults.baseURL = REST_URL
 
 const createSocketChannel = (resultName) => {
   return eventChannel(emit => {
     const resultHandler = res => {
-      if (res.status === 'FAILED') {
-        console.groupCollapsed(` %cError  %c${resultName.toUpperCase()}`, 'line-height: 1.5 !important; color: red; font-size:11px; font-family: \'dejavu sans mono\', monospace; font-weight:lighter;font-size: 11px', 'color: #ef8fae; font-size:12px; font-family: \'dejavu sans mono\', monospace; font-weight:900;')
-        console.log(' %cERROR ', 'color: orange; font-size:12px; font-family: \'Helvetica\',consolas,sans-serif; font-weight:900;', res)
-        console.groupEnd('Response')
+      if (res.status === "FAILED") {
+        console.groupCollapsed(` %cError  %c${resultName.toUpperCase()}`, "line-height: 1.5 !important; color: red; font-size:11px; font-family: 'dejavu sans mono', monospace; font-weight:lighter;font-size: 11px", "color: #ef8fae; font-size:12px; font-family: 'dejavu sans mono', monospace; font-weight:900;")
+        console.log(" %cERROR ", "color: orange; font-size:12px; font-family: 'Helvetica',consolas,sans-serif; font-weight:900;", res)
+        console.groupEnd("Response")
 
-        if (res.data === 0 && (resultName === 'USERNAME_CHECK' || resultName === 'EMAIL_CHECK')) {
+        if (res.data === 0 && (resultName === "USERNAME_CHECK" || resultName === "EMAIL_CHECK")) {
           emit(res.data)
           return
         }
         // below is for check user handle error
-        if (typeof res.data === 'object' && res.data.detail) {
+        if (typeof res.data === "object" && res.data.detail) {
           emit(new Error(res.data.detail))
         }
         if (res.data.non_field_errors) {
@@ -44,9 +44,9 @@ const createSocketChannel = (resultName) => {
 }
 
 const createAxiosChannel = (method, url, data, token) => {
-  axios.defaults.headers.common['Authorization'] = `jwt ${token}`
+  axios.defaults.headers.common["Authorization"] = `jwt ${token}`
   return eventChannel(emit => {
-    let canceler = () => ''
+    let canceler = () => ""
     const CancelToken = axios.CancelToken
     const onUploadProgress = e => {
       emit({canceler})
@@ -68,8 +68,8 @@ const createAxiosChannel = (method, url, data, token) => {
         .catch(error => {
           console.log({axios, error})
           if (axios.isCancel(error)) {
-            console.log('in if')
-            emit(new Error('Request Canceled', error))
+            console.log("in if")
+            emit(new Error("Request Canceled", error))
             return
           }
           emit(new Error(error))
@@ -79,30 +79,30 @@ const createAxiosChannel = (method, url, data, token) => {
 }
 
 //1 - req -sending requests
-function* get(url, result, param = '', noToken) {
+function* get(url, result, param = "", noToken) {
   const token = yield select((state) => state.auth.client.token)
   yield apply({}, getEmit, [url, result, param, token, noToken])
 }
 
-function* post(url, result, data, param = '', noToken) {
+function* post(url, result, data, param = "", noToken) {
   const token = yield select((state) => state.auth.client.token)
   yield apply({}, postEmit, [url, result, data, param, token, noToken])
 }
 
 function* uploadFileChannel(url, fileObject) {
   const form = new FormData()
-  form.append('file', fileObject.file)
-  form.append('type', fileObject.type)
+  form.append("file", fileObject.file)
+  form.append("type", fileObject.type)
   const token = yield select((state) => state.auth.client.token)
-  return createAxiosChannel('post', 'files', form, token)
+  return createAxiosChannel("post", "files", form, token)
 }
 
-function* patch(url, result, data, param = '') {
+function* patch(url, result, data, param = "") {
   const token = yield select((state) => state.auth.client.token)
   yield apply({}, patchEmit, [url, result, data, param, token])
 }
 
-function* del(url, result, data, param = '') {
+function* del(url, result, data, param = "") {
   const token = yield select((state) => state.auth.client.token)
   yield apply({}, delEmit, [url, result, data, param, token])
 }
@@ -117,30 +117,30 @@ function* setPostViewer(postId, result) {
 }
 
 // pre send request
-const getEmit = (url, resultName, query = '', token, noToken) => {
+const getEmit = (url, resultName, query = "", token, noToken) => {
   if (noToken) {
     socket.emit(REST_REQUEST, {
-      method: 'get',
-      url: encodeURI(REST_URL + '/' + url + '/' + query),
+      method: "get",
+      url: encodeURI(REST_URL + "/" + url + "/" + query),
       result: resultName,
     })
   }
   else {
     socket.emit(REST_REQUEST, {
-      method: 'get',
-      url: encodeURI(REST_URL + '/' + url + '/' + query),
+      method: "get",
+      url: encodeURI(REST_URL + "/" + url + "/" + query),
       result: resultName,
       token,
     })
   }
 }
 
-const patchEmit = (urll, resultName, data, query = '', token) => {
+const patchEmit = (urll, resultName, data, query = "", token) => {
   let url
-  query === '' ? url = REST_URL + '/' + urll + '/' : url = REST_URL + '/' + urll + '/' + query + '/'
+  query === "" ? url = REST_URL + "/" + urll + "/" : url = REST_URL + "/" + urll + "/" + query + "/"
   url = encodeURI(url)
   socket.emit(REST_REQUEST, {
-    method: 'patch',
+    method: "patch",
     result: resultName,
     url,
     data,
@@ -148,12 +148,12 @@ const patchEmit = (urll, resultName, data, query = '', token) => {
   })
 }
 
-const delEmit = (urll, resultName, data, query = '', token) => {
+const delEmit = (urll, resultName, data, query = "", token) => {
   let url
-  query === '' ? url = REST_URL + '/' + urll + '/' : url = REST_URL + '/' + urll + '/' + query + '/'
+  query === "" ? url = REST_URL + "/" + urll + "/" : url = REST_URL + "/" + urll + "/" + query + "/"
   url = encodeURI(url)
   socket.emit(REST_REQUEST, {
-    method: 'del',
+    method: "del",
     url,
     result: resultName,
     data,
@@ -161,19 +161,19 @@ const delEmit = (urll, resultName, data, query = '', token) => {
   })
 }
 
-const postEmit = (url, resultName, data, query = '', token, noToken) => {
+const postEmit = (url, resultName, data, query = "", token, noToken) => {
   if (noToken) {
     socket.emit(REST_REQUEST, {
-      method: 'post',
-      url: encodeURI(REST_URL + '/' + url + '/' + query),
+      method: "post",
+      url: encodeURI(REST_URL + "/" + url + "/" + query),
       result: resultName,
       data,
     })
   }
   else {
     socket.emit(REST_REQUEST, {
-      method: 'post',
-      url: encodeURI(REST_URL + '/' + url + '/' + query),
+      method: "post",
+      url: encodeURI(REST_URL + "/" + url + "/" + query),
       result: resultName,
       data,
       token,
