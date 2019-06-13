@@ -133,6 +133,7 @@
     white-space: nowrap;
     text-overflow: ellipsis;
     text-align: right;
+    overflow: hidden;
     margin: 0;
   }
 
@@ -305,7 +306,6 @@
   color: $text-dark-color;
   border-radius: $border-radius-size;
   background: $text-lightest-color;
-  box-shadow: 0 3px 3px $box-shadow-color;
   transition: all linear 0.3s, z-index linear 0s;
 
   @media screen and (min-width: 1366px) {

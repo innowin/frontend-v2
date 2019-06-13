@@ -41,10 +41,11 @@ class Socials extends React.Component<PropsSocials, StateSocials> {
     const {actions, exchanges, ownerId, translate} = this.props
     const {deleteExchangeMembership} = actions
 
-    return (
-        <NewExchanges translate={translate} userId={ownerId} deleteExchangeMembership={deleteExchangeMembership}
-                      exchanges={exchanges}/>
-    )
+    return <NewExchanges translate={translate}
+                         userId={ownerId}
+                         deleteExchangeMembership={deleteExchangeMembership}
+                         exchanges={exchanges}
+    />
   }
 }
 

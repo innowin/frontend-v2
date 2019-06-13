@@ -16,6 +16,10 @@
     justify-content: flex-start;
   }
 
+  .header-container::-webkit-scrollbar {
+    display: none;
+  }
+
   .header-container-item {
     flex: 0 0 auto;
     flex-grow: 1;

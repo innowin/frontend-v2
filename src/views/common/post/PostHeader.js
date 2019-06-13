@@ -78,12 +78,8 @@ class PostHeader extends React.Component {
               </div>
               <div className="-item-titlePost">
                 <div>
-                <span className="post-name">
-                  {name}
-                </span>
-                  <span className="-green2 post-username">
-                  {postIdentity && postIdentity.username}
-                </span>
+                  <div className="post-name">{name}</div>
+                  <div className="-green2 post-username">{postIdentity && postIdentity.username}</div>
                 </div>
                 <div className='post-date'>
                   <Moment className="-green2" element="span" fromNow ago>{createdTime}</Moment>

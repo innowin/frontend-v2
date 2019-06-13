@@ -102,10 +102,10 @@ class User extends Component {
                 {
                   userType === constants.USER_TYPES.USER ?
                       <UserIcon className='user-name-icon'/>
-                      : <Organization className='user-name-icon'/>
+                      : <Organization className='user-name-icon-org'/>
                 }
                 </span>
-                {user.first_name + ' ' + user.last_name}
+                {user.last_name ? (user.first_name + ' ' + user.last_name) : (user.username)}
               </div>
               <div className='user-id'>@{user.username}</div>
             </div>

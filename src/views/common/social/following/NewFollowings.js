@@ -93,30 +93,15 @@ class NewFollowings extends Component<props, states> {
     const {deleteFollow, clientId, user_follows, follows} = this.props
     let follow_list = []
     user_follows.forEach(id => follow_list.push(follows[id]))
-    follow_list.forEach(p => {
-      if (p.follow_followed.id === following.id && p.follow_follower.id === clientId) {
-        // console.log(p)
-        deleteFollow({followId: p.id, followOwnerId: clientId})
-      }
-    })
+    follow_list.forEach(p =>
+        p.follow_followed.id === following.id && p.follow_follower.id === clientId && deleteFollow({followId: p.id, followOwnerId: clientId}),
+    )
   }
 
   getMembers(identity_type, id, follow_accepted, index) {
-    let {
-      profiles,
-      organs,
-      files,
-      clientId,
-      followings,
-    } = this.props
-    // let {
-    // followingUsers,
-    // followingOrgans,
-    // buttonHover
-    // } = this.state
+    let {profiles, organs, files, clientId, followings} = this.props
     if (identity_type === constants.USER_TYPES.USER) {
       if (profiles[id]) {
-        // if (!profiles[memberId].profile.isLoading) {
         return <div key={index} className={this.state.viewType}>
           <Link to={`/user/${id}`}>
             <div className={'member-picture-container'}>
@@ -164,7 +149,6 @@ class NewFollowings extends Component<props, states> {
       </div>
     }
     if (identity_type === constants.USER_TYPES.ORG) {
-      // if (!organs[memberId].organization.isLoading) {
       if (organs[id]) {
         return <div key={index}
                     className={this.state.viewType}>
@@ -212,13 +196,10 @@ class NewFollowings extends Component<props, states> {
   }
 
   componentDidMount() {
-    window.scrollTo({
-      top: 0,
-    })
+    if (document.body.clientWidth > 480) window.scrollTo({top: 0})
   }
 
-  componentDidUpdate(prevProps, prevState, ss): void {
-    console.log(this.props.clientFollowings)
+  componentDidUpdate(prevProps): void {
     if ((this.props.followings && this.props.followings.length !== prevProps.followings.length) || prevProps.ownerId !== this.props.ownerId) {
       let {followings, actions} = this.props
       for (let i = 0; i < followings.length; i++) {

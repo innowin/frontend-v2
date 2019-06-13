@@ -61,6 +61,9 @@ const urls = {
   ABILITY: "organizations/abilities",
 
   COMMON: {
+    // notifications
+    NOTIFICATIONS: 'notifications/notifyme',
+
     // product
     PRODUCT: "products",
     PRICE: "products/prices",

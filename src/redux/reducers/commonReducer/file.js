@@ -10,11 +10,6 @@ const file = (state = initialState.common.file, action) => {
 
   switch (action.type) {
     /** --------------------  get file --------------------- **/
-    // case types.COMMON.FILE.GET_FILE:
-    //     return {
-    //         ...state,
-    //         list: {...list, [fileId]: data}
-    //     }
     case types.SUCCESS.COMMON.FILE.GET_FILES:
       return appendListToStateList.success(state, action)
 

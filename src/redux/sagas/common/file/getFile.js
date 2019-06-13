@@ -1,14 +1,14 @@
 import api from 'src/consts/api'
 import results from 'src/consts/resultName'
 import urls from 'src/consts/URLS'
-import {call, fork, take, put} from 'redux-saga/effects'
+import {call, fork, take, put, select} from 'redux-saga/effects'
 import types from 'src/redux/actions/types'
-
 
 function* getFile(action) {
   const {fileId} = action.payload
+  const file = yield select((state) => state.common.files.list[fileId])
   // use fileId in resultName because multi get file in same time be handle
-  if (fileId) {
+  if (!file && fileId) {
     const resultName = results.COMMON.FILE.GET_FILE + fileId
     const socketChannel = yield call(api.createSocketChannel, resultName)
     try {

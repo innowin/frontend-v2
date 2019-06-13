@@ -191,7 +191,7 @@ class PostView extends React.Component<postExtendedViewProps, postViewState> {
     }
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     const {instantViewComments, actions, post} = this.props
     const {getCommentsByParentId} = actions
     if (instantViewComments && prevProps.instantViewComments && prevProps.instantViewComments.length > instantViewComments.length && instantViewComments.length < 3) {
