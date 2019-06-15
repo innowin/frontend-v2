@@ -1,4 +1,4 @@
-import React, {Component} from "react"
+import React, {PureComponent} from 'react'
 import exchangeActions from "src/redux/actions/exchangeActions"
 import ExchangeMembershipActions from "src/redux/actions/commonActions/exchangeMembershipActions"
 import PostActions from "src/redux/actions/commonActions/postActions"
@@ -9,7 +9,7 @@ import {DefaultOrganIcon} from "src/images/icons"
 import {Link} from "react-router-dom"
 
 
-class OrganizationLeadershipModal extends Component {
+class OrganizationLeadershipModal extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {

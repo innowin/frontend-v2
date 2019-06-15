@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import exchangeActions from 'src/redux/actions/exchangeActions'
 import {connect} from 'react-redux'
@@ -17,7 +17,7 @@ import {createFileFunc} from '../common/Functions'
 import constants from '../../consts/constants'
 
 
-class ExchangeViewBar extends Component {
+class ExchangeViewBar extends PureComponent {
   static propTypes = {
     exchangeId: PropTypes.number.isRequired,
   }

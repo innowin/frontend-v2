@@ -1,18 +1,18 @@
 // @flow
 import * as React from "react"
-import {Component} from "react"
 // import StreamView from "./StreamView"
 import InfoView from "./InfoView"
 import StatisticView from "./StatisticView"
 import ExchangeManager from "./ExchangeManager"
 import MembersView from "./MembersView"
 import HomePosts from "../../pages/home/HomePosts"
+import {PureComponent} from 'react'
 
 type props = {
   activeTab: string,
   exchangeId: number,
 }
-export default class Exchange_Info extends Component<props> {
+export default class Exchange_Info extends PureComponent<props> {
   backButton = () => {
     window.history.back()
   }

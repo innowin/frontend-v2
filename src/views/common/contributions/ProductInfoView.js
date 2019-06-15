@@ -9,7 +9,7 @@ import {Product as ProductSvg} from '../../../images/icons'
 import GetUserActions from '../../../redux/actions/user/getUserActions'
 import {ClipLoader} from 'react-spinners'
 
-class ProductInfoView extends React.Component {
+class ProductInfoView extends React.PureComponent {
   componentDidMount(): void {
     if (this.props.product) {
       const {product, actions} = this.props

@@ -1,7 +1,7 @@
 // @flow
-import * as React from "react"
-import {Component} from "react"
-import FontAwesome from "react-fontawesome"
+import * as React from 'react'
+import FontAwesome from 'react-fontawesome'
+import {PureComponent} from 'react'
 
 type appProps =
     {|
@@ -13,13 +13,13 @@ type appState =
       searchLength: number
     |}
 
-class Sidebar extends Component <appProps, appState> {
+class Sidebar extends PureComponent <appProps, appState> {
 
   constructor(props) {
     super(props)
     this.state =
         {
-          searchLength: 0
+          searchLength: 0,
         }
   }
 
@@ -30,7 +30,7 @@ class Sidebar extends Component <appProps, appState> {
         this.props.search(e.target.value.trim())
       else this.props.search(null)
 
-      window.scrollTo({top: 0, behavior: "smooth"})
+      window.scrollTo({top: 0, behavior: 'smooth'})
 
     }
   }
@@ -43,8 +43,8 @@ class Sidebar extends Component <appProps, appState> {
     const self: any = this
     this.props.search(null)
     this.setState({...this.state, searchLength: 0})
-    self.searchInput.value = ""
-    window.scrollTo({top: 0, behavior: "smooth"})
+    self.searchInput.value = ''
+    window.scrollTo({top: 0, behavior: 'smooth'})
   }
 
   render() {

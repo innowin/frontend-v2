@@ -5,11 +5,11 @@ import getUserAction from 'src/redux/actions/user/getUserActions'
 import SocialActions from 'src/redux/actions/commonActions/socialActions'
 import {bindActionCreators} from 'redux'
 import {ClipLoader} from 'react-spinners'
-import {Component} from 'react'
 import {connect} from 'react-redux'
 import {DefaultUserIcon, Contacts, QuestionMark, Stream} from 'src/images/icons'
 import {Link} from 'react-router-dom'
 import {getMessages} from 'src/redux/selectors/translateSelector'
+import {PureComponent} from 'react'
 
 type props = {
   actions: {
@@ -35,7 +35,7 @@ type states = {
   viewType: string,
 }
 
-class NewFollowings extends Component<props, states> {
+class NewFollowings extends PureComponent<props, states> {
   constructor(props) {
     super(props)
     this.state = {

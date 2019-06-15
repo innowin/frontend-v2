@@ -1,7 +1,7 @@
-import React, {Component} from 'react'
+import React, {PureComponent} from 'react'
 import {ClipLoader} from 'react-spinners'
 
-class SecondLevel extends Component {
+class SecondLevel extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {

@@ -1,8 +1,8 @@
-import React, {Component} from 'react'
+import React, {PureComponent} from 'react'
 import JDate from 'jalali-date'
 import PropTypes from 'prop-types'
 
-class MyDatePicker extends Component {
+class MyDatePicker extends PureComponent {
   static propTypes = {
     className: PropTypes.string.isRequired,
     getValue: PropTypes.func.isRequired,

@@ -1,10 +1,10 @@
-import React, {Component} from 'react'
+import React, {PureComponent} from 'react'
 import {NotFoundSvg} from 'src/images/icons'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import Material from '../common/components/Material'
 
-class NotFound extends Component {
+class NotFound extends PureComponent {
   render() {
     const {userType, id} = this.props
     return (

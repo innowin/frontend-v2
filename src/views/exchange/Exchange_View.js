@@ -1,5 +1,4 @@
-import React from "react"
-import {Component} from "react"
+import React, {PureComponent} from 'react'
 import PropTypes from "prop-types"
 import ExchangeViewBar from "../bars/ExchangeViewBar"
 import ExchangeTabs from "./ExchangeView/Exchange_Tabs"
@@ -9,7 +8,7 @@ import connect from "react-redux/es/connect/connect"
 import postActions from "src/redux/actions/commonActions/postActions"
 
 
-class ExchangeView extends Component {
+class ExchangeView extends PureComponent {
   static propTypes = {
     match: PropTypes.object.isRequired,
   }

@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {PureComponent} from 'react'
 import BeeBackground from 'src/images/bee/beeBackground'
 import connect from 'react-redux/es/connect/connect'
 import constants from 'src/consts/constants'
@@ -23,7 +23,7 @@ import FileActions from 'src/redux/actions/commonActions/fileActions'
 import TempActions from 'src/redux/actions/tempActions'
 import AuthActions from 'src/redux/actions/authActions'
 
-class UserBee extends Component {
+class UserBee extends PureComponent {
 
   constructor(props) {
     super(props)
@@ -237,9 +237,10 @@ class UserBee extends Component {
     if (this.state.jobTitle.length > 0 && this.state.jobWork.length > 0) {
       const {actions, currentUser} = this.props
       const formFormat = {
-        name: this.state.jobWork,
-        position: this.state.jobTitle,
+        name: this.state.jobTitle,
         work_experience_organization: null,
+        work_experience_organization_name: this.state.jobWork,
+        work_experience_related_identity: 31900,
       }
       const formValues: {} = {...formFormat}
       actions.createWorkExperienceByUserId({userId: currentUser.id, formValues})

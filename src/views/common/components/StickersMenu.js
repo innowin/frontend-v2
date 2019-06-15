@@ -1,7 +1,7 @@
-import React, {Component} from 'react'
+import React, {PureComponent} from 'react'
 import {EmojiSvg} from '../../../images/icons'
 
-class StickersMenu extends Component {
+class StickersMenu extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {

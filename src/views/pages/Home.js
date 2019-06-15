@@ -5,7 +5,6 @@ import HomeSideBar from "./home/HomeSideBar"
 import PropTypes from "prop-types"
 import setExchangeActions from "src/redux/actions/user/setSelectedExchangeAction"
 import {bindActionCreators} from "redux"
-import {Component} from "react"
 import {connect} from "react-redux"
 import {getMessages} from "src/redux/selectors/translateSelector"
 import constants from "src/consts/constants"
@@ -13,6 +12,7 @@ import OrganizationLeadershipCard from "../common/components/OrganizationLeaders
 import OrganizationBee from "../common/components/OrganizationBee"
 import UserBee from "../common/components/UserBee"
 import SuggestExchanges from "../common/components/SuggestExchanges"
+import {PureComponent} from 'react'
 
 
 type HomeProps = {|
@@ -23,7 +23,7 @@ type HomeProps = {|
   selectedExchange: number
 |}
 
-class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
+class Home extends PureComponent<HomeProps, {| activeExchangeId: ?number |}> {
 
   static propTypes = {
     identityId: PropTypes.number,

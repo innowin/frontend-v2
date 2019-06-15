@@ -28,7 +28,7 @@ type OrganizationInfoFormInputType = {|
   publicEmail: string,
 |}
 
-class ContactInfoEditForm extends React.Component<PropsOrganizationInfoEditForm> {
+class ContactInfoEditForm extends React.PureComponent<PropsOrganizationInfoEditForm> {
   componentDidMount() {
     const {organization, initialize} = this.props
     const defaultFormValue = {

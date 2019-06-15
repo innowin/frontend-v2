@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react'
-import {Component} from 'react'
+import {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import ExchangeMembershipActions from 'src/redux/actions/commonActions/exchangeMembershipActions'
 import type {exchangeType} from 'src/consts/flowTypes/exchange/exchange.js'
@@ -19,7 +19,7 @@ type PropsSideBarItem = {
   active: boolean
 }
 
-export class SideBarItem extends Component<PropsSideBarItem> {
+export class SideBarItem extends PureComponent<PropsSideBarItem> {
 
   static propTypes = {
     exchange: PropTypes.object.isRequired,
@@ -97,7 +97,7 @@ type PropsHomeSideBar = {|
   identityType: string,
 |}
 
-class HomeSideBar extends Component<PropsHomeSideBar, StateHomeSideBar> {
+class HomeSideBar extends PureComponent<PropsHomeSideBar, StateHomeSideBar> {
   static propTypes = {
     identityId: PropTypes.number.isRequired,
     activeExchangeId: PropTypes.number,

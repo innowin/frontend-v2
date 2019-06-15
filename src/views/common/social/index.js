@@ -1,6 +1,5 @@
 // @flow
 import * as React from 'react'
-import {Component} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import ExchangeMembershipActions from 'src/redux/actions/commonActions/exchangeMembershipActions'
@@ -11,6 +10,7 @@ import {FrameCard} from 'src/views/common/cards/Frames'
 import {getMessages} from 'src/redux/selectors/translateSelector'
 import {getExchangeMembershipsSelector} from 'src/redux/selectors/common/social/getExchangeMemberships'
 import type {paramType} from 'src/consts/flowTypes/paramType'
+import {PureComponent} from 'react'
 
 type PropsSocials = {
   ownerId: number,
@@ -29,7 +29,7 @@ type StateSocials = {
   editFollowings: boolean,
 }
 
-class Socials extends Component<PropsSocials, StateSocials> {
+class Socials extends PureComponent<PropsSocials, StateSocials> {
   static propTypes = {
     ownerId: PropTypes.number.isRequired,
     translate: PropTypes.object.isRequired,

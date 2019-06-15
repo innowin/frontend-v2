@@ -1,6 +1,6 @@
 // @flow
 import type {userResearchType} from "../../../consts/flowTypes/user/basicInformation"
-import {Component} from "react"
+import {PureComponent} from 'react'
 import PropTypes from "prop-types"
 import * as React from "react"
 
@@ -23,7 +23,7 @@ type ResearchesInfoProps = {
   }
 }
 
-class ResearchesInfoContainer extends Component<ResearchesInfoProps> {
+class ResearchesInfoContainer extends PureComponent<ResearchesInfoProps> {
   static propTypes = {
     userId: PropTypes.number.isRequired,
     translate: PropTypes.object.isRequired,

@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {PureComponent} from 'react'
 import BeeBackground from 'src/images/bee/beeBackground'
 import connect from 'react-redux/es/connect/connect'
 import {Bee} from 'src/images/icons'
@@ -15,7 +15,7 @@ import uuid from 'uuid'
 import constants from 'src/consts/constants'
 import AuthActions from 'src/redux/actions/authActions'
 
-class OrganizationBee extends Component {
+class OrganizationBee extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {

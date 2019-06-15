@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {PureComponent} from 'react'
 import Moment from 'react-moment'
 import Material from '../../common/components/Material'
 import {Date, Location} from 'src/images/icons'
@@ -11,7 +11,7 @@ import {createFileFunc} from '../../common/Functions'
 import constants from 'src/consts/constants'
 import FileActions from 'src/redux/actions/commonActions/fileActions'
 
-class SideBar extends Component {
+class SideBar extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {

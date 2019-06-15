@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 
-class Material extends React.Component {
+class Material extends React.PureComponent {
 
   static propTypes = {
     className: PropTypes.string,

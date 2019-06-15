@@ -6,11 +6,11 @@ import identityActions from "src/redux/actions/identityActions"
 import SocialActions from "src/redux/actions/commonActions/socialActions"
 import {bindActionCreators} from "redux"
 import {ClipLoader} from "react-spinners"
-import {Component} from "react"
 import {connect} from "react-redux"
 import {DefaultUserIcon, QuestionMark, Stream} from "src/images/icons"
 import {Link} from "react-router-dom"
 import {getFollowingsSelector} from "../../../redux/selectors/common/social/getNewFollowings"
+import {PureComponent} from 'react'
 // import exchangeMembershipActions from "src/redux/actions/commonActions/exchangeMembershipActions"
 // import {VerifyWrapper} from "../../common/cards/Frames"
 
@@ -33,7 +33,7 @@ type states = {
   viewType: string,
 }
 
-class MembersView extends Component<props, states> {
+class MembersView extends PureComponent<props, states> {
   constructor(props) {
     super(props)
     this.state = {

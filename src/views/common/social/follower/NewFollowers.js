@@ -6,12 +6,12 @@ import identityActions from 'src/redux/actions/identityActions'
 import SocialActions from 'src/redux/actions/commonActions/socialActions'
 import {bindActionCreators} from 'redux'
 import {ClipLoader} from 'react-spinners'
-import {Component} from 'react'
 import {connect} from 'react-redux'
 import {DefaultUserIcon, Contacts, QuestionMark, Stream} from 'src/images/icons'
 import {getFolloweesSelector} from 'src/redux/selectors/common/social/getFollowees'
 import {Link} from 'react-router-dom'
 import {getMessages} from 'src/redux/selectors/translateSelector'
+import {PureComponent} from 'react'
 
 type props = {
   actions: Object,
@@ -45,7 +45,7 @@ type states = {
   viewType: string,
 }
 
-class NewFollowers extends Component<props, states> {
+class NewFollowers extends PureComponent<props, states> {
   constructor(props) {
     super(props)
     this.state = {

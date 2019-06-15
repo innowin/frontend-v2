@@ -1,4 +1,4 @@
-import {Component} from 'react'
+import {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import {SelectComponent} from '../../SelectComponent'
 import {TextInput} from '../../inputs/TextInput'
@@ -29,7 +29,7 @@ type postFormStates = {
 // const minAllowedHeaderWordCounts = 5
 // const maxAllowedHeaderWordCounts = 70
 
-export class PostForm extends Component<postFormProps, postFormStates> {
+export class PostForm extends PureComponent<postFormProps, postFormStates> {
   static defaultProps = {
     postParent: null,
   }

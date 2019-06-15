@@ -1,11 +1,11 @@
-import React, {Component} from 'react'
+import React, {PureComponent} from 'react'
 import uuid from 'uuid'
 import {CSSTransition, TransitionGroup} from 'react-transition-group'
 import FontAwesome from 'react-fontawesome'
 import {BoxSvg, PhoneSvg, RocketSvg} from 'src/images/icons'
 
 // main component
-class CarouselLogin extends Component {
+class CarouselLogin extends PureComponent {
   constructor() {
     super()
     this.state = {

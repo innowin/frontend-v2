@@ -11,6 +11,7 @@ import Followers from 'src/views/common/social/follower/index'
 import type {badgeType} from 'src/consts/flowTypes/common/badges'
 import type {identityStateObject, listOfIdObject, organStateObject} from 'src/consts/flowTypes/stateObjectType'
 import {bindActionCreators} from 'redux'
+import {PureComponent} from 'react'
 import {connect} from 'react-redux'
 import {NavLink, Switch, Redirect} from 'react-router-dom'
 import constants from 'src/consts/constants'
@@ -53,7 +54,7 @@ type StatesOrganization = {
   showSecondHeader: boolean,
 }
 
-export class Organization extends React.Component<PropsOrganization, StatesOrganization> {
+class Organization extends PureComponent<PropsOrganization, StatesOrganization> {
   static propTypes = {
     userObject: PropTypes.object.isRequired,
     badgesObject: PropTypes.object.isRequired,

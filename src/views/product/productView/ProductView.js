@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {PureComponent} from 'react'
 import ProductPosts from './Posts'
 import ProductBasicInformation from './BasicInformation'
 import {NavLink, Switch, Redirect, Link} from 'react-router-dom'
@@ -28,7 +28,7 @@ import {ProductWhite} from 'src/images/icons'
 import productActions from 'src/redux/actions/commonActions/productActions'
 
 
-class ProductView extends Component {
+class ProductView extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {

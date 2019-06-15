@@ -1,7 +1,6 @@
 // @flow
 import * as React from "react"
 import {ClipLoader} from "react-spinners"
-import {Component} from "react"
 import {connect} from "react-redux"
 import {bindActionCreators} from "redux"
 import {getMessages} from "src/redux/selectors/translateSelector"
@@ -9,11 +8,7 @@ import {Link} from "react-router-dom"
 import checkOwner from "../../common/CheckOwner"
 import exchangeActions from "../../../redux/actions/exchangeActions"
 import {getFiles} from "src/redux/actions/commonActions/fileActions"
-// import {bindActionCreators} from "redux"
-// import educationActions from "src/redux/actions/user/educationActions"
-// import {VerifyWrapper} from "../../common/cards/Frames"
-// import getUserAction from "../../../redux/actions/user/getUserActions"
-// import exchangeActions from "../../../redux/actions/exchangeActions"
+import {PureComponent} from 'react'
 
 type props = {
   actions: {
@@ -32,7 +27,7 @@ type state = {
   exchangeBio: string,
 }
 
-class InfoView extends Component<props, state> {
+class InfoView extends PureComponent<props, state> {
   constructor(props) {
     super(props)
     this.state = {

@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {PureComponent} from 'react'
 import CarouselLogin from './login/Carousel'
 import FooterLogin from './login/FooterLogin'
 import HeaderLogin from './login/HeaderLogin'
@@ -9,7 +9,7 @@ import {getMessages} from '../../redux/selectors/translateSelector'
 import connect from 'react-redux/es/connect/connect'
 import numberCorrection from '../../helpers/numberCorrection'
 
-class Login extends Component {
+class Login extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {

@@ -1,16 +1,15 @@
-import React from 'react'
+import React, {PureComponent} from 'react'
 import connect from 'react-redux/es/connect/connect'
 import Material from '../../common/components/Material'
 import socialActions from 'src/redux/actions/commonActions/socialActions'
 import {bindActionCreators} from 'redux'
 import {ClipLoader} from 'react-spinners'
-import {Component} from 'react'
 import {DefaultOrganIcon, DefaultUserIcon, Organization, User as UserIcon} from 'src/images/icons'
 import {Link} from 'react-router-dom'
 import constants from 'src/consts/constants'
 import getFile from 'src/redux/actions/commonActions/fileActions'
 
-class User extends Component {
+class User extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {

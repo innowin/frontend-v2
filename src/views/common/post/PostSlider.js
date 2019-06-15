@@ -1,9 +1,9 @@
-import React, {Component} from "react"
+import React, {PureComponent} from 'react'
 import PropTypes from "prop-types"
 // import {CSSTransition, TransitionGroup} from "react-transition-group"
 import {MainLbarArrow} from "src/images/icons"
 
-class PostSlider extends Component {
+class PostSlider extends PureComponent {
   static propTypes = {
     images: PropTypes.array,
     closeModal: PropTypes.func.isRequired,

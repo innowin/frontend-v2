@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {PureComponent} from 'react'
 import FileActions from 'src/redux/actions/commonActions/fileActions'
 import {bindActionCreators} from 'redux'
 import connect from 'react-redux/es/connect/connect'
@@ -9,7 +9,7 @@ import {Organization} from 'src/images/icons'
 import {ClipLoader} from 'react-spinners'
 import GetUserActions from 'src/redux/actions/user/getUserActions'
 
-class Product extends Component {
+class Product extends PureComponent {
   componentDidMount() {
     const {data, actions} = this.props
     actions.getFileByFileRelatedParentId({fileRelatedParentId: data.id, fileParentType: constants.FILE_PARENT.PRODUCT})

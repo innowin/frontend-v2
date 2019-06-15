@@ -58,7 +58,7 @@ type postViewState = {
   descriptionHeight: ?number,
 }
 
-class PostView extends React.Component<postExtendedViewProps, postViewState> {
+class PostView extends React.PureComponent<postExtendedViewProps, postViewState> {
   static propTypes = {
     post: PropTypes.object.isRequired,
     translate: PropTypes.object.isRequired,

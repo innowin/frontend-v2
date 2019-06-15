@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {PureComponent} from 'react'
 import {REST_URL} from 'src/consts/URLS'
 import {ChannelIcon} from 'src/images/icons'
 import Material from './Material'
@@ -7,7 +7,7 @@ import exchangeActions from 'src/redux/actions/commonActions/exchangeMembershipA
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 
-class ExchangeSuggestView extends Component {
+class ExchangeSuggestView extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {

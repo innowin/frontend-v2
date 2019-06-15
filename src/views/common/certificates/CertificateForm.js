@@ -1,12 +1,12 @@
 // @flow
 import type {certificateType} from "../../../consts/flowTypes/user/others";
 import * as React from "react";
-import {Component} from "react";
 import PropTypes from "prop-types";
 import {FileInput} from "../../common/inputs/FileInput";
 import {Field, reduxForm} from "redux-form";
 import certificateValidation from "../../../helpers/validations/commonCertificate";
 import renderTextField from "../../common/inputs/reduxFormRenderTextField";
+import {PureComponent} from 'react'
 
 type PropsCertificateForm = {
   onSubmit: Function,
@@ -19,7 +19,7 @@ type PropsCertificateForm = {
   initialize: Function,
 }
 
-class CertificateForm extends Component<PropsCertificateForm> {
+class CertificateForm extends PureComponent<PropsCertificateForm> {
   static propTypes = {
     onSubmit: PropTypes.func.isRequired,
     certificate: PropTypes.object,

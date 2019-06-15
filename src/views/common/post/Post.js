@@ -1,9 +1,8 @@
-import * as React from "react";
-import PropTypes from "prop-types";
-import type {postType} from "../../../consts/flowTypes/common/post";
-import {VerifyWrapper} from "../cards/Frames";
-// import PostEditForm from "./editPost/PostEditForm";
-import PostView from "./PostView";
+import * as React from 'react'
+import PropTypes from 'prop-types'
+import type {postType} from '../../../consts/flowTypes/common/post'
+import {VerifyWrapper} from '../cards/Frames'
+import PostView from './PostView'
 import CreatePost from './createPost'
 
 type postPropTypes = {
@@ -16,18 +15,18 @@ type postStateTypes = {
   edit: boolean,
 }
 
-export class Post extends React.Component<postPropTypes, postStateTypes> {
+export class Post extends React.PureComponent<postPropTypes, postStateTypes> {
 
   static propTypes = {
     post: PropTypes.object.isRequired,
     updatePost: PropTypes.func.isRequired,
-    deletePost: PropTypes.func.isRequired
+    deletePost: PropTypes.func.isRequired,
   }
 
   constructor(props: postPropTypes) {
     super(props)
     this.state = {
-      edit: false
+      edit: false,
     }
   }
 
@@ -50,7 +49,7 @@ export class Post extends React.Component<postPropTypes, postStateTypes> {
     const {edit} = this.state
     const {post} = this.props
     return (
-      // TODO mohsen: handle error and isLoading from state redux
+        // TODO mohsen: handle error and isLoading from state redux
         <VerifyWrapper isLoading={false} error={false} className='post-view-container'>
           {edit ?
               <div className="-itemWrapperPost">

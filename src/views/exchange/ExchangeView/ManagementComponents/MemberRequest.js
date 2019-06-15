@@ -1,7 +1,7 @@
-import React, {Component} from 'react'
+import React, {PureComponent} from 'react'
 import DefaultUserIcon from "src/images/defaults/defaultUser_svg"
 
-class MemberRequest extends Component {
+class MemberRequest extends PureComponent {
 
   constructor(props) {
     super(props)

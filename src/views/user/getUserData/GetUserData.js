@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {PureComponent} from 'react'
 import FirstLevel from './FirstLevel'
 import {WelcomeBox, WelcomePhone, WelcomeRocket} from 'src/images/icons'
 import {getHashTags} from 'src/redux/actions/commonActions/hashTagActions'
@@ -14,7 +14,7 @@ import {getExchanges} from 'src/redux/selectors/common/exchanges/GetAllExchanges
 import exchangeActions from 'src/redux/actions/exchangeActions'
 import ThirdLevel from './ThirdLevel'
 
-class GetUserData extends Component {
+class GetUserData extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {

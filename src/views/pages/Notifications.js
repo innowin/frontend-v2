@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {PureComponent} from 'react'
 import {REST_URL} from 'src/consts/URLS'
 import urls from 'src/consts/URLS'
 import {connect} from 'react-redux'
@@ -8,7 +8,7 @@ import UserDetailPanel from '../common/components/UserDetailPanel'
 import constants from '../../consts/constants'
 import {DefaultOrganIcon, DefaultUserIcon} from '../../images/icons'
 
-class Notifications extends Component {
+class Notifications extends PureComponent {
 
   constructor(props) {
     super(props)

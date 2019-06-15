@@ -1,9 +1,9 @@
-import React, {Component} from 'react'
+import React, {PureComponent} from 'react'
 import Material from 'src/views/common/components/Material'
 import {WelcomeOrgan, WelcomeUser} from 'src/images/icons'
 import {ClipLoader} from 'react-spinners'
 
-class FirstLevel extends Component {
+class FirstLevel extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {

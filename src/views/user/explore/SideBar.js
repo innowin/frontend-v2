@@ -1,10 +1,9 @@
-import React from 'react'
+import React, {PureComponent} from 'react'
 import FontAwesome from 'react-fontawesome'
-import {Component} from 'react'
 import Material from '../../common/components/Material'
 import {NewRightArrow} from '../../../images/icons'
 
-class Sidebar extends Component {
+class Sidebar extends PureComponent {
 
   constructor(props) {
     super(props)

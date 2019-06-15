@@ -1,5 +1,6 @@
 // @flow
 import * as React from 'react'
+import {PureComponent} from 'react'
 import AboutInnowin from './TopBarComponents/AboutInnowin'
 import AboutUs from './TopBarComponents/AboutUs'
 import AddingContribution from 'src/views/pages/adding-contribution/addingContribution'
@@ -17,7 +18,6 @@ import Privacy from './TopBarComponents/Privacy'
 import PropTypes from 'prop-types'
 import UserAgreement from './TopBarComponents/UserAgreement'
 import {bindActionCreators} from 'redux'
-import {Component} from 'react'
 import {connect} from 'react-redux'
 import {
   DefaultUserIcon,
@@ -74,7 +74,7 @@ type StatesTopBar = {|
   showSetting: boolean,
 |}
 
-class TopBar extends Component<PropsTopBar, StatesTopBar> {
+class TopBar extends PureComponent<PropsTopBar, StatesTopBar> {
 
   static propTypes = {
     actions: PropTypes.object.isRequired,

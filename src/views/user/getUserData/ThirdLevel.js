@@ -1,7 +1,7 @@
-import React, {Component} from 'react'
+import React, {PureComponent} from 'react'
 import ExchangeSuggestView from '../../common/components/ExchangeSuggestView'
 
-class ThirdLevel extends Component {
+class ThirdLevel extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {

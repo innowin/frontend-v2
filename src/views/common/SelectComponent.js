@@ -1,11 +1,11 @@
 /*global __*/
-import React, {Component} from 'react'
+import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import Select from 'react-select'
 import cx from 'classnames'
 
 
-export class SelectComponent extends Component {
+export class SelectComponent extends PureComponent {
 
   static defaultProps = {
     multi: false,

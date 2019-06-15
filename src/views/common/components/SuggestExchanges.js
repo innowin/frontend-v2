@@ -1,11 +1,11 @@
-import React, {Component} from 'react'
+import React, {PureComponent} from 'react'
 import connect from 'react-redux/es/connect/connect'
 import exchangeActions from 'src/redux/actions/exchangeActions'
 import {bindActionCreators} from 'redux'
 import {getExchanges} from 'src/redux/selectors/common/exchanges/GetAllExchanges'
 import ExchangeSuggestView from './ExchangeSuggestView'
 
-class SuggestExchanges extends Component {
+class SuggestExchanges extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {

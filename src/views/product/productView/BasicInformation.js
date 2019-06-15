@@ -1,5 +1,4 @@
 import * as React from 'react'
-import {Component} from 'react'
 import Material from '../../common/components/Material'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
@@ -7,9 +6,10 @@ import productActions from 'src/redux/actions/commonActions/productActions'
 import Catalog from '../../organization/aboutUs/catalog'
 import {getMessages} from '../../../redux/selectors/translateSelector'
 import FileActions from '../../../redux/actions/commonActions/fileActions'
+import {PureComponent} from 'react'
 
 
-export class productBasicInformation extends Component {
+export class productBasicInformation extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {

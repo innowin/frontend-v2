@@ -1,8 +1,6 @@
 // @flow
 import * as React from "react"
 import PropTypes from "prop-types"
-import {Component} from "react"
-
 import renderTextField from "../../common/inputs/reduxFormRenderTextField"
 import {Field, reduxForm} from "redux-form";
 import type {userProfileType} from "src/consts/flowTypes/user/basicInformation"
@@ -10,6 +8,7 @@ import contactInfoValidation from "../../../helpers/validations/contactInfoBasic
 import {ItemHeader} from "../../common/cards/Frames";
 import EditFormButtons from "../../common/components/EditFormButtons";
 import type {identityType} from '../../../consts/flowTypes/identityType'
+import {PureComponent} from 'react'
 
 type ContactInfoFormInputType = {
   day: string,
@@ -41,7 +40,7 @@ type PropsContactInfoEditForm = {
   user: identityType,
 }
 
-class ContactInfoEditForm extends Component<PropsContactInfoEditForm> {
+class ContactInfoEditForm extends PureComponent<PropsContactInfoEditForm> {
   static propTypes = {
     hideEdit: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired,

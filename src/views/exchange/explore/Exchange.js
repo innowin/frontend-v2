@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {PureComponent} from 'react'
 import Demand from 'src/images/common/demand_svg'
 import Distribute from 'src/images/common/supply_svg'
 import exchangeActions from 'src/redux/actions/commonActions/exchangeMembershipActions'
@@ -6,14 +6,13 @@ import Material from '../../common/components/Material'
 import {bindActionCreators} from 'redux'
 import {ChannelIcon} from 'src/images/icons'
 import {ClipLoader} from 'react-spinners'
-import {Component} from 'react'
 import {connect} from 'react-redux'
 import {getMessages} from 'src/redux/selectors/translateSelector'
 import {Link} from 'react-router-dom'
 import {REST_URL} from 'src/consts/URLS'
 
 
-class Exchange extends Component {
+class Exchange extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {

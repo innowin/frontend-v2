@@ -1,8 +1,8 @@
 import * as React from "react"
-import {Component} from "react"
+import {PureComponent} from "react"
 import OrganizationLeadershipModal from "../post/OrganizationLeadershipModal"
 
-export default class OrganizationLeadershipCard extends Component {
+export default class OrganizationLeadershipCard extends PureComponent {
   constructor() {
     super()
     this.state = {

@@ -23,7 +23,7 @@ type States = {
   isEdit: boolean,
 }
 
-class Education extends React.Component<Props, States> {
+class Education extends React.PureComponent<Props, States> {
   state = {
     isEdit: false,
   }

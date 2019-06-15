@@ -1,7 +1,7 @@
-import React, {Component} from 'react'
+import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 
-export class CheckBox extends Component {
+export class CheckBox extends PureComponent {
 
     static propTypes = {
         checked: PropTypes.bool,

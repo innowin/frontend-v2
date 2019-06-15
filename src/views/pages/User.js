@@ -19,7 +19,7 @@ import type {userStateObject, listOfIdObject} from 'src/consts/flowTypes/stateOb
 import UserAboutMe from '../user/aboutMe'
 import UserSkeleton from '../user/skeleton/UserSkeleton'
 import {bindActionCreators} from 'redux'
-import {Component} from 'react'
+import {PureComponent} from 'react'
 import {connect} from 'react-redux'
 import {getMessages} from 'src/redux/selectors/translateSelector'
 import {NavLink, Switch, Redirect} from 'react-router-dom'
@@ -59,7 +59,7 @@ type StatesUser = {
   showSecondHeader: boolean,
 }
 
-class User extends Component<PropsUser, StatesUser> {
+class User extends PureComponent<PropsUser, StatesUser> {
 
   static propTypes = {
     match: PropTypes.object.isRequired,

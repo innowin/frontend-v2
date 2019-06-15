@@ -1,10 +1,10 @@
-import React, {Component} from "react"
+import React, {PureComponent} from 'react'
 import Ticket from "../../../images/common/ticket_svg"
 import MemberRequest from "./ManagementComponents/MemberRequest"
 import Log from "./ManagementComponents/Log"
 import Medal from "../../../images/common/medal_svg"
 
-class ExchangeManager extends Component {
+class ExchangeManager extends PureComponent {
 
   componentDidMount() {
     if (document.body.clientWidth > 480)

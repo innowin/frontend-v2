@@ -20,7 +20,7 @@ import ExchangeView from './views/exchange/Exchange_View'
 import Notifications from './views/pages/Notifications'
 
 
-class App extends React.Component {
+class App extends React.PureComponent {
   constructor(props) {
     super(props)
     this.state = {

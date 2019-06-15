@@ -1,5 +1,5 @@
 /*global __*/
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import {defaultImg} from "../../images/icons";
 import {VerifyWrapper} from "../common/cards/Frames";
@@ -7,7 +7,7 @@ import {getExchange, getExchangeMember} from "../../crud/exchange/exchange";
 import {ExchangeIcon} from "src/images/icons"
 import {getExchangePostsByPostType, getExchangePostsHasProduct} from "../../crud/post/exchangePost";
 
-class ExchangeMemberBar extends Component {
+class ExchangeMemberBar extends PureComponent {
   static propTypes = {
     exchangeId: PropTypes.number.isRequired
   };

@@ -1,9 +1,9 @@
 import * as React from "react"
-import {Component} from "react"
 import {EventBanner} from "src/images/icons"
 import EventModal from "src/views/pages/modal/eventModal"
+import {PureComponent} from 'react'
 
-export default class EventCard extends Component {
+export default class EventCard extends PureComponent {
   constructor() {
     super()
     this.state = {

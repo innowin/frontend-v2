@@ -5,14 +5,14 @@ import ProductActions from 'src/redux/actions/commonActions/productActions'
 import ProductInfoView from '../../contributions/ProductInfoView'
 import PropTypes from 'prop-types'
 import {bindActionCreators} from 'redux'
-import {Component} from 'react'
 import {ContributionIcon} from 'src/images/icons'
 import {getMessages} from 'src/redux/selectors/translateSelector'
 import {getProductsSelector} from 'src/redux/selectors/common/product/userGetProductSelector'
 import {TransitionGroup, CSSTransition} from 'react-transition-group'
+import {PureComponent} from 'react'
 
 
-class AddProductModal extends Component {
+class AddProductModal extends PureComponent {
   static defaultProps = {
     addProductModal: false,
   }
