@@ -105,7 +105,7 @@ class NewFollowings extends Component<props, states> {
         return <div key={index} className={this.state.viewType}>
           <Link to={`/user/${id}`}>
             <div className={'member-picture-container'}>
-              {profiles[id].profile_media !== null ?
+              {profiles[id].profile_media ?
                   <img alt=""
                        src={files[profiles[id].profile_media] && files[profiles[id].profile_media].file}
                        width={'55px'} height={'55px'}
@@ -154,7 +154,7 @@ class NewFollowings extends Component<props, states> {
                     className={this.state.viewType}>
           <Link to={`/organization/${id}`}>
             <div className={'member-picture-container'}>
-              {organs[id].organization_logo !== null ?
+              {organs[id].organization_logo ?
                   <img alt=""
                        src={files[organs[id].organization_logo] ?
                            files[organs[id].organization_logo].file :
@@ -199,26 +199,8 @@ class NewFollowings extends Component<props, states> {
     if (document.body.clientWidth > 480) window.scrollTo({top: 0})
   }
 
-  componentDidUpdate(prevProps): void {
-    if ((this.props.followings && this.props.followings.length !== prevProps.followings.length) || prevProps.ownerId !== this.props.ownerId) {
-      let {followings, actions} = this.props
-      for (let i = 0; i < followings.length; i++) {
-        if (followings[i].id !== null && followings[i].identity_type === constants.USER_TYPES.ORG) {
-          actions.getUser(followings[i].id)
-        }
-        else if (followings[i].id !== null && followings[i].identity_type === constants.USER_TYPES.USER) {
-          actions.getUser(followings[i].id)
-        }
-      }
-    }
-  }
-
   render() {
-    let {
-      // moreMembers,
-      viewType,
-      requested,
-    } = this.state
+    let {/*moreMembers,*/viewType, requested} = this.state
     let {followings, translate} = this.props
 
     return (

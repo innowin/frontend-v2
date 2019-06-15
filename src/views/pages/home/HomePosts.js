@@ -1,17 +1,18 @@
-import * as React from "react"
-import constant from "src/consts/constants"
-import CreatePostNew from "src/views/common/post/createPost/index"
-import NewRightArrowSvg from "src/images/common/new_right_arrow"
-import PostActions from "src/redux/actions/commonActions/postActions"
-import PropTypes from "prop-types"
-import {bindActionCreators} from "redux"
-import {connect} from "react-redux"
-import {exchangePostsSelector} from "src/redux/selectors/home/homePosts"
-import {FrameCard, ListGroup, VerifyWrapper} from "src/views/common/cards/Frames"
-import {Link} from "react-router-dom"
-import {Post} from "src/views/common/post/Post"
-import {PureComponent} from "react"
-import {RightArrow, DesertIcon, EditIcon, ChannelIcon} from "src/images/icons"
+import * as React from 'react'
+import constant from 'src/consts/constants'
+import CreatePostNew from 'src/views/common/post/createPost/index'
+import NewRightArrowSvg from 'src/images/common/new_right_arrow'
+import PostActions from 'src/redux/actions/commonActions/postActions'
+import PropTypes from 'prop-types'
+import {bindActionCreators} from 'redux'
+import {connect} from 'react-redux'
+import {exchangePostsSelector} from 'src/redux/selectors/home/homePosts'
+import {FrameCard, ListGroup, VerifyWrapper} from 'src/views/common/cards/Frames'
+import {Link} from 'react-router-dom'
+import {Post} from 'src/views/common/post/Post'
+import {PureComponent} from 'react'
+import {RightArrow, DesertIcon, EditIcon, ChannelIcon} from 'src/images/icons'
+import {ClipLoader} from 'react-spinners'
 
 
 class HomePosts extends PureComponent {
@@ -29,15 +30,13 @@ class HomePosts extends PureComponent {
       offset: 0,
       scrollButton: false,
       showCreatePostSmall: false,
-      getDataInDidMount: false,
       hideTopBar: false,
       averageColor: [37, 53, 69],
     }
   }
 
-  componentWillMount(): void {
-    document.addEventListener("scroll", this._onScroll)
-
+  componentDidMount() {
+    document.addEventListener('scroll', this._onScroll)
     const {actions, exchangeId} = this.props
     const {filterPostsByPostParentLimitOffset} = actions
     const limit = 100
@@ -46,39 +45,6 @@ class HomePosts extends PureComponent {
       filterPostsByPostParentLimitOffset({
         postParentId: exchangeId, postType: null, limit, offset, postParentType: constant.POST_PARENT.EXCHANGE,
       })
-    }
-    else this.setState({...this.state, getDataInDidMount: true})
-  }
-
-  componentDidMount() {
-    // setTimeout(() => {
-    //   if (this.headerImg) {
-    //     this.headerImg.onload = () => {
-    //       alert("LOADING")
-    //       let can = this.headerCanvas
-    //       let canCtx = can.getContext("2d")
-    //       let img = this.headerImg
-    //       let imgRect = img.getBoundingClientRect()
-    //
-    //       canCtx.drawImage(img, 0, 0)
-    //       // console.log(canCtx.getImageData(0, 0, imgRect.width, imgRect.height))
-    //     }
-    //   }
-    //   else {
-    //     alert("Header Img not Found")
-    //   }
-    // }, 250)
-
-    if (this.state.getDataInDidMount) {
-      const {actions, exchangeId} = this.props
-      const {filterPostsByPostParentLimitOffset} = actions
-      const limit = 100
-      const offset = 0
-      if (exchangeId) {
-        filterPostsByPostParentLimitOffset({
-          postParentId: exchangeId, postType: null, limit, offset, postParentType: constant.POST_PARENT.EXCHANGE,
-        })
-      }
     }
   }
 
@@ -94,9 +60,9 @@ class HomePosts extends PureComponent {
     }
     if (this.headerImg && this.headerCanvas && exchangeId && prevProps.exchangeId !== exchangeId) {
       this.headerImg.onload = () => {
-        console.log("Header Img Loaded")
+        console.log('Header Img Loaded')
         let can = this.headerCanvas
-        let canCtx = can.getContext("2d")
+        let canCtx = can.getContext('2d')
         let img = this.headerImg
         let imgRect = img.getBoundingClientRect()
         let newImg = new Image()
@@ -107,11 +73,12 @@ class HomePosts extends PureComponent {
           can.height = e.path[0].height
           canCtx.drawImage(img, 0, 0)
           try {
-            console.log("Header Img Data Success")
+            console.log('Header Img Data Success')
             imageData = canCtx.getImageData(0, 0, imgRect.width, imgRect.height)
             console.log(imageData.data)
-          } catch (e) {
-            console.log("Header Img Error Catch")
+          }
+          catch (e) {
+            console.log('Header Img Error Catch')
             console.log(e)
             imageData = {data: [37, 53, 69, 255]}
           }
@@ -137,7 +104,7 @@ class HomePosts extends PureComponent {
   }
 
   componentWillUnmount() {
-    window.removeEventListener("scroll", this._onScroll)
+    window.removeEventListener('scroll', this._onScroll)
   }
 
   _onScroll = () => {
@@ -186,7 +153,7 @@ class HomePosts extends PureComponent {
   goUp = () => {
     window.scroll({
       top: 0,
-      behavior: "smooth",
+      behavior: 'smooth',
     })
   }
 
@@ -194,7 +161,7 @@ class HomePosts extends PureComponent {
     let {exchangePage} = this.props
     this.setState({...this.state, showCreatePostSmall: true}, exchangePage && window.scroll({
       top: 350,
-      behavior: "smooth",
+      behavior: 'smooth',
     }))
   }
 
@@ -203,11 +170,11 @@ class HomePosts extends PureComponent {
   }
 
   render() {
-    const {error, showCreatePostSmall, hideTopBar, averageColor} = this.state
-    const {actions, className, exchangeId, posts, selectedExchange, unSetExchangeId, exchangePage} = this.props
+    const {showCreatePostSmall, hideTopBar, averageColor} = this.state
+    const {actions, className, exchangeId, posts, selectedExchange, unSetExchangeId, exchangePage, isLoading} = this.props
     const {deletePost, updatePost} = actions
     return (
-        <VerifyWrapper isLoading={false} error={error} className={className}>
+        <div className={className}>
           {exchangeId &&
           <React.Fragment>
             {showCreatePostSmall
@@ -226,14 +193,14 @@ class HomePosts extends PureComponent {
                   />
 
                   <div style={{background: `rgba(${averageColor[0]}, ${averageColor[1]}, ${averageColor[2]})`}}
-                       className={hideTopBar ? "top-bar-entity show top-bar-entity-top" : "top-bar-entity show"}>
+                       className={hideTopBar ? 'top-bar-entity show top-bar-entity-top' : 'top-bar-entity show'}>
                     <NewRightArrowSvg onClick={unSetExchangeId} className='back-button'/>
-                    <Link to={"/exchange/" + exchangeId} className='profile-top-bar'>
+                    <Link to={'/exchange/' + exchangeId} className='profile-top-bar'>
                       {selectedExchange.exchange_image
                           ?
                           <React.Fragment>
                             <img ref={e => this.headerImg = e} src={selectedExchange.exchange_image.file} alt='profile' className='profile-top-bar'/>
-                            <canvas ref={e => this.headerCanvas = e} width={"auto"} height={"auto"} style={{display: "none"}}>مرورگر شما این ویژگی
+                            <canvas ref={e => this.headerCanvas = e} width={'auto'} height={'auto'} style={{display: 'none'}}>مرورگر شما این ویژگی
                               را پشتیبانی نمیکند
                             </canvas>
                           </React.Fragment>
@@ -245,31 +212,33 @@ class HomePosts extends PureComponent {
                         </span>
                   </div>
 
-                  <FrameCard className={exchangePage ? "-frameCardPostEx border-top-0" : "-frameCardPost border-top-0"}>
+                  <FrameCard className={exchangePage ? '-frameCardPostEx border-top-0' : '-frameCardPost border-top-0'}>
+                    {isLoading === true && <div className='text-center'><ClipLoader/></div>}
                     <ListGroup>
                       {
-                        posts.length > 0 ? (posts.map((post) => (post &&
-                                <Post
-                                    posts={posts}
-                                    post={post}
-                                    key={post.id}
-                                    deletePost={deletePost}
-                                    updatePost={updatePost}
-                                />
-                            ))) :
+                        posts.length > 0 ? posts.map((post) => post &&
+                            <Post
+                                posts={posts}
+                                post={post}
+                                key={post.id}
+                                deletePost={deletePost}
+                                updatePost={updatePost}
+                            />,
+                            ) :
+                            isLoading === false &&
                             <div className="empty-posts">
                               <DesertIcon width="100%" text="پستی بارگذاری نشده"/>
                             </div>
                       }
                     </ListGroup>
                   </FrameCard>
-                  <div className={this.state.scrollButton ? "go-up-logo-cont" : "go-up-logo-cont-hide"} onClick={this.goUp}>
+                  <div className={this.state.scrollButton ? 'go-up-logo-cont' : 'go-up-logo-cont-hide'} onClick={this.goUp}>
                     <RightArrow className='go-up-logo'/>
                   </div>
 
                   {
                     window.innerWidth <= 480 &&
-                    <div className={this.state.scrollButton ? "write-post-hide" : "write-post"}
+                    <div className={this.state.scrollButton ? 'write-post-hide' : 'write-post'}
                          onClick={this._showCreatePostSmall}>
                       <EditIcon className='write-post-logo'/>
                     </div>
@@ -278,7 +247,7 @@ class HomePosts extends PureComponent {
             }
           </React.Fragment>
           }
-        </VerifyWrapper>
+        </div>
     )
   }
 }
@@ -286,8 +255,7 @@ class HomePosts extends PureComponent {
 const mapStateToProps = (state, ownProps) => {
   const exchangeId = ownProps.exchangeId
   const allExchange = state.exchanges.list
-  const isLoading = (exchangeId && allExchange[exchangeId] && allExchange[exchangeId].posts
-      && allExchange[exchangeId].posts.isLoading) || false
+  const isLoading = (exchangeId && allExchange[exchangeId] && allExchange[exchangeId].posts && allExchange[exchangeId].posts.isLoading)
   return {
     posts: exchangePostsSelector(state, ownProps),
     isLoading,

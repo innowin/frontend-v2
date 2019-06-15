@@ -102,7 +102,7 @@ class NewFollowers extends Component<props, states> {
         return <div key={index} className={this.state.viewType}>
           <Link to={`/user/${id}`}>
             <div className={'member-picture-container'}>
-              {profiles[id].profile_media !== null ?
+              {profiles[id].profile_media ?
                   <img alt=""
                        src={files[profiles[id].profile_media] && files[profiles[id].profile_media].file}
                        width={'55px'} height={'55px'}
@@ -151,7 +151,7 @@ class NewFollowers extends Component<props, states> {
                     className={this.state.viewType}>
           <Link to={`/organization/${id}`}>
             <div className={'member-picture-container'}>
-              {organs[id].organization_logo !== null ?
+              {organs[id].organization_logo ?
                   <img alt=""
                        src={files[organs[id].organization_logo] ?
                            files[organs[id].organization_logo].file :
@@ -199,27 +199,14 @@ class NewFollowers extends Component<props, states> {
   componentDidMount() {
     if (document.body.clientWidth > 480) window.scrollTo({top: 0})
 
-    let {followers, actions, followings} = this.props
-    let {getUser} = actions
-
-    if (followers) {
-      for (let i = 0; i < followers.length; i++) {
-        if (followers[i].id !== null && followers[i].identity_type === constants.USER_TYPES.ORG) {
-          getUser(followers[i].id)
-        }
-        else if (followers[i].id !== null && followers[i].identity_type === constants.USER_TYPES.USER) {
-          getUser(followers[i].id)
-        }
-      }
-    }
-
+    const {followings} = this.props
     let tempUsers = []
     let tempOrgans = []
     for (let i = 0; i < followings.length; i++) {
-      if (followings[i].id !== null && followings[i].identity_type === constants.USER_TYPES.USER) {
+      if (followings[i].id && followings[i].identity_type === constants.USER_TYPES.USER) {
         tempUsers.push(followings[i].id)
       }
-      else if (followings[i].id !== null && followings[i].identity_type === constants.USER_TYPES.ORG) {
+      else if (followings[i].id && followings[i].identity_type === constants.USER_TYPES.ORG) {
         tempOrgans.push(followings[i].id)
       }
     }
@@ -228,16 +215,14 @@ class NewFollowers extends Component<props, states> {
 
   componentDidUpdate(prevProps): void {
     if (this.props.followings && this.props.followings.length !== prevProps.followings.length) {
-      let {followings, actions} = this.props
+      let {followings} = this.props
       let tempUsers = []
       let tempOrgans = []
       for (let i = 0; i < followings.length; i++) {
-        if (followings[i].id !== null && followings[i].identity_type === constants.USER_TYPES.USER) {
-          actions.getUser(followings[i].id)
+        if (followings[i].id && followings[i].identity_type === constants.USER_TYPES.USER) {
           tempUsers.push(followings[i].id)
         }
-        else if (followings[i].id !== null && followings[i].identity_type === constants.USER_TYPES.ORG) {
-          actions.getUser(followings[i].id)
+        else if (followings[i].id && followings[i].identity_type === constants.USER_TYPES.ORG) {
           tempOrgans.push(followings[i].id)
         }
       }

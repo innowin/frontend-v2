@@ -17,15 +17,15 @@ class Notifications extends Component {
       oldNotifications: [],
       loading: true,
     }
+
+    this.seenNotif = this.seenNotif.bind(this)
   }
 
 
   componentDidMount() {
     const {token} = this.props
     fetch(REST_URL + '/' + urls.COMMON.NOTIFICATIONS, {
-      headers: {
-        'Authorization': `JWT ${token}`,
-      },
+      headers: {'Authorization': `JWT ${token}`}
     })
         .then(res => res.json())
         .then(resJson => {
@@ -37,12 +37,34 @@ class Notifications extends Component {
             loading: false,
           })
         })
+        .catch((err) => console.log(err))
+  }
+
+  seenNotif() {
+    const {token} = this.props
+    this.state.notifications.forEach((notif) => {
+      fetch(REST_URL + '/' + urls.COMMON.NOTIFICATIONS + '/' + notif.id, {
+        method: 'patch',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `JWT ${token}`,
+        },
+        body: JSON.stringify({
+          id: notif.id,
+          notification_seen: true,
+        }),
+      })
+          .then((res) => res.json())
+          .then((resJson) => {
+            console.log(resJson)
+          })
+    })
   }
 
   render() {
     const {notifications, oldNotifications, loading} = this.state
     return (
-        <div className='all-products-parent'>
+        <div className='notif-parent'>
           <section className='notifications-sidebar'>
             <UserDetailPanel/>
           </section>
@@ -52,7 +74,7 @@ class Notifications extends Component {
               <div className='notifications-new-section'>
                 <div className='notifications-header'>
                   <div>اعلان های جدید</div>
-                  <div className='notifications-read'>Make Read</div>
+                  <div className='notifications-read' onClick={this.seenNotif}>Make Read</div>
                 </div>
                 <div className='notifications-content'>
                   {
@@ -61,27 +83,25 @@ class Notifications extends Component {
                         :
                         notifications.length > 0 ? notifications.map((notif, index) =>
                                 <div key={index} className='notifications-item'>
-                                  <div>
-                                    {
-                                      notif.notification_from_identity.profile_media_url ?
-                                          <img src={notif.notification_from_identity.profile_media_url} className='notifications-item-img' alt=''/>
-                                          :
-                                          notif.notification_from_identity.identity_type === constants.USER_TYPES.USER ?
-                                              <div className='default-notif-img'>
-                                                <DefaultUserIcon className='default-notif-profile-photo'/>
-                                              </div>
-                                              :
-                                              <div className='default-notif-img'>
-                                                <DefaultOrganIcon className='default-notif-profile-photo'/>
-                                              </div>
-                                    }
-                                    <div className='notifications-item-text' dangerouslySetInnerHTML={{
-                                      __html: notif.notification_payload
-                                          .replace(new RegExp('http://innowin.ir', 'g'), '')
-                                          .replace(new RegExp('https://innowin.ir', 'g'), '')
-                                          .replace(new RegExp('<a ', 'g'), '<a target=_blank '),
-                                    }}/>
-                                  </div>
+                                  {
+                                    notif.notification_from_identity.profile_media_url ?
+                                        <img src={notif.notification_from_identity.profile_media_url} className='notifications-item-img' alt=''/>
+                                        :
+                                        notif.notification_from_identity.identity_type === constants.USER_TYPES.USER ?
+                                            <div className='default-notif-img'>
+                                              <DefaultUserIcon className='default-notif-profile-photo'/>
+                                            </div>
+                                            :
+                                            <div className='default-notif-img'>
+                                              <DefaultOrganIcon className='default-notif-profile-photo'/>
+                                            </div>
+                                  }
+                                  <div className='notifications-item-text' dangerouslySetInnerHTML={{
+                                    __html: notif.notification_payload
+                                        .replace(new RegExp('http://innowin.ir', 'g'), '')
+                                        .replace(new RegExp('https://innowin.ir', 'g'), '')
+                                        .replace(new RegExp('<a ', 'g'), '<a target=_blank '),
+                                  }}/>
 
                                   <div className='notifications-item-time'><Moment element='span' fromNow ago>{notif.created_time}</Moment><span> پیش</span></div>
                                 </div>,
@@ -103,27 +123,25 @@ class Notifications extends Component {
                     {
                       oldNotifications.map((notif, index) =>
                           <div key={index} className='notifications-item'>
-                            <div>
-                              {
-                                notif.notification_from_identity.profile_media_url ?
-                                    <img src={notif.notification_from_identity.profile_media_url} className='notifications-item-img' alt=''/>
-                                    :
-                                    notif.notification_from_identity.identity_type === constants.USER_TYPES.USER ?
-                                        <div className='default-notif-img'>
-                                          <DefaultUserIcon className='default-notif-profile-photo'/>
-                                        </div>
-                                        :
-                                        <div className='default-notif-img'>
-                                          <DefaultOrganIcon className='default-notif-profile-photo'/>
-                                        </div>
-                              }
-                              <div className='notifications-item-text' dangerouslySetInnerHTML={{
-                                __html: notif.notification_payload
-                                    .replace(new RegExp('http://innowin.ir', 'g'), '')
-                                    .replace(new RegExp('https://innowin.ir', 'g'), '')
-                                    .replace(new RegExp('<a ', 'g'), '<a target=_blank '),
-                              }}/>
-                            </div>
+                            {
+                              notif.notification_from_identity.profile_media_url ?
+                                  <img src={notif.notification_from_identity.profile_media_url} className='notifications-item-img' alt=''/>
+                                  :
+                                  notif.notification_from_identity.identity_type === constants.USER_TYPES.USER ?
+                                      <div className='default-notif-img'>
+                                        <DefaultUserIcon className='default-notif-profile-photo'/>
+                                      </div>
+                                      :
+                                      <div className='default-notif-img'>
+                                        <DefaultOrganIcon className='default-notif-profile-photo'/>
+                                      </div>
+                            }
+                            <div className='notifications-item-text' dangerouslySetInnerHTML={{
+                              __html: notif.notification_payload
+                                  .replace(new RegExp('http://innowin.ir', 'g'), '')
+                                  .replace(new RegExp('https://innowin.ir', 'g'), '')
+                                  .replace(new RegExp('<a ', 'g'), '<a target=_blank '),
+                            }}/>
 
                             <div className='notifications-item-time'><Moment element='span' fromNow ago>{notif.created_time}</Moment><span> پیش</span></div>
                           </div>,

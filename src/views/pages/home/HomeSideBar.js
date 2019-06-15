@@ -11,6 +11,7 @@ import {ChannelIcon, MainLbarArrow} from 'src/images/icons'
 import {getExchangeMembershipsSelector} from 'src/redux/selectors/common/social/getExchangeMemberships'
 import Material from '../../common/components/Material'
 import UserDetailPanel from '../../common/components/UserDetailPanel'
+import {ClipLoader} from 'react-spinners'
 
 type PropsSideBarItem = {
   exchange: exchangeType,
@@ -127,7 +128,7 @@ class HomeSideBar extends Component<PropsHomeSideBar, StateHomeSideBar> {
   _handleClick = (id) => this.props.setExchangeId(id)
 
   render() {
-    const {clientExchanges, classNames, activeExchangeId} = this.props
+    const {clientExchanges, classNames, activeExchangeId, loading} = this.props
     return (
         <div className={classNames}>
           <UserDetailPanel/>
@@ -139,14 +140,18 @@ class HomeSideBar extends Component<PropsHomeSideBar, StateHomeSideBar> {
             {
               clientExchanges && clientExchanges.length > 0 ?
                   clientExchanges
-                      .sort((a, b) => a.updated_time - b.updated_time)
-                      .map((exchange, i) => {
-                        return <SideBarItem key={i}
-                                            exchange={exchange}
-                                            handleClick={this._handleClick}
-                                            active={exchange.id === activeExchangeId}/>
-                      })
-                  : <p className="mt-3 pr-3"><b>شما عضو هیچ پنجره ای نیستید!</b></p>
+                      .sort((a, b) => new Date(b.updated_time) - new Date(a.updated_time))
+                      .map((exchange, i) =>
+                          <SideBarItem key={i}
+                                       exchange={exchange}
+                                       handleClick={this._handleClick}
+                                       active={exchange.id === activeExchangeId}/>,
+                      )
+                  :
+                  loading !== undefined && loading === true ?
+                      <div className='text-center'><ClipLoader/></div>
+                      :
+                      <p className="mt-3 pr-3"><b>شما عضو هیچ پنجره ای نیستید!</b></p>
             }
           </div>
           <div className='exchanges-last'/>
@@ -157,6 +162,7 @@ class HomeSideBar extends Component<PropsHomeSideBar, StateHomeSideBar> {
 
 const mapStateToProps = (state, ownProps) => ({
   clientExchanges: getExchangeMembershipsSelector(state, ownProps),
+  loading: ownProps.identityId && state.identities.list[ownProps.identityId] && state.identities.list[ownProps.identityId].exchangeMemberships && state.identities.list[ownProps.identityId].exchangeMemberships.isLoading,
 })
 
 const mapDispatchToProps = dispatch => ({

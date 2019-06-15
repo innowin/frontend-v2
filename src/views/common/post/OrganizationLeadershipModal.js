@@ -473,7 +473,7 @@ const mapDispatchToProps = dispatch => ({
 const mapStateToProps = state => {
   const clientId = state.auth.client.identity.content
   const clientIdentity = state.identities.list[clientId]
-  const clientExchangeMembership = state.identities.list[clientId].exchangeMemberships.content
+  const clientExchangeMembership = state.identities.list[clientId].exchangeMemberships && state.identities.list[clientId].exchangeMemberships.content
 
   return {
     clientIdentity,

@@ -18,14 +18,11 @@ export function* createPost(action) {
       type: types.SUCCESS.COMMON.POST.CREATE_POST,
       payload: {data, postOwnerId, postParentId, postParentType},
     })
-    yield all(postFileIds.map(fileId => {
-      return put({
-        type: types.COMMON.FILE.UPDATE_FILE,
-        payload: {id: fileId, formData: {file_related_parent: data.id}, fileParentType: constants.FILE_PARENT.POST},
-      })
-    }))
+    yield all(postFileIds.map(fileId => put({type: types.COMMON.FILE.UPDATE_FILE, payload: {id: fileId, formData: {file_related_parent: data.id}, fileParentType: constants.FILE_PARENT.POST}})))
     const postIdentity = data.post_related_identity.id ? data.post_related_identity.id : data.post_related_identity
     yield put({type: types.COMMON.POST.GET_POST_BY_IDENTITY, payload: {postIdentity, postOwnerId}})
+    yield put({type: types.COMMON.POST.FILTER_POSTS_BY_POST_PARENT_LIMIT_OFFSET, payload: {postParentId, postType: null, limit: 100, offset: 0, postParentType}})
+
     yield put({
       type: types.TOAST.ADD_TOAST,
       payload: {

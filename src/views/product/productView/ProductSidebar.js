@@ -491,7 +491,7 @@ class SideBar extends Component {
                     }
                   </div>
                   {
-                    current_user_identity !== product_owner.id ?
+                    product_owner && current_user_identity !== product_owner.id ?
                         <div className='product-view-sidebar-buttons'>
                           <Material className='product-view-sidebar-buy' content='خرید'/>
                           <Material className='product-view-sidebar-share' content='اشتراک گذاری'/>

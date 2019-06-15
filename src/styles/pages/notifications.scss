@@ -1,5 +1,26 @@
 @import "../variables";
 
+.notif-parent {
+  transition-duration: 0.3s;
+  padding-top: 70px;
+  @media screen and (max-width: 10000px) and (min-width: 1366px) {
+    margin: 0 138px;
+  }
+  @media screen and (max-width: 1366px) and (min-width: 1280px) {
+    margin: 0 80px;
+  }
+  @media screen and (max-width: 1280px) and (min-width: 900px) {
+    margin: 0 30px;
+  }
+  @media screen and (max-width: 900px) and (min-width: 480px) {
+    margin: 0 10px;
+  }
+  @media screen and (max-width: 480px) {
+    margin: 0 10px;
+    padding-top: 50px;
+  }
+}
+
 .notifications-sidebar {
   @media screen and (min-width: 480px) {
     width: 25%;
@@ -9,10 +30,7 @@
     margin-left: 3px;
   }
   @media screen and (max-width: 480px) {
-    width: 100%;
-    display: inline-block;
-    margin-top: 10px;
-    border-radius: 5px;
+    display: none;
   }
 }
 
@@ -60,11 +78,14 @@
   justify-content: space-between;
   padding: 15px 0;
   border-bottom: 1px solid #f4f4f4;
+  flex-wrap: nowrap;
 }
 
 .notifications-item-img {
   width: 45px;
   height: 45px;
+  min-width: 45px;
+  min-height: 45px;
   border-radius: 50%;
   overflow: hidden;
   object-fit: cover;
@@ -73,9 +94,19 @@
 }
 
 .notifications-item-text {
+  text-align: right;
   display: inline-block;
   vertical-align: top;
   margin-top: 13px;
+  flex-grow: 1;
+
+  p {
+    white-space: pre-wrap;
+    word-break: break-word;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
 }
 
 .notifications-item-time {
@@ -84,12 +115,16 @@
   font-size: $tag-font-size;
   vertical-align: top;
   margin-top: 13px;
+  white-space: nowrap;
+  margin-right: 5px;
 }
 
 .default-notif-img {
   display: inline-block;
   width: 45px;
   height: 45px;
+  min-width: 45px;
+  min-height: 45px;
   border-radius: 50%;
   overflow: hidden;
   object-fit: cover;

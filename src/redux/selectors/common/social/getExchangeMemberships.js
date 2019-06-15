@@ -8,7 +8,7 @@ const getUserMemberships = (state, props) => {
   const id = props.identityId || props.ownerId
   if (usersList[id] && usersList[id].exchangeMemberships)
     return usersList[id].exchangeMemberships.content
-  return undefined
+  else return undefined
 }
 
 const getOwnerId = (state, props) => (props.identityId || props.ownerId)

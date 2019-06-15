@@ -31,7 +31,7 @@ class FirstLevel extends Component {
     const username = e.target.value.trim()
     let valid = false
     if (username.length > 4 && username.length < 33) {
-      if (/^[a-zA-Z0-9]+([a-zA-Z0-9]([_\- ])[a-zA-Z0-9])*[a-zA-Z0-9]+$/.test(username)) {
+      if (/^[a-zA-Z]*[a-zA-Z0-9_\- ]+$/.test(username)) {
         valid = true
       }
     }

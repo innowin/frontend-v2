@@ -25,7 +25,7 @@ import {
   ExchangeExploreIcon,
   HomeSvg,
   HomeSvgSelected,
-  ExchangeExploreIconSelected,
+  ExchangeExploreIconSelected, NotificationIcon,
 } from 'src/images/icons'
 import {Link} from 'react-router-dom'
 import {routerActions} from 'react-router-redux'
@@ -533,6 +533,8 @@ class TopBar extends Component<PropsTopBar, StatesTopBar> {
                 </div>
 
               </div>
+
+              <div className='notification-logo-cont'><Link to='/notifications'><NotificationIcon className='notification-logo'/></Link></div>
 
               <div className="-searchInput">
                 <input type="text" name="search" dir="auto" placeholder={topBarTranslate['Search in Danesh boom']} ref={e => this.searchInput = e}/>

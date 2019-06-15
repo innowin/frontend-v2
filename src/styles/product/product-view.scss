@@ -137,7 +137,7 @@
   }
   @media screen and (max-width: 480px) and (min-width: 0) {
     padding: 15px 20px;
-    width: 100%;
+    width: calc(100% - 40px);
     background-color: white;
     display: inline-block;
     margin-top: 10px;
