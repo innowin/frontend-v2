@@ -9,10 +9,9 @@ import {ContributionIcon} from 'src/images/icons'
 import {getMessages} from 'src/redux/selectors/translateSelector'
 import {getProductsSelector} from 'src/redux/selectors/common/product/userGetProductSelector'
 import {TransitionGroup, CSSTransition} from 'react-transition-group'
-import {PureComponent} from 'react'
+import {Component} from 'react'
 
-
-class AddProductModal extends PureComponent {
+class AddProductModal extends Component {
   static defaultProps = {
     addProductModal: false,
   }
