@@ -359,7 +359,10 @@ class UserBee extends PureComponent {
               </div>
             </div>
         )
-      else this.setState({...this.state, level: this.state.level + 1})
+      else {
+        this.setState({...this.state, level: this.state.level + 1})
+        this.forceUpdate()
+      }
     }
     else if (level === 2) {
       if (name === 0)
@@ -395,7 +398,10 @@ class UserBee extends PureComponent {
 
             </div>
         )
-      else this.setState({...this.state, level: this.state.level + 1})
+      else {
+        this.setState({...this.state, level: this.state.level + 1})
+        this.forceUpdate()
+      }
     }
     else if (level === 3) {
       if (graduate === 0) {
@@ -446,7 +452,10 @@ class UserBee extends PureComponent {
             </div>
         )
       }
-      else this.setState({...this.state, level: this.state.level + 1})
+      else {
+        this.setState({...this.state, level: this.state.level + 1})
+        this.forceUpdate()
+      }
     }
     else if (level === 4) {
       if (job === 0)
@@ -484,7 +493,10 @@ class UserBee extends PureComponent {
 
             </div>
         )
-      else this.setState({...this.state, level: this.state.level + 1})
+      else {
+        this.setState({...this.state, level: this.state.level + 1})
+        this.forceUpdate()
+      }
     }
     else if (level === 5) {
       if (bio === 0)
@@ -517,7 +529,10 @@ class UserBee extends PureComponent {
 
             </div>
         )
-      else this.setState({...this.state, level: 1})
+      else {
+        this.setState({...this.state, level: 1})
+        this.forceUpdate()
+      }
     }
 
   }
