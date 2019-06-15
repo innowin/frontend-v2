@@ -9,10 +9,9 @@ import Material from '../components/Material'
 import connect from 'react-redux/es/connect/connect'
 import socialActions from 'src/redux/actions/commonActions/socialActions'
 import {bindActionCreators} from 'redux'
-import {getFollowersSelector} from 'src/redux/selectors/common/social/getFollowers'
+import {getFolloweesSelector} from 'src/redux/selectors/common/social/getFollowees'
 
 class PostHeader extends React.Component {
-
   constructor(props) {
     super(props)
     this.state = {
@@ -34,7 +33,9 @@ class PostHeader extends React.Component {
   }
 
   showInstant() {
-    if (document.body.clientWidth > 480 && this.state.x !== 0) this.timer = setTimeout(() => this.setState({...this.state, instantView: true}), 500)
+    if (document.body.clientWidth > 480) {
+      this.timer = setTimeout(() => this.setState({...this.state, instantView: true}), 800)
+    }
   }
 
   hideInstant() {
@@ -50,7 +51,7 @@ class PostHeader extends React.Component {
 
   render() {
     const {instantView, x, y} = this.state
-    const {post, translate, postRelatedIdentityImage, postIdentity, showEdit, extendedView, openMenu, deletePost, menuToggle, postMenuId, followers, clientIdentity} = this.props
+    const {post, translate, postRelatedIdentityImage, postIdentity, showEdit, extendedView, openMenu, deletePost, menuToggle, postMenuId, followees, clientIdentity} = this.props
     let createdTime
     let name = ''
     let url = ''
@@ -63,11 +64,10 @@ class PostHeader extends React.Component {
         url = isUser ? `/user/${postIdentity.id}` : `/organization/${postIdentity.id}`
       }
     }
-    const showFollow = !followers.map(follower => follower.follow_follower.id ? follower.follow_follower.id : follower.follow_follower).includes(clientIdentity)
-
+    const showFollow = !followees.map(follower => follower.follow_followed.id ? follower.follow_followed.id : follower.follow_followed).includes(postIdentity.id)
     return (
-        <div ref={e => this.container = e} className="-item-headerPost">
-          <div onMouseEnter={this.showInstant} onMouseLeave={this.hideInstant} onMouseMove={this.mouseMove}>
+        <div className="-item-headerPost">
+          <div ref={e => this.container = e} style={{position: 'relative'}} onMouseEnter={this.showInstant} onMouseLeave={this.hideInstant} onMouseMove={this.mouseMove}>
             <Link to={url} className='link-post'>
               <div className="-img-col">
                 {postRelatedIdentityImage && postRelatedIdentityImage.file ?
@@ -131,7 +131,7 @@ PostHeader.propTypes = {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  followers: getFollowersSelector(state, {ownerId: ownProps.postIdentity && ownProps.postIdentity.id}),
+  followees: getFolloweesSelector(state, {ownerId: ownProps.clientIdentity}),
 })
 
 const mapDispatchToProps = dispatch => ({

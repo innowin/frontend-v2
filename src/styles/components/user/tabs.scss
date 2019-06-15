@@ -718,9 +718,8 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   text-align: center;
   border-radius: 5px;
-  transform-origin: top left;
-  transition: all linear $animation-timing;
   opacity: 1;
+  transition: opacity linear 0.2s;
 }
 
 .post-instant-view-hide {
@@ -732,9 +731,8 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   text-align: center;
   border-radius: 5px;
-  transform-origin: top left;
   opacity: 0;
-  transition: transform linear 0s 0.5s, opacity linear 0.2s;
+  transition: opacity linear 0.2s;
 }
 
 .post-instant-view-img {

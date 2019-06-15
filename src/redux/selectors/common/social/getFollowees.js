@@ -8,7 +8,7 @@ const getUserFollows = (state, props) => {
   const usersList = state.identities.list
   if (usersList[ownerId] && usersList[ownerId].social && usersList[ownerId].social.follows)
     return usersList[ownerId].social.follows.content
-  return undefined
+  else return undefined
 }
 const getUser = (state, props) => props.ownerId || (props.owner && props.owner.id)
 
