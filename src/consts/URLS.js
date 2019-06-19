@@ -1,7 +1,7 @@
 import io from "socket.io-client"
 
 export const SOCKET_URL = "https://socket.innowin.ir"
-export const REST_URL = "https://back.innowin.ir"
+export const REST_URL = "https://back.beta.innowin.ir"
 export const DOMAIN = "http://innowin.ir"
 export const SOCKET = io(SOCKET_URL, {secure: true, extraHeader: {"Access-Control-Allow-Origin": "*"}})
 
