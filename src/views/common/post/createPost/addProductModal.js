@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import connect from 'react-redux/es/connect/connect'
 import constants from 'src/consts/constants'
 import ProductActions from 'src/redux/actions/commonActions/productActions'
@@ -27,96 +27,94 @@ class AddProductModal extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      selectedProduct: undefined,
-      productLink: '',
-      getData: false,
+      selectedProduct: null,
+      selectedId: null,
+      loading: false,
     }
   }
 
-  componentDidMount(): void {
-    if (this.state.getData) {
-      let {actions, ownerId} = this.props
-      let {getProductsByIdentity} = actions
-      getProductsByIdentity({productOwnerId: ownerId})
-    }
-  }
-
-  _selectProduct = (product) => {
-    this.setState({...this.state, selectedProduct: product})
-  }
-
-  componentWillMount(): void {
-    let {actions, identityId, ownerId, identityType} = this.props
+  componentDidMount() {
+    let {actions, ownerId} = this.props
     let {getProductsByIdentity} = actions
-    if (identityId && ownerId && identityType)
-      getProductsByIdentity({productOwnerId: ownerId})
-    else this.setState({...this.state, getData: true})
+    if (ownerId) getProductsByIdentity({productOwnerId: ownerId})
   }
 
-  shouldComponentUpdate(nextProps, nextState, nextContext): boolean {
-    return nextProps.identityId !== this.props.identityId ||
-        nextProps.ownerId !== this.props.ownerId ||
-        nextProps.identityType !== this.props.identityType ||
-        nextProps.addProductModal !== this.props.addProductModal ||
-        nextState.selectedProduct !== this.state.selectedProduct ||
-        nextState.productLink !== this.state.productLink
+  componentWillReceiveProps(nextProps) {
+    const {allProducts} = nextProps
+    const {selectedId, loading} = this.state
+
+    if (loading && allProducts[selectedId]) {
+      this.setState({...this.state, loading: false, selectedId: null, selectedProduct: allProducts[selectedId]})
+    }
+  }
+
+  _selectProduct = (product) => this.setState({...this.state, selectedProduct: product})
+
+  handleLink = (event) => {
+    const {getProductInfo} = this.props
+    const spliced = event.target.value.split('/')
+    const productIndex = spliced.indexOf('product')
+    if (spliced.length > 0 && !isNaN(productIndex) && productIndex > 0) {
+      const selectedProduct = spliced[productIndex + 1]
+      getProductInfo(selectedProduct)
+      this.setState({...this.state, selectedId: selectedProduct, loading: true})
+    }
+    else this.setState({...this.state, selectedId: null, loading: false})
+  }
+
+  handleCancel = () => {
+    const {cancelFunc} = this.props
+    this.setState({...this.state, selectedProduct: null}, () => cancelFunc())
+  }
+
+  submit = () => {
+    if (!this.state.loading) {
+      const {submitFunc} = this.props
+      const {selectedProduct} = this.state
+      this.setState({
+        ...this.state,
+        selectedProduct: null,
+        selectedId: null,
+        loading: false,
+      }, () => {
+        submitFunc(selectedProduct)
+      })
+    }
   }
 
   render() {
-    const {addProductModal, cancelFunc, submitFunc, products, actions} = this.props
-    const {getProductInfo} = actions
-    const {selectedProduct, productLink} = this.state
+    const {addProductModal, products} = this.props
+    const {selectedProduct, loading} = this.state
     return (
         <div className={addProductModal ? 'post-component-footer-link-modal' : 'post-component-footer-link-modal-hide'}>
           <TransitionGroup>
             {
               addProductModal ?
                   <CSSTransition key={5} timeout={50} classNames='fade'>
-                    <div ref={e => this.addProductModalRef = e} className='post-component-footer-add-product-modal-container'>
+                    <div className='post-component-footer-add-product-modal-container'>
                       <div className='post-component-footer-link-modal-container-title'>
                         <ContributionIcon className='post-component-footer-logos'/>
                         افزودن محصول
                       </div>
                       <div className='product-link-container'>
                         <span className='product-title'>لینک محصول</span>
-                        <input onChange={(event) => this.setState({...this.state, productLink: event.target.value})} type='text'
-                               className='add-product-input post-component-footer-link-modal-container-input'/>
+                        <input onChange={this.handleLink} type='text' className='add-product-input post-component-footer-link-modal-container-input'/>
                       </div>
                       <div className='my-products-container'>
                         <span className='product-title'>محصولات من</span>
                         <div className='products'>
-                          {products.map((product, key) =>
-                              <div className='product-wrapper' key={key}>
-                                <ProductInfoView selected={product === selectedProduct}
-                                                 onClick={() => this._selectProduct(product)}
-                                                 product={product}/>
-                              </div>
-                          )}
+                          {
+                            products.map((product, key) =>
+                                <div className='product-wrapper' key={key}>
+                                  <ProductInfoView selected={product === selectedProduct} onClick={() => this._selectProduct(product)} product={product}/>
+                                </div>,
+                            )
+                          }
                         </div>
                       </div>
                       <div className='post-component-footer-link-modal-container-buttons'>
-                        <div className='post-component-footer-link-modal-cancel-btn'
-                             onClick={() => {
-                               this.setState({...this.state, selectedProduct: undefined})
-                               cancelFunc()
-                             }
-                             }>لغو
-                        </div>
-                        <div className='post-component-footer-link-modal-submit-btn'
-                             onClick={() => {
-                               this.setState({...this.state, selectedProduct: undefined})
-                               if (productLink) {
-                                 let spliced = productLink.split('/')
-                                 let productIndex = spliced.indexOf('product')
-                                 getProductInfo(
-
-                                 )
-                                 submitFunc(selectedProduct, spliced[productIndex + 1])
-                               } else {
-                                 submitFunc(selectedProduct, undefined)
-                               }
-                             }}>ثبت
-                        </div>
+                        <div className='post-component-footer-link-modal-cancel-btn' onClick={this.handleCancel}>لغو</div>
+                        <div style={{opacity: loading ? 0.5 : 1}} className='post-component-footer-link-modal-submit-btn' onClick={this.submit}>ثبت</div>
                       </div>
                     </div>
                   </CSSTransition> : null
@@ -137,6 +135,7 @@ const mapStateToProps = (state) => {
 
   return {
     products: getProductsSelector(state, inputProp),
+    allProducts: state.common.product.products.list,
     identityType,
     ownerId,
     identityId,
@@ -148,7 +147,7 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     getProductsByIdentity: ProductActions.getProductsByIdentity,
     getProductInfo: ProductActions.getProductInfo,
-  }, dispatch)
+  }, dispatch),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddProductModal)

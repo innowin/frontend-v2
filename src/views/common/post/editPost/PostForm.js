@@ -128,14 +128,12 @@ export class PostForm extends PureComponent<postFormProps, postFormStates> {
 
   _getValues = () => {
     const media = this.postPictureInput.getFile()
-    const mediaId = media ? media.id : null
     const {postParent, postIdentity} = this.props
     return {
       post_type: this.postTypeInput.getValue(),
       post_title: this.postTitleInput.getValue(),
       post_description: this.postDescriptionInput.getValue(),
       post_pinned: this.postPinnedInput.getValue(),
-      post_picture: mediaId,
       post_parent: postParent,
       post_related_identity: postIdentity
     }
