@@ -86,7 +86,6 @@ class PostView extends React.PureComponent<postExtendedViewProps, postViewState>
     const self: any = this
     self._cancelConfirm = this._cancelConfirm.bind(this)
     self._delete = this._delete.bind(this)
-    self._handleClickOutMenuBoxTop = this._handleClickOutMenuBoxTop.bind(this)
     self._handleClickOutMenuBoxBottom = this._handleClickOutMenuBoxBottom.bind(this)
     self._handleShowComment = this._handleShowComment.bind(this)
     self._openMenuTop = this._openMenuTop.bind(this)
@@ -108,16 +107,10 @@ class PostView extends React.PureComponent<postExtendedViewProps, postViewState>
       const {getFileByFileRelatedParentId} = actions
       getFileByFileRelatedParentId({fileRelatedParentId: post.id, fileParentType: constants.FILE_PARENT.POST})
     }
-    else if (!post) {
-      const {match, ownerId} = this.props
-      const {getPost} = actions
-      getCommentsByParentId({parentId: match.params.id, commentParentType: constants.COMMENT_PARENT.POST})
-      getFileByFileRelatedParentId({fileRelatedParentId: match.params.id, fileParentType: constants.FILE_PARENT.POST})
-      getPost({postId: match.params.id, postOwnerId: ownerId})
-    }
     else {
       const {match} = this.props
       getCommentsByParentId({parentId: match.params.id, commentParentType: constants.COMMENT_PARENT.POST})
+      getFileByFileRelatedParentId({fileRelatedParentId: match.params.id, fileParentType: constants.FILE_PARENT.POST})
     }
 
     if (self.text) {
@@ -166,8 +159,6 @@ class PostView extends React.PureComponent<postExtendedViewProps, postViewState>
       this.setState({...this.state, showMore: true, descriptionHeight: height})
     }
 
-    document.addEventListener('click', this._handleClickOutMenuBoxTop)
-    document.addEventListener('touchend', this._handleClickOutMenuBoxTop)
     document.addEventListener('click', this._handleClickOutMenuBoxBottom)
     document.addEventListener('touchend', this._handleClickOutMenuBoxBottom)
   }
@@ -200,9 +191,7 @@ class PostView extends React.PureComponent<postExtendedViewProps, postViewState>
   }
 
   componentWillUnmount() {
-    document.removeEventListener('click', this._handleClickOutMenuBoxTop)
     document.removeEventListener('click', this._handleClickOutMenuBoxBottom)
-    document.removeEventListener('touchend', this._handleClickOutMenuBoxTop)
     document.removeEventListener('touchend', this._handleClickOutMenuBoxBottom)
   }
 
@@ -227,15 +216,12 @@ class PostView extends React.PureComponent<postExtendedViewProps, postViewState>
     }
   }
 
-  _handleClickOutMenuBoxTop(e: any) {
-    if (!e.target.closest('#' + this.postMenuId + 'top') && !e.target.closest('.post-menu-bottom')) {
-      this.setState({...this.state, menuToggleTop: false})
-    }
-  }
-
   _handleClickOutMenuBoxBottom(e: any) {
-    if (!e.target.closest('#' + this.postMenuId + 'bottom') && !e.target.closest('.post-menu-bottom')) {
+    if (this.state.menuToggleBottom === true && !e.target.closest('#' + this.postMenuId + 'bottom') && !e.target.closest('.post-menu-bottom')) {
       this.setState({...this.state, menuToggleBottom: false})
+    }
+    if (this.state.menuToggleTop === true && !e.target.closest('#' + this.postMenuId + 'top') && !e.target.closest('.post-menu-bottom')) {
+      this.setState({...this.state, menuToggleTop: false})
     }
   }
 
@@ -307,7 +293,7 @@ class PostView extends React.PureComponent<postExtendedViewProps, postViewState>
 
     if (post) {
       postDescription = post.post_description
-      postOwnerId = postIdentity.id
+      postOwnerId = postIdentity && postIdentity.id
       postFilesArray = post.post_files_array
     }
 
@@ -414,12 +400,14 @@ class PostView extends React.PureComponent<postExtendedViewProps, postViewState>
                 </React.Fragment>
                 }
 
-                {extendedView && comments && comments.length > 0 &&
-                <PostComments comments={comments}
-                              stateComments={stateComments}
-                              translate={translate}
-                              replyComment={(comment) => this._setCommentOn(comment)}
-                              deleteComment={this.deleteComment}/>
+                {
+                  extendedView && comments && comments.length > 0 &&
+                  <PostComments comments={comments}
+                                stateComments={stateComments}
+                                translate={translate}
+                                replyComment={(comment) => this._setCommentOn(comment)}
+                                deleteComment={this.deleteComment}
+                  />
                 }
               </div>
             </div>
@@ -434,8 +422,7 @@ const mapStateToProps = (state, ownProps) => {
   const post = ownProps.post || state.common.post.list[ownProps.match.params.id]
   const postIdentity = post && post.post_related_identity
   const postRelatedIdentityImage = postIdentity && postIdentity.profile_media
-  const postRelatedProductId = post && post.post_related_product && post.post_related_product.id ? post.post_related_product.id : post.post_related_product
-  const postRelatedProduct = postRelatedProductId && {...state.common.product.products.list[postRelatedProductId], product_owner: postIdentity}
+  const postRelatedProduct = post ? post.post_related_product && {...state.common.product.products.list[post.post_related_product.id ? post.post_related_product.id : post.post_related_product], product_owner: postIdentity} : {}
   return {
     post,
     postIdentity,

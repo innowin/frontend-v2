@@ -25,6 +25,7 @@ import type {postType} from 'src/consts/flowTypes/common/post'
 import type {fileType} from 'src/consts/flowTypes/common/fileType'
 import uuid from 'uuid'
 import type {identityType} from 'src/consts/flowTypes/user/basicInformation'
+import ProductActions from '../../../../redux/actions/commonActions/productActions'
 
 const POST_MEDIA_TEMP_KEY = 'POST_MEDIA'
 const POST_FILE_TEMP_KEY = 'POST_FILE'
@@ -91,7 +92,6 @@ type createPostStateTypes = {
   focused: boolean,
   keys: [],
   selectedProduct?: {},
-  selectedProductId?: number,
   scrollHeight: number,
   textLength: number,
   postType: string,
@@ -112,7 +112,7 @@ type createPostStateTypes = {
 class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
   static defaultProps = {
     className: '',
-    postsCountInThisPage: 0
+    postsCountInThisPage: 0,
   }
 
   static propTypes = {
@@ -159,7 +159,6 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
       focused: false,
       keys: [],
       selectedProduct: undefined,
-      selectedProductId: undefined,
       scrollHeight: 0,
       textLength: 0,
       postType: constants.POST.POST_TYPE.POST,
@@ -189,10 +188,11 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
       getFollowers({
         followOwnerIdentity: currentUserIdentity,
         followOwnerId: currentUserId,
-        notProfile: true
+        notProfile: true,
       })
       this.setState({...this.state, placeholder: translate['Be in zist boom']})
-    } else {
+    }
+    else {
       this.setState({...this.state, getFollowers: true, placeholder: translate['Be in zist boom']})
     }
   }
@@ -205,7 +205,7 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
       getFollowers({
         followOwnerIdentity: currentUserIdentity,
         followOwnerId: currentUserId,
-        notProfile: true
+        notProfile: true,
       })
     }
 
@@ -224,7 +224,8 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
       if (post.post_type === constants.POST.POST_TYPE.SUPPLY) {
         this.supplyChecked.checked = true
         postType = constants.POST.POST_TYPE.SUPPLY
-      } else if (post.post_type === constants.POST.POST_TYPE.DEMAND) {
+      }
+      else if (post.post_type === constants.POST.POST_TYPE.DEMAND) {
         this.demandChecked.checked = true
         postType = constants.POST.POST_TYPE.DEMAND
       }
@@ -241,7 +242,8 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
               postImg1 = file.file
               postImg1Index = index
               setFileProgressTemp({fileId: attachPhotoIdArray[0], progressDetail: {progress: 100}})
-            } else if (numberOfPostImages === 2) {
+            }
+            else if (numberOfPostImages === 2) {
               postImg2 = file.file
               postImg2Index = index
               setFileProgressTemp({fileId: attachPhotoIdArray[1], progressDetail: {progress: 100}})
@@ -251,7 +253,8 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
               postImg3Index = index
               setFileProgressTemp({fileId: attachPhotoIdArray[2], progressDetail: {progress: 100}})
             }
-          } else if (file.type === constants.CREATE_FILE_TYPES.FILE) {
+          }
+          else if (file.type === constants.CREATE_FILE_TYPES.FILE) {
             postFile = file.file
             postFileIndex = index
           }
@@ -279,7 +282,7 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
         this.headerText.innerText = post.post_title
       }
     }
-    this.attachMenuId = "create-post-attach-menu-box" + uuid()
+    this.attachMenuId = 'create-post-attach-menu-box' + uuid()
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -342,7 +345,6 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
       descriptionHeaderClass: 'hide-message',
       labels: {},
       selectedProduct: undefined,
-      selectedProductId: undefined,
       postType: constants.POST.POST_TYPE.POST,
       removePictureArray: [],
       focused: false,
@@ -371,11 +373,10 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
   handleClickOutside = (event) => {
     const {
       attachMenu, contactMenu, linkModal, addProductModal, postImg1, postImg2, postImg3, postFile, postMedia,
-      selectedProduct, link, description, labels, open, descriptionHeader
+      selectedProduct, link, description, labels, open, descriptionHeader,
     } = this.state
-    const needReset = !description && !postImg1 && !postImg2 && !postImg3 && !postFile && !postMedia && !link
-        && !selectedProduct && labels === {}
-    const {hideCreatePost, postMediaId, postFileId, isUpdate, hideEdit} = this.props
+    const needReset = !description && !postImg1 && !postImg2 && !postImg3 && !postFile && !postMedia && !link && !selectedProduct && labels === {}
+    const {hideCreatePost, postMediaId, postFileId} = this.props
     if (!event.target.closest(`#${this.attachMenuId}`)) {
       if (attachMenu) {
         this.setState({...this.state, attachMenu: false})
@@ -409,9 +410,6 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
         this.demandChecked.checked = false
         if (hideCreatePost) hideCreatePost()
       }
-      if (isUpdate && hideEdit) {
-        hideEdit()
-      }
     }
     if (needReset) this._resetPost()
   }
@@ -434,20 +432,25 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
       if (event.target === this.demandChecked) {
         this.demandChecked.checked = false
         this.setState({...this.state, postType: constants.POST.POST_TYPE.POST})
-      } else {
+      }
+      else {
         this.setState({...this.state, postType: constants.POST.POST_TYPE.SUPPLY})
       }
-    } else if (postType === constants.POST.POST_TYPE.SUPPLY) {
+    }
+    else if (postType === constants.POST.POST_TYPE.SUPPLY) {
       if (event.target === this.supplyChecked) {
         this.supplyChecked.checked = false
         this.setState({...this.state, postType: constants.POST.POST_TYPE.POST})
-      } else {
+      }
+      else {
         this.setState({...this.state, postType: constants.POST.POST_TYPE.DEMAND})
       }
-    } else {
+    }
+    else {
       if (event.target === this.supplyChecked) {
         this.setState({...this.state, postType: constants.POST.POST_TYPE.SUPPLY})
-      } else {
+      }
+      else {
         this.setState({...this.state, postType: constants.POST.POST_TYPE.DEMAND})
       }
     }
@@ -457,10 +460,11 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
   _handleLabel = (name) => {
     const {labels} = this.state
     let temp = {...labels}
-    if (temp[name] === undefined) {
-      if (name === 'دنبال کنندگان' || name === 'دنبال کنندگانِ دنبال کنندگان' || temp['عمومی'] === undefined)
+    if (!temp[name]) {
+      if (name === 'دنبال کنندگان' || name === 'دنبال کنندگانِ دنبال کنندگان' || !temp['عمومی'])
         temp[name] = name
-    } else {
+    }
+    else {
       if (name !== 'دنبال کنندگان' && name !== 'دنبال کنندگانِ دنبال کنندگان')
         delete temp['عمومی']
       delete temp[name]
@@ -486,7 +490,8 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
         this.text.innerText = this.text.innerText.substring(0, x) + emoji + this.text.innerText.substring(y, this.text.innerText.length)
         this.text.selectionStart = parseInt(x, 10) + emoji.length
         this.text.selectionEnd = parseInt(y, 10) + emoji.length
-      } else {
+      }
+      else {
         this.text.innerText += emoji
       }
 
@@ -518,14 +523,14 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
     this.setState({
       ...this.state,
       descriptionClass: 'hide-message',
-      focused: false
+      focused: false,
     })
   }
   _handleBlurHeader = () => {
     this.setState({
       ...this.state,
       descriptionHeaderClass: 'hide-message',
-      focused: false
+      focused: false,
     })
   }
 
@@ -533,7 +538,7 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
     const {postType, link, description, selectedProduct, descriptionHeader} = this.state
     const {
       currentUserIdentity, postParentId, postImg1Id, postImg2Id, postImg3Id, postMediaId,
-      postFileId
+      postFileId,
     } = this.props
     const post_link = link.trim() !== '' ? link : null
     const filesCount = (postMediaId || postFileId) ? 1 :
@@ -546,7 +551,7 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
       post_parent: postParentId,
       post_related_identity: currentUserIdentity,
       post_related_product: selectedProduct ? selectedProduct.id : '',
-      post_link
+      post_link,
     }
   }
 
@@ -562,7 +567,8 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
           this._onSubmit(e)
         })
       }
-    } else this.setState({...this.state, keys: []})
+    }
+    else this.setState({...this.state, keys: []})
   }
   _onKeyDownHeader = (e) => {
     if (e.keyCode === 13) {
@@ -575,7 +581,8 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
     const descriptionHeader = this.headerText.innerText
     if (e.keyCode === 13) {
       e.preventDefault()
-    } else {
+    }
+    else {
       if (descriptionHeader.trim().length <= maxAllowedHeaderWordCounts) {
         this.setState({...this.state, descriptionHeader}, () => {
           const descriptionHeaderLength = descriptionHeader.trim().length
@@ -588,7 +595,8 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
           if (descriptionHeaderLength > (maxAllowedHeaderWordCounts - 26) && descriptionHeaderLength < maxAllowedHeaderWordCounts)
             this.setState({...this.state, descriptionHeaderClass: 'warning-message'})
         })
-      } else {
+      }
+      else {
         this.headerText.innerText = this.state.descriptionHeader
       }
     }
@@ -624,10 +632,11 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
         deleteFile({fileId: picture.id, fileParentType: constants.FILE_PARENT.POST, fileParentId: post.id})
       }
       updateFunc(formValues, post.id, postAttachedFileIds)
-    } else {
+    }
+    else {
       createPost({
         formValues, postOwnerId: currentUserId, postParentId, postParentType,
-        postFileIds: postAttachedFileIds
+        postFileIds: postAttachedFileIds,
       })
     }
     removeFileFromTemp(POST_IMG1_TEMP_KEY)
@@ -646,7 +655,7 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
     const createArguments = {
       fileIdKey,
       nextActionType,
-      nextActionData
+      nextActionData,
     }
     createFileFunc(createFile, fileString, createArguments, fileType, fileCategory, file)
   }
@@ -679,10 +688,12 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
     if (i === 0) {
       stateNullImgKey = 'postImg1'
       fileId = postImg1Id
-    } else if (i === 1) {
+    }
+    else if (i === 1) {
       stateNullImgKey = 'postImg2'
       fileId = postImg2Id
-    } else {
+    }
+    else {
       stateNullImgKey = 'postImg3'
       fileId = postImg3Id
     }
@@ -737,9 +748,11 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
         || (!postImg3 && POST_IMG3_TEMP_KEY)
     if (!postImg1) {
       this.setState({...this.state, attachMenu: false, postImg1: fileString})
-    } else if (!postImg2) {
+    }
+    else if (!postImg2) {
       this.setState({...this.state, attachMenu: false, postImg2: fileString})
-    } else {
+    }
+    else {
       this.setState({...this.state, attachMenu: false, postImg3: fileString})
     }
     this._createFile(fileString, tempFileKeyName, constants.CREATE_FILE_TYPES.IMAGE,
@@ -761,7 +774,7 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
   _allowSubmitCheck = () => {
     const {
       postImg1, postImg2, postImg3, postMedia, postFile, description, descriptionHeader, postType, selectedProduct,
-      postImg1Index, postImg2Index, postImg3Index, postFileIndex, postMediaIndex
+      postImg1Index, postImg2Index, postImg3Index, postFileIndex, postMediaIndex,
     } = this.state
     const {postImg1Id, postImg2Id, postImg3Id, postMediaId, postFileId, post} = this.props
     const descriptionLength = description.trim().length
@@ -859,14 +872,14 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
   render() {
     const {
       hideCreatePost, post, hideEdit, className, isUpdate, followers, exchanges, currentUserIdentity,
-      currentUserMedia, currentUserName, translate, tempFiles, actions
+      currentUserMedia, currentUserName, translate, tempFiles, actions,
     } = this.props
     const {
       postImg1, postImg2, postImg3, open, attachMenu, labels, link, contactMenu, linkModal, postFile, postMedia,
       isLoading, profileLoaded, description, descriptionClass, descriptionHeaderClass, focused, addProductModal, selectedProduct, postType, descriptionHeader,
       attachPhotoIdArray, attachFileId, attachVideoId,
     } = this.state
-    const {setFileProgressTemp} = actions
+    const {setFileProgressTemp, getProductInfo} = actions
     const hasMediaClass = (postMedia || postImg1 || postImg2 || postImg3) ? 'hasMedia' : ''
     const postImagesLength = [postImg1, postImg2, postImg3].filter(img => img).length
     const attachPhotoId = postImagesLength === 0 ? attachPhotoIdArray[0] : attachPhotoIdArray[postImagesLength]
@@ -1094,22 +1107,20 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
           />
           <AddProductModal
               ref={e => this.setWrapperFourthRef = e ? e.addProductModal : e}
+              getProductInfo={getProductInfo}
               addProductModal={addProductModal}
               cancelFunc={() => this.setState({
                 ...this.state,
                 addProductModal: false,
-                selectedProductId: undefined,
-                selectedProduct: undefined
+                selectedProduct: null,
               })}
-              submitFunc={(product, productId) => {
+              submitFunc={(product) => {
                 this.setState({
                   ...this.state,
-                  selectedProduct: productId === undefined ? product : undefined,
-                  selectedProductId: productId,
-                  addProductModal: false
+                  addProductModal: false,
+                  selectedProduct: product,
                 })
               }}
-              // selectProduct={(product) => this.setState({...this.state, selectedProduct: product})}
           />
         </form>
     )
@@ -1138,7 +1149,7 @@ const mapStateToProps = state => {
   return ({
     currentUserType: client.user_type,
     currentUserIdentity: identityId,
-    currentUserId: identity? identity.id : undefined,
+    currentUserId: identity ? identity.id : undefined,
     currentUserMedia: (state.common.file.list[clientImgId] && state.common.file.list[clientImgId].file) || null,
     currentUserName: name,
     exchanges: state.common.exchangeMembership.list,
@@ -1149,7 +1160,7 @@ const mapStateToProps = state => {
     postMediaId,
     postFileId,
     tempFiles,
-    translate: getMessages(state)
+    translate: getMessages(state),
   })
 }
 
@@ -1162,6 +1173,7 @@ const mapDispatchToProps = dispatch => ({
     createComment: CommentActions.createComment,
     deleteFile: FileActions.deleteFile,
     setFileProgressTemp: TempActions.setFileProgressTemp,
-  }, dispatch)
+    getProductInfo: ProductActions.getProductInfo,
+  }, dispatch),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(CreatePost)

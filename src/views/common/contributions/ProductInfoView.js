@@ -30,8 +30,6 @@ class ProductInfoView extends React.PureComponent {
       const id = product.product_owner.id ? product.product_owner.id : product.product_owner
       const product_owner = identities[id]
 
-      console.log('product: ',product)
-
       if (onClick) {
         return (
             <div className={selected ? 'selected-props product-instant-view' : 'product-instant-view'} onClick={onClick}>

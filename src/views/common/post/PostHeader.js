@@ -64,7 +64,7 @@ class PostHeader extends React.Component {
         url = isUser ? `/user/${postIdentity.id}` : `/organization/${postIdentity.id}`
       }
     }
-    const showFollow = !followees.map(follower => follower.follow_followed.id ? follower.follow_followed.id : follower.follow_followed).includes(postIdentity.id)
+    const showFollow = !followees.map(follower => follower.follow_followed && follower.follow_followed.id ? follower.follow_followed.id : follower.follow_followed).includes(postIdentity.id)
     return (
         <div className="-item-headerPost">
           <div ref={e => this.container = e} style={{position: 'relative'}} onMouseEnter={this.showInstant} onMouseLeave={this.hideInstant} onMouseMove={this.mouseMove}>
@@ -112,8 +112,7 @@ class PostHeader extends React.Component {
 
           </div>
 
-          <PostMenu postMenuId={postMenuId} translate={translate} post={post} extendedView={extendedView}
-                    deletePost={deletePost}
+          <PostMenu postMenuId={postMenuId} translate={translate} post={post} extendedView={extendedView} deletePost={deletePost}
                     menuToggle={menuToggle} openMenu={openMenu} postIdentity={postIdentity} showEdit={showEdit}/>
         </div>
     )
