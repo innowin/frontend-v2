@@ -214,21 +214,20 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
     const birth_date = sideBarType === constants.USER_TYPES.USER ? {birth_date: editBirthDate} : {established_year: editBirthDate}
     return {
       id: owner.id,
-      // description: descriptionState,
-      // profile_banner: bannerId,
-      // profile_media: pictureId,
-      // organization_banner: bannerId,
-      // organization_logo: pictureId,
-      // country: editTown,
-      // telegram_account: editTelegram,
-      // instagram_account: editInstagram,
-      // linkedin_account: editLinkedIn,
-      // twitter_account: editTwitter,
-      // staff_count: editStaff,
-      // work_status: editStatusTitle,
-      // ...name,
-      // ...birth_date,
-      identity_hashtag: [7724,7725]
+      description: descriptionState,
+      profile_banner: bannerId,
+      profile_media: pictureId,
+      organization_banner: bannerId,
+      organization_logo: pictureId,
+      country: editTown,
+      telegram_account: editTelegram,
+      instagram_account: editInstagram,
+      linkedin_account: editLinkedIn,
+      twitter_account: editTwitter,
+      staff_count: editStaff,
+      work_status: editStatusTitle,
+      ...name,
+      ...birth_date,
     }
   }
 
@@ -837,8 +836,8 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const bannerIdTemp = state.temp.file['profile_banner'] || null
-  const pictureIdTemp = state.temp.file['profile_media'] || null
+  const bannerIdTemp = (state.temp && state.temp.file['profile_banner']) || null
+  const pictureIdTemp = (state.temp && state.temp.file['profile_media']) || null
   return {
     countries: getAllCountries(state),
     translate: getMessages(state),

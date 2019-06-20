@@ -143,9 +143,9 @@ class PostView extends React.PureComponent<postExtendedViewProps, postViewState>
         const word = allWords[i].trim()
         if (urlExp.test(word)) {
           word.includes('http://') || word.includes('https://') ?
-              self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<span style="color: blue;cursor: pointer;" onclick=${window.open(word, '_blank')} title=${word} >${word.length > 60 ? '...' + word.substring(0, 60) : word}</span>`)
+              self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<span style="color: blue;cursor: pointer;" title=${word} onclick="window.open('${word}', '_blank')">${word.length > 60 ? word.slice(0, 60) + '...' : word}</span>`)
               :
-              self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<span style="color: blue;cursor: pointer;" onclick=${window.open('http://' + word, '_blank')} title=${word} >${word.length > 60 ? '...' + word.substring(0, 60) : word}</span>`)
+              self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<span style="color: blue;cursor: pointer;" title=${word} onclick="window.open('http://${word}', '_blank')">${word.length > 60 ? word.slice(0, 60) + '...' : word}</span>`)
         }
         else if (word[0] === '@' && word.length >= 6 && !word.substring(1, word.length).includes('@')) {
           self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<a href=` + word.slice(1, word.length) + `>${word.length > 60 ? '...' + word.substring(0, 60) : word}</a>`)
