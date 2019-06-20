@@ -30,7 +30,7 @@ class ExchangeSuggestView extends PureComponent {
   }
 
   unFollow() {
-    this.setState({...this.state, followLoading: true}, () =>
+    this.setState({...this.state, followLoading: false}, () =>
         this.props.actions.unFollow({
           exchangeMembershipId: this.props.followed[this.props.data.id],
           exchangeMembershipOwnerId: this.props.currentUserIdentity,
@@ -39,7 +39,11 @@ class ExchangeSuggestView extends PureComponent {
   }
 
   _renderFollowButton() {
-    if (this.state.followLoading) {
+    if (this.props.isFollowed)
+    {
+      return <Material className='exchange-suggest-unfollow' content='لغو عضویت' onClick={this.unFollow}/>
+    }
+    else if (this.state.followLoading) {
       return <div className='exchange-model-suggest-following'><ClipLoader color='#008057' size={18}/></div>
     }
     else {

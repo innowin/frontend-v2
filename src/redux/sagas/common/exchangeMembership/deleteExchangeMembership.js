@@ -6,7 +6,6 @@ import {put, take, fork, call, select} from "redux-saga/effects"
 import constants from "src/consts/constants"
 import uuid from 'uuid'
 
-
 export function* deleteExchangeMembership(action) {
   const {exchangeMembershipId, exchangeMembershipOwnerId} = action.payload
   const socketChannel = yield call(api.createSocketChannel, results.COMMON.EXCHANGE_MEMBERSHIP.DELETE_EXCHANGE_MEMBERSHIP)
@@ -20,6 +19,7 @@ export function* deleteExchangeMembership(action) {
       type: types.SUCCESS.COMMON.EXCHANGE_MEMBERSHIP.DELETE_EXCHANGE_MEMBERSHIP,
       payload: {exchangeMembershipId, exchangeMembershipOwnerId}
     })
+
     yield put({
       type: types.TOAST.ADD_TOAST,
       payload: {

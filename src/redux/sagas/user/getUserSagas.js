@@ -71,7 +71,7 @@ export function* getAllUsers(action) {
         api.get,
         urls.USER.GET_ALL_USERS,
         results.USER.GET_ALL_USERS,
-        encodeURI(params),
+        params,
     )
     const data = yield take(socketChannel)
     yield put({type: types.SUCCESS.USER.GET_ALL_USERS, payload: {data, search, isLoading: false}})

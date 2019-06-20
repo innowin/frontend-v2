@@ -53,7 +53,7 @@ class OrganizationBee extends PureComponent {
 
   componentDidMount(): void {
     const {currentUser} = this.props
-    const {nike_name, biography, telegram_account, web_site, profile_media} = currentUser
+    const {nike_name, description, telegram_account, web_site, profile_media} = currentUser
 
     let image = 0
     let name = 0
@@ -67,11 +67,14 @@ class OrganizationBee extends PureComponent {
     if (nike_name && nike_name.trim().length > 0) {
       name = 25
     }
-    if (biography && biography.trim().length > 0) {
+    if (description && description.trim().length > 0) {
       bio = 25
     }
-    if ((telegram_account && telegram_account.length > 0) || (web_site && web_site.length > 0)) {
+    if ((telegram_account && telegram_account.length > 0) && (web_site && web_site.length > 0)) {
       graduate = 20
+    }
+    else if ((telegram_account && telegram_account.length > 0) || (web_site && web_site.length > 0)) {
+      graduate = 10
     }
 
     this.setState({...this.state, image, name, graduate, bio}, () => {
@@ -83,7 +86,7 @@ class OrganizationBee extends PureComponent {
     if (!this.state.done) {
       const {currentUser, profileIdTemp, resumeIdTemp, temp, actions} = nextProps
       const {profileMediaId, resumeId, resume} = this.state
-      const {nike_name, biography, telegram_account, web_site, profile_media} = currentUser
+      const {nike_name, description, telegram_account, web_site, profile_media} = currentUser
 
       let setResume = resume
       let image = 0
@@ -97,11 +100,14 @@ class OrganizationBee extends PureComponent {
       if (nike_name && nike_name.trim().length > 0) {
         name = 25
       }
-      if (biography && biography.trim().length > 0) {
+      if (description && description.trim().length > 0) {
         bio = 25
       }
-      if ((telegram_account && telegram_account.length > 0) || (web_site && web_site.length > 0)) {
+      if ((telegram_account && telegram_account.length > 0) && (web_site && web_site.length > 0)) {
         graduate = 20
+      }
+      else if ((telegram_account && telegram_account.length > 0) || (web_site && web_site.length > 0)) {
+        graduate = 10
       }
 
       if (profileMediaId && temp[profileMediaId] && temp[profileMediaId].progress === 100 && profileIdTemp) {
@@ -208,12 +214,13 @@ class OrganizationBee extends PureComponent {
   }
 
   _handleGraduate = () => {
-    if (this.state.siteText.trim().length > 0 && this.state.telText.trim().length > 0) {
+    if (this.state.siteText.trim().length > 0 || this.state.telText.trim().length > 0) {
       const {actions, currentUser} = this.props
-      const formFormat = {
-        web_site: this.state.siteText.trim(),
-        telegram_account: this.state.telText.trim(),
-      }
+      const formFormat =
+          this.state.siteText.trim().length > 0 && this.state.telText.trim().length > 0 ?
+              {web_site: this.state.siteText.trim(), telegram_account: this.state.telText.trim()}
+              :
+              this.state.siteText.trim().length > 0 ? {web_site: this.state.siteText.trim()} : {telegram_account: this.state.telText.trim()}
       actions.updateUserByUserId(formFormat, currentUser.id)
     }
     else this.setState({...this.state, educationSubmitted: true})
@@ -223,7 +230,7 @@ class OrganizationBee extends PureComponent {
     if (this.state.bioText.trim().length > 0) {
       const {actions, currentUser} = this.props
       const formFormat = {
-        biography: this.state.bioText.trim(),
+        description: this.state.bioText.trim(),
       }
       actions.updateUserByUserId(formFormat, currentUser.id)
     }
@@ -353,7 +360,7 @@ class OrganizationBee extends PureComponent {
       }
     }
     else if (level === 3) {
-      if (graduate === 0)
+      if (graduate === 0 || graduate === 10)
         return (
             <div>
               <div className='bee-text'>{translate['The Ways to Connect With Your Collection']}</div>
@@ -365,11 +372,11 @@ class OrganizationBee extends PureComponent {
               </div>
 
               <div className='bee-text-name'>{translate['WebSite']}</div>
-              <input type='text' className='bee-name-text-box-left' placeholder='example.com' onChange={this._handleSiteChange}/>
+              <input type='text' defaultValue={currentUser.web_site ? currentUser.web_site : ''} className='bee-name-text-box-left' placeholder='example.com' onChange={this._handleSiteChange}/>
               <div className={this.state.educationSubmitted && this.state.siteText.length === 0 ? 'bee-job-error' : 'bee-job-error-hide'}>{translate['Please Enter Your Website!']}</div>
 
               <div className='bee-text-last-name'>{translate['Telegram Id']}</div>
-              <input type='text' className='bee-name-text-box-left' placeholder='@username' onChange={this._handleTelChange}/>
+              <input type='text' defaultValue={currentUser.telegram_account ? currentUser.telegram_account : ''} className='bee-name-text-box-left' placeholder='@username' onChange={this._handleTelChange}/>
               <div className={this.state.educationSubmitted && this.state.telText.length === 0 ? 'bee-job-error' : 'bee-job-error-hide'}>{translate['Please Enter Your Telegram Id!']}</div>
 
               <div className='bee-loading'>

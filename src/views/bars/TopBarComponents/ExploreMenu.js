@@ -29,7 +29,7 @@ const ExploreMenu = (props) => {
             <Link style={{textDecoration: 'none', color: 'black'}} to='/users/users_explorer' onClick={_toggle}>
               <Material className='explore-menu-items' content={
                 <div>
-                  <Contacts svgClass='explore-logos member-logo' containerClass='explore-logos-container'/> شناسه ها (افراد و مجموعه ها)
+                  <Contacts svgClass='explore-logos member-logo' containerClass='explore-logos-container'/> افراد و شرکت ها
                 </div>
               }/>
             </Link>
@@ -37,7 +37,7 @@ const ExploreMenu = (props) => {
             <Link style={{textDecoration: 'none', color: 'black'}} to={'/product/product_explorer'} onClick={_toggle}>
               <Material className='explore-menu-items' content={
                 <div>
-                  <ContributionIcon className='explore-logos'/> آورده ها (محصولات، مهارت و ...)
+                  <ContributionIcon className='explore-logos'/> محصولات
                 </div>
               }/>
             </Link>

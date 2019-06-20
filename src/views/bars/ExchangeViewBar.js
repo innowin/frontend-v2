@@ -38,7 +38,6 @@ class ExchangeViewBar extends PureComponent {
       error: null,
       followLoading: false,
       followedExchanges: [],
-      imageLoaded: false,
       editView: false,
       loadingEdit: false,
       unFollowed: false,
@@ -66,7 +65,7 @@ class ExchangeViewBar extends PureComponent {
   }
 
   componentDidMount() {
-    const {exchangeId, exchanges, exchangesIdentities, clientExchangeMemberships} = this.props
+    const {exchangesIdentities, clientExchangeMemberships} = this.props
 
     let followed = []
     clientExchangeMemberships.forEach((followIds, index) => {
@@ -77,51 +76,7 @@ class ExchangeViewBar extends PureComponent {
         this.setState({...this.state, followedExchanges: followed})
       }
     })
-
-    const currentExchange = exchanges.list[exchangeId]
-    if (currentExchange && currentExchange.exchange_image && currentExchange.exchange_image.file) {
-      let image = new Image()
-      image.src = currentExchange.exchange_image.file.includes('innowin.ir') ? currentExchange.exchange_image.file : REST_URL + currentExchange.exchange_image.file
-      image.onload = () => {
-        this.setState({...this.state, imageLoaded: true})
-      }
-    }
-    else if (currentExchange && currentExchange.exchange_image) {
-      let image = new Image()
-      image.src = currentExchange.exchange_image.file.includes('innowin.ir') ?
-          currentExchange.exchange_image.file : REST_URL + currentExchange.exchange_image.file
-      image.onload = () => {
-        this.setState({...this.state, imageLoaded: true})
-      }
-    }
     document.addEventListener('mousedown', this._handleClickOutside)
-  }
-
-  componentWillReceiveProps(nextProps, nextContext) {
-    const {exchanges, exchangeId} = nextProps
-    const currentExchange = exchanges.list[exchangeId]
-    if (currentExchange !== this.props.exchanges.list[exchangeId]) {
-      this.setState({...this.state, imageLoaded: false}, () => {
-        if (this.state.loadingEdit) {
-          this.setState({...this.state, editView: false, loadingEdit: false})
-        }
-        if (currentExchange && currentExchange.exchange_image && currentExchange.exchange_image.file) {
-          let image = new Image()
-          image.src = currentExchange.exchange_image.file.includes('innowin.ir') ? currentExchange.exchange_image.file : REST_URL + currentExchange.exchange_image.file
-          image.onload = () => {
-            this.setState({...this.state, imageLoaded: true})
-          }
-        }
-        else if (currentExchange && currentExchange.exchange_image) {
-          let image = new Image()
-          image.src = currentExchange.exchange_image.file.includes('innowin.ir') ?
-              currentExchange.exchange_image.file : REST_URL + currentExchange.exchange_image.file
-          image.onload = () => {
-            this.setState({...this.state, imageLoaded: true})
-          }
-        }
-      })
-    }
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -314,9 +269,7 @@ class ExchangeViewBar extends PureComponent {
   }
 
   render() {
-    const {
-      unFollowed, imageLoaded, editView, loadingEdit, processing, selectedImage,
-    } = this.state
+    const {unFollowed, editView, loadingEdit, processing, selectedImage} = this.state
     const {translate, exchanges, exchangeId, currentUserId} = this.props
     if (exchanges.list[exchangeId]) {
       const currentExchange = exchanges.list[exchangeId] && exchanges.list[exchangeId]
@@ -351,13 +304,13 @@ class ExchangeViewBar extends PureComponent {
               {
                 !editView ?
 
-                    currentExchange.exchange_image && imageLoaded ?
+                    currentExchange && currentExchange.exchange_image ?
                         <img className="exchangeViewBarImg" alt={translate['Exchange Picture']}
                              src={selectedImage ? selectedImage :
                                  currentExchange.exchange_image.file.includes('innowin.ir') ?
                                      currentExchange.exchange_image.file : REST_URL + currentExchange.exchange_image.file}/>
                         :
-                        currentExchange.exchange && currentExchange.exchange_image ?
+                        currentExchange && currentExchange.exchange && currentExchange.exchange_image ?
                             <img className="exchangeViewBarImg" alt={translate['Exchange Picture']}
                                  src={selectedImage ? selectedImage :
                                      currentExchange.exchange_image.file.includes('innowin.ir') ?
@@ -368,7 +321,7 @@ class ExchangeViewBar extends PureComponent {
 
                     :
 
-                    currentExchange.exchange_image && imageLoaded ?
+                    currentExchange && currentExchange.exchange_image ?
                         <div className="edit-exchange-profile-picture-container">
                           <div className="edit-exchange-profile-picture">
                             تغییر تصویر
@@ -382,7 +335,7 @@ class ExchangeViewBar extends PureComponent {
                               : null}
                         </div>
                         :
-                        currentExchange.exchange && currentExchange.exchange_image ?
+                        currentExchange && currentExchange.exchange && currentExchange.exchange_image ?
                             <div className="edit-exchange-profile-picture-container">
                               <div className="edit-exchange-profile-picture">
                                 تغییر تصویر

@@ -5,7 +5,7 @@ export default state => ({
     topBar: {
       ...state.messages.topBar,
     },
-    'Work Social Media': 'شبکه اجتماعی کسب‌و‌کار',
+    'Work Social Media': 'شبکه تخصصی کسب‌و‌کار',
     'Forgot Password': 'رمز عبور خود را فراموش کرده اید؟',
     "Write your post": 'مسئله خود را بنویسید..',
     'Send': 'ارسال',

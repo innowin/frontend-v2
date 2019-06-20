@@ -9,7 +9,6 @@ class ThirdLevel extends PureComponent {
     }
   }
 
-
   componentWillReceiveProps(nextProps, nextContext) {
     const {clientExchangeMemberships, exchangeMemberships} = nextProps
     if (clientExchangeMemberships.length > 0) {
@@ -18,6 +17,7 @@ class ThirdLevel extends PureComponent {
       )
       this.setState({...this.state, followed: {...followed}})
     }
+    else this.setState({...this.state, followed: []})
   }
 
   render() {
@@ -30,10 +30,9 @@ class ThirdLevel extends PureComponent {
               {
                 Object.values(exchanges)
                     .sort((a, b) => a.id - b.id)
-                    .filter(ex => !followed[ex.id])
                     .map((exchange, i) =>
-                    <ExchangeSuggestView description={true} data={exchange} followed={followed} key={i}/>,
-                )
+                        <ExchangeSuggestView description={true} data={exchange} isFollowed={followed[exchange.id]} followed={followed} key={i}/>,
+                    )
               }
             </div>
           </div>

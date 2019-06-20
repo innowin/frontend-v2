@@ -96,7 +96,7 @@ class CertificateForm extends React.Component<Props, States> {
       })
     }
 
-    emptySearchedOrganization()
+    emptySearchedOrganization && emptySearchedOrganization()
   }
 
   _toggle = () => {
@@ -119,7 +119,7 @@ class CertificateForm extends React.Component<Props, States> {
     } else if (name === 'certificate_organization_name') {
       error = Validations.validateRequired({value, translate})
       if (!error && value.length >= 4) {
-        getOrganizationsFilterByOfficialName({officialName: value})
+        getOrganizationsFilterByOfficialName && getOrganizationsFilterByOfficialName({officialName: value})
       }
     }
 
@@ -247,7 +247,7 @@ class CertificateForm extends React.Component<Props, States> {
 
                   <div className='searched-container'>
                     {
-                      searchedOrganization.map(organization =>
+                      searchedOrganization && searchedOrganization.map(organization =>
                           <div className='searched-item' key={'searched organization ' + organization.id}
                                onClick={() => this.setSearchedOrganization(organization)}>
                             {organization.official_name}

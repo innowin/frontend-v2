@@ -62,7 +62,7 @@ class HomePosts extends PureComponent {
       this.headerImg.onload = () => {
         console.log('Header Img Loaded')
         let can = this.headerCanvas
-        let canCtx = can.getContext('2d')
+        let canCtx = can && can.getContext('2d')
         let img = this.headerImg
         let imgRect = img.getBoundingClientRect()
         let newImg = new Image()
@@ -196,7 +196,7 @@ class HomePosts extends PureComponent {
                        className={hideTopBar ? 'top-bar-entity show top-bar-entity-top' : 'top-bar-entity show'}>
                     <NewRightArrowSvg onClick={unSetExchangeId} className='back-button'/>
                     <Link to={'/exchange/' + exchangeId} className='profile-top-bar'>
-                      {selectedExchange.exchange_image
+                      {selectedExchange && selectedExchange.exchange_image
                           ?
                           <React.Fragment>
                             <img ref={e => this.headerImg = e} src={selectedExchange.exchange_image.file} alt='profile' className='profile-top-bar'/>
@@ -208,7 +208,7 @@ class HomePosts extends PureComponent {
                       }
                     </Link>
                     <span className='organ-name'>
-                          {selectedExchange.name}
+                          {selectedExchange && selectedExchange.name}
                         </span>
                   </div>
 

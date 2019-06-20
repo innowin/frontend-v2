@@ -8,7 +8,7 @@ const loadingArr = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 const Exchanges = (props) => {
   let {exchanges, followed, justFollowing} = props
 
-  exchanges = Object.values(exchanges).sort((a, b) => a.id - b.id)
+  exchanges = Object.values(exchanges).filter(exchange => exchange.id).sort((a, b) => a.id - b.id)
 
   if (justFollowing) {
     exchanges = exchanges.filter((exchange) =>
