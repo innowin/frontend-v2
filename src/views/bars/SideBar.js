@@ -214,6 +214,7 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
     const birth_date = sideBarType === constants.USER_TYPES.USER ? {birth_date: editBirthDate} : {established_year: editBirthDate}
     return {
       id: owner.id,
+      // identity_hashtag: [7528, 7529],
       description: descriptionState,
       profile_banner: bannerId,
       profile_media: pictureId,

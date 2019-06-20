@@ -11,9 +11,9 @@ import {ClipLoader} from 'react-spinners'
 
 class ProductInfoView extends React.PureComponent {
   componentDidMount(): void {
-    if (this.props.product) {
+    if (this.props.product.id) {
       const {product, actions} = this.props
-      const id = product.product_owner.id ? product.product_owner.id : product.product_owner
+      const id = product.product_owner && product.product_owner.id ? product.product_owner.id : product.product_owner
       actions.getFileByFileRelatedParentId({
         fileRelatedParentId: product.id,
         fileParentType: constants.FILE_PARENT.PRODUCT,
@@ -29,6 +29,8 @@ class ProductInfoView extends React.PureComponent {
       const {pictures_array} = product
       const id = product.product_owner.id ? product.product_owner.id : product.product_owner
       const product_owner = identities[id]
+
+      console.log('product: ',product)
 
       if (onClick) {
         return (

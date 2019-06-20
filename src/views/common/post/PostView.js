@@ -434,7 +434,7 @@ const mapStateToProps = (state, ownProps) => {
   const post = ownProps.post || state.common.post.list[ownProps.match.params.id]
   const postIdentity = post && post.post_related_identity
   const postRelatedIdentityImage = postIdentity && postIdentity.profile_media
-  const postRelatedProductId = post && post.post_related_product
+  const postRelatedProductId = post && post.post_related_product && post.post_related_product.id ? post.post_related_product.id : post.post_related_product
   const postRelatedProduct = postRelatedProductId && {...state.common.product.products.list[postRelatedProductId], product_owner: postIdentity}
   return {
     post,
