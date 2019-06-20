@@ -70,8 +70,8 @@ class PostHeader extends React.Component {
           <div ref={e => this.container = e} style={{position: 'relative'}} onMouseEnter={this.showInstant} onMouseLeave={this.hideInstant} onMouseMove={this.mouseMove}>
             <Link to={url} className='link-post'>
               <div className="-img-col">
-                {postRelatedIdentityImage && postRelatedIdentityImage.file ?
-                    <img className="rounded-circle covered-img" src={postRelatedIdentityImage.file} alt=""/>
+                {postRelatedIdentityImage ?
+                    <img className="rounded-circle covered-img" src={postRelatedIdentityImage} alt=""/>
                     :
                     <DefaultUserIcon className="rounded-circle covered-svg"/>
                 }
@@ -90,8 +90,8 @@ class PostHeader extends React.Component {
 
             <div className={instantView ? 'post-instant-view' : 'post-instant-view-hide'} style={{top: y, left: x}}>
               {
-                postRelatedIdentityImage && postRelatedIdentityImage.file ?
-                    <img className="post-instant-view-img rounded-circle covered-img" src={postRelatedIdentityImage.file} alt=""/>
+                postRelatedIdentityImage ?
+                    <img className="post-instant-view-img rounded-circle covered-img" src={postRelatedIdentityImage} alt=""/>
                     : <DefaultUserIcon className="post-instant-view-img rounded-circle covered-svg"/>
               }
               <div className='post-instant-view-name'>{name}</div>

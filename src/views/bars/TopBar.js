@@ -440,12 +440,12 @@ class TopBar extends PureComponent<PropsTopBar, StatesTopBar> {
                           className='item-text'>{translate['Windows']}</Link>
                   }/>
                   <Material className='display-block' content={
-                    <Link onClick={this._hamburgerOff} to={'/product/product_explorer'}
-                          className='item-text'>{translate['Products']}</Link>
-                  }/>
-                  <Material className='display-block' content={
                     <Link onClick={this._hamburgerOff} to='/users/users_explorer'
                           className='item-text'>{topBarTranslate['Persons']}</Link>
+                  }/>
+                  <Material className='display-block' content={
+                    <Link onClick={this._hamburgerOff} to={'/product/product_explorer'}
+                          className='item-text'>{translate['Products']}</Link>
                   }/>
                 </div>
                 <div className='hamburger-items-container'>

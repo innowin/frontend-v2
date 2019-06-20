@@ -83,7 +83,7 @@ class WorkExperienceForm extends React.Component<Props, States> {
       })
     }
 
-    emptySearchedOrganization()
+    emptySearchedOrganization && emptySearchedOrganization()
   }
 
   _toggle = () => {
@@ -103,7 +103,7 @@ class WorkExperienceForm extends React.Component<Props, States> {
     } else if (name === 'work_experience_organization_name') {
       error = Validations.validateRequired({value, translate})
       if (!error && value.length >= 4) {
-        getOrganizationsFilterByOfficialName({officialName: value})
+        getOrganizationsFilterByOfficialName && getOrganizationsFilterByOfficialName({officialName: value})
       }
     }
 
@@ -205,7 +205,7 @@ class WorkExperienceForm extends React.Component<Props, States> {
                          className='edit-text-fields' placeholder={translate['Name work']}/>
                   <div className='searched-container'>
                     {
-                      searchedOrganization.map(organization =>
+                      searchedOrganization && searchedOrganization.map(organization =>
                           <div className='searched-item' key={'searched organization ' + organization.id}
                                onClick={() => this.setSearchedOrganization(organization)}>
                             {organization.official_name}

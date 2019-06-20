@@ -1,4 +1,4 @@
-import React, {PureComponent} from "react"
+import React, {Component} from "react"
 import PropTypes from "prop-types"
 import exchangeActions from "src/redux/actions/exchangeActions"
 import {connect} from "react-redux"
@@ -17,7 +17,7 @@ import {createFileFunc} from "../common/Functions"
 import constants from "../../consts/constants"
 
 
-class ExchangeViewBar extends PureComponent {
+class ExchangeViewBar extends Component {
   static propTypes = {
     exchangeId: PropTypes.number.isRequired,
   }
@@ -66,7 +66,12 @@ class ExchangeViewBar extends PureComponent {
   }
 
   componentDidMount() {
-    const {exchangeId, exchanges, exchangesIdentities, clientExchangeMemberships} = this.props
+    const {
+      // exchangeId,
+      // exchanges,
+      exchangesIdentities,
+      clientExchangeMemberships,
+    } = this.props
 
     let followed = []
     clientExchangeMemberships.forEach((followIds, index) => {
@@ -74,26 +79,30 @@ class ExchangeViewBar extends PureComponent {
         followed.push(exchangesIdentities[followIds].exchange_identity_related_exchange.id)
       }
       if (clientExchangeMemberships.length - 1 === index) {
-        followed.length > 0 && this.setState({...this.state, followedExchanges: followed})
+        this.state.followedExchanges = followed // had to
+        // followed.length > 0 && this.setState({...this.state, followedExchanges: followed}, () => {
+        //   console.log("IT WAS: ", followed)
+        //   console.log("IT IS: ", this.state.followedExchanges)
+        // })
       }
     })
 
-    const currentExchange = exchanges.list[exchangeId]
-    if (currentExchange && currentExchange.exchange_image && currentExchange.exchange_image.file) {
-      let image = new Image()
-      image.src = currentExchange.exchange_image.file.includes("innowin.ir") ? currentExchange.exchange_image.file : REST_URL + currentExchange.exchange_image.file
-      image.onload = () => {
-        this.setState({...this.state, imageLoaded: true})
-      }
-    }
-    else if (currentExchange && currentExchange.exchange_image) {
-      let image = new Image()
-      image.src = currentExchange.exchange_image.file.includes("innowin.ir") ?
-          currentExchange.exchange_image.file : REST_URL + currentExchange.exchange_image.file
-      image.onload = () => {
-        this.setState({...this.state, imageLoaded: true})
-      }
-    }
+    // const currentExchange = exchanges.list[exchangeId]
+    // if (currentExchange && currentExchange.exchange_image && currentExchange.exchange_image.file) {
+    //   let image = new Image()
+    //   image.src = currentExchange.exchange_image.file.includes("innowin.ir") ? currentExchange.exchange_image.file : REST_URL + currentExchange.exchange_image.file
+    //   image.onload = () => {
+    //     this.setState({...this.state, imageLoaded: true})
+    //   }
+    // }
+    // else if (currentExchange && currentExchange.exchange_image) {
+    //   let image = new Image()
+    //   image.src = currentExchange.exchange_image.file.includes("innowin.ir") ?
+    //       currentExchange.exchange_image.file : REST_URL + currentExchange.exchange_image.file
+    //   image.onload = () => {
+    //     this.setState({...this.state, imageLoaded: true})
+    //   }
+    // }
     document.addEventListener("mousedown", this._handleClickOutside)
   }
 

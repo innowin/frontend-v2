@@ -64,7 +64,7 @@ const OrganAboutUs = (props: OrganAboutUsProps) => {
 
         <Catalog updateUser={updateUser} translate={translate} owner={user} files={files} deleteFile={deleteFile}/>
 
-        <Hashtags updateUser={updateUser} translate={translate} owner={user} files={files} deleteFile={deleteFile}/>
+        {/*<Hashtags updateUser={updateUser} translate={translate} owner={user} files={files} deleteFile={deleteFile}/>*/}
       </div>
   )
 }

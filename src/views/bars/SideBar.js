@@ -214,31 +214,33 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
     const birth_date = sideBarType === constants.USER_TYPES.USER ? {birth_date: editBirthDate} : {established_year: editBirthDate}
     return {
       id: owner.id,
-      description: descriptionState,
-      profile_banner: bannerId,
-      profile_media: pictureId,
-      organization_banner: bannerId,
-      organization_logo: pictureId,
-      country: editTown,
-      telegram_account: editTelegram,
-      instagram_account: editInstagram,
-      linkedin_account: editLinkedIn,
-      twitter_account: editTwitter,
-      staff_count: editStaff,
-      work_status: editStatusTitle,
-      ...name,
-      ...birth_date,
-      // identity_hashtag: [7530,7531]
+      // description: descriptionState,
+      // profile_banner: bannerId,
+      // profile_media: pictureId,
+      // organization_banner: bannerId,
+      // organization_logo: pictureId,
+      // country: editTown,
+      // telegram_account: editTelegram,
+      // instagram_account: editInstagram,
+      // linkedin_account: editLinkedIn,
+      // twitter_account: editTwitter,
+      // staff_count: editStaff,
+      // work_status: editStatusTitle,
+      // ...name,
+      // ...birth_date,
+      identity_hashtag: [7724,7725]
     }
   }
 
   _formValidate = () => {
     let result = true
+    const {sideBarType} = this.props
     const {descriptionState, editName, editLastName} = this.state
     const descriptionLength = descriptionState ? descriptionState.trim().length : 0
     const descriptionError = descriptionLength > 70
-    const nameError = editName && editName.length === 0
-    const lastNameError = editLastName && editLastName.length === 0
+    const nameError = editName !== null && editName.length === 0
+    const lastNameError = sideBarType === constants.USER_TYPES.USER ? editLastName !== null && editLastName.length === 0 : false
+
     const validates = [
       descriptionError,
       nameError,

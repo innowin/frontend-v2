@@ -25,11 +25,11 @@ class Notifications extends PureComponent {
   componentDidMount() {
     const {token} = this.props
     fetch(REST_URL + '/' + urls.COMMON.NOTIFICATIONS, {
-      headers: {'Authorization': `JWT ${token}`}
+      headers: {'Authorization': `JWT ${token}`},
     })
         .then(res => res.json())
         .then(resJson => {
-          const result = resJson.results.filter(notif => notif.notification_from_identity && notif.notification_payload).reverse()
+          const result = resJson.results.filter(notif => notif.notification_from_identity && notif.notification_html_payload)
           this.setState({
             ...this.state,
             notifications: result.filter(notif => !notif.notification_seen),
@@ -42,23 +42,21 @@ class Notifications extends PureComponent {
 
   seenNotif() {
     const {token} = this.props
-    this.state.notifications.forEach((notif) => {
-      fetch(REST_URL + '/' + urls.COMMON.NOTIFICATIONS + '/' + notif.id, {
-        method: 'patch',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `JWT ${token}`,
-        },
-        body: JSON.stringify({
-          id: notif.id,
-          notification_seen: true,
-        }),
-      })
-          .then((res) => res.json())
-          .then((resJson) => {
-            console.log(resJson)
-          })
+    console.log(this.state.notifications[0].id)
+    fetch(REST_URL + '/' + urls.COMMON.NOTIFICATIONS_SEEN + '/', {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `JWT ${token}`,
+      },
+      body: JSON.stringify({
+        last_notif: this.state.notifications[0].id,
+      }),
     })
+        .then((res) => res.json())
+        .then((resJson) => {
+          console.log(resJson)
+        })
   }
 
   render() {
@@ -97,7 +95,7 @@ class Notifications extends PureComponent {
                                             </div>
                                   }
                                   <div className='notifications-item-text' dangerouslySetInnerHTML={{
-                                    __html: notif.notification_payload
+                                    __html: notif.notification_html_payload
                                         .replace(new RegExp('http://innowin.ir', 'g'), '')
                                         .replace(new RegExp('https://innowin.ir', 'g'), '')
                                         .replace(new RegExp('<a ', 'g'), '<a target=_blank '),
@@ -107,7 +105,7 @@ class Notifications extends PureComponent {
                                 </div>,
                             )
                             :
-                            <div>اعلان جدیدی وجود ندارد.</div>
+                            <div className='notifications-item'>اعلان جدیدی وجود ندارد.</div>
                   }
                 </div>
               </div>
@@ -137,7 +135,7 @@ class Notifications extends PureComponent {
                                       </div>
                             }
                             <div className='notifications-item-text' dangerouslySetInnerHTML={{
-                              __html: notif.notification_payload
+                              __html: notif.notification_html_payload
                                   .replace(new RegExp('http://innowin.ir', 'g'), '')
                                   .replace(new RegExp('https://innowin.ir', 'g'), '')
                                   .replace(new RegExp('<a ', 'g'), '<a target=_blank '),

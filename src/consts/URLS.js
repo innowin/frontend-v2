@@ -63,6 +63,7 @@ const urls = {
   COMMON: {
     // notifications
     NOTIFICATIONS: 'notifications/notifyme',
+    NOTIFICATIONS_SEEN: 'notifications/notifyme/seen',
 
     // product
     PRODUCT: "products",
