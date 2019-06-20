@@ -37,7 +37,7 @@ const ExploreMenu = (props) => {
             <Link style={{textDecoration: 'none', color: 'black'}} to={'/product/product_explorer'} onClick={_toggle}>
               <Material className='explore-menu-items' content={
                 <div>
-                  <ContributionIcon className='explore-logos'/> محصولات
+                  <ContributionIcon className='explore-logos'/> محصولات و نمونه‌کار ها
                 </div>
               }/>
             </Link>

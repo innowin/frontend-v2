@@ -55,7 +55,7 @@
 .notifications-header {
   display: flex;
   justify-content: space-between;
-  padding: 15px;
+  padding: 10px;
   border-bottom: 2px solid #E1E1E1;
 }
 
@@ -71,6 +71,12 @@
 .notifications-read {
   color: $info-color;
   cursor: pointer;
+  padding: 10px 5px;
+}
+
+.notifications-read-title {
+  vertical-align: top;
+  padding: 10px 5px;
 }
 
 .notifications-item {

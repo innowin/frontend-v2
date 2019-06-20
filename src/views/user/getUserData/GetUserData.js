@@ -89,6 +89,7 @@ class GetUserData extends PureComponent {
                                       clientExchangeMemberships={clientExchangeMemberships}
                                       exchangeMemberships={exchangeMemberships}
                                       hideRegisterModal={hideRegisterModal}
+                                      setSecondLevel={this.setSecondLevel}
                           />
                           :
                           null
