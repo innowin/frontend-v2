@@ -69,8 +69,8 @@ class UserBee extends PureComponent {
 
   componentDidMount(): void {
     const {currentUser, actions} = this.props
-    actions.getEducationByUserId({userId: currentUser.id})
-    actions.getWorkExperienceByUserId({userId: currentUser.id})
+    actions.getEducationByUserId({userId: currentUser && currentUser.id})
+    actions.getWorkExperienceByUserId({userId: currentUser && currentUser.id})
     actions.getUniversities()
     actions.getEducationFields()
   }

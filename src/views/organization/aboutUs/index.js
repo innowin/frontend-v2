@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import Catalog from './catalog'
+import Hashtags from './hashtags'
 import Certificate from '../../common/newCertificate'
 import CertificateActions from 'src/redux/actions/commonActions/certificateActions'
 import Contact from './contact'
@@ -17,10 +18,10 @@ import updateUserByUserIdAction from 'src/redux/actions/user/updateUserByUserIdA
 import {getMessages} from 'src/redux/selectors/translateSelector'
 import {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
 import {userCertificatesSelector} from 'src/redux/selectors/common/certificate/userCertificatesSelector'
-import {getProductsSelector} from '../../../redux/selectors/common/product/userGetProductSelector'
+import {getProductsSelector} from 'src/redux/selectors/common/product/userGetProductSelector'
 import Products from '../../user/aboutMe/product/Products'
-import FileActions from '../../../redux/actions/commonActions/fileActions'
-import getSearchedOrganizationsSelector from '../../../redux/selectors/organization/getOrganizationsFilterByOfficialName'
+import FileActions from 'src/redux/actions/commonActions/fileActions'
+import getSearchedOrganizationsSelector from 'src/redux/selectors/organization/getOrganizationsFilterByOfficialName'
 
 type OrganAboutUsProps = {
   certificates: [certificateType],
@@ -62,6 +63,8 @@ const OrganAboutUs = (props: OrganAboutUsProps) => {
         <Contact updateOrganization={updateOrganization} translate={translate} organization={user}/>
 
         <Catalog updateUser={updateUser} translate={translate} owner={user} files={files} deleteFile={deleteFile}/>
+
+        <Hashtags updateUser={updateUser} translate={translate} owner={user} files={files} deleteFile={deleteFile}/>
       </div>
   )
 }

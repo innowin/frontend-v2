@@ -1,20 +1,20 @@
-import React, {PureComponent} from 'react'
-import PropTypes from 'prop-types'
-import exchangeActions from 'src/redux/actions/exchangeActions'
-import {connect} from 'react-redux'
-import {bindActionCreators} from 'redux'
-import {Contacts, ExchangeIcon, DefaultUserIcon, CalendarEmpty} from 'src/images/icons'
-import ExchangeMembershipActions from 'src/redux/actions/commonActions/exchangeMembershipActions'
-import {BeatLoader, ClipLoader} from 'react-spinners'
-import {REST_URL} from 'src/consts/URLS'
-import {Link} from 'react-router-dom'
-import makeFileSelectorByKeyValue from 'src/redux/selectors/common/file/selectFilsByKeyValue'
-import {createFile} from 'src/redux/actions/commonActions/fileActions'
-import TempActions from 'src/redux/actions/tempActions'
-import types from '../../redux/actions/types'
-import uuid from 'uuid'
-import {createFileFunc} from '../common/Functions'
-import constants from '../../consts/constants'
+import React, {PureComponent} from "react"
+import PropTypes from "prop-types"
+import exchangeActions from "src/redux/actions/exchangeActions"
+import {connect} from "react-redux"
+import {bindActionCreators} from "redux"
+import {Contacts, ExchangeIcon, DefaultUserIcon, CalendarEmpty} from "src/images/icons"
+import ExchangeMembershipActions from "src/redux/actions/commonActions/exchangeMembershipActions"
+import {BeatLoader, ClipLoader} from "react-spinners"
+import {REST_URL} from "src/consts/URLS"
+import {Link} from "react-router-dom"
+import makeFileSelectorByKeyValue from "src/redux/selectors/common/file/selectFilsByKeyValue"
+import {createFile} from "src/redux/actions/commonActions/fileActions"
+import TempActions from "src/redux/actions/tempActions"
+import types from "../../redux/actions/types"
+import uuid from "uuid"
+import {createFileFunc} from "../common/Functions"
+import constants from "../../consts/constants"
 
 
 class ExchangeViewBar extends PureComponent {
@@ -30,7 +30,7 @@ class ExchangeViewBar extends PureComponent {
       supplyCount: 0,
       productCount: 0,
       badgesImgUrl: [],
-      currentFileId: '',
+      currentFileId: "",
       tags: [],
       members: [],
       membersViewSide: false,
@@ -74,27 +74,27 @@ class ExchangeViewBar extends PureComponent {
         followed.push(exchangesIdentities[followIds].exchange_identity_related_exchange.id)
       }
       if (clientExchangeMemberships.length - 1 === index) {
-        this.setState({...this.state, followedExchanges: followed})
+        followed.length > 0 && this.setState({...this.state, followedExchanges: followed})
       }
     })
 
     const currentExchange = exchanges.list[exchangeId]
     if (currentExchange && currentExchange.exchange_image && currentExchange.exchange_image.file) {
       let image = new Image()
-      image.src = currentExchange.exchange_image.file.includes('innowin.ir') ? currentExchange.exchange_image.file : REST_URL + currentExchange.exchange_image.file
+      image.src = currentExchange.exchange_image.file.includes("innowin.ir") ? currentExchange.exchange_image.file : REST_URL + currentExchange.exchange_image.file
       image.onload = () => {
         this.setState({...this.state, imageLoaded: true})
       }
     }
     else if (currentExchange && currentExchange.exchange_image) {
       let image = new Image()
-      image.src = currentExchange.exchange_image.file.includes('innowin.ir') ?
+      image.src = currentExchange.exchange_image.file.includes("innowin.ir") ?
           currentExchange.exchange_image.file : REST_URL + currentExchange.exchange_image.file
       image.onload = () => {
         this.setState({...this.state, imageLoaded: true})
       }
     }
-    document.addEventListener('mousedown', this._handleClickOutside)
+    document.addEventListener("mousedown", this._handleClickOutside)
   }
 
   componentWillReceiveProps(nextProps, nextContext) {
@@ -107,14 +107,14 @@ class ExchangeViewBar extends PureComponent {
         }
         if (currentExchange && currentExchange.exchange_image && currentExchange.exchange_image.file) {
           let image = new Image()
-          image.src = currentExchange.exchange_image.file.includes('innowin.ir') ? currentExchange.exchange_image.file : REST_URL + currentExchange.exchange_image.file
+          image.src = currentExchange.exchange_image.file.includes("innowin.ir") ? currentExchange.exchange_image.file : REST_URL + currentExchange.exchange_image.file
           image.onload = () => {
             this.setState({...this.state, imageLoaded: true})
           }
         }
         else if (currentExchange && currentExchange.exchange_image) {
           let image = new Image()
-          image.src = currentExchange.exchange_image.file.includes('innowin.ir') ?
+          image.src = currentExchange.exchange_image.file.includes("innowin.ir") ?
               currentExchange.exchange_image.file : REST_URL + currentExchange.exchange_image.file
           image.onload = () => {
             this.setState({...this.state, imageLoaded: true})
@@ -140,15 +140,15 @@ class ExchangeViewBar extends PureComponent {
       })
     }
 
-    if (this.state.currentFileId !== '' && temp[this.state.currentFileId] && temp[this.state.currentFileId].progress === 100 && temp['exchange_new_image']) {
-      this._imageHandler(temp['exchange_new_image'])
-      removeFileFromTemp('exchange_new_image')
+    if (this.state.currentFileId !== "" && temp[this.state.currentFileId] && temp[this.state.currentFileId].progress === 100 && temp["exchange_new_image"]) {
+      this._imageHandler(temp["exchange_new_image"])
+      removeFileFromTemp("exchange_new_image")
     }
 
   }
 
   componentWillUnmount() {
-    document.removeEventListener('mousedown', this._handleClickOutside)
+    document.removeEventListener("mousedown", this._handleClickOutside)
   }
 
   _handleClickOutside(event) {
@@ -157,12 +157,12 @@ class ExchangeViewBar extends PureComponent {
       const currentExchange = exchanges.list[exchangeId]
       if (currentExchange && currentExchange.owner && currentExchange.owner.id === currentUserId) {
         if (this.exchangeAdminMenu && !this.exchangeAdminMenu.contains(event.target)) {
-          this.exchangeAdminMenu.className = 'exchange-admin-menu-disable'
+          this.exchangeAdminMenu.className = "exchange-admin-menu-disable"
         }
       }
       else if (currentExchange && this.state.followedExchanges.indexOf(currentExchange.id) >= 0) {
         if (this.exchangeAdminMenu && !this.exchangeAdminMenu.contains(event.target)) {
-          this.exchangeAdminMenu.className = 'exchange-admin-menu-disable'
+          this.exchangeAdminMenu.className = "exchange-admin-menu-disable"
         }
       }
     }
@@ -175,9 +175,9 @@ class ExchangeViewBar extends PureComponent {
             <button
                 type="button"
                 className="sidebarFollowBottom"
-                style={{cursor: 'pointer'}}
+                style={{cursor: "pointer"}}
                 onClick={(e) => this._handleEditView(e)}>
-              {this.props.translate['Edit Exchange']}
+              {this.props.translate["Edit Exchange"]}
             </button>
         )
       }
@@ -191,7 +191,7 @@ class ExchangeViewBar extends PureComponent {
     else if (this.state.followLoading) {
       return (
           <button type="button" className="sidebarFollowBottom">
-            <BeatLoader size={7} color={'#67e6d1'} margin={2}/>
+            <BeatLoader size={7} color={"#67e6d1"} margin={2}/>
           </button>
       )
     }
@@ -200,7 +200,7 @@ class ExchangeViewBar extends PureComponent {
           <button
               type="button"
               className="sidebarFollowBottom"
-              style={{cursor: 'pointer'}}
+              style={{cursor: "pointer"}}
               onClick={(e) => this._handleFollow(e)}>درخواست عضویت
           </button>
       )
@@ -209,22 +209,22 @@ class ExchangeViewBar extends PureComponent {
 
   _handleAdminMenu(e) {
     e.stopPropagation()
-    this.exchangeAdminMenu.className = 'exchange-admin-menu'
+    this.exchangeAdminMenu.className = "exchange-admin-menu"
   }
 
   _handleMenu(e) {
     e.stopPropagation()
-    this.exchangeAdminMenu.className = 'exchange-admin-menu-member'
+    this.exchangeAdminMenu.className = "exchange-admin-menu-member"
   }
 
   _handleEditView(e) {
     e.stopPropagation()
     this.setState({...this.state, editView: true})
-    this.exchangeAdminMenu.className = 'exchange-admin-menu-disable'
+    this.exchangeAdminMenu.className = "exchange-admin-menu-disable"
   }
 
   _handleDeleteExchange() {
-    this.exchangeAdminMenu.className = 'exchange-admin-menu-disable'
+    this.exchangeAdminMenu.className = "exchange-admin-menu-disable"
     const {actions, exchangeId} = this.props
     const {deleteExchange} = actions
     deleteExchange(exchangeId)
@@ -246,9 +246,9 @@ class ExchangeViewBar extends PureComponent {
   _createFile = () => {
     const {createFile} = this.props.actions
     const nextActionType = types.COMMON.FILE.SET_FILE_IDS_IN_TEMP_FILE
-    const nextActionData = 'exchange_new_image'
+    const nextActionData = "exchange_new_image"
     const createArguments = {
-      fileIdKey: 'fileId',
+      fileIdKey: "fileId",
       nextActionType,
       nextActionData: {tempFileKeyName: nextActionData},
     }
@@ -258,7 +258,7 @@ class ExchangeViewBar extends PureComponent {
     createFileFunc(createFile, fileString, createArguments, constants.CREATE_FILE_TYPES.IMAGE, constants.CREATE_FILE_CATEGORIES.EXCHANGE.IMAGE, file)
 
     this.setState({...this.state, processing: true, currentFileId: fileId})
-    console.log('PROCESS....')
+    console.log("PROCESS....")
 
   }
   _imageHandler = (id: number) => {
@@ -284,7 +284,7 @@ class ExchangeViewBar extends PureComponent {
       editExchange(formValues)
       this.setState({...this.state, loadingEdit: true})
     }
-    else console.log('Description Length is too much')
+    else console.log("Description Length is too much")
   }
 
   _handleUnfollowExchange() {
@@ -306,9 +306,9 @@ class ExchangeViewBar extends PureComponent {
           exchangeMembershipId: exchangeMembershipIdTemp[0].id,
           exchangeMembershipOwnerId: currentUserId,
         })
-      else console.log('exchangeMembershipIdTemp: ', exchangeMembershipIdTemp)
+      else console.log("exchangeMembershipIdTemp: ", exchangeMembershipIdTemp)
 
-      this.exchangeAdminMenu.className = 'exchange-admin-menu-disable'
+      this.exchangeAdminMenu.className = "exchange-admin-menu-disable"
       this.setState({...this.state, unFollowed: true, followLoading: false})
     }
   }
@@ -327,22 +327,22 @@ class ExchangeViewBar extends PureComponent {
                   this.state.followedExchanges.indexOf(currentExchange.id) >= 0 && !unFollowed ?
                       <div>
                         <div className="fa fa-ellipsis-v menuBottom bubble-more" onClick={(e) => this._handleMenu(e)}/>
-                        <div className={'exchange-admin-menu-disable'} ref={e => this.exchangeAdminMenu = e}>
-                          <div className={'exchange-admin-menu-child'} onClick={this._handleUnfollowExchange}>
-                            {translate['Unfollow Exchange']}
+                        <div className={"exchange-admin-menu-disable"} ref={e => this.exchangeAdminMenu = e}>
+                          <div className={"exchange-admin-menu-child"} onClick={this._handleUnfollowExchange}>
+                            {translate["Unfollow Exchange"]}
                           </div>
                         </div>
                       </div> : null
                   :
                   <div>
                     <div className="fa fa-ellipsis-v menuBottom bubble-more" onClick={(e) => this._handleAdminMenu(e)}/>
-                    <div className={'exchange-admin-menu-disable'} ref={e => this.exchangeAdminMenu = e}>
-                      <div className={'exchange-admin-menu-child'} onClick={(e) => this._handleEditView(e)}>
-                        {translate['Edit Exchange']}
+                    <div className={"exchange-admin-menu-disable"} ref={e => this.exchangeAdminMenu = e}>
+                      <div className={"exchange-admin-menu-child"} onClick={(e) => this._handleEditView(e)}>
+                        {translate["Edit Exchange"]}
                       </div>
-                      <Link to={`/`} className={'exchange-admin-menu-child-delete'}>
-                        <div className={'exchange-admin-menu-child'} onClick={(e) => this._handleDeleteExchange(e)}>
-                          {translate['Delete Exchange']}
+                      <Link to={`/`} className={"exchange-admin-menu-child-delete"}>
+                        <div className={"exchange-admin-menu-child"} onClick={(e) => this._handleDeleteExchange(e)}>
+                          {translate["Delete Exchange"]}
                         </div>
                       </Link>
                     </div>
@@ -352,15 +352,15 @@ class ExchangeViewBar extends PureComponent {
                 !editView ?
 
                     currentExchange.exchange_image && imageLoaded ?
-                        <img className="exchangeViewBarImg" alt={translate['Exchange Picture']}
+                        <img className="exchangeViewBarImg" alt={translate["Exchange Picture"]}
                              src={selectedImage ? selectedImage :
-                                 currentExchange.exchange_image.file.includes('innowin.ir') ?
+                                 currentExchange.exchange_image.file.includes("innowin.ir") ?
                                      currentExchange.exchange_image.file : REST_URL + currentExchange.exchange_image.file}/>
                         :
                         currentExchange.exchange && currentExchange.exchange_image ?
-                            <img className="exchangeViewBarImg" alt={translate['Exchange Picture']}
+                            <img className="exchangeViewBarImg" alt={translate["Exchange Picture"]}
                                  src={selectedImage ? selectedImage :
-                                     currentExchange.exchange_image.file.includes('innowin.ir') ?
+                                     currentExchange.exchange_image.file.includes("innowin.ir") ?
                                          currentExchange.exchange_image.file :
                                          REST_URL + currentExchange.exchange_image.file}/>
                             :
@@ -373,9 +373,9 @@ class ExchangeViewBar extends PureComponent {
                           <div className="edit-exchange-profile-picture">
                             تغییر تصویر
                           </div>
-                          <img className="exchangeViewBarImg" alt={translate['Exchange Picture']}
+                          <img className="exchangeViewBarImg" alt={translate["Exchange Picture"]}
                                src={selectedImage ? selectedImage :
-                                   currentExchange.exchange_image.file.includes('innowin.ir') ?
+                                   currentExchange.exchange_image.file.includes("innowin.ir") ?
                                        currentExchange.exchange_image.file : REST_URL + currentExchange.exchange_image.file}/>
                           {!processing ?
                               <input type="file" accept="image/*" onChange={e => this._uploadHandler(e.currentTarget.files[0])}/>
@@ -387,9 +387,9 @@ class ExchangeViewBar extends PureComponent {
                               <div className="edit-exchange-profile-picture">
                                 تغییر تصویر
                               </div>
-                              <img className="exchangeViewBarImg" alt={translate['Exchange Picture']}
+                              <img className="exchangeViewBarImg" alt={translate["Exchange Picture"]}
                                    src={selectedImage ? selectedImage :
-                                       currentExchange.exchange_image.file.includes('innowin.ir') ?
+                                       currentExchange.exchange_image.file.includes("innowin.ir") ?
                                            currentExchange.exchange_image.file :
                                            REST_URL + currentExchange.exchange_image.file}/>
                               {!processing ?
@@ -397,13 +397,13 @@ class ExchangeViewBar extends PureComponent {
                                   : null}
                             </div>
                             :
-                            <div className={'edit-exchange-profile-picture-container'}>
-                              <div className={'edit-exchange-profile-picture'}>
+                            <div className={"edit-exchange-profile-picture-container"}>
+                              <div className={"edit-exchange-profile-picture"}>
                                 تصویر جدید
                               </div>
                               {
                                 selectedImage ?
-                                    <img className="exchangeViewBarImg" alt={translate['Exchange Picture']}
+                                    <img className="exchangeViewBarImg" alt={translate["Exchange Picture"]}
                                          src={selectedImage}/> : <DefaultUserIcon className="exchangeViewBarImg"/>
                               }
                               {!processing ?
@@ -420,17 +420,17 @@ class ExchangeViewBar extends PureComponent {
                     !editView ?
                         <span>
                           {
-                            currentExchange && currentExchange.name === '' ? 'بدون نام' :
+                            currentExchange && currentExchange.name === "" ? "بدون نام" :
                                 currentExchange.name ? currentExchange.name :
-                                    currentExchange.name === '' ? 'بدون نام' : currentExchange.name
+                                    currentExchange.name === "" ? "بدون نام" : currentExchange.name
                           }
                           </span>
                         :
-                        <input ref={e => this.editName = e} className={'edit-exchange-name-input'}
+                        <input ref={e => this.editName = e} className={"edit-exchange-name-input"}
                                defaultValue={
-                                 currentExchange.name === '' ? 'بدون نام' :
+                                 currentExchange.name === "" ? "بدون نام" :
                                      currentExchange.name ? currentExchange.name :
-                                         currentExchange.name === '' ? 'بدون نام' : currentExchange.name}/>
+                                         currentExchange.name === "" ? "بدون نام" : currentExchange.name}/>
                   }
                 </div>
               </div>
@@ -439,16 +439,16 @@ class ExchangeViewBar extends PureComponent {
                     <div>
                       <div className="-grey1 fontSize-13px description-right-bar">
                         {
-                          currentExchange.description === '' ? 'بدون توضیحات' :
+                          currentExchange.description === "" ? "بدون توضیحات" :
                               currentExchange.description ? currentExchange.description :
-                                  currentExchange.description === '' ? 'بدون توضیحات' : currentExchange.description
+                                  currentExchange.description === "" ? "بدون توضیحات" : currentExchange.description
                         }
                       </div>
                       <div className="under-description-right-bar">
                         <CalendarEmpty className='under-description-right-bar-svg-calendar-view'/>
                         1397/12/15
 
-                        <div style={{margin: '0 5px', fontSize: '5px', color: '#aeaeae', display: 'inline-block', paddingBottom: '2px'}}>⬤</div>
+                        <div style={{margin: "0 5px", fontSize: "5px", color: "#aeaeae", display: "inline-block", paddingBottom: "2px"}}>⬤</div>
 
                         <Contacts width="14px" height="14px" containerClass="under-description-right-bar-svg-member-view-con"
                                   svgClass="under-description-right-bar-svg-member-view"/>
@@ -456,11 +456,11 @@ class ExchangeViewBar extends PureComponent {
                       </div>
                     </div>
                     :
-                    <textarea ref={e => this.editDescription = e} className={'edit-exchange-description-input'}
+                    <textarea ref={e => this.editDescription = e} className={"edit-exchange-description-input"}
                               defaultValue={
-                                currentExchange.description === '' ? 'بدون توضیحات' :
+                                currentExchange.description === "" ? "بدون توضیحات" :
                                     currentExchange.description ? currentExchange.description :
-                                        currentExchange.description === '' ? 'بدون توضیحات' : currentExchange.description
+                                        currentExchange.description === "" ? "بدون توضیحات" : currentExchange.description
                               }/>
               }
 
@@ -522,19 +522,19 @@ class ExchangeViewBar extends PureComponent {
                     <button
                         type="button"
                         className="sidebarFollowBottom"
-                        style={{cursor: 'pointer'}}
+                        style={{cursor: "pointer"}}
                         onClick={() => this.setState({...this.state, editView: false, selectedImage: null})}> لغو
                     </button>
                   </div>
             }
             {
               !editView ?
-                  <div className={'exchange-view-bar-socials'}> {/* TODO:ABEL disable-logo class for non social exchange fields*/}
+                  <div className={"exchange-view-bar-socials"}> {/* TODO:ABEL disable-logo class for non social exchange fields*/}
                     {/*<i className={"fa fa-youtube-play youtube disable-logo"}/>*/}
-                    <i className={'fa fa-telegram disable-logo'}/>
-                    <i className={'fa fa-instagram disable-logo'}/>
-                    <i className={'fa fa-linkedin-square disable-logo'}/>
-                    <i className={'fa fa-twitter disable-logo'}/>
+                    <i className={"fa fa-telegram disable-logo"}/>
+                    <i className={"fa fa-instagram disable-logo"}/>
+                    <i className={"fa fa-linkedin-square disable-logo"}/>
+                    <i className={"fa fa-twitter disable-logo"}/>
                   </div>
                   :
                   null
@@ -544,7 +544,7 @@ class ExchangeViewBar extends PureComponent {
     }
     else {
       return (
-          <div style={{textAlign: 'center', margin: '35px 10px 45px 10px'}}>
+          <div style={{textAlign: "center", margin: "35px 10px 45px 10px"}}>
             پنجره مورد نظر یافت نشد!
           </div>
       )
@@ -565,7 +565,7 @@ const StateToProps = (state, ownProps) => {
     currentUserType: client.user_type,
     exchangesIdentities: state.common.exchangeMembership.list,
     clientExchangeMemberships: state.auth.client.exchangeMemberships,
-    clientFiles: fileSelectorByKeyValue(state, 'identity', client.identity.content),
+    clientFiles: fileSelectorByKeyValue(state, "identity", client.identity.content),
     temp: state.temp.file,
   })
 }
