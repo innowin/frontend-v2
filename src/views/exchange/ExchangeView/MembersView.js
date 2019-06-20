@@ -10,7 +10,7 @@ import {connect} from "react-redux"
 import {DefaultUserIcon, QuestionMark, Stream} from "src/images/icons"
 import {Link} from "react-router-dom"
 import {getFollowingsSelector} from "../../../redux/selectors/common/social/getNewFollowings"
-import {PureComponent} from 'react'
+import {PureComponent} from "react"
 // import exchangeMembershipActions from "src/redux/actions/commonActions/exchangeMembershipActions"
 // import {VerifyWrapper} from "../../common/cards/Frames"
 
@@ -42,7 +42,7 @@ class MembersView extends PureComponent<props, states> {
       moreMembers: false,
       followingUsers: [],
       followingOrgans: [],
-      requested: false
+      requested: false,
     }
     const self: any = this
     self.changeViewType = self.changeViewType.bind(self)
@@ -104,17 +104,17 @@ class MembersView extends PureComponent<props, states> {
               }</div>
             </div>
           </Link>
-          <div className={followingUsers.indexOf(memberId) >= 0 ?
-              "member-followed-button"
-              : clientId !== memberId ?
-                  "member-follow-green-button"
-                  : "member-followed-button"}>
-            {followingUsers.indexOf(memberId) >= 0 ?
-                <div>دنبال شده</div>
-                : clientId !== memberId ?
-                    <div onClick={() => this.follow(memberId, memberType)}>دنبال کردن</div>
-                    : <div>دنبال شده</div>}
-          </div>
+
+          {
+            clientId !== memberId ?
+                <div className={followingUsers.indexOf(memberId) >= 0 ?
+                    "member-followed-button"
+                    : "member-follow-green-button"}>
+                  {followingUsers.indexOf(memberId) >= 0 ?
+                      <div>دنبال شده</div>
+                      : <div onClick={() => this.follow(memberId, memberType)}>دنبال کردن</div>}
+                </div> : null
+          }
         </div>
       }
       else return <div className={this.state.viewType}>
@@ -155,17 +155,16 @@ class MembersView extends PureComponent<props, states> {
               }</div>
             </div>
           </Link>
-          <div className={followingOrgans.indexOf(memberId) >= 0 ?
-              "member-followed-button"
-              : clientId !== memberId ?
-                  "member-follow-green-button"
-                  : "member-followed-button"}>
-            {followingOrgans.indexOf(memberId) >= 0 ?
-                <div>دنبال شده</div>
-                : clientId !== memberId ?
-                    <div onClick={() => this.follow(memberId, memberType)}>دنبال کردن</div>
-                    : <div>دنبال شده</div>}
-          </div>
+          {
+            clientId !== memberId ?
+                <div className={followingOrgans.indexOf(memberId) >= 0 ?
+                    "member-followed-button"
+                    : "member-follow-green-button"}>
+                  {followingOrgans.indexOf(memberId) >= 0 ?
+                      <div>دنبال شده</div>
+                      : <div onClick={() => this.follow(memberId, memberType)}>دنبال کردن</div>}
+                </div> : null
+          }
         </div>
       }
       else return <div className={this.state.viewType}>
@@ -296,8 +295,8 @@ const mapStateToProps = (state) => {
     clientId: state.auth.client.identity.content,
     identities: state.identities.list,
     followings: getFollowingsSelector(state, {
-      userId: state.auth.client.identity.content
-    })
+      userId: state.auth.client.identity.content,
+    }),
   }
 }
 const mapDispatchToProps = (dispatch) => ({
@@ -307,7 +306,7 @@ const mapDispatchToProps = (dispatch) => ({
     createFollow: SocialActions.createFollow,
     getFollowingAction: SocialActions.getFollowees,
     getUserIdentity: identityActions.getUserIdentity,
-    getOrgIdentity: identityActions.getOrgIdentity
-  }, dispatch)
+    getOrgIdentity: identityActions.getOrgIdentity,
+  }, dispatch),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(MembersView)

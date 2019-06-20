@@ -13,7 +13,7 @@ import {Link} from "react-router-dom"
 import {Post} from "src/views/common/post/Post"
 import {PureComponent} from "react"
 import {RightArrow, DesertIcon, EditIcon, ChannelIcon} from "src/images/icons"
-import {ClipLoader} from "react-spinners"
+import {BarLoader} from "react-spinners"
 
 
 class HomePosts extends PureComponent {
@@ -59,48 +59,48 @@ class HomePosts extends PureComponent {
         postParentId: exchangeId, postType: null, limit, offset, postParentType: constant.POST_PARENT.EXCHANGE,
       })
     }
-    if (this.headerImg && this.headerCanvas && exchangeId && prevProps.exchangeId !== exchangeId) {
-      this.headerImg.onload = () => {
-        console.log("Header Img Loaded")
-        let can = this.headerCanvas
-        let canCtx = can && can.getContext("2d")
-        let img = this.headerImg
-        let imgRect = img.getBoundingClientRect()
-        let newImg = new Image()
-        newImg.src = img.src
-        let imageData
-        newImg.onload = (e) => {
-          can.width = e.path[0].width
-          can.height = e.path[0].height
-          canCtx.drawImage(img, 0, 0)
-          try {
-            console.log("Header Img Data Success")
-            imageData = canCtx.getImageData(0, 0, imgRect.width, imgRect.height)
-            console.log(imageData.data)
-          } catch (e) {
-            console.log("Header Img Error Catch")
-            console.log(e)
-            imageData = {data: [37, 53, 69, 255]}
-          }
-
-          let rPlate = 0, gPlate = 0, bPlate = 0, counter = 0
-          for (let i = 0; i < imageData.data.length + 4; i += 4) {
-            if (imageData.data[i + 3] === 255) {
-              counter++
-              rPlate += imageData.data[i]
-              gPlate += imageData.data[i + 1]
-              bPlate += imageData.data[i + 2]
-            }
-          }
-          rPlate = ~~(rPlate / counter)
-          gPlate = ~~(gPlate / counter)
-          bPlate = ~~(bPlate / counter)
-
-          counter !== 0 ?
-              this.setState({...this.state, averageColor: [rPlate, gPlate, bPlate]}) : this.setState({...this.state, averageColor: [37, 53, 69]})
-        }
-      }
-    }
+    // if (this.headerImg && this.headerCanvas && exchangeId && prevProps.exchangeId !== exchangeId) {
+    //   this.headerImg.onload = () => {
+    //     console.log("Header Img Loaded")
+    //     let can = this.headerCanvas
+    //     let canCtx = can && can.getContext("2d")
+    //     let img = this.headerImg
+    //     let imgRect = img.getBoundingClientRect()
+    //     let newImg = new Image()
+    //     newImg.src = img.src
+    //     let imageData
+    //     newImg.onload = (e) => {
+    //       can.width = e.path[0].width
+    //       can.height = e.path[0].height
+    //       canCtx.drawImage(img, 0, 0)
+    //       try {
+    //         console.log("Header Img Data Success")
+    //         imageData = canCtx.getImageData(0, 0, imgRect.width, imgRect.height)
+    //         console.log(imageData.data)
+    //       } catch (e) {
+    //         console.log("Header Img Error Catch")
+    //         console.log(e)
+    //         imageData = {data: [37, 53, 69, 255]}
+    //       }
+    //
+    //       let rPlate = 0, gPlate = 0, bPlate = 0, counter = 0
+    //       for (let i = 0; i < imageData.data.length + 4; i += 4) {
+    //         if (imageData.data[i + 3] === 255) {
+    //           counter++
+    //           rPlate += imageData.data[i]
+    //           gPlate += imageData.data[i + 1]
+    //           bPlate += imageData.data[i + 2]
+    //         }
+    //       }
+    //       rPlate = ~~(rPlate / counter)
+    //       gPlate = ~~(gPlate / counter)
+    //       bPlate = ~~(bPlate / counter)
+    //
+    //       counter !== 0 ?
+    //           this.setState({...this.state, averageColor: [rPlate, gPlate, bPlate]}) : this.setState({...this.state, averageColor: [37, 53, 69]})
+    //     }
+    //   }
+    // }
   }
 
   componentWillUnmount() {
@@ -222,7 +222,10 @@ class HomePosts extends PureComponent {
                   </div>
 
                   <FrameCard className={exchangePage ? "-frameCardPostEx border-top-0" : "-frameCardPost border-top-0"}>
-                    {isLoading === true && <div className='text-center'><ClipLoader/></div>}
+                    {isLoading === true &&
+                    <div style={{textAlign: "center", margin: "1% auto", display: "flex", justifyContent: "center", alignItems: "center"}}>
+                      <BarLoader color={"#d8d9dc"} size={50}/>
+                    </div>}
                     <ListGroup>
                       {
                         posts.length > 0 ? posts.map((post) => post &&
@@ -271,7 +274,7 @@ const mapStateToProps = (state, ownProps) => {
     isLoading,
     selectedExchange: allExchange[exchangeId],
     identityId,
-    identityMemberships: state.identities.list[identityId] && state.identities.list[identityId].exchangeMemberships.content,
+    identityMemberships: state.identities.list[identityId] && state.identities.list[identityId].exchangeMemberships && state.identities.list[identityId].exchangeMemberships.content,
     exchangeMemberships: state.common.exchangeMembership.list,
   }
 }

@@ -95,6 +95,8 @@ const urls = {
 
     POST: "base/posts",
 
+    LIKE: "base/like",
+
     COMMENT: "base/comments",
 
     SOCIAL: {
