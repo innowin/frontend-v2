@@ -28,7 +28,7 @@ class Product extends PureComponent {
 
   render() {
     const {data, identities} = this.props
-    const pictures_array = data.pictures_array.filter(p => p.type === 'image')
+    const pictures_array = data.pictures_array ? data.pictures_array.filter(p => p.type === 'image') : []
     const id = data.product_owner.id ? data.product_owner.id : data.product_owner
 
     return (
@@ -54,7 +54,7 @@ class Product extends PureComponent {
               </div>
             </div>
           </div>
-          <img className='product-model-img' src={pictures_array && pictures_array.length > 0 ? pictures_array[0].file : ''} alt=''/>
+          <img className='product-model-img' src={pictures_array.length > 0 ? pictures_array[0].file : ''} alt=''/>
         </Link>
     )
   }
