@@ -271,7 +271,7 @@ const mapStateToProps = (state, ownProps) => {
     isLoading,
     selectedExchange: allExchange[exchangeId],
     identityId,
-    identityMemberships: state.identities.list[identityId] && state.identities.list[identityId].exchangeMemberships.content,
+    identityMemberships: state.identities.list[identityId] && state.identities.list[identityId].exchangeMemberships && state.identities.list[identityId].exchangeMemberships.content,
     exchangeMemberships: state.common.exchangeMembership.list,
   }
 }
