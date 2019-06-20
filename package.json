@@ -84,7 +84,7 @@
   "scripts": {
     "start:lts": "PORT=3001 node scripts/start.js",
     "start:dev": "PORT=3000 node scripts/start.js",
-    "start:win": "yarn postinstall && set HTTPS=true&&node scripts/start.js",
+    "start:win": "node scripts/start.js",
     "prestart": "yarn postinstall",
     "start": "yarn dev",
     "dev": "HTTPS=true node scripts/start.js",

@@ -107,16 +107,6 @@ class PostView extends React.PureComponent<postExtendedViewProps, postViewState>
     if (!extendedView) {
       const {getFileByFileRelatedParentId} = actions
       getFileByFileRelatedParentId({fileRelatedParentId: post.id, fileParentType: constants.FILE_PARENT.POST})
-
-      if (self.text && self.text.clientHeight > 70) {
-        const height = self.text.clientHeight
-        if (post.post_description && new RegExp('^[A-Za-z]*$').test(post.post_description[0])) {
-          self.text.style.paddingRight = '60px'
-        }
-        else self.text.style.paddingLeft = '60px'
-        self.text.style.height = '63px'
-        this.setState({...this.state, showMore: true, descriptionHeight: height})
-      }
     }
     else if (!post) {
       const {match, ownerId} = this.props
@@ -164,6 +154,16 @@ class PostView extends React.PureComponent<postExtendedViewProps, postViewState>
               self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<a href=tel:` + word + `>${word.length > 60 ? '...' + word.substring(0, 60) : word}</a>`)
         }
       }
+    }
+
+    if (!extendedView && self.text && self.text.clientHeight > 70) {
+      const height = self.text.clientHeight
+      if (post.post_description && new RegExp('^[A-Za-z]*$').test(post.post_description[0])) {
+        self.text.style.paddingRight = '60px'
+      }
+      else self.text.style.paddingLeft = '60px'
+      self.text.style.height = '63px'
+      this.setState({...this.state, showMore: true, descriptionHeight: height})
     }
 
     document.addEventListener('click', this._handleClickOutMenuBoxTop)
@@ -316,7 +316,7 @@ class PostView extends React.PureComponent<postExtendedViewProps, postViewState>
             ? <div className={extendedView ? 'post-view-container remove-post-container' : 'remove-post-container'}>
               <Confirm cancelRemoving={this._cancelConfirm} remove={this._delete}/>
             </div>
-            : post &&
+            : post ?
             <div className='-itemWrapperPost'>
               {extendedView && <CategoryTitle title={translate['Single post']}/>}
               <div className={extendedView ? 'post-view-container' : undefined}>
@@ -423,6 +423,7 @@ class PostView extends React.PureComponent<postExtendedViewProps, postViewState>
                 }
               </div>
             </div>
+            : null
     )
   }
 }

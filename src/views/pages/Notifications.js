@@ -23,6 +23,10 @@ class Notifications extends PureComponent {
 
 
   componentDidMount() {
+    this.getData()
+  }
+
+  getData() {
     const {token} = this.props
     fetch(REST_URL + '/' + urls.COMMON.NOTIFICATIONS, {
       headers: {'Authorization': `JWT ${token}`},
@@ -41,22 +45,24 @@ class Notifications extends PureComponent {
   }
 
   seenNotif() {
-    const {token} = this.props
-    console.log(this.state.notifications[0].id)
-    fetch(REST_URL + '/' + urls.COMMON.NOTIFICATIONS_SEEN + '/', {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `JWT ${token}`,
-      },
-      body: JSON.stringify({
-        last_notif: this.state.notifications[0].id,
-      }),
-    })
-        .then((res) => res.json())
-        .then((resJson) => {
-          console.log(resJson)
-        })
+    if (this.state.notifications.length > 0) {
+      const {token} = this.props
+      fetch(REST_URL + '/' + urls.COMMON.NOTIFICATIONS_SEEN + '/', {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `JWT ${token}`,
+        },
+        body: JSON.stringify({
+          last_notif: this.state.notifications[0].id,
+        }),
+      })
+          .then((res) => res.json())
+          .then((resJson) => {
+            console.log(resJson)
+            this.getData()
+          })
+    }
   }
 
   render() {

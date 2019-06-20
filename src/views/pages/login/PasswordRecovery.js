@@ -8,6 +8,7 @@ import ResetPassword from "src/redux/actions/user/resetPasswordActions"
 import {recoveryPasswordSelector} from "src/redux/selectors/user/recoveryPasswordSelector"
 import PropTypes from 'prop-types'
 import constants from "../../../consts/constants";
+import numberCorrection from '../../../helpers/numberCorrection'
 
 type passwordRecoveryProps = {
   showRecovery: boolean,
@@ -180,7 +181,7 @@ class PasswordRecovery extends React.Component <passwordRecoveryProps, passwordR
   }
 
   _changePhoneInput = (e) => {
-    const value = e.target.value
+    const value = numberCorrection(e.target.value)
     this.setState({...this.state, userIdentifierInputValue: value})
   }
 

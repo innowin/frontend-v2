@@ -143,7 +143,7 @@ class FirstLevel extends PureComponent {
           <div>
             <div className={valid ? 'get-data-content-next-button-on' : 'get-data-content-next-button'} onClick={this.submit}>
               {
-                loading ? <ClipLoader size={17}/> : 'بعدی'
+                loading ? <div className='get-data-loading'><ClipLoader size={17}/></div> : 'بعدی'
               }
             </div>
           </div>
