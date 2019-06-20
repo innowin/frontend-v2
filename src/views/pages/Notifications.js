@@ -7,6 +7,7 @@ import {ClipLoader} from 'react-spinners'
 import UserDetailPanel from '../common/components/UserDetailPanel'
 import constants from '../../consts/constants'
 import {DefaultOrganIcon, DefaultUserIcon} from '../../images/icons'
+import Material from '../common/components/Material'
 
 class Notifications extends PureComponent {
 
@@ -77,8 +78,8 @@ class Notifications extends PureComponent {
 
               <div className='notifications-new-section'>
                 <div className='notifications-header'>
-                  <div>اعلان های جدید</div>
-                  <div className='notifications-read' onClick={this.seenNotif}>Make Read</div>
+                  <div className='notifications-read-title'>اعلان های جدید</div>
+                  <Material className='notifications-read' content={<div onClick={this.seenNotif}>Make Read</div>}/>
                 </div>
                 <div className='notifications-content'>
                   {

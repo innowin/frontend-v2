@@ -60,7 +60,7 @@ class CatalogView extends React.Component <CatalogProps, CatalogStates> {
 
     if (!isLoading) {
       deleteFile({
-        fileId: owner.related_catalog,
+        fileId: owner.related_catalog || owner.product_catalog,
         fileParentId: owner.id,
         fileParentType: updateProduct ? constants.FILE_PARENT.PRODUCT : constants.FILE_PARENT.PROFILE,
       })
@@ -68,8 +68,11 @@ class CatalogView extends React.Component <CatalogProps, CatalogStates> {
       const formValues = {
         related_catalog: '',
       }
+      const formProductValues = {
+        product_catalog: '',
+      }
       updateUser && updateUser(formValues, owner.id)
-      updateProduct && updateProduct({formValues, productId: owner.id})
+      updateProduct && updateProduct({formValues: formProductValues, productId: owner.id})
     }
 
     this.setState({...this.state, isLoading: true})
@@ -78,19 +81,20 @@ class CatalogView extends React.Component <CatalogProps, CatalogStates> {
   render() {
     const {translate, owner, toggleEdit, files} = this.props
     const {isEdit, isDelete} = this.state
-    const catalog = owner.related_catalog && files[owner.related_catalog]
+    const catalog = (owner.related_catalog && files[owner.related_catalog]) || (owner.product_catalog && files[owner.product_catalog])
     return (
         <React.Fragment>
           <div className="card-header">
             <div className="header-title">
               {translate['Upload Catalog']}
             </div>
-            {!owner.related_catalog &&
-            <CheckOwner id={owner.product_owner ? owner.product_owner.id ? owner.product_owner.id : owner.product_owner : owner.id}>
-              <div className='add-button pulse' onClick={toggleEdit}>
-                + {translate['Add']}
-              </div>
-            </CheckOwner>
+            {
+              (!owner.related_catalog || !owner.product_catalog) &&
+              <CheckOwner id={owner.product_owner ? owner.product_owner.id ? owner.product_owner.id : owner.product_owner : owner.id}>
+                <div className='add-button pulse' onClick={toggleEdit}>
+                  + {translate['Add']}
+                </div>
+              </CheckOwner>
             }
           </div>
 

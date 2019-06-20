@@ -57,13 +57,17 @@ class CatalogForm extends React.Component<Props, States> {
     const newCatalogId = newCatalog && newCatalog.uploadedFileId
     const removedCatalogId = newCatalog && newCatalog.removedId
     let formValues = {
-      related_catalog: newCatalogId
-          ? newCatalogId
+      related_catalog: newCatalogId ? newCatalogId
           : (removedCatalogId ? '' : owner.related_catalog),
     }
 
+    let formProductValues = {
+      product_catalog: newCatalogId ? newCatalogId
+          : (removedCatalogId ? '' : owner.product_catalog),
+    }
+
     updateUser && updateUser(formValues, owner.id)
-    updateProduct && updateProduct({formValues, productId: owner.id})
+    updateProduct && updateProduct({formValues: formProductValues, productId: owner.id})
 
     newCatalogId && updateFile({
       id: newCatalogId,
@@ -93,7 +97,7 @@ class CatalogForm extends React.Component<Props, States> {
                 <div className='detail-row'>
                   <p className='title'>{translate['Upload Attach File']}</p>
                   <UploadFile fileParentId={owner && owner.id}
-                              fileId={owner && owner.related_catalog}
+                              fileId={owner && (owner.related_catalog || owner.product_catalog)}
                               fileCategory={constants.CREATE_FILE_CATEGORIES.ORGAN_PROFILE.CATALOG}
                               fileType={constants.CREATE_FILE_TYPES.FILE}
                               fileKey={constants.TEMP_FILE_KEYS.CATALOG}/>

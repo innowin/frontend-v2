@@ -21,10 +21,13 @@ class ThirdLevel extends PureComponent {
   }
 
   render() {
-    const {exchanges, hideRegisterModal} = this.props
+    const {exchanges, hideRegisterModal, setSecondLevel} = this.props
     const {followed} = this.state
     return (
         <div className='get-data-content'>
+          <div className='get-data-third-pre'>
+            پنجره‌ها، گروه‌های تخصصی فعالیت در اینوین هستند. تعدادی پنجره را دنبال کنید.
+          </div>
           <div className='get-data-third'>
             <div className='get-data-hashtags-cont'>
               {
@@ -38,6 +41,7 @@ class ThirdLevel extends PureComponent {
           </div>
           <div className='get-data-third-next'>
             <div className='get-data-content-next-button-on' onClick={() => hideRegisterModal()}>اینوین</div>
+            <div className='get-data-content-back-button-on' onClick={() => setSecondLevel()}>بازگشت</div>
           </div>
         </div>
     )

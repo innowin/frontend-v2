@@ -445,7 +445,7 @@ class TopBar extends PureComponent<PropsTopBar, StatesTopBar> {
                   }/>
                   <Material className='display-block' content={
                     <Link onClick={this._hamburgerOff} to={'/product/product_explorer'}
-                          className='item-text'>{translate['Products']}</Link>
+                          className='item-text'>محصولات و نمونه‌کار ها</Link>
                   }/>
                 </div>
                 <div className='hamburger-items-container'>

@@ -63,7 +63,7 @@ class SideBar extends PureComponent {
 
   _showGallery = () => {
     const {product} = this.props
-    const {pictures_array} = product
+    const pictures_array = product.pictures_array ? product.pictures_array.filter(p => p.type === 'image') : []
     this.setState({...this.state, galleryModal: true, image: pictures_array[0].file})
   }
 
@@ -252,7 +252,7 @@ class SideBar extends PureComponent {
                 product_related_province: selectedCountry ? selectedProvince : null,
                 product_related_town: selectedProvince ? selectedCity : null,
                 product_category,
-                product_price_type: price
+                product_price_type: price,
               }
           , productId: product.id,
         })
@@ -267,7 +267,8 @@ class SideBar extends PureComponent {
   render() {
     const {galleryModal, image, edit, selectedCountry, selectedProvince, price, firstCategory, secondCategory, error} = this.state
     const {product, country, province, product_owner, product_category, current_user_identity, countries, provinces, cities, categories, product_price} = this.props
-    const {name, created_time, pictures_array} = product
+    const {name, created_time} = product
+    const pictures_array = product.pictures_array ? product.pictures_array.filter(p => p.type === 'image') : []
 
     return (
         <section className='product-view-sidebar'>

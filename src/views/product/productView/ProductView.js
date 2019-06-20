@@ -27,7 +27,6 @@ import {NewRightArrow} from 'src/images/icons'
 import {ProductWhite} from 'src/images/icons'
 import productActions from 'src/redux/actions/commonActions/productActions'
 
-
 class ProductView extends PureComponent {
   constructor(props) {
     super(props)
@@ -52,13 +51,13 @@ class ProductView extends PureComponent {
     document.addEventListener('scroll', this._onScroll)
   }
 
-  componentWillReceiveProps(nextProps, nextContext): void {
+  componentWillReceiveProps(nextProps, nextContext) {
     const {getData} = this.state
     const {product, actions} = nextProps
 
-    if (product && getData) {
+    if (product.id && getData) {
       this.setState({...this.state, getData: false}, () => {
-        const id = product.product_owner.id ? product.product_owner.id : product.product_owner
+        const id = product.product_owner && product.product_owner.id ? product.product_owner.id : product.product_owner
         actions.getUserByUserId(id)
       })
     }
@@ -154,7 +153,7 @@ const mapStateToProps = (state, props) => {
     provinces: provinceSelector(state),
     cities: citySelector(state),
     categories: makeCategorySelector()(state),
-    product_owner: state.identities.list[product.product_owner.id ? product.product_owner.id : product.product_owner],
+    product_owner: state.identities.list[product.product_owner && product.product_owner.id ? product.product_owner.id : product.product_owner],
     product_category: state.common.category.list[product.product_category],
     current_user_identity: state.auth.client.identity.content,
     posts: state.common.post.list,

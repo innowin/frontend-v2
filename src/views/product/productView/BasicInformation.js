@@ -69,11 +69,11 @@ export class productBasicInformation extends PureComponent {
 
     return (
         <div>
-          <div className='product-description' style={(product.description && product.description.length > 0) || (product_owner.id === current_user_identity) ? {display: 'block'} : {display: 'none'}}>
+          <div className='product-description' style={(product.description && product.description.length > 0) || (product_owner && product_owner.id === current_user_identity) ? {display: 'block'} : {display: 'none'}}>
             <div className='product-description-title'>
               <div>معرفی</div>
               {
-                product_owner.id === current_user_identity &&
+                product_owner && product_owner.id === current_user_identity &&
                 <div className={editDescription ? 'product-description-title-editing' : 'product-description-title-edit'} onClick={this.showEditDescription}>{editDescription ? 'درحال ویرایش...  ✕' : 'ویرایش'}</div>
               }
             </div>
@@ -94,11 +94,11 @@ export class productBasicInformation extends PureComponent {
             }
           </div>
 
-          <div className='product-description' style={(product.custom_attrs && product.custom_attrs.length > 0) || (product_owner.id === current_user_identity) ? {display: 'block'} : {display: 'none'}}>
+          <div className='product-description' style={(product.custom_attrs && product.custom_attrs.length > 0) || (product_owner && product_owner.id === current_user_identity) ? {display: 'block'} : {display: 'none'}}>
             <div className='product-description-title'>
               <div>مشخصات</div>
               {
-                product_owner.id === current_user_identity ?
+                product_owner && product_owner.id === current_user_identity ?
                     <div className={edit ? 'product-description-title-editing' : 'product-description-title-edit'} onClick={this.showEdit}>{edit ? 'درحال ویرایش...  ✕' : 'ویرایش'}</div>
                     :
                     null
