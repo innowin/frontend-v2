@@ -13,7 +13,7 @@ export function* getPostByIdentity(action) {
     yield put({type: types.SUCCESS.COMMON.POST.GET_POST_BY_IDENTITY, payload: {data, postIdentity, postOwnerId}})
     for (let post of data) {
       if (post.post_related_product) {
-        yield put({type: types.COMMON.GET_PRODUCT_INFO, payload: {id: post.post_related_product.id}})
+        yield put({type: types.COMMON.GET_PRODUCT_INFO, payload: {id: post.post_related_product}})
       }
     }
   }

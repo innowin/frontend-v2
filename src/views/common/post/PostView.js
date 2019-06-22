@@ -103,7 +103,7 @@ class PostView extends React.PureComponent<postExtendedViewProps, postViewState>
     const {extendedView, post, actions} = this.props
     const {getFileByFileRelatedParentId, getCommentsByParentId} = actions
 
-    if (!extendedView) {
+    if (!extendedView && post) {
       const {getFileByFileRelatedParentId} = actions
       getFileByFileRelatedParentId({fileRelatedParentId: post.id, fileParentType: constants.FILE_PARENT.POST})
     }

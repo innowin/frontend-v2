@@ -2,11 +2,12 @@ import React from 'react'
 import PostView from '../../common/post/PostView'
 
 const ProductPosts = (props) => {
-  const {product} = props
+  const {product, posts} = props
+
   return product.relatedPosts && product.relatedPosts.map((p, i) =>
-      this.props && this.props.posts[p] ?
+      posts && posts[p] ?
           <div className='post-view-container'>
-            <PostView key={i} post={this.props.posts[p]} extendedView={false}/>
+            <PostView key={i} post={posts[p]} extendedView={false}/>
           </div>
           : null,
   )

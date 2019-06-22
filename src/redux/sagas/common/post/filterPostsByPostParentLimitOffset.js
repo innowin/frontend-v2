@@ -26,7 +26,7 @@ export function* filterPostsByPostParentPostTypeLimitOffset(action) {
 		const data = yield take(socketChannel)
 		for(let post of data) {
 			if (post.post_related_product) {
-				yield put({type: types.COMMON.GET_PRODUCT_INFO, payload:{id: post.post_related_product.id}})
+				yield put({type: types.COMMON.GET_PRODUCT_INFO, payload:{id: post.post_related_product}})
 			}
 		}
 		yield put({type: types.SUCCESS.COMMON.POST.FILTER_POSTS_BY_POST_PARENT_LIMIT_OFFSET ,

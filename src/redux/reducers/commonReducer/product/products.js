@@ -13,8 +13,10 @@ const products = (state = initialState.common.product.products, action) => {
   switch (action.type) {
 
       /** <-------------- getProduct -------------- **/
-    case types.SUCCESS.COMMON.GET_PRODUCT_INFO:
+    case types.SUCCESS.COMMON.GET_PRODUCT_INFO: {
+      console.log('here: ', action.payload)
       return pushAnObjToStateList.success(state, action)
+    }
 
     case types.SUCCESS.COMMON.GET_ALL_PRODUCTS:
       return getAllProducts.success(state, action)

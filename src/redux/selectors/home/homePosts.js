@@ -20,7 +20,7 @@ export const exchangePostsSelector = createSelector(
         const arrayPost = helpers.getObjectOfArrayKeys(exchangePosts, posts)
 
         return [...arrayPost.map(post => {
-          const postRelatedProduct = post.post_related_product
+          const postRelatedProduct = post && post.post_related_product
           const postRelatedProductId = postRelatedProduct && post.post_related_product.id
           if (postRelatedProduct && postRelatedProductId) {
             return {...post, post_related_product: products[postRelatedProductId]}
