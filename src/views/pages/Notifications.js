@@ -34,6 +34,7 @@ class Notifications extends PureComponent {
     })
         .then(res => res.json())
         .then(resJson => {
+          console.log(resJson)
           const result = resJson.results.filter(notif => notif.notification_from_identity && notif.notification_html_payload)
           this.setState({
             ...this.state,
@@ -89,8 +90,8 @@ class Notifications extends PureComponent {
                         notifications.length > 0 ? notifications.map((notif, index) =>
                                 <div key={index} className='notifications-item'>
                                   {
-                                    notif.notification_from_identity.profile_media_url ?
-                                        <img src={notif.notification_from_identity.profile_media_url} className='notifications-item-img' alt=''/>
+                                    notif.notification_from_identity.profile_media ?
+                                        <img src={notif.notification_from_identity.profile_media.file} className='notifications-item-img' alt=''/>
                                         :
                                         notif.notification_from_identity.identity_type === constants.USER_TYPES.USER ?
                                             <div className='default-notif-img'>
@@ -108,7 +109,7 @@ class Notifications extends PureComponent {
                                         .replace(new RegExp('<a ', 'g'), '<a target=_blank '),
                                   }}/>
 
-                                  <div className='notifications-item-time'><Moment element='span' fromNow ago>{notif.created_time}</Moment><span> پیش</span></div>
+                                  <div className='notifications-item-time'><Moment element='span' fromNow ago>{notif.created_time || notif.updated_time}</Moment><span> پیش</span></div>
                                 </div>,
                             )
                             :
@@ -129,8 +130,8 @@ class Notifications extends PureComponent {
                       oldNotifications.map((notif, index) =>
                           <div key={index} className='notifications-item'>
                             {
-                              notif.notification_from_identity.profile_media_url ?
-                                  <img src={notif.notification_from_identity.profile_media_url} className='notifications-item-img' alt=''/>
+                              notif.notification_from_identity.profile_media ?
+                                  <img src={notif.notification_from_identity.profile_media.file} className='notifications-item-img' alt=''/>
                                   :
                                   notif.notification_from_identity.identity_type === constants.USER_TYPES.USER ?
                                       <div className='default-notif-img'>
@@ -148,7 +149,7 @@ class Notifications extends PureComponent {
                                   .replace(new RegExp('<a ', 'g'), '<a target=_blank '),
                             }}/>
 
-                            <div className='notifications-item-time'><Moment element='span' fromNow ago>{notif.created_time}</Moment><span> پیش</span></div>
+                            <div className='notifications-item-time'><Moment element='span' fromNow ago>{notif.created_time || notif.updated_time}</Moment><span> پیش</span></div>
                           </div>,
                       )
                     }

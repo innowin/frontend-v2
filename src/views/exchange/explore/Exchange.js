@@ -45,7 +45,7 @@ class Exchange extends PureComponent {
 
   _renderFollowButton() {
     if (this.props.followed[this.props.data.id])
-      return <div className='exchange-followed-small'><Material className='exchange-follow' content=' ' onClick={this.unFollow}/></div>
+      return <Material className='exchange-follow' content=' ' onClick={this.unFollow}/>
     else if (this.state.followLoading) {
       return <div className='exchange-model-following'><ClipLoader color='#008057' size={19}/></div>
     }

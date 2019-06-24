@@ -311,18 +311,38 @@
 
   &:hover {
     color: white;
-    background-color: $secondary-color;
+    background-color: $error-color;
     transition-duration: 0.25s;
+    border: 1.5px solid $error-color;
   }
 
   &:focus {
     outline: none;
   }
 
+  &:after {
+    text-align: center;
+    content: 'دنبال شده';
+  }
+
+  &:hover:after {
+    text-align: center;
+    content: 'قطع ارتباط';
+  }
+
   @media screen and (max-width: 480px) {
     width: 90px;
     left: 20px;
     top: 23px;
+    background-color: $error-color;
+    border: 1.5px solid $error-color;
+
+    &:after {
+      text-align: center;
+      content: 'قطع ارتباط';
+      color: white;
+    }
+
   }
 }
 

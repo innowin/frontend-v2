@@ -659,6 +659,7 @@
 }
 
 .exchange-follow {
+  display: inline-block;
   border: 1.5px solid $secondary-color;
   color: $secondary-color;
   background-color: transparent;
@@ -667,7 +668,6 @@
   width: 100px;
   transition-duration: 0.25s;
   font-size: $font-size-regular;
-  position: relative;
   cursor: pointer;
   text-align: center;
 
@@ -696,7 +696,10 @@
     right: 25.5px;
   }
 
-  @media screen and (max-width: 480px) and (min-width: 0) {
+  @media screen and (max-width: 480px) {
+    position: absolute !important;
+    left: 20px;
+    top: 23px;
     width: 90px;
     color: white;
     background-color: $error-color;
@@ -762,12 +765,7 @@
 }
 
 .exchange-followed-small {
-  display: inline-block;
-  @media screen and (max-width: 480px) {
-    position: absolute;
-    left: 20px;
-    top: 23px;
-  }
+
 }
 
 .exchange-followed-skeleton {

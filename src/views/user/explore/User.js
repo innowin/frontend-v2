@@ -19,6 +19,7 @@ class User extends PureComponent {
       checkMedia: true,
     }
     this._follow = this._follow.bind(this)
+    this._unFollow = this._unFollow.bind(this)
   }
 
   _follow() {
@@ -31,11 +32,18 @@ class User extends PureComponent {
     })
   }
 
+  _unFollow() {
+    const {actions, followees, data, currentUser} = this.props
+    this.setState({followLoading: false}, () => {
+      actions.unFollow({followId: followees[data.id].id, followOwnerId: currentUser.id})
+    })
+  }
+
   _renderFollowed(data, followees) {
     const {followLoading} = this.state
     const {translate} = this.props
     if (followees[data.id]) {
-      return <Material className='user-follow' content={translate['Followed']}/>
+      return <Material className='user-follow' content=' ' onClick={this._unFollow}/>
     }
     else if (followLoading) {
       return <Material className='user-follow-loading' content={<ClipLoader color='#008057' size={19}/>}/>
@@ -109,6 +117,7 @@ class User extends PureComponent {
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators({
     follow: socialActions.createFollow,
+    unFollow: socialActions.deleteFollow,
   }, dispatch),
 })
 
