@@ -1,7 +1,6 @@
 import {createSelector} from 'reselect'
 import helpers from 'src/consts/helperFunctions/helperFunctions'
 
-
 const getFollows = state => state.common.social.follows.list
 const getUserFollows = (state, props) => {
   const ownerId = props.ownerId || (props.owner && props.owner.id)

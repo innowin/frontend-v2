@@ -8,17 +8,15 @@ export const getFollowersSelector = createSelector(
     [getUsers, getFollows, userId],
     (identities, follows, userId) => {
       if (userId) {
-        let user = identities[userId]
-        let user_follows_arr = user.social && user.social.follows.content
-        let user_follows_obj = {}
-        user_follows_arr && user_follows_arr.forEach(id => follows[id] ? user_follows_obj[id] = follows[id] : null)
+        const user = identities[userId]
+        const user_follows_arr = user.social && user.social.follows && user.social.follows.content
+        const user_follows_obj = {}
+        user_follows_arr && user_follows_arr.forEach(id => follows[id] ? user_follows_obj[id] = {...follows[id], followId: id} : null)
         let user_follows = Object.values(user_follows_obj).filter(p => p.follow_followed.id ? p.follow_followed.id === userId : p.follow_followed === userId)
-        // let followers = []
-        // user_follows.forEach(p => followers.push(p.follow_follower))
-        // return followers
         return user_follows.reduce((sum, p) => {
-          return [...sum, p.follow_follower]
+          return [...sum, {...p.follow_follower, followId: p.followId}]
         }, [])
       }
+      else return []
     },
 )

@@ -184,6 +184,7 @@
         width: 45px;
         height: 45px;
         overflow: hidden;
+
         img, svg {
           width: 45px;
           height: 45px;
@@ -391,6 +392,7 @@
           }
         }
       }
+
       .comment-container-extended-view {
         flex: 1 1 100%;
         margin: 15px 18px;
@@ -437,6 +439,7 @@
                 background-color: lighten($text-light-color, 20%);
               }
             }
+
             .menu-box-comment {
               position: absolute;
               height: auto;
@@ -809,4 +812,21 @@
     background-color: $secondary-color;
     color: white;
   }
+}
+
+.home-posts-loading {
+  text-align: center;
+  margin: 1% auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 15px;
+  transition: all linear 0.3s;
+}
+
+.home-posts-loading-hide {
+  margin: auto;
+  opacity: 0;
+  height: 0;
+  overflow: hidden;
 }

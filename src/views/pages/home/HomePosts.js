@@ -50,12 +50,14 @@ class HomePosts extends PureComponent {
   componentWillReceiveProps(nextProps) {
     const {actions, exchangeId} = nextProps
     if (exchangeId && exchangeId !== this.props.exchangeId) {
-      this.setState({...this.state, activeScrollHeight: 0, offset: 10}, () => {
-        const {filterPostsByPostParentLimitOffset} = actions
-        filterPostsByPostParentLimitOffset({
-          postParentId: exchangeId, postType: null, limit: 10, offset: 0, postParentType: constant.POST_PARENT.EXCHANGE,
+      setTimeout(() => {
+        this.setState({...this.state, activeScrollHeight: 0, offset: 10}, () => {
+          const {filterPostsByPostParentLimitOffset} = actions
+          filterPostsByPostParentLimitOffset({
+            postParentId: exchangeId, postType: null, limit: 10, offset: 0, postParentType: constant.POST_PARENT.EXCHANGE,
+          })
         })
-      })
+      }, 500)
     }
   }
 
@@ -169,10 +171,9 @@ class HomePosts extends PureComponent {
                   </div>
 
                   <FrameCard className={exchangePage ? '-frameCardPostEx border-top-0' : '-frameCardPost border-top-0'}>
-                    {isLoading === true &&
-                    <div style={{textAlign: 'center', margin: '1% auto', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                    <div className={isLoading === true ? 'home-posts-loading' : 'home-posts-loading home-posts-loading-hide'}>
                       <BarLoader color={'#d8d9dc'} size={50}/>
-                    </div>}
+                    </div>
                     <ListGroup>
                       {
                         posts.length > 0 ? posts.map((post) => post &&
