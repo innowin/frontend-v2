@@ -1131,8 +1131,6 @@ const mapStateToProps = state => {
   const client = state.auth.client
   const identityId = client.identity.content
   const identity = state.identities.list[identityId]
-  const clientImgId = identity && identity.profile_media
-
   const postImg1Id = state.temp.file[POST_IMG1_TEMP_KEY] || null
   const postImg2Id = state.temp.file[POST_IMG2_TEMP_KEY] || null
   const postImg3Id = state.temp.file[POST_IMG3_TEMP_KEY] || null
@@ -1150,7 +1148,7 @@ const mapStateToProps = state => {
     currentUserType: client.user_type,
     currentUserIdentity: identityId,
     currentUserId: identity ? identity.id : undefined,
-    currentUserMedia: (state.common.file.list[clientImgId] && state.common.file.list[clientImgId].file) || null,
+    currentUserMedia: (identity && identity.profile_media && identity.profile_media.file),
     currentUserName: name,
     exchanges: state.common.exchangeMembership.list,
     followers: state.common.social.follows.list,

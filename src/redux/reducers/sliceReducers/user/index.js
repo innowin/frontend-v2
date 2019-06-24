@@ -25,7 +25,6 @@ import getProductsByIdentity from './getProductsByIdentity'
 import getResearchByUserId from './getResearchByUserId'
 import getSkillByUserId from './getSkillByUserId'
 import getWorkExperienceByUserId from './getWorkExperienceByUserId'
-import setProfileMedia from "./setProfileMedia"
 import signIn from './signIn'
 import updateUserByUserId from './updateUserByUserId'
 
@@ -57,7 +56,6 @@ export default {
   getResearchByUserId,
   getSkillByUserId,
   getWorkExperienceByUserId,
-  setProfileMedia,
   signIn,
   updateUserByUserId,
 }

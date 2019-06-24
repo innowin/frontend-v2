@@ -1,6 +1,6 @@
 //@flow
 import * as React from 'react'
-import PropTypes from 'prop-types'
+import * as PropTypes from 'prop-types'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import Catalog from './catalog'
@@ -11,7 +11,6 @@ import Description from './description'
 import ModalActions from 'src/redux/actions/modalActions'
 import OrganizationActions from 'src/redux/actions/organization/organizationActions'
 import type {certificateType} from 'src/consts/flowTypes/user/others'
-import type {fileType} from 'src/consts/flowTypes/common/fileType'
 import type {identityType} from 'src/consts/flowTypes/identityType'
 import updateUserByUserIdAction from 'src/redux/actions/user/updateUserByUserIdAction'
 import {getMessages} from 'src/redux/selectors/translateSelector'
@@ -25,7 +24,6 @@ import getSearchedOrganizationsSelector from 'src/redux/selectors/organization/g
 type OrganAboutUsProps = {
   certificates: [certificateType],
   products: [Object],
-  files: { [number]: fileType },
   organization: identityType,
   translate: TranslatorType,
   actions: {
@@ -41,7 +39,7 @@ type OrganAboutUsProps = {
 }
 
 const OrganAboutUs = (props: OrganAboutUsProps) => {
-  const {translate, user, actions, products, certificates, files, searchedOrganizations} = props
+  const {translate, user, actions, products, certificates, searchedOrganizations} = props
   const {
     getCertificatesByIdentity, updateOrganization, createCertificate, updateCertificate,
     deleteCertificate, updateUser, deleteFile, emptySearchedOrganization, getOrganizationsFilterByOfficialName,
@@ -52,7 +50,7 @@ const OrganAboutUs = (props: OrganAboutUsProps) => {
 
         <Products translate={translate} products={products}/>
 
-        <Certificate deleteCertificate={deleteCertificate} updateCertificate={updateCertificate} files={files}
+        <Certificate deleteCertificate={deleteCertificate} updateCertificate={updateCertificate}
                      translate={translate} owner={user}
                      certificates={certificates} getCertificatesByIdentity={getCertificatesByIdentity}
                      createCertificate={createCertificate} emptySearchedOrganization={emptySearchedOrganization}
@@ -61,9 +59,9 @@ const OrganAboutUs = (props: OrganAboutUsProps) => {
 
         <Contact updateOrganization={updateOrganization} translate={translate} organization={user}/>
 
-        <Catalog updateUser={updateUser} translate={translate} owner={user} files={files} deleteFile={deleteFile}/>
+        <Catalog updateUser={updateUser} translate={translate} owner={user} deleteFile={deleteFile}/>
 
-        {/*<Hashtags updateUser={updateUser} translate={translate} owner={user} files={files} deleteFile={deleteFile}/>*/}
+        {/*<Hashtags updateUser={updateUser} translate={translate} owner={user} deleteFile={deleteFile}/>*/}
       </div>
   )
 }
@@ -71,7 +69,6 @@ const OrganAboutUs = (props: OrganAboutUsProps) => {
 OrganAboutUs.propTypes = {
   certificates: PropTypes.array.isRequired,
   products: PropTypes.array.isRequired,
-  files: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   translate: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired,
@@ -79,7 +76,6 @@ OrganAboutUs.propTypes = {
 
 const mapStateToProps = (state, ownProps) => ({
     translate: getMessages(state),
-    files: state.common.file.list,
     certificates: userCertificatesSelector(state, ownProps),
     products: getProductsSelector(state, {ownerId: ownProps.userId}),
     searchedOrganizations: getSearchedOrganizationsSelector(state),

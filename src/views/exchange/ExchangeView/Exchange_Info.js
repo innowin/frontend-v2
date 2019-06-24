@@ -22,7 +22,6 @@ export default class Exchange_Info extends PureComponent<props> {
       case "Stream":
         return (
             <HomePosts unSetExchangeId={this.backButton} exchangeId={exchangeId} className="post-wrapper active-exchange" exchangePage={true}/>
-            // <StreamView exchangeId={exchangeId}/>
         )
       case "Info":
         return (

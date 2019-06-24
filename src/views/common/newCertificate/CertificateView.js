@@ -9,7 +9,6 @@ import CertificateForm from './CertificateForm'
 import CheckOwner from '../CheckOwner'
 import ConfirmDeleteModal from '../ConfirmDeleteModal'
 import type {certificateType} from 'src/consts/flowTypes/user/others'
-import type {fileType} from 'src/consts/flowTypes/common/fileType'
 import type {identityType} from 'src/consts/flowTypes/identityType'
 import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
 import {EditIcon, LinkedInIcon} from 'src/images/icons'
@@ -20,7 +19,6 @@ type CertificateProps = {
   translate: TranslatorType,
   certificates: [certificateType],
   toggleEdit: Function,
-  files: { [number]: fileType },
   updateCertificate: Function,
   deleteCertificate: Function,
   getOrganizationsFilterByOfficialName: Function,
@@ -41,7 +39,6 @@ class CertificateView extends React.Component <CertificateProps, CertificateStat
     translate: PropTypes.object.isRequired,
     certificates: PropTypes.array.isRequired,
     toggleEdit: PropTypes.func.isRequired,
-    files: PropTypes.object.isRequired,
     updateCertificate: PropTypes.func.isRequired,
     deleteCertificate: PropTypes.func.isRequired,
     searchedOrganization: PropTypes.array.isRequired,
@@ -81,7 +78,7 @@ class CertificateView extends React.Component <CertificateProps, CertificateStat
 
   render() {
     const {
-      translate, certificates, owner, toggleEdit, files, updateCertificate, searchedOrganization,
+      translate, certificates, owner, toggleEdit, updateCertificate, searchedOrganization,
       getOrganizationsFilterByOfficialName, emptySearchedOrganization
     } = this.props
     const {isEdit, isDelete} = this.state
@@ -107,7 +104,6 @@ class CertificateView extends React.Component <CertificateProps, CertificateStat
                       ? <React.Fragment key={'certificate ' + certificate.id}>
                         <CardRowContainer title={translate['Certificate']} svgImage={<LinkedInIcon/>}
                                           createdTime={certificate.created_time}
-                            //entityImage={certificatePicture && files[certificatePicture]}>
                         >
                           <div className='card-row-content-right card-row-entity'>
                             <CheckOwner id={owner.id}>
@@ -127,8 +123,8 @@ class CertificateView extends React.Component <CertificateProps, CertificateStat
                                     {certificate.certificate_organization_name}
                                   </p>
                             }
-                            {certificatePicture && files[certificatePicture] &&
-                            <a className='attach-file' href={files[certificatePicture].file}>
+                            {certificatePicture &&
+                            <a className='attach-file' href={certificatePicture.file}>
                               <FontAwesome className='attach-file-icon' name='paperclip'/>
                               {translate['Attached file']}
                             </a>

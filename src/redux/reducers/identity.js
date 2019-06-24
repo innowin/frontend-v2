@@ -10,7 +10,6 @@ const identities = (state = initialState.identities, action) => {
   const {userId, data, message, search, organizationId, isLoading} = action.payload || {}
   const defaultObject2 = {content: [], isLoading: false, error: null}
   const previousUser = (state.list[userId] && state.list[userId].user) || {}
-  const previousProfile = (state.list[userId] && state.list[userId].profile) || {}
   const previousIdentity = (state.list[userId] && state.list[userId].identity) ||
       {content: null, isLoading: false, error: null}
   const previousBadgesUser = (state.list[userId] && state.list[userId].badges) || defaultObject2
@@ -279,57 +278,6 @@ const identities = (state = initialState.identities, action) => {
         search: null,
         loading: false,
       }
-
-      /** -------------------------- get profile -------------------------> **/
-    case types.USER.GET_PROFILE_BY_USER_ID:
-      // initial structure build in first request for getProfile is called but profile isLoading is true:
-      return {
-        ...state,
-        list: {
-          ...state.list,
-          [userId]: {
-            ...state.list[userId],
-            profile: {
-              ...previousProfile,
-              isLoading: true,
-              error: null,
-            },
-          },
-        },
-      }
-    case types.SUCCESS.USER.GET_PROFILE_BY_USER_ID:
-      return {
-        ...state,
-        list: {
-          ...state.list,
-          [userId]: {
-            ...state.list[userId],
-            profile: {
-              ...previousProfile,
-              content: {...previousProfile.content, ...data},
-              isLoading: false,
-            },
-          },
-        },
-      }
-    case types.ERRORS.USER.GET_PROFILE_BY_USER_ID:
-      return {
-        ...state,
-        list: {
-          ...state.list,
-          [userId]: {
-            ...state.list[userId],
-            profile: {
-              ...previousProfile,
-              error: message,
-              isLoading: false,
-            },
-          },
-        },
-      }
-
-    case types.SUCCESS.USER.SET_PROFILE_MEDIA:
-      return userSlices.setProfileMedia.success(state, action)
       /** -------------------------- get identity -------------------------> **/
     case types.USER.GET_USER_IDENTITY:
       return {

@@ -5,7 +5,6 @@ import PropTypes from 'prop-types'
 import CardContainer from '../../../common/cardContainer'
 import ResumeForm from './ResumeForm'
 import ResumeView from './ResumeView'
-import type {fileType} from 'src/consts/flowTypes/common/fileType'
 import type {identityType} from 'src/consts/flowTypes/identityType'
 import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
 
@@ -14,7 +13,6 @@ type Props = {
   translate: TranslatorType,
   deleteFile: Function,
   updateUser: Function,
-  files: { [number]: fileType },
 }
 
 type States = {
@@ -28,7 +26,6 @@ class Certificate extends React.Component<Props, States> {
     translate: PropTypes.object.isRequired,
     deleteFile: PropTypes.func.isRequired,
     updateUser: PropTypes.func.isRequired,
-    files: PropTypes.object.isRequired,
   }
 
   state = {
@@ -41,7 +38,7 @@ class Certificate extends React.Component<Props, States> {
   }
 
   render() {
-    const {owner, translate, files, deleteFile, updateUser} = this.props
+    const {owner, translate, deleteFile, updateUser} = this.props
     const {isEdit} = this.state
 
     return (
@@ -49,7 +46,7 @@ class Certificate extends React.Component<Props, States> {
           {
             isEdit
                 ? <ResumeForm toggleEdit={this._toggleEdit} translate={translate} owner={owner}/>
-                : <ResumeView updateUser={updateUser} files={files} owner={owner} translate={translate}
+                : <ResumeView updateUser={updateUser} owner={owner} translate={translate}
                               toggleEdit={this._toggleEdit} deleteFile={deleteFile}/>
           }
         </CardContainer>

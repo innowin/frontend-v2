@@ -5,7 +5,6 @@ import PropTypes from 'prop-types'
 import CardContainer from '../../../common/cardContainer'
 import CatalogForm from './CatalogForm'
 import CatalogView from './CatalogView'
-import type {fileType} from 'src/consts/flowTypes/common/fileType'
 import type {identityType} from 'src/consts/flowTypes/identityType'
 import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
 
@@ -14,7 +13,6 @@ type Props = {
   translate: TranslatorType,
   deleteFile: Function,
   updateUser: Function,
-  files: { [number]: fileType },
 }
 
 type States = {
@@ -29,7 +27,6 @@ class Certificate extends React.Component<Props, States> {
     deleteFile: PropTypes.func.isRequired,
     updateUser: PropTypes.func.isRequired,
     updateProduct: PropTypes.func,
-    files: PropTypes.object.isRequired,
   }
 
   state = {
@@ -42,7 +39,7 @@ class Certificate extends React.Component<Props, States> {
   }
 
   render() {
-    const {owner, translate, files, deleteFile, updateUser, updateProduct} = this.props
+    const {owner, translate, deleteFile, updateUser, updateProduct} = this.props
     const {isEdit} = this.state
 
     return (
@@ -52,7 +49,7 @@ class Certificate extends React.Component<Props, States> {
                 ? <CatalogForm updateProduct={updateProduct} updateUser={updateUser} owner={owner} toggleEdit={this._toggleEdit}
                                translate={translate} deleteFile={deleteFile}/>
                 : <CatalogView updateProduct={updateProduct} updateUser={updateUser} owner={owner} toggleEdit={this._toggleEdit}
-                               translate={translate} deleteFile={deleteFile} files={files}/>
+                               translate={translate} deleteFile={deleteFile}/>
           }
         </CardContainer>
     )

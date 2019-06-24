@@ -10,11 +10,11 @@ export function* filterPostsByPostParentPostTypeLimitOffset(action) {
   if (postParentId) {
     filter += `post_parent=${postParentId}`
   }
-  if (limit) {
-    filter += `&limit=${limit}`
-  }
   if (offset) {
     filter = filter + `&offset=${offset}`
+  }
+  if (limit) {
+    filter += `&limit=${limit}`
   }
   if (postType) {
     filter = filter + `&post_type=${postType}`
