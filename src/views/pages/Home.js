@@ -12,7 +12,7 @@ import OrganizationLeadershipCard from "../common/components/OrganizationLeaders
 import OrganizationBee from "../common/components/OrganizationBee"
 import UserBee from "../common/components/UserBee"
 import SuggestExchanges from "../common/components/SuggestExchanges"
-import {PureComponent} from 'react'
+import {Component} from 'react'
 
 
 type HomeProps = {|
@@ -23,7 +23,7 @@ type HomeProps = {|
   selectedExchange: number
 |}
 
-class Home extends PureComponent<HomeProps, {| activeExchangeId: ?number |}> {
+class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
 
   static propTypes = {
     identityId: PropTypes.number,
@@ -71,7 +71,8 @@ class Home extends PureComponent<HomeProps, {| activeExchangeId: ?number |}> {
               <HomePosts unSetExchangeId={this._unSetExchangeId} exchangeId={activeExchangeId}
                          className={activeExchangeId ? "post-wrapper active-exchange" : "post-wrapper"}/>
               <div className={activeExchangeId ? "user-detail-wrapper active-exchange" : "user-detail-wrapper"}>
-                {identityType === constants.USER_TYPES.ORG && <OrganizationLeadershipCard/>}
+                {/*{identityType === constants.USER_TYPES.ORG && <OrganizationLeadershipCard/>}*/}
+                <OrganizationLeadershipCard/>
                 {isBeeDone ? null : identityType === constants.USER_TYPES.ORG ? <OrganizationBee/> : <UserBee/>}
                 <SuggestExchanges/>
                 {/*<EventCard/>*/}

@@ -1,11 +1,11 @@
-import * as React from 'react'
-import PropTypes from 'prop-types'
-import {MoreOptionSvg} from 'src/images/icons'
-import {Link} from 'react-router-dom'
-import checkOwner from '../CheckOwner'
-import type {postType} from 'src/consts/flowTypes/common/post'
-import type {identityType} from 'src/consts/flowTypes/identityType'
-import constants from 'src/consts/constants'
+import * as React from "react"
+import PropTypes from "prop-types"
+import {MoreOptionSvg} from "src/images/icons"
+import {Link} from "react-router-dom"
+import checkOwner from "../CheckOwner"
+import type {postType} from "src/consts/flowTypes/common/post"
+import type {identityType} from "src/consts/flowTypes/identityType"
+import constants from "src/consts/constants"
 
 type PostMenuProps = {
   post: postType,
@@ -19,13 +19,12 @@ type PostMenuProps = {
 }
 
 const PostMenu = (props: PostMenuProps) => {
-  const {postMenuId, post, extendedView, menuToggle, openMenu, postIdentity, translate, deletePost, showEdit} = props
-  let postUrl = ''
-
+  const {postMenuId, post, extendedView, menuToggle, openMenu, postIdentity, translate, deletePost, showEdit, clientIdentity} = props
+  let postUrl = ""
   let ownerId
   if (post) {
     // let viewerCount = post.viewerCount
-    if (postIdentity && typeof postIdentity !== 'number') {
+    if (postIdentity && typeof postIdentity !== "number") {
       const isUser = postIdentity.identity_type === constants.USER_TYPES.USER
       ownerId = postIdentity.id
 
@@ -45,14 +44,16 @@ const PostMenu = (props: PostMenuProps) => {
             {
               !extendedView &&
               <Link to={postUrl}>
-                <span>{translate['Show more']}</span>
+                <span>{translate["Show more"]}</span>
               </Link>
             }
             {
-              checkOwner({id: ownerId, children: <span onClick={deletePost}>{translate['Delete post']}</span>})
+              post && post.post_parent_owner && post.post_parent_owner === clientIdentity ?
+                  <span onClick={deletePost}>{translate["Delete post"]}</span> :
+                  checkOwner({id: ownerId, children: <span onClick={deletePost}>{translate["Delete post"]}</span>})
             }
             {
-              showEdit && checkOwner({id: ownerId, children: <span onClick={showEdit}>{translate['Edit Post']}</span>})
+              showEdit && checkOwner({id: ownerId, children: <span onClick={showEdit}>{translate["Edit Post"]}</span>})
             }
           </div>
         </div>
@@ -63,6 +64,7 @@ const PostMenu = (props: PostMenuProps) => {
 
 PostMenu.propTypes = {
   post: PropTypes.object.isRequired,
+  clientIdentity: PropTypes.number.isRequired,
   extendedView: PropTypes.bool.isRequired,
   menuToggle: PropTypes.bool.isRequired,
   openMenu: PropTypes.func.isRequired,

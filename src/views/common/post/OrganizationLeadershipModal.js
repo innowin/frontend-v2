@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react'
+import React, {PureComponent} from "react"
 import exchangeActions from "src/redux/actions/exchangeActions"
 import ExchangeMembershipActions from "src/redux/actions/commonActions/exchangeMembershipActions"
 import PostActions from "src/redux/actions/commonActions/postActions"
@@ -7,6 +7,9 @@ import {bindActionCreators} from "redux"
 import {connect} from "react-redux"
 import {DefaultOrganIcon} from "src/images/icons"
 import {Link} from "react-router-dom"
+import constants from "src/consts/constants"
+import {getMessages} from "src/redux/selectors/translateSelector"
+import setExchangeActions from "src/redux/actions/user/setSelectedExchangeAction"
 
 
 class OrganizationLeadershipModal extends PureComponent {
@@ -19,7 +22,7 @@ class OrganizationLeadershipModal extends PureComponent {
       jobExpertise: "",
       jobStatus: "",
       post: "",
-      selectedExchanges: ["5673"],
+      selectedExchanges: ["31953"],
     }
   }
 
@@ -31,11 +34,10 @@ class OrganizationLeadershipModal extends PureComponent {
   componentDidMount(): void {
     let {actions} = this.props
     let {getExchangeById} = actions
-    getExchangeById(5690)
-    getExchangeById(5686)
-    getExchangeById(5681)
-    getExchangeById(5676)
-    getExchangeById(5673)
+    getExchangeById(19510)
+    getExchangeById(5044)
+    getExchangeById(4642)
+    getExchangeById(31953)
   }
 
   checkJobType(jobTypeText) {
@@ -75,6 +77,7 @@ class OrganizationLeadershipModal extends PureComponent {
     let {post, jobTitle, jobTypes, selectedExchanges} = this.state
     let {createPost, followExchange} = actions
     let followedExchanges = []
+    let firstExchange = 0
 
     clientExchangeMembership.forEach(id => {
       followedExchanges.push(exchangeMemberships[id].exchange_identity_related_exchange.id.toString())
@@ -103,11 +106,18 @@ class OrganizationLeadershipModal extends PureComponent {
     this.setState({...this.state, level: 1}, toggle())
 
     setTimeout(() => {
-      selectedExchanges.forEach(exId => {
+      selectedExchanges.forEach((exId, index) => {
+        if (index === 0) {
+          firstExchange = parseInt(exId, 10)
+        }
         if (followedExchanges.indexOf(exId) < 0)
           followExchange({identityId: clientIdentity.id, exchangeIdentity: parseInt(exId, 10)})
       })
     }, 300)
+
+    setTimeout(() => {
+      this.props.actions.setExchange(firstExchange)
+    }, 500)
   }
 
   currentLevel() {
@@ -234,7 +244,7 @@ class OrganizationLeadershipModal extends PureComponent {
         )
       case 4:
         let {post} = this.state
-        let { clientIdentity} = this.props
+        let {clientIdentity} = this.props
         return (
             <React.Fragment>
               <div className="organization-leadership-header">
@@ -248,7 +258,8 @@ class OrganizationLeadershipModal extends PureComponent {
                 </label>
                 <div style={{position: "relative"}}>
                   <div className="organization-leadership-post-view-header">
-                    <Link to={`/organization/${clientIdentity.id}`}>
+                    <Link to={clientIdentity.identity_type === constants.USER_TYPES.ORG ?
+                        `/organization/${clientIdentity.id}` : `/user/${clientIdentity.id}`}>
                       <div className="organization-leadership-post-view-picture-con">
                         {
                           clientIdentity && clientIdentity.profile_media ?
@@ -262,7 +273,8 @@ class OrganizationLeadershipModal extends PureComponent {
                         {
                           clientIdentity.official_name ? clientIdentity.official_name
                               : clientIdentity.nike_name ? clientIdentity.nike_name
-                              : clientIdentity.username
+                              : clientIdentity.first_name ? clientIdentity.first_name + " " + clientIdentity.last_name
+                                  : clientIdentity.username
                         }
                       </div>
                       <div className="organization-leadership-post-view-date">
@@ -306,38 +318,32 @@ class OrganizationLeadershipModal extends PureComponent {
                 <label>
                   پنجره های پیشنهادی برای ارسال موقعیت شغلی
                   <div className="organization-leadership-exchange-container">
-                    <div className={selectedExchanges.indexOf("5673") < 0 ?
+                    <div className={selectedExchanges.indexOf("31953") < 0 ?
                         "organization-leadership-job-hashtags" : "organization-leadership-job-hashtags-selected"}
-                         onClick={() => this.checkExchange("5673")}>
-                      {exchanges[5673] && exchanges[5673].name}
+                         onClick={() => this.checkExchange("31953")}>
+                      {exchanges[31953] && exchanges[31953].name}
                     </div>
-                    <div className={selectedExchanges.indexOf("5676") < 0 ?
+                    <div className={selectedExchanges.indexOf("4642") < 0 ?
                         "organization-leadership-job-hashtags" : "organization-leadership-job-hashtags-selected"}
-                         onClick={() => this.checkExchange("5676")}>
-                      {exchanges[5676] && exchanges[5676].name}
+                         onClick={() => this.checkExchange("4642")}>
+                      {exchanges[4642] && exchanges[4642].name}
                     </div>
-                    <div className={selectedExchanges.indexOf("5681") < 0 ?
+                    <div className={selectedExchanges.indexOf("5044") < 0 ?
                         "organization-leadership-job-hashtags" : "organization-leadership-job-hashtags-selected"}
-                         onClick={() => this.checkExchange("5681")}>
-                      {exchanges[5681] && exchanges[5681].name}
+                         onClick={() => this.checkExchange("5044")}>
+                      {exchanges[5044] && exchanges[5044].name}
                     </div>
-                    <div className={selectedExchanges.indexOf("5686") < 0 ?
+                    <div className={selectedExchanges.indexOf("19510") < 0 ?
                         "organization-leadership-job-hashtags" : "organization-leadership-job-hashtags-selected"}
-                         onClick={() => this.checkExchange("5686")}>
-                      {exchanges[5686] && exchanges[5686].name}
-                    </div>
-                    <div className={selectedExchanges.indexOf("5690") < 0 ?
-                        "organization-leadership-job-hashtags" : "organization-leadership-job-hashtags-selected"}
-                         onClick={() => this.checkExchange("5690")}>
-                      {exchanges[5690] && exchanges[5690].name}
+                         onClick={() => this.checkExchange("19510")}>
+                      {exchanges[19510] && exchanges[19510].name}
                     </div>
                     {clientExchangeMembership.map((p, inx) =>
                         (
-                            exchangeMemberships[p].exchange_identity_related_exchange.id.toString() !== "5673" &&
-                            exchangeMemberships[p].exchange_identity_related_exchange.id.toString() !== "5676" &&
-                            exchangeMemberships[p].exchange_identity_related_exchange.id.toString() !== "5681" &&
-                            exchangeMemberships[p].exchange_identity_related_exchange.id.toString() !== "5686" &&
-                            exchangeMemberships[p].exchange_identity_related_exchange.id.toString() !== "5690"
+                            exchangeMemberships[p].exchange_identity_related_exchange.id.toString() !== "31953" &&
+                            exchangeMemberships[p].exchange_identity_related_exchange.id.toString() !== "4642" &&
+                            exchangeMemberships[p].exchange_identity_related_exchange.id.toString() !== "5044" &&
+                            exchangeMemberships[p].exchange_identity_related_exchange.id.toString() !== "19510"
                         ) &&
                         <div key={`${p}${inx}`}
                              className={selectedExchanges.indexOf(exchangeMemberships[p].exchange_identity_related_exchange.id.toString()) < 0 ?
@@ -358,7 +364,7 @@ class OrganizationLeadershipModal extends PureComponent {
 
   currentFooter() {
     let {level, jobTypes, jobTitle, jobExpertise, jobStatus} = this.state
-    let {toggle} = this.props
+    let {toggle, translate} = this.props
     switch (level) {
       case 1:
         return (
@@ -392,7 +398,7 @@ class OrganizationLeadershipModal extends PureComponent {
                    onClick={() => jobStatus.length > 2 && this.setState({
                      ...this.state,
                      post:
-                         `شرکت ${clientIdentity.official_name ? clientIdentity.official_name : clientIdentity.nike_name ? clientIdentity.nike_name : clientIdentity.username} از میان واجدین شرایط ${jobTitle} ${jobTypes.length > 0 ? jobTypes.length === 1 ? jobTypes[0] : jobTypes.map(p => " " + p) : ""} جذب می‌کند.
+                         `${translate[clientIdentity.identity_type]} ${clientIdentity.official_name ? clientIdentity.official_name : clientIdentity.nike_name ? clientIdentity.nike_name : clientIdentity.username} از میان واجدین شرایط ${jobTitle} ${jobTypes.length > 0 ? jobTypes.length === 1 ? jobTypes[0] : jobTypes.map(p => " " + p) : ""} جذب می‌کند.
 تخصص های مورد نیاز:
 ${jobExpertise}
 شرایط عمومی:
@@ -467,6 +473,7 @@ const mapDispatchToProps = dispatch => ({
     createPost: PostActions.createPost,
     getExchangeById: exchangeActions.getExchangeByExId,
     followExchange: ExchangeMembershipActions.createExchangeMembership,
+    setExchange: setExchangeActions.setSelectedExchange,
   }, dispatch),
 })
 
@@ -480,6 +487,7 @@ const mapStateToProps = state => {
     clientExchangeMembership,
     exchanges: state.exchanges.list,
     exchangeMemberships: state.common.exchangeMembership.list,
+    translate: getMessages(state),
   }
 }
 

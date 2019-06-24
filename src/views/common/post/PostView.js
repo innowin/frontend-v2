@@ -320,7 +320,7 @@ class PostView extends React.PureComponent<postExtendedViewProps, postViewState>
                           {postDescription}
                         </div>
                         :
-                        <Link to={postIdentity.identity_type === 'user' ? `/user/${postOwnerId}/Posts/${post.id}` : `/organization/${postOwnerId}/Posts/${post.id}`} className='link-post-decoration'>
+                        <Link to={postIdentity && postIdentity.identity_type === 'user' ? `/user/${postOwnerId}/Posts/${post.id}` : `/organization/${postOwnerId}/Posts/${post.id}`} className='link-post-decoration'>
                           <div className='post-content'
                                style={new RegExp('^[A-Za-z]*$').test(postDescription && postDescription[0]) ? {direction: 'ltr'} : {direction: 'rtl'}}
                                ref={e => self.text = e}>
@@ -356,7 +356,7 @@ class PostView extends React.PureComponent<postExtendedViewProps, postViewState>
                   )
                 }
                 <PostFooter post={post} postIdentity={postIdentity} translate={translate}
-                            extendedView={extendedView}
+                            extendedView={extendedView} clientIdentity={clientIdentity}
                             menuToggle={menuToggleBottom} openMenu={this._openMenuBottom}
                             deletePost={this._delete}
                             showComment={this._handleShowComment}

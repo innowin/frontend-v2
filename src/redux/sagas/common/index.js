@@ -5,6 +5,7 @@ import commentWatchers from './comment/comment'
 import educationFieldsWatchers from './educationField/educationField'
 import exchangeMembershipWatchers from './exchangeMembership/exchangeMembership'
 import fileWatchers from "./file"
+import likeWatchers from "./like"
 import hashTagWatchers from "./hashTag/hashTag"
 import locationWatchers from "./location/location"
 import postWatchers from './post/post'
@@ -21,6 +22,9 @@ export default [
 
   // file watchers
   ...fileWatchers,
+
+  // like watchers
+  ...likeWatchers,
 
   // certificate watchers
   ...certificateWatchers,

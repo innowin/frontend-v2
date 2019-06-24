@@ -168,6 +168,10 @@ module.exports = {
   'Delete post': 'حذف پست',
   'Edit Post': 'ویرایش پست',
 
+  // user - types
+  'organization': 'شرکت',
+  'user': 'کاربر',
+
   // user - common
   'Are you sure? Do you want delete it?': 'آیا مطمئن به حذف هستید؟',
   'Yes, Do it.': 'بله',
@@ -503,6 +507,7 @@ module.exports = {
 
   // toast messages
   'Create post done': 'پست شما با موفقیت ثبت شد',
+  'Create like done': 'پست با موفقیت لایک شد',
   'Post removed': 'پست شما پاک شد',
   'Create exchange done': 'پنجره شما با موفقیت ساخته شد',
   'Create exchange membership done': 'عضویت شما با موفقیت ثبت شد',

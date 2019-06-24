@@ -20,13 +20,13 @@ type postFooterProps = {
 }
 
 const PostFooter = (props: postFooterProps) => {
-  const {postMenuId, post, extendedView, menuToggle, openMenu, postIdentity, translate, deletePost, showComment, showEdit} = props
+  const {postMenuId, post, extendedView, menuToggle, openMenu, postIdentity, translate, deletePost, showComment, showEdit, clientIdentity} = props
   const {comments_count} = post
   return (
       <div className="-item-footerPost">
         <div className='post-details footer-part'>
           <PostMenu postMenuId={postMenuId} translate={translate} post={post} extendedView={extendedView} deletePost={deletePost}
-                    menuToggle={menuToggle} openMenu={openMenu} postIdentity={postIdentity} showEdit={showEdit}/>
+                    menuToggle={menuToggle} openMenu={openMenu} postIdentity={postIdentity} showEdit={showEdit} clientIdentity={clientIdentity}/>
           <div className='items cursor-pointer post-menu-bottom bubble-more comment-svg-container'
                onClick={() => showComment()}>
             <span className="comment-count">{comments_count ? comments_count : ''}</span>
@@ -46,6 +46,7 @@ PostFooter.propTypes = {
   translate: PropTypes.object.isRequired,
   deletePost: PropTypes.func.isRequired,
   showComment: PropTypes.func.isRequired,
+  clientIdentity: PropTypes.number.isRequired,
   showEdit: PropTypes.func,
 }
 
