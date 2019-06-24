@@ -1,19 +1,8 @@
-// @flow
-import * as React from 'react'
+import React from 'react'
 import FontAwesome from 'react-fontawesome'
 import {PureComponent} from 'react'
 
-type appProps =
-    {|
-      search: Function,
-    |}
-
-type appState =
-    {|
-      searchLength: number
-    |}
-
-class Sidebar extends PureComponent <appProps, appState> {
+class Sidebar extends PureComponent {
 
   constructor(props) {
     super(props)
@@ -104,7 +93,6 @@ class Sidebar extends PureComponent <appProps, appState> {
                 })
               }
             </select>
-
 
           </div>
         </div>

@@ -27,12 +27,6 @@ export function* createFollow(action) {
         },
       },
     })
-
-    //TODO: remove this at later when server response changed
-
-    // const followOwnerIdentity = formValues.follow_follower
-    // yield put({type: types.COMMON.SOCIAL.GET_FOLLOWERS, payload: {followOwnerIdentity, followOwnerId}})
-    // yield put({type: types.COMMON.SOCIAL.GET_FOLLOWEES, payload: {followOwnerIdentity, followOwnerId}})
   }
   catch (error) {
     const {message} = error

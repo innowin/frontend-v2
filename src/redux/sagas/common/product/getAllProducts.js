@@ -14,18 +14,24 @@ export function* getAllProducts(action) {
         api.get,
         urls.COMMON.PRODUCT,
         results.COMMON.GET_ALL_PRODUCTS,
-        params
+        params,
     )
-    const data = yield take(socketChannel)
+    let data = yield take(socketChannel)
+    for (let i = 0; i < data.length; i++) {
+      yield put({type: types.SUCCESS.USER.GET_USER_BY_USER_ID, payload: {data: {...data[i].product_owner}, userId: data[i].product_owner.id}})
+      data[i].product_owner = data[i].product_owner.id
+    }
     yield put({type: types.SUCCESS.COMMON.GET_ALL_PRODUCTS, payload: {data, search, isLoading: false}})
     yield put({type: types.COMMON.GET_CATEGORIES})
-  } catch (err) {
+  }
+  catch (err) {
     const {message} = err
     yield put({
       type: types.ERRORS.COMMON.GET_ALL_PRODUCTS,
-      payload: {message}
+      payload: {message},
     })
-  } finally {
+  }
+  finally {
     socketChannel.close()
   }
 }

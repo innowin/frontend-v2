@@ -7,8 +7,6 @@ import {connect} from 'react-redux'
 import SideBar from './ProductSidebar'
 import ProductActions from 'src/redux/actions/commonActions/productActions'
 import {bindActionCreators} from 'redux'
-import constants from 'src/consts/constants'
-import FileActions from 'src/redux/actions/commonActions/fileActions'
 import {getCountries, getProvinces, getCities} from 'src/redux/actions/commonActions/location'
 import makeProvinceSelectorById from 'src/redux/selectors/common/location/getProvinceById'
 import {provinceSelector} from 'src/redux/selectors/common/location/getProvinceByCountry'
@@ -17,7 +15,6 @@ import {priceListSelector} from 'src/redux/selectors/common/product/getProductPr
 import getAllCountries from 'src/redux/selectors/common/location/getCountry'
 import makeProductSelectorById from 'src/redux/selectors/common/product/getProductById'
 import {getMessages} from 'src/redux/selectors/translateSelector'
-import GetUserActions from 'src/redux/actions/user/getUserActions'
 import Material from '../../common/components/Material'
 import postActions from 'src/redux/actions/commonActions/postActions'
 import {citySelector} from 'src/redux/selectors/common/location/getCityByProvince'
@@ -44,23 +41,10 @@ class ProductView extends PureComponent {
     const productId = params.id
     actions.getProductInfo(productId)
     actions.getPrice(productId)
-    actions.getFileByFileRelatedParentId({fileRelatedParentId: productId, fileParentType: constants.FILE_PARENT.PRODUCT})
     actions.getPosts({postRelatedProductId: productId})
     actions.getCountries()
     actions.getCategories()
     document.addEventListener('scroll', this._onScroll)
-  }
-
-  componentWillReceiveProps(nextProps, nextContext) {
-    const {getData} = this.state
-    const {product, actions} = nextProps
-
-    if (product.id && getData) {
-      this.setState({...this.state, getData: false}, () => {
-        const id = product.product_owner && product.product_owner.id ? product.product_owner.id : product.product_owner
-        actions.getUserByUserId(id)
-      })
-    }
   }
 
   componentWillUnmount() {
@@ -153,7 +137,7 @@ const mapStateToProps = (state, props) => {
     provinces: provinceSelector(state),
     cities: citySelector(state),
     categories: makeCategorySelector()(state),
-    product_owner: state.identities.list[product.product_owner && product.product_owner.id ? product.product_owner.id : product.product_owner],
+    product_owner: state.identities.list[product.product_owner],
     product_category: state.common.category.list[product.product_category],
     current_user_identity: state.auth.client.identity.content,
     posts: state.common.post.list,
@@ -163,10 +147,8 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
-    getUserByUserId: GetUserActions.getUserByUserId,
     getPrice: productActions.getProductPrice,
     getProductInfo: ProductActions.getProductInfo,
-    getFileByFileRelatedParentId: FileActions.getFileByFileRelatedParentId,
     getCountries,
     getCategories,
     getProvinces,

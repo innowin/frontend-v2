@@ -9,7 +9,6 @@ import AuthActions from 'src/redux/actions/authActions'
 import constants from 'src/consts/constants'
 import CreateExchange from 'src/views/pages/modal/createExchange/createExchange'
 import ExploreMenu from './TopBarComponents/ExploreMenu'
-import FileActions from 'src/redux/actions/commonActions/fileActions'
 import GeneralSetting from './TopBarComponents/GeneralSetting'
 import IntroduceBadges from './TopBarComponents/IntroduceBadges'
 import LinkedAccounts from './TopBarComponents/LinkedAccounts'
@@ -41,7 +40,6 @@ type PropsTopBar = {|
     signOut: Function,
     push: Function,
     verifyToken: Function,
-    getFileByFileRelatedParentId: Function,
     hideModal: Function,
     showModal: Function,
   },
@@ -133,14 +131,6 @@ class TopBar extends PureComponent<PropsTopBar, StatesTopBar> {
   }
 
   componentDidMount() {
-    const {actions, clientIdentity} = this.props
-    const {getFileByFileRelatedParentId} = actions
-    if (clientIdentity) {
-      getFileByFileRelatedParentId({
-        fileRelatedParentId: clientIdentity.id,
-        fileParentType: constants.FILE_PARENT.IDENTITY,
-      })
-    }
     document.addEventListener('scroll', this._onScroll)
     document.addEventListener('mousedown', this._handleCloseOutside)
     document.addEventListener('touchend', this._handleCloseOutside)
@@ -643,16 +633,16 @@ const mapStateToProps = (state) => {
       )
       : ''
 
-  const profileImg = clientIdentity && (clientIdentity.profile_media || clientIdentity.profileImg)
-  const bannerImg = clientIdentity && (clientIdentity.profile_banner || clientIdentity.bannerImg)
+  const profileImg = clientIdentity && clientIdentity.profile_media && clientIdentity.profile_media.file
+  const bannerImg = clientIdentity && clientIdentity.profile_banner && clientIdentity.profile_banner.file
 
   return {
     selectedExchange: state.auth.client.selectedExchange,
     isLoggedIn: state.auth.client.isLoggedIn,
     clientName,
     clientIdentity,
-    imgLink: profileImg ? (state.common.file.list[profileImg] && state.common.file.list[profileImg].file) : '',
-    bannerLink: bannerImg ? (state.common.file.list[bannerImg] && state.common.file.list[bannerImg].file) : '',
+    imgLink: profileImg,
+    bannerLink: bannerImg,
     translate: state.intl.messages || {},
     modal: state.modal,
   }
@@ -662,7 +652,6 @@ const mapDispatchToProps = dispatch => ({
     signOut: AuthActions.signOut,
     verifyToken: AuthActions.verifyToken,
     push: routerActions.push,
-    getFileByFileRelatedParentId: FileActions.getFileByFileRelatedParentId,
     showModal: ModalActions.showModal,
     hideModal: ModalActions.hideModal,
   }, dispatch),

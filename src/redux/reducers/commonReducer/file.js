@@ -1,8 +1,6 @@
 import initialState from '../initialState'
 import types from '../../actions/types'
 import slices from '../sliceReducers/file'
-import appendListToStateList from "../sliceReducers/utilsSlices/appendListToStateList";
-
 
 const file = (state = initialState.common.file, action) => {
   const {data} = action.payload || {}
@@ -10,8 +8,6 @@ const file = (state = initialState.common.file, action) => {
 
   switch (action.type) {
     /** --------------------  get file --------------------- **/
-    case types.SUCCESS.COMMON.FILE.GET_FILES:
-      return appendListToStateList.success(state, action)
 
     case types.SUCCESS.COMMON.FILE.GET_FILE:
       return {

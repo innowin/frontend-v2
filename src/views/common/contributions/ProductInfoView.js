@@ -1,32 +1,17 @@
-import * as React from 'react'
+import React from 'react'
+import * as PropTypes from 'prop-types'
 import {Link} from 'react-router-dom'
-import PropTypes from 'prop-types'
-import {bindActionCreators} from 'redux'
-import FileActions from '../../../redux/actions/commonActions/fileActions'
 import connect from 'react-redux/es/connect/connect'
-import constants from '../../../consts/constants'
 import {Product as ProductSvg} from '../../../images/icons'
-import GetUserActions from '../../../redux/actions/user/getUserActions'
 import {ClipLoader} from 'react-spinners'
 
 class ProductInfoView extends React.PureComponent {
-  componentDidMount(): void {
-    if (this.props.product.id) {
-      const {product, actions} = this.props
-      const id = product.product_owner && product.product_owner.id ? product.product_owner.id : product.product_owner
-      actions.getFileByFileRelatedParentId({
-        fileRelatedParentId: product.id,
-        fileParentType: constants.FILE_PARENT.PRODUCT,
-      })
-      actions.getUserByUserId(id)
-    }
-  }
 
   render() {
     const {product} = this.props
     if (product && product.product_owner) {
       const {onClick, selected, identities} = this.props
-      const {pictures_array} = product
+      const pictures_array = product.product_media ? product.product_media.filter(p => p.type === 'image') : []
       const id = product.product_owner.id ? product.product_owner.id : product.product_owner
       const product_owner = identities[id]
 
@@ -46,7 +31,7 @@ class ProductInfoView extends React.PureComponent {
                    }
                 </span>
               </div>
-              <img className='product-instant-img' src={(pictures_array && pictures_array.length > 0) ? pictures_array[0].file : ''} alt=''/>
+              <img className='product-instant-img' src={(pictures_array.length > 0) ? pictures_array[0].file : ''} alt=''/>
             </div>
         )
       }
@@ -70,7 +55,7 @@ class ProductInfoView extends React.PureComponent {
                    }
                 </span>
                 </div>
-                <img className='product-instant-img' src={(pictures_array && pictures_array.length > 0) ? pictures_array[0].file : ''} alt=''/>
+                <img className='product-instant-img' src={(pictures_array.length > 0) ? pictures_array[0].file : ''} alt=''/>
               </Link>
             </div>
         )
@@ -92,11 +77,4 @@ const mapStateToProps = (state) => ({
   identities: state.identities.list,
 })
 
-const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({
-    getFileByFileRelatedParentId: FileActions.getFileByFileRelatedParentId,
-    getUserByUserId: GetUserActions.getUserByUserId,
-  }, dispatch),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(ProductInfoView)
+export default connect(mapStateToProps, null)(ProductInfoView)

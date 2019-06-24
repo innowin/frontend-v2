@@ -34,7 +34,7 @@ import {
 import InteliInput from 'src/views/common/inputs/InteliInput'
 // import Material from '../../common/components/Material'
 // import type {ImageType} from '../modal/createExchange/basicInfo'
-import {createFile, getFiles} from 'src/redux/actions/commonActions/fileActions'
+import {createFile} from 'src/redux/actions/commonActions/fileActions'
 import makeFileSelectorByKeyValue from 'src/redux/selectors/common/file/selectFilsByKeyValue'
 import {ClipLoader} from 'react-spinners'
 import {TransitionGroup, CSSTransition} from 'react-transition-group'
@@ -1292,7 +1292,6 @@ const mapDispatchToProps = dispatch =>
           _changeFormSingleFieldValue: change,
           _createSkillAction: SkillActions.createSkill,
           createFile,
-          getFiles,
           _removeFileFromTemp: TempActions.removeFileFromTemp,
           _hideModal: ModalActions.hideModal,
         },

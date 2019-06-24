@@ -10,9 +10,6 @@ export function* getFavorites() {
     yield fork(api.get, urls.FAVORITE, results.FAVORITE.GET_FAVORITES, ``)
     const data = yield take(socketChannel)
     yield put({type: types.SUCCESS.FAVORITE.GET_FAVORITES, payload: {data}})
-    for (let favorite of data) {
-      yield put({type: types.COMMON.FILE.GET_FILE, payload: {fileId: favorite.favorite_related_media}})
-    }
   } catch (e) {
     const {message} = e
     yield put({type: types.ERRORS.FAVORITE.GET_FAVORITES, payload: {message}})

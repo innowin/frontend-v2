@@ -14,7 +14,6 @@ const products = (state = initialState.common.product.products, action) => {
 
       /** <-------------- getProduct -------------- **/
     case types.SUCCESS.COMMON.GET_PRODUCT_INFO: {
-      console.log('here: ', action.payload)
       return pushAnObjToStateList.success(state, action)
     }
 

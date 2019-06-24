@@ -234,7 +234,7 @@ class OrganizationLeadershipModal extends PureComponent {
         )
       case 4:
         let {post} = this.state
-        let {files, clientIdentity} = this.props
+        let { clientIdentity} = this.props
         return (
             <React.Fragment>
               <div className="organization-leadership-header">
@@ -252,7 +252,7 @@ class OrganizationLeadershipModal extends PureComponent {
                       <div className="organization-leadership-post-view-picture-con">
                         {
                           clientIdentity && clientIdentity.profile_media ?
-                              <img alt="" className="organization-leadership-post-view-picture" src={files[clientIdentity.profile_media].file}/>
+                              <img alt="" className="organization-leadership-post-view-picture" src={clientIdentity.profile_media.file}/>
                               : <DefaultOrganIcon className="organization-leadership-post-view-picture"/>
                         }
                       </div>
@@ -478,7 +478,6 @@ const mapStateToProps = state => {
   return {
     clientIdentity,
     clientExchangeMembership,
-    files: state.common.file.list,
     exchanges: state.exchanges.list,
     exchangeMemberships: state.common.exchangeMembership.list,
   }

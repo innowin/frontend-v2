@@ -2,15 +2,14 @@ const success = (state, action) => {
   const {data, search, hashtags, isLoading} = action.payload
   let allExchanges = {}
   data.forEach(exchange => {
-    let exchange_data = exchange.exchange
-    state.list[exchange_data.id] ?
-        allExchanges[exchange_data.id] = {
-          ...state.list[exchange_data.id],
-          ...exchange_data,
+    state.list[exchange.id] ?
+        allExchanges[exchange.id] = {
+          ...state.list[exchange.id],
+          ...exchange,
         }
         :
-        allExchanges[exchange_data.id] = {
-          ...exchange_data,
+        allExchanges[exchange.id] = {
+          ...exchange,
         }
   })
 

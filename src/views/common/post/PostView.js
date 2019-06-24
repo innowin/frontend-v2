@@ -4,7 +4,6 @@ import 'moment/locale/fa'
 import CommentActions from 'src/redux/actions/commonActions/commentActions'
 import connect from 'react-redux/es/connect/connect'
 import constants from 'src/consts/constants'
-import FileActions from 'src/redux/actions/commonActions/fileActions'
 import FontAwesome from 'react-fontawesome'
 import PostActions from 'src/redux/actions/commonActions/postActions'
 import PostCommentNew from './PostCommentNew'
@@ -16,7 +15,6 @@ import PostType from './PostType'
 import ProductInfoView from '../contributions/ProductInfoView'
 import PropTypes from 'prop-types'
 import type {commentType} from 'src/consts/flowTypes/common/comment'
-import type {fileType} from 'src/consts/flowTypes/common/fileType'
 import type {identityType} from 'src/consts/flowTypes/user/basicInformation'
 import type {postType} from 'src/consts/flowTypes/common/post'
 import {bindActionCreators} from 'redux'
@@ -29,11 +27,9 @@ import {userInstantCommentsSelector} from 'src/redux/selectors/common/comment/po
 
 type postExtendedViewProps = {
   actions: {
-    getFile: Function,
     getCommentsByParentId: Function,
     deleteComment: Function,
     deletePost: Function,
-    getFileByFileRelatedParentId: Function,
   },
   translate: { [string]: string },
   post: postType,
@@ -42,9 +38,8 @@ type postExtendedViewProps = {
   showEdit?: Function,
   comments?: Array<commentType>,
   instantViewComments?: Array<commentType>,
-  postRelatedIdentityImage: fileType,
+  postRelatedIdentityImage: string,
   commentParentType: string,
-  fileList: {},
   postRelatedProduct: {},
   stateComments: { number: commentType },
 }
@@ -68,7 +63,6 @@ class PostView extends React.PureComponent<postExtendedViewProps, postViewState>
     showEdit: PropTypes.func,
     comments: PropTypes.array,
     instantViewComments: PropTypes.array,
-    fileList: PropTypes.object,
   }
 
   constructor(props) {
@@ -101,16 +95,11 @@ class PostView extends React.PureComponent<postExtendedViewProps, postViewState>
   componentDidMount() {
     const self: any = this
     const {extendedView, post, actions} = this.props
-    const {getFileByFileRelatedParentId, getCommentsByParentId} = actions
+    const {getCommentsByParentId} = actions
 
-    if (!extendedView && post) {
-      const {getFileByFileRelatedParentId} = actions
-      getFileByFileRelatedParentId({fileRelatedParentId: post.id, fileParentType: constants.FILE_PARENT.POST})
-    }
-    else {
+    if (extendedView) {
       const {match} = this.props
       getCommentsByParentId({parentId: match.params.id, commentParentType: constants.COMMENT_PARENT.POST})
-      getFileByFileRelatedParentId({fileRelatedParentId: match.params.id, fileParentType: constants.FILE_PARENT.POST})
     }
 
     if (self.text) {
@@ -284,7 +273,7 @@ class PostView extends React.PureComponent<postExtendedViewProps, postViewState>
     const self: any = this
 
     const {
-      post, translate, postIdentity, postRelatedIdentityImage, extendedView, showEdit, comments, fileList,
+      post, translate, postIdentity, postRelatedIdentityImage, extendedView, showEdit, comments,
       instantViewComments, commentParentType, postRelatedProduct, clientIdentity, stateComments,
     } = this.props
 
@@ -350,7 +339,7 @@ class PostView extends React.PureComponent<postExtendedViewProps, postViewState>
                   </div>
                 </div>
 
-                <PostImage translate={translate} extendedView={extendedView} fileList={fileList} post={post}/>
+                <PostImage translate={translate} extendedView={extendedView} post={post}/>
                 {post && post.post_related_product &&
                 <div className='post-view-product-container'>
                   <ProductInfoView product={postRelatedProduct}
@@ -417,11 +406,10 @@ class PostView extends React.PureComponent<postExtendedViewProps, postViewState>
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const fileList = state.common.file.list
   const clientIdentity = state.auth.client.identity.content
   const post = ownProps.post || state.common.post.list[ownProps.match.params.id]
-  const postIdentity = post && post.post_related_identity
-  const postRelatedIdentityImage = postIdentity && postIdentity.profile_media
+  const postIdentity = post && state.identities.list[post.post_related_identity]
+  const postRelatedIdentityImage = postIdentity && postIdentity.profile_media && postIdentity.profile_media.file
   const postRelatedProduct = post ? post.post_related_product && {...state.common.product.products.list[post.post_related_product.id ? post.post_related_product.id : post.post_related_product], product_owner: postIdentity} : {}
   return {
     post,
@@ -433,17 +421,13 @@ const mapStateToProps = (state, ownProps) => {
     stateComments: state.common.comment.list,
     translate: getMessages(state),
     instantViewComments: userInstantCommentsSelector(state, ownProps),
-    fileList,
   }
 }
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
-    getPost: PostActions.getPost,
     deletePost: PostActions.deletePost,
-    getFile: FileActions.getFile,
     getCommentsByParentId: CommentActions.getCommentsByParentId,
     deleteComment: CommentActions.deleteComment,
-    getFileByFileRelatedParentId: FileActions.getFileByFileRelatedParentId,
   }, dispatch),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(PostView)

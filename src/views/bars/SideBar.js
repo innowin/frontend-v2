@@ -13,7 +13,6 @@ import constants from 'src/consts/constants'
 import EducationActions from 'src/redux/actions/user/educationActions'
 import EducationForm from '../user/aboutMe/education/EducationForm'
 import FileActions from 'src/redux/actions/commonActions/fileActions'
-import getFile from 'src/redux/actions/commonActions/fileActions'
 import Material from '../common/components/Material'
 import Modal from '../pages/modal/modal'
 import ModalActions from 'src/redux/actions/modalActions'
@@ -119,15 +118,13 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
   }
 
   componentDidMount() {
-    const {actions, description, paramId, owner} = this.props
-    const {getFollowers, getFile, getCountries} = actions || {}
+    const {actions, description, paramId} = this.props
+    const {getFollowers, getCountries} = actions || {}
     getFollowers({
       notProfile: true,
       followOwnerIdentity: paramId,
       followOwnerId: paramId,
     })
-    getFile(owner.profile_media)
-    getFile(owner.profile_banner)
     getCountries()
     this.setState({...this.state, descriptionState: description}, () => this._checkCharacter(description))
   }
@@ -214,12 +211,9 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
     const birth_date = sideBarType === constants.USER_TYPES.USER ? {birth_date: editBirthDate} : {established_year: editBirthDate}
     return {
       id: owner.id,
-      // identity_hashtag: [7528, 7529],
       description: descriptionState,
       profile_banner: bannerId,
       profile_media: pictureId,
-      organization_banner: bannerId,
-      organization_logo: pictureId,
       country: editTown,
       telegram_account: editTelegram,
       instagram_account: editInstagram,
@@ -405,14 +399,14 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
       processingBanner, profileBannerId, profileMediaId, showModalState, editName, editLastName,
       editBirthDate, editTelegram, editInstagram, editLinkedIn, editTwitter, editStatus, editStatusTitle,
     } = this.state
-    const {sideBarType, badges, translate: tr, paramId, followers, clientIdentityId, owner, files, bannerIdTemp, pictureIdTemp, actions, temp, countries} = this.props
+    const {sideBarType, badges, translate: tr, paramId, followers, clientIdentityId, owner, bannerIdTemp, pictureIdTemp, actions, temp, countries} = this.props
     const {createWorkExperience, createEducation, createCertificate, createSkill, createResearch} = actions
     const {add, education, research, certificate, skill, workExperience} = showModalState
     const badgesImg = badges.map(badge => !badge ? '' : badge.badge_related_badge_category.badge_related_media.file)
     const chosenBadgesImg = badgesImg.slice(0, 4)
     const showFollow = !followers.map(follower => follower.follow_follower.id ? follower.follow_follower.id : follower.follow_follower).includes(clientIdentityId)
-    const bannerString = selectedBanner || (owner.profile_banner && files[owner.profile_banner] && files[owner.profile_banner].file)
-    const pictureString = selectedImage || (owner.profile_media && files[owner.profile_media] && files[owner.profile_media].file)
+    const bannerString = selectedBanner || (owner.profile_banner && owner.profile_banner.file)
+    const pictureString = selectedImage || (owner.profile_media && owner.profile_media.file)
     const name = sideBarType === constants.USER_TYPES.USER ?
         (owner.first_name && owner.last_name ? owner.first_name + ' ' + owner.last_name : owner.last_name ? owner.last_name : owner.first_name ? owner.first_name : '') :
         (owner.nike_name || owner.official_name)
@@ -846,7 +840,6 @@ const mapStateToProps = (state, ownProps) => {
     bannerIdTemp,
     pictureIdTemp,
     followers: getFollowersSelector(state, ownProps),
-    files: state.common.file.list,
     temp: state.temp.file,
   }
 }
@@ -858,7 +851,6 @@ const mapDispatchToProps = dispatch => ({
     getFollowers: SocialActions.getFollowers,
     createFile: FileActions.createFile,
     removeFileFromTemp: TempActions.removeFileFromTemp,
-    getFile: getFile.getFile,
     showModal: ModalActions.showModal,
     createWorkExperience: WorkExperienceActions.createWorkExperienceByUserId,
     createEducation: EducationActions.createEducationByUserId,

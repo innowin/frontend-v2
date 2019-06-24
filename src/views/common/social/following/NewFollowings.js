@@ -99,7 +99,7 @@ class NewFollowings extends PureComponent<props, states> {
   }
 
   getMembers(identity_type, id, follow_accepted, index) {
-    let {profiles, organs, files, clientId, followings} = this.props
+    let {profiles, organs, clientId, followings} = this.props
     if (identity_type === constants.USER_TYPES.USER) {
       if (profiles[id]) {
         return <div key={index} className={this.state.viewType}>
@@ -107,7 +107,7 @@ class NewFollowings extends PureComponent<props, states> {
             <div className={'member-picture-container'}>
               {profiles[id].profile_media ?
                   <img alt=""
-                       src={files[profiles[id].profile_media] && files[profiles[id].profile_media].file}
+                       src={profiles[id].profile_media && profiles[id].profile_media.file}
                        width={'55px'} height={'55px'}
                        className={'member-picture'}/>
                   : <DefaultUserIcon
@@ -154,15 +154,15 @@ class NewFollowings extends PureComponent<props, states> {
                     className={this.state.viewType}>
           <Link to={`/organization/${id}`}>
             <div className={'member-picture-container'}>
-              {organs[id].organization_logo ?
-                  <img alt=""
-                       src={files[organs[id].organization_logo] ?
-                           files[organs[id].organization_logo].file :
-                           null}
-                       width={'55px'} height={'55px'}
-                       className={'member-picture'}/>
-                  : <DefaultUserIcon
-                      height={'55px'} width={'55px'} className={'member-picture'}/>}
+              {
+                organs[id].profile_media ?
+                    <img alt=""
+                         src={organs[id].profile_media ? organs[id].profile_media.file : null}
+                         width={'55px'} height={'55px'}
+                         className={'member-picture'}/>
+                    : <DefaultUserIcon
+                        height={'55px'} width={'55px'} className={'member-picture'}/>
+              }
             </div>
 
             <div className={'member-info-container'}>
@@ -241,7 +241,6 @@ const mapStateToProps = (state, ownProps) => {
     exchangeUsers: state.common.exchangeMembership.members,
     organs: state.identities.list,
     profiles: state.identities.list,
-    files: state.common.file.list,
     clientId,
     translate: getMessages(state),
     follows: state.common.social.follows.list,

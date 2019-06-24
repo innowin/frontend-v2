@@ -11,7 +11,6 @@ type postImageProps = {
   translate: { [string]: string },
   post: postType,
   extendedView?: boolean,
-  fileList: {},
 }
 type postImageState = {
   pictureLoaded: null | boolean,
@@ -25,7 +24,6 @@ class PostImage extends React.Component<postImageProps, postImageState> {
     translate: PropTypes.object.isRequired,
     post: PropTypes.object.isRequired,
     extendedView: PropTypes.bool,
-    fileList: PropTypes.object,
   }
 
   constructor(props: postImageProps) {
@@ -45,14 +43,14 @@ class PostImage extends React.Component<postImageProps, postImageState> {
 
   componentDidMount() {
     const {post} = this.props
-    if (post && post.post_files_array) {
+    if (post && post.post_media) {
       const {post} = this.props
-      let postFilesArray
+      let postFilesArray = []
       if (post) {
-        postFilesArray = post.post_files_array
+        postFilesArray = post.post_media.slice(0, 3)
       }
       let pictures = []
-      if (postFilesArray && postFilesArray.length > 0) {
+      if (postFilesArray.length > 0) {
         for (let i = 0; i < postFilesArray.length; i++) {
           if (postFilesArray[i].type !== constants.CREATE_FILE_TYPES.FILE) {
             pictures.push(new Image())
@@ -80,13 +78,13 @@ class PostImage extends React.Component<postImageProps, postImageState> {
   componentWillReceiveProps(nextProps: postImageProps): void {
     if (this.props.post !== nextProps.post) {
       const {post} = nextProps
-      if (post && post.post_files_array) {
-        let postFilesArray
+      if (post && post.post_media) {
+        let postFilesArray = []
         if (post) {
-          postFilesArray = post.post_files_array
+          postFilesArray = post.post_media.slice(0, 3)
         }
         let pictures = []
-        if (postFilesArray && postFilesArray.length > 0) {
+        if (postFilesArray.length > 0) {
           for (let i = 0; i < postFilesArray.length; i++) {
             if (postFilesArray[i].type !== constants.CREATE_FILE_TYPES.FILE) {
               pictures.push(new Image())
@@ -106,7 +104,7 @@ class PostImage extends React.Component<postImageProps, postImageState> {
           }
         }
         else {
-          this.setState({...this.state, pictureArrayLoaded: [false, false, false]})
+          this.setState({...this.state, pictureArrayLoaded: [null, null, null]})
         }
       }
     }
@@ -123,11 +121,11 @@ class PostImage extends React.Component<postImageProps, postImageState> {
       const {post} = this.props
       if (post && post.post_files_array) {
         const {post} = this.props
-        let postFilesArray
+        let postFilesArray = []
         if (post) {
-          postFilesArray = post.post_files_array && post.post_files_array.filter(picture => picture.type === null || picture.type === constants.CREATE_FILE_TYPES.IMAGE)
+          postFilesArray = post.post_media && post.post_media.filter(picture => picture.type === null || picture.type === constants.CREATE_FILE_TYPES.IMAGE)
         }
-        if (postFilesArray && postFilesArray.length > 0) {
+        if (postFilesArray.length > 0) {
           let picture = new Image()
           picture.src = postFilesArray[fileIndex].file
           picture.onload = () => {
@@ -174,7 +172,7 @@ class PostImage extends React.Component<postImageProps, postImageState> {
     let postFilesArray = [], picturesClass = '', postPicturesLength = 0
 
     if (post) {
-      postFilesArray = post.post_files_array && post.post_files_array.filter(picture => picture.type === null || picture.type === constants.CREATE_FILE_TYPES.IMAGE)
+      postFilesArray = post.post_media && post.post_media.slice(0, 3).filter(picture => picture.type === null || picture.type === constants.CREATE_FILE_TYPES.IMAGE)
       if (postFilesArray) {
         postPicturesLength = postFilesArray.length
         picturesClass = 'onePicture'

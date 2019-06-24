@@ -63,7 +63,7 @@ class SideBar extends PureComponent {
 
   _showGallery = () => {
     const {product} = this.props
-    const pictures_array = product.pictures_array ? product.pictures_array.filter(p => p.type === 'image') : []
+    const pictures_array = product.product_media ? product.product_media.filter(p => p.type === 'image') : []
     this.setState({...this.state, galleryModal: true, image: pictures_array[0].file})
   }
 
@@ -192,7 +192,7 @@ class SideBar extends PureComponent {
         const {product, actions, temp} = this.props
         const {newName, selectedCountry, selectedProvince, selectedCity, firstCategory, secondCategory, thirdCategory, deleteArr, newPrice, price} = this.state
         const product_category = thirdCategory && secondCategory && firstCategory ? thirdCategory : secondCategory && firstCategory ? secondCategory : firstCategory
-        const {updateProduct, updateFile, getFileByFileRelatedParentId, addPrice} = actions
+        const {updateProduct, updateFile, addPrice} = actions
 
         deleteArr.forEach(id => {
           updateFile({
@@ -258,8 +258,6 @@ class SideBar extends PureComponent {
         })
 
         price === 'specified' && newPrice && newPrice.length > 0 && addPrice(product.id, newPrice)
-
-        setTimeout(() => getFileByFileRelatedParentId({fileRelatedParentId: product.id, fileParentType: constants.FILE_PARENT.PRODUCT}), 500)
       })
     }
   }
@@ -268,7 +266,7 @@ class SideBar extends PureComponent {
     const {galleryModal, image, edit, selectedCountry, selectedProvince, price, firstCategory, secondCategory, error} = this.state
     const {product, country, province, product_owner, product_category, current_user_identity, countries, provinces, cities, categories, product_price} = this.props
     const {name, created_time} = product
-    const pictures_array = product.pictures_array ? product.pictures_array.filter(p => p.type === 'image') : []
+    const pictures_array = product.product_media ? product.product_media.filter(p => p.type === 'image') : []
 
     return (
         <section className='product-view-sidebar'>
@@ -525,7 +523,6 @@ class SideBar extends PureComponent {
 }
 
 const mapStateToProps = (state) => ({
-  files: state.common.file.list,
   temp: state.temp.file,
 })
 
@@ -535,7 +532,6 @@ const mapDispatchToProps = dispatch => ({
     addPrice: productActions.addProductPrice,
     createFile: FileActions.createFile,
     updateFile: FileActions.updateFile,
-    getFileByFileRelatedParentId: FileActions.getFileByFileRelatedParentId,
   }, dispatch),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(SideBar)

@@ -35,8 +35,7 @@ export type organizationType = {
   national_code: ?string,
   nike_name: ?string,
   official_name: string,
-  organization_banner: ?number,
-  organization_logo: ?number,
+
   owner: number,
   ownership_type: string,
   phone: (string)[],

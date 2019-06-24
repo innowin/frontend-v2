@@ -25,7 +25,7 @@ type PropsPostEditForm = {
 }
 type StatePostEditForm = {
   confirm: boolean,
-  removeImageArray: Array<{fileId: number, fileParentId: number}>,
+  removeImageArray: Array<{ fileId: number, fileParentId: number }>,
 }
 
 class PostEditForm extends React.Component<PropsPostEditForm, StatePostEditForm> {
@@ -70,7 +70,7 @@ class PostEditForm extends React.Component<PropsPostEditForm, StatePostEditForm>
       removeImageArray.map(removeImage => deleteFile({
         fileId: removeImage.fileId,
         fileParentId: removeImage.fileParentId,
-        fileParentType: constants.FILE_PARENT.POST
+        fileParentType: constants.FILE_PARENT.POST,
       }))
       return updateFunc(formValues, postId)
     }
@@ -114,12 +114,8 @@ class PostEditForm extends React.Component<PropsPostEditForm, StatePostEditForm>
 
 const mapStateToProps = state => {
   const client = state.auth.client
-  const clientImgId = (client.user_type === 'person') ? (client.profile.profile_media) : (
-      (client.organization && client.organization.organization_logo) || null
-  )
-
+  const clientImgId = client.profile.profile_media
   const userId = (client.organization && client.organization.id) || (client.user && client.user.id)
-
   const {user_type} = state.auth.client
   const stateOrgan = state.identities.list[userId]
   const name = user_type === 'person' ?
@@ -134,13 +130,13 @@ const mapStateToProps = state => {
     currentUserImgId: clientImgId,
     currentUserMedia: (state.common.file.list[clientImgId] && state.common.file.list[clientImgId].file) || null,
     currentUserName: name,
-    translate: getMessages(state)
+    translate: getMessages(state),
   })
 }
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     deleteFile: FileActions.deleteFile,
-  }, dispatch)
+  }, dispatch),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostEditForm)

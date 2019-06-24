@@ -61,8 +61,6 @@ export type identityType = {
   "country":? number,
   "province":? number,
   "town":? number,
-  "organization_logo":? number,
-  "organization_banner":? number,
   "related_cv":? number,
   "related_catalog":? number,
   "groups": [],

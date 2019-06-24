@@ -185,10 +185,8 @@ class PostCommentNew extends React.Component<props, states> {
 
 const mapStateToProps = (state) => {
   const identityId = state.auth.client.identity.content
-  const client = state.auth.client
   const identities = state.identities.list
-  const clientImgId = (client.user_type === constants.USER_TYPES.USER) ? (identities[identityId].profile_media) : (
-      (identities[identityId].organization_logo) || null)
+  const clientImgId = identities[identityId].profile_media
   const {common} = state
   const {file} = common
   const currentUserMedia = file.list[clientImgId] ? file.list[clientImgId].file : null

@@ -1,13 +1,12 @@
 // @flow
-import * as React from "react"
-import {ClipLoader} from "react-spinners"
-import {connect} from "react-redux"
-import {bindActionCreators} from "redux"
-import {getMessages} from "src/redux/selectors/translateSelector"
-import {Link} from "react-router-dom"
-import checkOwner from "../../common/CheckOwner"
-import exchangeActions from "../../../redux/actions/exchangeActions"
-import {getFiles} from "src/redux/actions/commonActions/fileActions"
+import * as React from 'react'
+import {ClipLoader} from 'react-spinners'
+import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
+import {getMessages} from 'src/redux/selectors/translateSelector'
+import {Link} from 'react-router-dom'
+import checkOwner from '../../common/CheckOwner'
+import exchangeActions from '../../../redux/actions/exchangeActions'
 import {PureComponent} from 'react'
 
 type props = {
@@ -33,18 +32,12 @@ class InfoView extends PureComponent<props, state> {
     this.state = {
       editBio: false,
       editSocial: false,
-      exchangeBio: "",
+      exchangeBio: '',
     }
   }
 
   componentDidMount() {
-    let {exchanges, exchangeId, actions} = this.props
-    const currentExchange = exchanges[exchangeId]
-    if (currentExchange && currentExchange.owner && currentExchange.owner.profile_media) {
-      actions.getFiles(currentExchange.owner.profile_media)
-    }
-    if (document.body.clientWidth > 480)
-      window.scrollTo({top: 0, behavior: "smooth"})
+    if (document.body.clientWidth > 480) window.scrollTo({top: 0, behavior: 'smooth'})
   }
 
   _handleEditBioView() {
@@ -62,7 +55,7 @@ class InfoView extends PureComponent<props, state> {
     const self: any = this
 
     if (exchangeBio.length < 100) {
-      self.bioError.className = "info-body-bio-text-area-error-hide"
+      self.bioError.className = 'info-body-bio-text-area-error-hide'
       let formValues = {
         exchange_id: exchangeId,
         exchange_biography: exchangeBio,
@@ -71,7 +64,7 @@ class InfoView extends PureComponent<props, state> {
       this.setState({...this.state, editBio: !editBio})
     }
     else {
-      self.bioError.className = "info-body-bio-text-area-error"
+      self.bioError.className = 'info-body-bio-text-area-error'
     }
   }
 
@@ -101,11 +94,11 @@ class InfoView extends PureComponent<props, state> {
   }
 
   render() {
-    const {/*educations, files,*/ translate, exchanges, exchangeId} = this.props
+    const {/*educations,*/ translate, exchanges, exchangeId} = this.props
     const {editBio, exchangeBio, editSocial} = this.state
     if (exchanges[exchangeId] && exchanges[exchangeId].owner) {
       const currentExchange = exchanges[exchangeId]
-      console.log("currentExchange", currentExchange)
+      console.log('currentExchange', currentExchange)
       const ownerId = parseInt(currentExchange.owner.id, 10)
       const owner = exchanges[exchangeId].owner
       // const ownerEducations = Object.values(educations).filter(p => p.education_related_identity === ownerId)
@@ -124,7 +117,7 @@ class InfoView extends PureComponent<props, state> {
                   {
                     checkOwner({
                       id: ownerId,
-                      children: <a className={editBio ? "info-header-edit-bio-text-hide" : "info-header-edit-bio-text"}
+                      children: <a className={editBio ? 'info-header-edit-bio-text-hide' : 'info-header-edit-bio-text'}
                                    onClick={() => this._handleEditBioView()}> ویرایش </a>,
                     })
                   }
@@ -134,28 +127,28 @@ class InfoView extends PureComponent<props, state> {
                   {editBio ?
                       <div>
                         <textarea className="info-body-bio-text-area" placeholder="معرفی‌نامه پنجره"
-                                  defaultValue={exchangeBio !== "" ? exchangeBio : currentExchange && currentExchange.biography}
+                                  defaultValue={exchangeBio !== '' ? exchangeBio : currentExchange && currentExchange.biography}
                                   onChange={(e) => this.setState({...this.state, exchangeBio: e.target.value})}/>
-                        <div className={"info-body-bio-text-area-error-hide"} ref={e => this.bioError = e}>
-                          {translate["Biography Length is Illegal"]}
+                        <div className={'info-body-bio-text-area-error-hide'} ref={e => this.bioError = e}>
+                          {translate['Biography Length is Illegal']}
                         </div>
                         <button className="info-confirm-button" onClick={() => this._handleEditBio()}>
-                          {translate["Confirm"]}
+                          {translate['Confirm']}
                         </button>
                         <button className="info-cancel-button" onClick={() => this._handleEditBioView()}>
-                          {translate["Cancel"]}
+                          {translate['Cancel']}
                         </button>
-                        <div style={{clear: "both"}}/>
+                        <div style={{clear: 'both'}}/>
                       </div>
                       :
-                      currentExchange && (currentExchange.biography === "" || currentExchange.biography === null) ?
-                          "بدون معرفی‌نامه" : currentExchange.biography
+                      currentExchange && (currentExchange.biography === '' || currentExchange.biography === null) ?
+                          'بدون معرفی‌نامه' : currentExchange.biography
                   }
                 </div>
               </div>
 
-              <div className={"info-frame"}>
-                <div className={"info-header"}>
+              <div className={'info-frame'}>
+                <div className={'info-header'}>
                   {/*
                   <Ticket width="22px" height="22px"
                           containerClass={"svg-container-info-view"}
@@ -165,8 +158,8 @@ class InfoView extends PureComponent<props, state> {
                   {
                     checkOwner({
                       id: ownerId,
-                      children: <a className={editSocial ? "info-header-edit-bio-text-hide" : "info-header-edit-bio-text"}
-                                   onClick={() => console.log("Handle Edit This One")}> ویرایش </a>,
+                      children: <a className={editSocial ? 'info-header-edit-bio-text-hide' : 'info-header-edit-bio-text'}
+                                   onClick={() => console.log('Handle Edit This One')}> ویرایش </a>,
                     })
                   }
                 </div>
@@ -176,9 +169,9 @@ class InfoView extends PureComponent<props, state> {
                       کارگزار
                     </div>
                     <div className="product-attributes-value">
-                      <Link to={owner.identity_type === "user" ? `/user/${owner.id}` : `/organization/${owner.id}`}>
-                        {owner.first_name !== "" || owner.last_name !== "" ?
-                            owner.first_name + " " + owner.last_name : owner.username}
+                      <Link to={owner.identity_type === 'user' ? `/user/${owner.id}` : `/organization/${owner.id}`}>
+                        {owner.first_name !== '' || owner.last_name !== '' ?
+                            owner.first_name + ' ' + owner.last_name : owner.username}
                       </Link>
                     </div>
                   </div>
@@ -257,8 +250,8 @@ class InfoView extends PureComponent<props, state> {
               {/*</div>*/}
               {/*</div>*/}
 
-              <div className={"info-frame"}>
-                <div className={"info-header"}>
+              <div className={'info-frame'}>
+                <div className={'info-header'}>
                   {/*
                   <QuestionMark width="22px" height="22px"
                                 containerClass={"svg-container-info-view"}
@@ -268,12 +261,12 @@ class InfoView extends PureComponent<props, state> {
                   {
                     checkOwner({
                       id: ownerId,
-                      children: <a className={editSocial ? "info-header-edit-bio-text-hide" : "info-header-edit-bio-text"}
-                                   onClick={() => console.log("Handle Edit This Too")}> ویرایش </a>,
+                      children: <a className={editSocial ? 'info-header-edit-bio-text-hide' : 'info-header-edit-bio-text'}
+                                   onClick={() => console.log('Handle Edit This Too')}> ویرایش </a>,
                     })
                   }
                 </div>
-                <div className={"info-body"}>
+                <div className={'info-body'}>
                   {currentExchange && currentExchange.exchange_hashtag && currentExchange.exchange_hashtag.length > 0 ?
                       currentExchange.exchange_hashtag.map((p) => <div className="exchange-hashtags">{p.title}</div>)
                       : <div>
@@ -398,11 +391,11 @@ class InfoView extends PureComponent<props, state> {
             </div>
         )
       }
-      else return <div className={"info-loading"}>
+      else return <div className={'info-loading'}>
         <ClipLoader color="#C2B9BD" size={45} margin="4px" loading={true}/>
       </div>
     }
-    else return <div className={"info-loading"}>
+    else return <div className={'info-loading'}>
       <ClipLoader color="#C2B9BD" size={45} margin="4px" loading={true}/>
     </div>
   }
@@ -413,13 +406,11 @@ const mapStateToProps = (state) => ({
   exchanges: state.exchanges.list,
   identities: state.identities.list,
   translate: getMessages(state),
-  files: state.common.file.list,
 })
 
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators({
     editExchange: exchangeActions.editExchange,
-    getFiles,
   }, dispatch),
 })
 

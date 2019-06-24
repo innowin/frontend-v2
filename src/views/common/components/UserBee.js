@@ -561,7 +561,6 @@ const mapStateToProps = (state) => {
     educationFields: getAllEducationFields(state),
     profileIdTemp: state.temp.file['profile_media'],
     resumeIdTemp: state.temp.file['resume'],
-    files: state.common.file.list,
     temp: state.temp.file,
   })
 }

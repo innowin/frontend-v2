@@ -13,15 +13,6 @@ export function* getUserByUserId(action) {
     yield fork(api.get, urls.USER.GET_USER_BY_USER_ID, results.USER.GET_USER_BY_USER_ID + userId, `${userId}`)
     const data = yield take(socketChannel)
     yield put({type: types.SUCCESS.USER.GET_USER_BY_USER_ID, payload: {data, userId}})
-    if (data.profile_media !== null) {
-      yield put({type: types.COMMON.FILE.GET_FILE, payload: {fileId: data.profile_media}})
-    }
-    if (data.related_cv !== null) {
-      yield put({type: types.COMMON.FILE.GET_FILE, payload: {fileId: data.related_cv}})
-    }
-    if (data.related_catalog !== null) {
-      yield put({type: types.COMMON.FILE.GET_FILE, payload: {fileId: data.related_catalog}})
-    }
   }
   catch (e) {
     const {message} = e

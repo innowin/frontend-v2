@@ -113,7 +113,6 @@ class OrganizationBee extends PureComponent {
       if (profileMediaId && temp[profileMediaId] && temp[profileMediaId].progress === 100 && profileIdTemp) {
         const formFormat = {
           profile_media: profileIdTemp,
-          organization_logo: profileIdTemp,
         }
         actions.updateUserByUserId(formFormat, currentUser.id)
         actions.removeFileFromTemp('profile_media')
@@ -459,7 +458,6 @@ const mapStateToProps = (state) => {
     translate: getMessages(state),
     profileIdTemp: state.temp.file['profile_media'],
     resumeIdTemp: state.temp.file['resume'],
-    files: state.common.file.list,
     temp: state.temp.file,
   })
 }

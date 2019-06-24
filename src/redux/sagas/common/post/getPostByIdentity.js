@@ -10,6 +10,10 @@ export function* getPostByIdentity(action) {
   try {
     yield fork(api.get, urls.COMMON.POST, results.COMMON.POST.GET_POST_BY_IDENTITY + postIdentity, `?post_related_identity=${postIdentity}`)
     const data = yield take(socketChannel)
+    for (let i = 0; i < data.length; i++) {
+      yield put({type: types.SUCCESS.USER.GET_USER_BY_USER_ID, payload: {data: {...data[i].post_related_identity}, userId: data[i].post_related_identity.id}})
+      data[i].post_related_identity = data[i].post_related_identity.id
+    }
     yield put({type: types.SUCCESS.COMMON.POST.GET_POST_BY_IDENTITY, payload: {data, postIdentity, postOwnerId}})
     for (let post of data) {
       if (post.post_related_product) {

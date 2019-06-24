@@ -1,30 +1,21 @@
 // @flow
 import * as React from 'react'
-import PropTypes from 'prop-types'
+import * as PropTypes from 'prop-types'
 import {getMessages} from 'src/redux/selectors/translateSelector'
 import {connect} from 'react-redux'
-import {bindActionCreators} from 'redux'
-import FileActions from 'src/redux/actions/commonActions/fileActions'
 import {DefaultOrganIcon, DefaultUserIcon} from 'src/images/icons'
 import {Link} from 'react-router-dom'
 import type {identityType} from 'src/consts/flowTypes/identityType'
-import type {fileType} from '../../../consts/flowTypes/common/fileType'
 import constants from '../../../consts/constants'
 
 type UserDetailPanelProps = {
   translate: { [string]: string },
   identity: identityType,
-  bannerImage: fileType,
-  profileImage: fileType,
-  actions: {
-    getFile: Function,
-  }
 }
 
 type UserDetailPanelStates = {
   bannerLoaded: boolean,
   profileLoaded: boolean,
-  getFilesInDidMount: boolean,
 }
 
 class UserDetailPanel extends React.Component<UserDetailPanelProps, UserDetailPanelStates> {
@@ -33,109 +24,93 @@ class UserDetailPanel extends React.Component<UserDetailPanelProps, UserDetailPa
     this.state = {
       bannerLoaded: false,
       profileLoaded: false,
-
-      getFilesInDidMount: false,
     }
   }
 
   static propTypes = {
     translate: PropTypes.object.isRequired,
-    profileImage: PropTypes.object,
-    bannerImage: PropTypes.object,
     identity: PropTypes.object,
-    actions: PropTypes.object.isRequired,
   }
 
-  componentWillMount(): void {
-    const {actions, profileImage, bannerImage, identity} = this.props
-    const {getFile} = actions
-
-    if (!profileImage) {
-      getFile(identity.profile_media)
-    }
-    if (!bannerImage) {
-      getFile(identity.profile_banner)
-    }
-  }
 
   componentDidMount() {
-    const {actions, profileImage, bannerImage, identity} = this.props
-    const {getFile} = actions
-
-    if (!profileImage) {
-      getFile(identity.profile_media)
-    }
-    if (!bannerImage) {
-      getFile(identity.profile_banner)
-    }
+    const {identity} = this.props
+    const {profile_media, profile_banner} = identity
 
     //Added for profile url check
-    if (bannerImage && bannerImage.file) {
+    if (profile_media && profile_media.file) {
       let profile = new Image()
-      profile.src = bannerImage.file
-      profile.onload = () => {
-        this.setState({...this.state, bannerLoaded: true})
-      }
-    }
-    if (profileImage && profileImage.file) {
-      let profile = new Image()
-      profile.src = profileImage.file
+      profile.src = profile_media.file
       profile.onload = () => {
         this.setState({...this.state, profileLoaded: true})
+      }
+    }
+    if (profile_banner && profile_banner.file) {
+      let profile = new Image()
+      profile.src = profile_banner.file
+      profile.onload = () => {
+        this.setState({...this.state, bannerLoaded: true})
       }
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.bannerImage !== nextProps.bannerImage || this.props.profileImage !== nextProps.profileImage) {
-      this.setState({...this.state, bannerLoaded: false, profileLoaded: false}, () => {
-        if (nextProps.bannerImage && nextProps.bannerImage.file) {
-          let profile = new Image()
-          profile.src = nextProps.bannerImage.file
-          profile.onload = () => {
-            this.setState({...this.state, bannerLoaded: true})
-          }
+
+    if (this.props.identity.profile_media !== nextProps.identity.profile_media || this.props.identity.profile_banner !== nextProps.identity.profile_banner) {
+
+      const {identity} = this.props
+      const {profile_media, profile_banner} = identity
+
+      //Added for profile url check
+      if (profile_media && profile_media.file) {
+        let profile = new Image()
+        profile.src = profile_media.file
+        profile.onload = () => {
+          this.setState({...this.state, profileLoaded: true})
         }
-        if (nextProps.profileImage && nextProps.profileImage.file) {
-          let profile = new Image()
-          profile.src = nextProps.profileImage.file
-          profile.onload = () => {
-            this.setState({...this.state, profileLoaded: true})
-          }
+      }
+      if (profile_banner && profile_banner.file) {
+        let profile = new Image()
+        profile.src = profile_banner.file
+        profile.onload = () => {
+          this.setState({...this.state, bannerLoaded: true})
         }
-      })
+      }
     }
   }
 
   render() {
     const {bannerLoaded, profileLoaded} = this.state
-    const {identity, profileImage, bannerImage} = this.props
+    const {identity} = this.props
+    const {profile_media, profile_banner} = identity
     const isUser = identity.identity_type === constants.USER_TYPES.USER
     const name = isUser
         ? !(identity.first_name || identity.last_name) ? '' : (identity.first_name + ' ' + identity.last_name)
         : identity.nike_name || identity.official_name
+
     return (
         <div className='user-detail-panel-container'>
           <div className='image-part-container'>
 
-            {bannerImage && bannerImage.file && bannerLoaded
-                ? <img className='banner covered-img' alt="profile banner"
-                       src={bannerImage.file}/>
-                : <div className='banner covered-img background-strips'/> // <DefaultImageIcon className="banner covered-img"/>
+            {
+              profile_banner && profile_banner.file && bannerLoaded
+                  ? <img className='banner covered-img' alt="profile banner" src={profile_banner.file}/>
+                  : <div className='banner covered-img background-strips'/>
             }
-            {profileImage && profileImage.file && profileLoaded ?
-                <Link to={isUser ? `/user/${identity.id}` : `/organization/${identity.id}`}>
-                  <img className="rounded-circle profile-media covered-img" alt="profile" src={profileImage.file}/>
-                </Link>
-                :
-                <Link to={isUser ? `/user/${identity.id}` : `/organization/${identity.id}`}>
-                  {isUser
-                      ? <DefaultUserIcon className="rounded-circle profile-media covered-img"/>
-                      : <div className='organ-profile-container'>
-                        <DefaultOrganIcon className='organ-default covered-img'/>
-                      </div>
-                  }
-                </Link>
+            {
+              profile_media && profile_media.file && profileLoaded ?
+                  <Link to={isUser ? `/user/${identity.id}` : `/organization/${identity.id}`}>
+                    <img className="rounded-circle profile-media covered-img" alt="profile" src={profile_media.file}/>
+                  </Link>
+                  :
+                  <Link to={isUser ? `/user/${identity.id}` : `/organization/${identity.id}`}>
+                    {isUser
+                        ? <DefaultUserIcon className="rounded-circle profile-media covered-img"/>
+                        : <div className='organ-profile-container'>
+                          <DefaultOrganIcon className='organ-default covered-img'/>
+                        </div>
+                    }
+                  </Link>
             }
 
           </div>
@@ -184,21 +159,12 @@ class UserDetailPanel extends React.Component<UserDetailPanelProps, UserDetailPa
 const mapStateToProps = (state) => {
   const identityId = state.auth.client.identity.content
   const identity = state.identities.list[identityId]
-  const profileMediaId = identity.profile_media
-  const bannerMediaId = identity.profile_banner
 
   return {
     translate: getMessages(state),
     identity,
-    profileImage: state.common.file.list[profileMediaId],
-    bannerImage: state.common.file.list[bannerMediaId],
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({
-    getFile: FileActions.getFile,
-  }, dispatch),
-})
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserDetailPanel)
+export default connect(mapStateToProps, null)(UserDetailPanel)

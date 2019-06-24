@@ -7,7 +7,6 @@ import {ClipLoader} from 'react-spinners'
 import {DefaultOrganIcon, DefaultUserIcon, Organization, User as UserIcon} from 'src/images/icons'
 import {Link} from 'react-router-dom'
 import constants from 'src/consts/constants'
-import getFile from 'src/redux/actions/commonActions/fileActions'
 
 class User extends PureComponent {
   constructor(props) {
@@ -20,28 +19,6 @@ class User extends PureComponent {
       checkMedia: true,
     }
     this._follow = this._follow.bind(this)
-  }
-
-  componentDidMount() {
-    const {data, actions} = this.props
-    if (data.profile_banner) {
-      actions.getFile(data.profile_banner)
-    }
-    if (data.profile_media) {
-      actions.getFile(data.profile_media)
-    }
-  }
-
-  componentWillReceiveProps(nextProps, nextContext) {
-    if (this.props.data.id !== nextProps.data.id) {
-      const {data, actions} = nextProps
-      if (data.profile_banner) {
-        actions.getFile(data.profile_banner)
-      }
-      if (data.profile_media) {
-        actions.getFile(data.profile_media)
-      }
-    }
   }
 
   _follow() {
@@ -67,7 +44,7 @@ class User extends PureComponent {
   }
 
   render() {
-    const {data: user, followees, files} = this.props
+    const {data: user, followees} = this.props
     const {badges} = user.badges || []
     const userId = user.id
     const userType = user.identity_type
@@ -76,14 +53,14 @@ class User extends PureComponent {
         <div className='users-explore'>
           <Link to={userType === constants.USER_TYPES.ORG ? `/organization/${userId}` : `/user/${userId}`} style={{textDecoration: 'none', color: 'black'}}>
             {
-              user.profile_banner && files[user.profile_banner] ?
-                  <img src={files[user.profile_banner].file} className='user-banner-bg' alt={user.last_name}/>
+              user.profile_banner ?
+                  <img src={user.profile_banner.file} className='user-banner-bg' alt={user.last_name}/>
                   :
                   <div className='user-banner-bg'/>
             }
             {
-              user.profile_media && files[user.profile_media] ?
-                  <img src={files[user.profile_media].file} className='user-profile-photo' alt={user.last_name}/>
+              user.profile_media ?
+                  <img src={user.profile_media.file} className='user-profile-photo' alt={user.last_name}/>
                   :
                   userType === constants.USER_TYPES.USER ?
                       <div className='default-skelete-skeleton-img'>
@@ -132,7 +109,6 @@ class User extends PureComponent {
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators({
     follow: socialActions.createFollow,
-    getFile: getFile.getFile,
   }, dispatch),
 })
 

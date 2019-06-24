@@ -10,8 +10,8 @@ import {ClipLoader} from 'react-spinners'
 import {getMessages} from 'src/redux/selectors/translateSelector'
 import {getUsers} from 'src/redux/selectors/user/GetAllUsers'
 import {PureComponent} from 'react'
-import {getFollowersSelector} from '../../../redux/selectors/common/social/getFollowers'
-import {getFolloweesSelector} from '../../../redux/selectors/common/social/getFollowees'
+import {getFollowersSelector} from 'src/redux/selectors/common/social/getFollowers'
+import {getFolloweesSelector} from 'src/redux/selectors/common/social/getFollowees'
 import MobileHeader from './MobileHeader'
 
 class Explore extends PureComponent {
@@ -88,7 +88,7 @@ class Explore extends PureComponent {
   }
 
   render() {
-    const {loading, allUsers, currentUser, identities, files, translate, followees, followers, path} = this.props
+    const {loading, allUsers, currentUser, identities, translate, followees, followers, path} = this.props
     const {justFollowing, justFollowed, scrollButton, justOrgans, justUsers} = this.state
 
     const followeesArr = Object.values(followees).reduce((all, follow) => {
@@ -124,7 +124,6 @@ class Explore extends PureComponent {
                    loading={loading}
                    identities={identities}
                    translate={translate}
-                   files={files}
                    currentUser={currentUser}
             />
             <div className='users-explore-hide'/>
@@ -152,7 +151,6 @@ const mapStateToProps = (state) => {
     followees: getFolloweesSelector(state, {ownerId: id}),
     loading: state.identities.isLoading,
     translate: getMessages(state),
-    files: state.common.file.list,
   }
 }
 const mapDispatchToProps = dispatch => ({

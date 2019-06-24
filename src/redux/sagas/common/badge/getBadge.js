@@ -50,12 +50,9 @@ export function* getBadges(action) {
   try {
     yield fork(api.get, urls.COMMON.BADGE, results.COMMON.GET_BADGES, `?badge_related_parent=${parentId}`)
     const badges = yield take(socketChannel)
-    console.log('---------- badgesData is : ', badges)
-    console.log('---------- normaled badgesData is : ', normalizer(badges))
-    const {badge_related_badge_category, ids, entity, badge_related_user, badge_related_media} = normalizer(badges) || {}
+    const {badge_related_badge_category, ids, entity, badge_related_user} = normalizer(badges) || {}
     yield put({type: types.SUCCESS.COMMON.GET_BADGES, payload: {data: entity, ids, destinationId}})
     yield put({type: types.SUCCESS.COMMON.GET_BADGES_CATEGORY, payload: {data: badge_related_badge_category}})
-    yield put({type: types.SUCCESS.COMMON.FILE.GET_FILES, payload: {data: badge_related_media}})
     yield put({type: types.SUCCESS.USER.GET_USERS, payload: {data: badge_related_user}})
   } catch (e) {
   } finally {

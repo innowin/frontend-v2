@@ -1,16 +1,16 @@
 // @flow
-import * as React from "react"
-import constants from "src/consts/constants"
-import getUserAction from "src/redux/actions/user/getUserActions"
-import identityActions from "src/redux/actions/identityActions"
-import SocialActions from "src/redux/actions/commonActions/socialActions"
-import {bindActionCreators} from "redux"
-import {ClipLoader} from "react-spinners"
-import {connect} from "react-redux"
-import {DefaultUserIcon, QuestionMark, Stream} from "src/images/icons"
-import {Link} from "react-router-dom"
-import {getFollowingsSelector} from "../../../redux/selectors/common/social/getNewFollowings"
-import {PureComponent} from "react"
+import * as React from 'react'
+import constants from 'src/consts/constants'
+import getUserAction from 'src/redux/actions/user/getUserActions'
+import identityActions from 'src/redux/actions/identityActions'
+import SocialActions from 'src/redux/actions/commonActions/socialActions'
+import {bindActionCreators} from 'redux'
+import {ClipLoader} from 'react-spinners'
+import {connect} from 'react-redux'
+import {DefaultUserIcon, QuestionMark, Stream} from 'src/images/icons'
+import {Link} from 'react-router-dom'
+import {getFollowingsSelector} from '../../../redux/selectors/common/social/getNewFollowings'
+import {PureComponent} from 'react'
 // import exchangeMembershipActions from "src/redux/actions/commonActions/exchangeMembershipActions"
 // import {VerifyWrapper} from "../../common/cards/Frames"
 
@@ -20,7 +20,6 @@ type props = {
   clientIdentityId: ?number,
   exchangeId: number,
   exchangeUsers: Object,
-  files: Object,
   organs: Object,
   profiles: Object,
 }
@@ -38,7 +37,7 @@ class MembersView extends PureComponent<props, states> {
     super(props)
     this.state = {
       initialMembers: [],
-      viewType: "member-square",
+      viewType: 'member-square',
       moreMembers: false,
       followingUsers: [],
       followingOrgans: [],
@@ -58,7 +57,7 @@ class MembersView extends PureComponent<props, states> {
   }
 
   follow(targetId, targetType) {
-    if (targetType === "USER") {
+    if (targetType === 'USER') {
       const {clientIdentityId, profiles, actions} = this.props
       const identityId = profiles[targetId].id
       const {createFollow} = actions
@@ -66,7 +65,7 @@ class MembersView extends PureComponent<props, states> {
       createFollow({formValues, followOwnerId: targetId})
       this.state.followingUsers.push(targetId)
     }
-    if (targetType === "ORGANIZATION") {
+    if (targetType === 'ORGANIZATION') {
       const {clientIdentityId, organs, actions} = this.props
       const identityId = organs[targetId].id
       const {createFollow} = actions
@@ -77,29 +76,31 @@ class MembersView extends PureComponent<props, states> {
   }
 
   getMembers(memberId, memberType, index) {
-    let {files, clientId, identities} = this.props
+    let {clientId, identities} = this.props
     let {followingUsers, followingOrgans} = this.state
-    if (memberType === "USER") {
+    if (memberType === 'USER') {
       if (identities[memberId]) {
         return <div key={index} className={this.state.viewType}>
           <Link to={`/user/${memberId}`}>
-            <div className={"member-picture-container"}>
-              {identities[memberId].profile_media ?
-                  <img src={files[identities[memberId].profile_media] && files[identities[memberId].profile_media].file}
-                       alt="" width={"55px"} height={"55px"} className={"member-picture"}/>
-                  : <DefaultUserIcon
-                      height={"55px"} width={"55px"} className={"member-picture"}/>}
+            <div className={'member-picture-container'}>
+              {
+                identities[memberId].profile_media ?
+                    <img src={identities[memberId].profile_media && identities[memberId].profile_media.file}
+                         alt="" width={'55px'} height={'55px'} className={'member-picture'}/>
+                    : <DefaultUserIcon
+                        height={'55px'} width={'55px'} className={'member-picture'}/>
+              }
             </div>
 
-            <div className={"member-info-container"}>
-              <div className={"member-name"}>{
+            <div className={'member-info-container'}>
+              <div className={'member-name'}>{
                 identities[memberId] && identities[memberId].first_name &&
-                (identities[memberId].first_name.trim() !== "" ||
-                    identities[memberId].last_name.trim() !== "") ?
-                    identities[memberId].first_name + " " + identities[memberId].last_name :
-                    identities[memberId].username !== "" ? identities[memberId].username : "فرد ناشناس"
+                (identities[memberId].first_name.trim() !== '' ||
+                    identities[memberId].last_name.trim() !== '') ?
+                    identities[memberId].first_name + ' ' + identities[memberId].last_name :
+                    identities[memberId].username !== '' ? identities[memberId].username : 'فرد ناشناس'
               }</div>
-              <div className={"member-description"}>{
+              <div className={'member-description'}>{
                 identities[memberId].description
               }</div>
             </div>
@@ -108,8 +109,8 @@ class MembersView extends PureComponent<props, states> {
           {
             clientId !== memberId ?
                 <div className={followingUsers.indexOf(memberId) >= 0 ?
-                    "member-followed-button"
-                    : "member-follow-green-button"}>
+                    'member-followed-button'
+                    : 'member-follow-green-button'}>
                   {followingUsers.indexOf(memberId) >= 0 ?
                       <div>دنبال شده</div>
                       : <div onClick={() => this.follow(memberId, memberType)}>دنبال کردن</div>}
@@ -118,39 +119,37 @@ class MembersView extends PureComponent<props, states> {
         </div>
       }
       else return <div className={this.state.viewType}>
-        <div className={"member-loading"}>
-          <ClipLoader color={"#cbcbcb"} size={60}/>
+        <div className={'member-loading'}>
+          <ClipLoader color={'#cbcbcb'} size={60}/>
         </div>
       </div>
     }
-    if (memberType === "ORGANIZATION") {
+    if (memberType === 'ORGANIZATION') {
       if (identities[memberId]) {
-        return <div key={index}
-                    className={this.state.viewType}>
+        return <div key={index} className={this.state.viewType}>
           {/*{followingOrgans.indexOf(memberId) >= 0 ? <div className={"member-followed"}>دنبال شده</div>*/}
           {/*: clientId !== memberId ?*/}
           {/*<div className={"member-follow"} onClick={() => this.follow(memberId, memberType)}><span*/}
           {/*className={"member-follow-plus"}> + </span></div> : <div className={"member-followed"}/>}*/}
           <Link to={`/organization/${memberId}`}>
-            <div className={"member-picture-container"}>
-              {identities[memberId].organization_logo !== null ? <img alt=""
-                                                                      src={files[identities[memberId].organization_logo] ?
-                                                                          files[identities[memberId].organization_logo].file :
-                                                                          null}
-                                                                      width={"55px"} height={"55px"}
-                                                                      className={"member-picture"}/>
-                  : <DefaultUserIcon
-                      height={"55px"} width={"55px"} className={"member-picture"}/>}
+            <div className={'member-picture-container'}>
+              {
+                identities[memberId].profile_media ?
+                    <img alt="" src={identities[memberId].profile_media && identities[memberId].profile_media.file}
+                         width={'55px'} height={'55px'}
+                         className={'member-picture'}/>
+                    : <DefaultUserIcon
+                        height={'55px'} width={'55px'} className={'member-picture'}/>
+              }
             </div>
 
-            <div className={"member-info-container"}>
-              <div className={"member-name"}>{
+            <div className={'member-info-container'}>
+              <div className={'member-name'}>{
                 identities[memberId] && identities[memberId].official_name ?
                     identities[memberId].official_name :
-                    identities[memberId].username !== "" ? identities[memberId].username : "سازمان ناشناس"
+                    identities[memberId].username !== '' ? identities[memberId].username : 'سازمان ناشناس'
               }</div>
-              <div className={"member-description"}>{
-                // identities[memberId].biography
+              <div className={'member-description'}>{
                 identities[memberId].description
               }</div>
             </div>
@@ -158,8 +157,8 @@ class MembersView extends PureComponent<props, states> {
           {
             clientId !== memberId ?
                 <div className={followingOrgans.indexOf(memberId) >= 0 ?
-                    "member-followed-button"
-                    : "member-follow-green-button"}>
+                    'member-followed-button'
+                    : 'member-follow-green-button'}>
                   {followingOrgans.indexOf(memberId) >= 0 ?
                       <div>دنبال شده</div>
                       : <div onClick={() => this.follow(memberId, memberType)}>دنبال کردن</div>}
@@ -168,8 +167,8 @@ class MembersView extends PureComponent<props, states> {
         </div>
       }
       else return <div className={this.state.viewType}>
-        <div className={"member-loading"}>
-          <ClipLoader color={"#cbcbcb"} size={60}/>
+        <div className={'member-loading'}>
+          <ClipLoader color={'#cbcbcb'} size={60}/>
         </div>
       </div>
     }
@@ -183,7 +182,7 @@ class MembersView extends PureComponent<props, states> {
       if (exchangeUsers[exchangeId]) {
         for (let i = 0; i < exchangeUsers[exchangeId].length; i++) {
           if (exchangeUsers[exchangeId][i]) {
-            if (exchangeUsers[exchangeId][i].type === "USER") {
+            if (exchangeUsers[exchangeId][i].type === 'USER') {
               getUser(exchangeUsers[exchangeId][i].id)
             }
             else {
@@ -199,7 +198,7 @@ class MembersView extends PureComponent<props, states> {
 
   componentDidMount() {
     if (document.body.clientWidth > 480)
-      window.scrollTo({top: 0, behavior: "smooth"})
+      window.scrollTo({top: 0, behavior: 'smooth'})
     let {exchangeUsers, exchangeId, followings, actions} = this.props
     let {getUser} = actions
 
@@ -208,7 +207,7 @@ class MembersView extends PureComponent<props, states> {
       if (exchangeUsers[exchangeId]) {
         for (let i = 0; i < 6; i++) {
           if (exchangeUsers[exchangeId][i]) {
-            if (exchangeUsers[exchangeId][i].type === "USER") {
+            if (exchangeUsers[exchangeId][i].type === 'USER') {
               getUser(exchangeUsers[exchangeId][i].id)
             }
             else {
@@ -254,29 +253,29 @@ class MembersView extends PureComponent<props, states> {
   render() {
     let {initialMembers, moreMembers, viewType, requested} = this.state
     return (
-        <div className={"members-frame standard-exchange-margin-top"}>
-          <div className={"members-header-right"}>
+        <div className={'members-frame standard-exchange-margin-top'}>
+          <div className={'members-header-right'}>
             {/*<Contacts width="22px" height="22px" containerClass={"svg-container-info-view"} svgClass={"svg-info-view"}/>*/}
             <span>اعضا</span>
           </div>
-          <div className={"members-header-left"} onClick={this.changeViewType}>
-            {viewType === "member-square" ?
-                <Stream width="16px" height="16px" svgClass={"svg-info-view"}/> :
-                <QuestionMark width="20px" height="20px" svgClass={"svg-info-view"}/>}
+          <div className={'members-header-left'} onClick={this.changeViewType}>
+            {viewType === 'member-square' ?
+                <Stream width="16px" height="16px" svgClass={'svg-info-view'}/> :
+                <QuestionMark width="20px" height="20px" svgClass={'svg-info-view'}/>}
           </div>
-          <div className={"members-body"}>
+          <div className={'members-body'}>
             {initialMembers.length > 0 ? initialMembers.map((p, index) => {
               return this.getMembers(p.id, p.type, index)
             }) : requested ? <div/>
                 :
-                <div style={{textAlign: "center", width: "92%"}}>
-                  <ClipLoader color={"#cbcbcb"} size={40} loading={true}/>
+                <div style={{textAlign: 'center', width: '92%'}}>
+                  <ClipLoader color={'#cbcbcb'} size={40} loading={true}/>
                 </div>
             }
-            <div className={"zero-height-member"}/>
-            <div className={"zero-height-member"}/>
+            <div className={'zero-height-member'}/>
+            <div className={'zero-height-member'}/>
             {(!moreMembers) && initialMembers.length >= 6 ?
-                <div className={"members-more"} onClick={this.setAllMembers}>
+                <div className={'members-more'} onClick={this.setAllMembers}>
                   بارگذاری بیشتر
                 </div> : null}
           </div>
@@ -290,7 +289,6 @@ const mapStateToProps = (state) => {
     exchangeUsers: state.common.exchangeMembership.members,
     organs: state.identities.list,
     profiles: state.identities.list,
-    files: state.common.file.list,
     // clientId: state.auth.client.user.id,
     clientId: state.auth.client.identity.content,
     identities: state.identities.list,
