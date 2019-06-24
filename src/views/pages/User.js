@@ -9,7 +9,7 @@ import Material from '../common/components/Material'
 import ParamActions from 'src/redux/actions/paramActions'
 import PostExtendedView from 'src/views/common/post/PostView'
 import Posts from 'src/views/common/post/index'
-import PropTypes from 'prop-types'
+import * as PropTypes from 'prop-types'
 import Exchanges from 'src/views/common/social/exchanges/index'
 import Following from 'src/views/common/social/following/index'
 import Follower from 'src/views/common/social/follower/index'
@@ -19,7 +19,7 @@ import type {userStateObject, listOfIdObject} from 'src/consts/flowTypes/stateOb
 import UserAboutMe from '../user/aboutMe'
 import UserSkeleton from '../user/skeleton/UserSkeleton'
 import {bindActionCreators} from 'redux'
-import {PureComponent} from 'react'
+import {Component} from 'react'
 import {connect} from 'react-redux'
 import {getMessages} from 'src/redux/selectors/translateSelector'
 import {NavLink, Switch, Redirect} from 'react-router-dom'
@@ -59,7 +59,7 @@ type StatesUser = {
   showSecondHeader: boolean,
 }
 
-class User extends PureComponent<PropsUser, StatesUser> {
+class User extends Component<PropsUser, StatesUser> {
 
   static propTypes = {
     match: PropTypes.object.isRequired,

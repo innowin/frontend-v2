@@ -14,6 +14,7 @@ import {Link} from 'react-router-dom'
 import {Post} from 'src/views/common/post/Post'
 import {RightArrow, DesertIcon, EditIcon, ChannelIcon} from 'src/images/icons'
 import {BarLoader} from 'react-spinners'
+import SocialActions from '../../../redux/actions/commonActions/socialActions'
 
 class HomePosts extends PureComponent {
 
@@ -36,11 +37,13 @@ class HomePosts extends PureComponent {
   }
 
   componentDidMount() {
-    const {actions, exchangeId} = this.props
-    const {filterPostsByPostParentLimitOffset} = actions
+    const {actions, exchangeId, identityId} = this.props
+    const {filterPostsByPostParentLimitOffset, getFollowees} = actions
     if (exchangeId) {
       filterPostsByPostParentLimitOffset({postParentId: exchangeId, postType: null, limit: 10, offset: 0, postParentType: constant.POST_PARENT.EXCHANGE})
     }
+    // needed for instant view
+    getFollowees({notProfile: true, followOwnerIdentity: identityId, followOwnerId: identityId})
     document.addEventListener('scroll', this.onScroll)
   }
 
@@ -227,6 +230,7 @@ const mapDispatchToProps = dispatch => ({
     filterPostsByPostParentLimitOffset: PostActions.filterPostsByPostParentLimitOffset,
     updatePost: PostActions.updatePost,
     deletePost: PostActions.deletePost,
+    getFollowees: SocialActions.getFollowees,
   }, dispatch),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(HomePosts)

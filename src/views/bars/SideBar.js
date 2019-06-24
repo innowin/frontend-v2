@@ -29,11 +29,11 @@ import WorkExperienceActions from 'src/redux/actions/user/workExperienceActions'
 import WorkExperienceForm from '../user/aboutMe/workExperience/WorkExperienceForm'
 import {bindActionCreators} from 'redux'
 import {createFileFunc} from 'src/views/common/Functions'
-import {getFollowersSelector} from 'src/redux/selectors/common/social/getFollowers'
 import {getMessages} from 'src/redux/selectors/translateSelector'
 import getAllCountries from '../../redux/selectors/common/location/getCountry'
 import {getCountries} from '../../redux/actions/commonActions/location'
 import MyDatePicker from '../common/components/DatePicker'
+import {getFolloweesSelector} from 'src/redux/selectors/common/social/getFollowees'
 
 type PropsSideBarContent = {
   sideBarType: string,
@@ -43,7 +43,6 @@ type PropsSideBarContent = {
   className?: string,
   actions: {
     createFollow: Function,
-    getFollowers: Function,
     updateOrganization: Function,
     createFile: Function,
     removeFileFromTemp: Function,
@@ -54,7 +53,6 @@ type PropsSideBarContent = {
     createCertificate: Function,
     showModal: Function,
   },
-  followers?: [],
 }
 type StateSideBarContent = {
   menuToggle: boolean,
@@ -118,13 +116,9 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
   }
 
   componentDidMount() {
-    const {actions, description, paramId} = this.props
-    const {getFollowers, getCountries} = actions || {}
-    getFollowers({
-      notProfile: true,
-      followOwnerIdentity: paramId,
-      followOwnerId: paramId,
-    })
+    const {actions, description, clientIdentityId} = this.props
+    const {getFollowees, getCountries} = actions || {}
+    getFollowees({notProfile: true, followOwnerIdentity: clientIdentityId, followOwnerId: clientIdentityId})
     getCountries()
     this.setState({...this.state, descriptionState: description}, () => this._checkCharacter(description))
   }
@@ -289,11 +283,11 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
   }
 
   _createFollow = () => {
+    // don't even touch it
     const {clientIdentityId, owner, actions} = this.props
     const {createFollow} = actions || {}
-    const followOwnerId = owner.id
     const formValues = {follow_follower: clientIdentityId, follow_followed: owner.id}
-    createFollow({formValues, followOwnerId})
+    createFollow({formValues})
   }
 
   _checkCharacter = (description) => {
@@ -399,12 +393,12 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
       processingBanner, profileBannerId, profileMediaId, showModalState, editName, editLastName,
       editBirthDate, editTelegram, editInstagram, editLinkedIn, editTwitter, editStatus, editStatusTitle,
     } = this.state
-    const {sideBarType, badges, translate: tr, paramId, followers, clientIdentityId, owner, bannerIdTemp, pictureIdTemp, actions, temp, countries} = this.props
+    const {sideBarType, badges, translate: tr, paramId, followees, owner, bannerIdTemp, pictureIdTemp, actions, temp, countries} = this.props
     const {createWorkExperience, createEducation, createCertificate, createSkill, createResearch} = actions
     const {add, education, research, certificate, skill, workExperience} = showModalState
     const badgesImg = badges.map(badge => !badge ? '' : badge.badge_related_badge_category.badge_related_media.file)
     const chosenBadgesImg = badgesImg.slice(0, 4)
-    const showFollow = !followers.map(follower => follower.follow_follower.id ? follower.follow_follower.id : follower.follow_follower).includes(clientIdentityId)
+    const showFollow = !followees.map(follower => follower.follow_followed && follower.follow_followed.id ? follower.follow_followed.id : parseInt(follower.follow_followed, 10)).includes(owner.id)
     const bannerString = selectedBanner || (owner.profile_banner && owner.profile_banner.file)
     const pictureString = selectedImage || (owner.profile_media && owner.profile_media.file)
     const name = sideBarType === constants.USER_TYPES.USER ?
@@ -830,7 +824,7 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
   const bannerIdTemp = (state.temp && state.temp.file['profile_banner']) || null
   const pictureIdTemp = (state.temp && state.temp.file['profile_media']) || null
   return {
@@ -839,7 +833,7 @@ const mapStateToProps = (state, ownProps) => {
     clientIdentityId: state.auth.client.identity.content,
     bannerIdTemp,
     pictureIdTemp,
-    followers: getFollowersSelector(state, ownProps),
+    followees: getFolloweesSelector(state, {ownerId: state.auth.client.identity.content}),
     temp: state.temp.file,
   }
 }
@@ -848,7 +842,7 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     updateUserByUserId: updateUserByUserIdAction.updateUser,
     createFollow: SocialActions.createFollow,
-    getFollowers: SocialActions.getFollowers,
+    getFollowees: SocialActions.getFollowees,
     createFile: FileActions.createFile,
     removeFileFromTemp: TempActions.removeFileFromTemp,
     showModal: ModalActions.showModal,

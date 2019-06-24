@@ -65,7 +65,7 @@ class NewFollowings extends PureComponent<props, states> {
       const identityId = id
       const {createFollow, getFollowingAction} = actions
       const formValues = {follow_follower: clientId, follow_followed: identityId}
-      createFollow({formValues, followOwnerId: id})
+      createFollow({formValues})
       getFollowingAction({followOwnerId: clientId, followOwnerIdentity: clientId})
       this.state.followingUsers.push(id)
     }
@@ -74,7 +74,7 @@ class NewFollowings extends PureComponent<props, states> {
       const identityId = id
       const {createFollow, getFollowingAction} = actions
       const formValues = {follow_follower: clientId, follow_followed: identityId}
-      createFollow({formValues, followOwnerId: id})
+      createFollow({formValues})
       getFollowingAction({followOwnerId: clientId, followOwnerIdentity: clientId})
       this.state.followingOrgans.push(id)
     }
