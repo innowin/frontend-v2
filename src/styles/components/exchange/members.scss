@@ -48,22 +48,6 @@
   flex-wrap: wrap;
 }
 
-.zero-height-member {
-  background-color: white;
-  text-align: center;
-  width: 160px;
-  height: 0;
-  flex-grow: 1;
-  //margin: 5px 5px;
-  vertical-align: top;
-  display: inline-block;
-  //padding: 2px 12px;
-  opacity: 0;
-  animation: switch;
-  animation-duration: .75s;
-  position: relative;
-}
-
 .member-square {
   background-color: white;
   text-align: center;
@@ -156,7 +140,7 @@
   //height: 185px;
   height: auto;
   flex-grow: 1;
-  margin: 5px 5px;
+  margin: 5px;
   vertical-align: top;
   display: inline-block;
   padding: 2px 12px 50px 12px;
@@ -433,6 +417,19 @@
   vertical-align: top;
   display: inline-block;
   color: $foreground-color;
+}
+
+.zero-height-member {
+  width: 160px;
+  flex-grow: 1;
+  margin: 0 5px;
+  vertical-align: top;
+  display: inline-block;
+  padding: 0 12px;
+  flex-basis: 145px;
+  opacity: 0;
+  height: 0;
+  overflow: hidden;
 }
 
 .members-more {

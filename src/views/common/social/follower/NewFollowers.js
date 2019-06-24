@@ -48,9 +48,9 @@ class NewFollowers extends Component {
     let {followers, clientFollowings, translate, clientId} = this.props
 
     return (
-        <div className={'members-frame'}>
-          <div className={'members-header-right'}>
-            <Contacts width="22px" height="22px" containerClass={'svg-container-info-view'} svgClass={'svg-info-view'}/>
+        <div className='members-frame'>
+          <div className='members-header-right'>
+            <Contacts width="22px" height="22px" containerClass='svg-container-info-view' svgClass='svg-info-view'/>
             <span>{translate['Followings']}</span>
           </div>
           <div className='members-header-left' style={{cursor: 'default'}} onClick={this.changeViewType}>
@@ -64,7 +64,7 @@ class NewFollowers extends Component {
             {
               followers.length > 0 && followers.map((user, index) =>
                   <div key={index} className={this.state.viewType}>
-                    <Link to={`/user/${user.id}`}>
+                    <Link to={`/${user.identity_type === 'user' ? 'user' : 'organization'}/${user.id}`}>
                       <div className={'member-picture-container'}>
                         {
                           user.profile_media ?
@@ -93,8 +93,11 @@ class NewFollowers extends Component {
                   </div>,
               )
             }
+
             <div className='zero-height-member'/>
             <div className='zero-height-member'/>
+            <div className='zero-height-member'/>
+
           </div>
         </div>
     )

@@ -229,12 +229,14 @@ class Organization extends PureComponent<PropsOrganization, StatesOrganization> 
                                     user={userObject}
                                     userId={userId}
                       />
-                      <PrivateRoute path={`${path}/Followers`} component={Followers}
+                      <PrivateRoute path={`${path}/Followers`}
+                                    component={Followers}
                                     ownerId={userId}
                                     identityType={constants.USER_TYPES.ORG}
                                     user={userObject}
                       />
-                      <PrivateRoute path={`${path}/Followings`} component={Followings}
+                      <PrivateRoute path={`${path}/Followings`}
+                                    component={Followings}
                                     ownerId={userId}
                                     identityType={constants.USER_TYPES.ORG}
                                     user={userObject}
