@@ -1,7 +1,13 @@
 const success = (state, action) => {
   const {data, postParentId} = action.payload
-  const postIds = data.map(post => post.id)
+  // const postIds = data.map(post => post.id)
   const exchangeId = postParentId
+
+  const postIds = data.reduce((sum, post) => {
+    return {...sum, [post.id]: post.id}
+  }, {})
+
+
   return {
     ...state,
     list: {
@@ -9,7 +15,7 @@ const success = (state, action) => {
       [exchangeId]: {
         ...state.list[exchangeId],
         posts: {
-          content: state.list[exchangeId].posts && state.list[exchangeId].posts.content ? [...state.list[exchangeId].posts.content, ...postIds] : [...postIds],
+          content: state.list[exchangeId].posts && state.list[exchangeId].posts.content ? {...state.list[exchangeId].posts.content, ...postIds} : {...postIds},
           isLoading: false,
           error: null,
         },
@@ -37,7 +43,7 @@ const base = (state, action) => {
               error: null,
             }
             : {
-              content: [],
+              content: {},
               isLoading: true,
               error: null,
             },
