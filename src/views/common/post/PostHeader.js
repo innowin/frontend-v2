@@ -46,7 +46,7 @@ class PostHeader extends React.Component {
     const {actions, clientIdentity, postIdentity} = this.props
     const {createFollow} = actions
     const formValues = {follow_follower: clientIdentity, follow_followed: postIdentity.id}
-    createFollow({formValues, followOwnerId: postIdentity.id})
+    createFollow({formValues})
   }
 
   render() {
@@ -64,7 +64,7 @@ class PostHeader extends React.Component {
         url = isUser ? `/user/${postIdentity.id}` : `/organization/${postIdentity.id}`
       }
     }
-    const showFollow = !followees.map(follower => follower.follow_followed && follower.follow_followed.id ? follower.follow_followed.id : follower.follow_followed).includes(postIdentity && postIdentity.id)
+    const showFollow = !followees.map(follower => follower.follow_followed && follower.follow_followed.id ? follower.follow_followed.id : parseInt(follower.follow_followed, 10)).includes(postIdentity && postIdentity.id)
     return (
         <div className="-item-headerPost">
           <div ref={e => this.container = e} style={{position: "relative"}} onMouseEnter={this.showInstant} onMouseLeave={this.hideInstant}

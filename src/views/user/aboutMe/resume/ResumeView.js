@@ -8,7 +8,6 @@ import CheckOwner from '../../../common/CheckOwner'
 import ConfirmDeleteModal from '../../../common/ConfirmDeleteModal'
 import constants from 'src/consts/constants'
 import ResumeForm from './ResumeForm'
-import type {fileType} from 'src/consts/flowTypes/common/fileType'
 import type {identityType} from 'src/consts/flowTypes/identityType'
 import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
 import {EditIcon, LinkedInIcon} from 'src/images/icons'
@@ -17,7 +16,6 @@ type ResumeProps = {
   owner: identityType,
   translate: TranslatorType,
   toggleEdit: Function,
-  files: { [number]: fileType },
   deleteFile: Function,
   updateUser: Function,
 }
@@ -34,7 +32,6 @@ class ResumeView extends React.Component <ResumeProps, ResumeStates> {
     owner: PropTypes.object.isRequired,
     translate: PropTypes.object.isRequired,
     toggleEdit: PropTypes.func.isRequired,
-    files: PropTypes.object.isRequired,
     deleteFile: PropTypes.func.isRequired,
   }
 
@@ -75,9 +72,9 @@ class ResumeView extends React.Component <ResumeProps, ResumeStates> {
   }
 
   render() {
-    const {translate, owner, toggleEdit, files} = this.props
+    const {translate, owner, toggleEdit} = this.props
     const {isEdit, isDelete} = this.state
-    const resume = owner.related_cv && files[owner.related_cv]
+    const resume = owner.related_cv
     return (
         <React.Fragment>
           <div className="card-header">

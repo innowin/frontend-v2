@@ -17,7 +17,7 @@ class Explore extends PureComponent {
     super(props)
     this.state = {
       activeScrollHeight: 0,
-      scrollLoading: false,
+      offset: 24,
       justFollowing: false,
       search: null,
       tags: null,
@@ -27,7 +27,7 @@ class Explore extends PureComponent {
   }
 
   componentDidMount() {
-    this.props.actions.getAllExchanges(100, 0, null, null)
+    this.props.actions.getAllExchanges(24, 0, null, null)
     this.props.actions.getHashTags()
     const {clientExchangeMemberships, exchangeMemberships} = this.props
     if (clientExchangeMemberships.length > 0) {
@@ -51,17 +51,17 @@ class Explore extends PureComponent {
   }
 
   componentWillUnmount() {
-    window.removeEventListener('scroll', this._onScroll)
+    document.removeEventListener('scroll', this._onScroll)
   }
 
   _onScroll = () => {
     if (Object.values(this.props.allExchanges).length > 0) {
-      let {activeScrollHeight} = this.state
-      let {allExchanges} = this.props
-      let scrollHeight = document.body ? document.body.scrollHeight : 0
+      const {offset} = this.state
+      const {activeScrollHeight} = this.state
+      const scrollHeight = document.body ? document.body.scrollHeight : 0
       if (((window.innerHeight + window.scrollY) >= (scrollHeight - 250)) && (scrollHeight > activeScrollHeight)) {
-        this.setState({...this.state, activeScrollHeight: scrollHeight, scrollLoading: true},
-            () => this.props.actions.getAllExchanges(24, Object.values(allExchanges).length, this.state.search, this.state.tags))
+        this.setState({...this.state, activeScrollHeight: scrollHeight, offset: offset + 24},
+            () => this.props.actions.getAllExchanges(24, offset, this.state.search, this.state.tags))
       }
       if (window.scrollY > 1000)
         this.setState({...this.state, scrollButton: true})

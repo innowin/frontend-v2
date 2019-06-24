@@ -7,14 +7,15 @@ import constants from 'src/consts/constants'
 import uuid from 'uuid'
 
 export function* createFollow(action) {
-  const {formValues, followOwnerId} = action.payload
+  const {formValues} = action.payload
   const socketChannel = yield call(api.createSocketChannel, results.COMMON.SOCIAL.CREATE_FOLLOW)
   const state = yield select()
   const translate = state.intl.messages
   try {
     yield fork(api.post, urls.COMMON.SOCIAL.FOLLOW, results.COMMON.SOCIAL.CREATE_FOLLOW, {follow_followed: formValues.follow_followed})
     const data = yield take(socketChannel)
-    yield put({type: types.SUCCESS.COMMON.SOCIAL.CREATE_FOLLOW, payload: {data, followOwnerId}})
+    yield put({type: types.SUCCESS.COMMON.SOCIAL.CREATE_FOLLOW, payload: {data, followOwnerId: parseInt(formValues.follow_followed, 10)}})
+    yield put({type: types.SUCCESS.COMMON.SOCIAL.CREATE_FOLLOW, payload: {data, followOwnerId: parseInt(formValues.follow_follower, 10)}})
     yield put({
       type: types.TOAST.ADD_TOAST,
       payload: {

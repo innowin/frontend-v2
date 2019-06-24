@@ -8,7 +8,6 @@ import CheckOwner from '../../../common/CheckOwner'
 import ConfirmDeleteModal from '../../../common/ConfirmDeleteModal'
 import constants from 'src/consts/constants'
 import CatalogForm from './CatalogForm'
-import type {fileType} from 'src/consts/flowTypes/common/fileType'
 import type {identityType} from 'src/consts/flowTypes/identityType'
 import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
 import {EditIcon, LinkedInIcon} from 'src/images/icons'
@@ -17,7 +16,6 @@ type CatalogProps = {
   owner: identityType,
   translate: TranslatorType,
   toggleEdit: Function,
-  files: { [number]: fileType },
   deleteFile: Function,
   updateUser: Function,
 }
@@ -34,7 +32,6 @@ class CatalogView extends React.Component <CatalogProps, CatalogStates> {
     owner: PropTypes.object.isRequired,
     translate: PropTypes.object.isRequired,
     toggleEdit: PropTypes.func.isRequired,
-    files: PropTypes.object.isRequired,
     deleteFile: PropTypes.func.isRequired,
   }
 
@@ -79,9 +76,9 @@ class CatalogView extends React.Component <CatalogProps, CatalogStates> {
   }
 
   render() {
-    const {translate, owner, toggleEdit, files} = this.props
+    const {translate, owner, toggleEdit} = this.props
     const {isEdit, isDelete} = this.state
-    const catalog = (owner.related_catalog && files[owner.related_catalog]) || (owner.product_catalog && files[owner.product_catalog])
+    const catalog = (owner.related_catalog) || (owner.product_catalog)
     return (
         <React.Fragment>
           <div className="card-header">

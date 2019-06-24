@@ -40,9 +40,8 @@ export const Followers = (props: PropsFollowers) => {
 
   const onCreateFollow = (follower) => {
     const {createFollow, identityId, userId} = props
-    const followOwnerId = userId
     const formValues = {follow_follower: identityId, follow_followed: follower.id}
-    createFollow({formValues, followOwnerId})
+    createFollow({formValues})
   }
 
   return (

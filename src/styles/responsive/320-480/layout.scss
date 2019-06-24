@@ -2,8 +2,7 @@
 
 @media screen and (max-width: 480px) and (min-width: 0) {
   .-main {
-    position: absolute;
-    top: $smallTopBarHeight;
+    margin-top: $smallTopBarHeight;
 
     &.page-content {
       display: block;

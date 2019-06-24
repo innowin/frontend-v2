@@ -17,7 +17,6 @@ import Resume from './resume'
 import Skill from './skill'
 import SkillActions from 'src/redux/actions/user/skillActions'
 import type {certificateType, skillType, workExperienceType} from 'src/consts/flowTypes/user/others'
-import type {fileType} from 'src/consts/flowTypes/common/fileType'
 import type {identityType} from 'src/consts/flowTypes/identityType'
 import type {userEducationType, userResearchType} from 'src/consts/flowTypes/user/basicInformation'
 import updateUserByUserIdAction from 'src/redux/actions/user/updateUserByUserIdAction'
@@ -39,7 +38,6 @@ import getSearchedOrganizationsSelector from 'src/redux/selectors/organization/g
 type OrganAboutMeProps = {
   certificates: [certificateType],
   products: [Object],
-  files: { [number]: fileType },
   user: identityType,
   translate: TranslatorType,
   educations: [userEducationType],
@@ -78,9 +76,7 @@ type OrganAboutMeProps = {
 }
 
 const UserAboutMe = (props: OrganAboutMeProps) => {
-  const {
-    translate, user, actions, products, certificates, files, educations, workExperiences, researches, skills, searchedOrganizations
-  } = props
+  const {translate, user, actions, products, certificates, educations, workExperiences, researches, skills, searchedOrganizations} = props
   const {
     getCertificatesByIdentity, createCertificate, updateCertificate,
     createEducation, updateEducation, getEducations, getWorkExperiences, createWorkExperience, updateWorkExperience,
@@ -104,14 +100,14 @@ const UserAboutMe = (props: OrganAboutMeProps) => {
         <Skill deleteSkill={deleteSkill} updateSkill={updateSkill} translate={translate} owner={user} skills={skills}
                getSkills={getSkills} createSkill={createSkill}/>
 
-        <Certificate updateCertificate={updateCertificate} files={files} translate={translate} owner={user}
+        <Certificate updateCertificate={updateCertificate} translate={translate} owner={user}
                      certificates={certificates} getCertificatesByIdentity={getCertificatesByIdentity}
                      createCertificate={createCertificate} deleteCertificate={deleteCertificate}
                      emptySearchedOrganization={emptySearchedOrganization}
                      getOrganizationsFilterByOfficialName={getOrganizationsFilterByOfficialName}
                      searchedOrganizations={searchedOrganizations}/>
 
-        <Resume updateUser={updateUser} translate={translate} owner={user} files={files} deleteFile={deleteFile}/>
+        <Resume updateUser={updateUser} translate={translate} owner={user} deleteFile={deleteFile}/>
 
         <Products translate={translate} products={products}/>
 
@@ -124,7 +120,6 @@ const UserAboutMe = (props: OrganAboutMeProps) => {
 UserAboutMe.propTypes = {
   certificates: PropTypes.array.isRequired,
   products: PropTypes.array.isRequired,
-  files: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   translate: PropTypes.object.isRequired,
   educations: PropTypes.array.isRequired,
@@ -145,7 +140,6 @@ const mapStateToProps = (state, ownProps) => {
       translate: getMessages(state),
       products: getProductsSelector(state, {ownerId: ownProps.userId}),
       certificates: userCertificatesSelector(state, ownProps),
-      files: state.common.file.list,
       educations: getEducations(state, props),
       researches: getResearches(state, props),
       workExperiences: getWorkExperiencesSelector(state, props),

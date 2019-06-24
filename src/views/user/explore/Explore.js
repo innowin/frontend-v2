@@ -19,6 +19,7 @@ class Explore extends PureComponent {
     super(props)
     this.state = {
       activeScrollHeight: 0,
+      offset: 24,
       search: null,
       justFollowing: false,
       justFollowed: false,
@@ -41,14 +42,15 @@ class Explore extends PureComponent {
   }
 
   _onScroll = () => {
+    const {offset} = this.state
     if (Object.values(this.props.allUsers).length > 0) {
       let {activeScrollHeight} = this.state
-      let {allUsers} = this.props
       let scrollHeight = document.body ? document.body.scrollHeight : 0
       if (((window.innerHeight + window.scrollY) >= (scrollHeight - 250)) && (scrollHeight > activeScrollHeight)) {
-        this.setState({...this.state, activeScrollHeight: scrollHeight},
-            () => this.props.actions.getUsers(24, Object.values(allUsers).length, this.state.search,
-                this.state.justOrgans && !this.state.justUsers ? true : !this.state.justOrgans && this.state.justUsers ? false : null))
+        this.setState({...this.state, activeScrollHeight: scrollHeight, offset: offset + 24},
+            () => this.props.actions.getUsers(24, offset, this.state.search,
+                this.state.justOrgans && !this.state.justUsers ? true : !this.state.justOrgans && this.state.justUsers ? false : null),
+        )
       }
 
       if (window.scrollY > 1000)

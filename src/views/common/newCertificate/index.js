@@ -6,7 +6,6 @@ import CardContainer from '../cardContainer'
 import CertificateForm from './CertificateForm'
 import CertificateView from './CertificateView'
 import type {certificateType} from 'src/consts/flowTypes/user/others'
-import type {fileType} from 'src/consts/flowTypes/common/fileType'
 import type {identityType} from 'src/consts/flowTypes/identityType'
 import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
 import type {organizationType} from 'src/consts/flowTypes/organization/organization'
@@ -19,7 +18,6 @@ type Props = {
   createCertificate: Function,
   updateCertificate: Function,
   deleteCertificate: Function,
-  files: { [number]: fileType },
   emptySearchedOrganization: Function,
   getOrganizationsFilterByOfficialName: Function,
   searchedOrganizations: [organizationType],
@@ -39,7 +37,6 @@ class Certificate extends React.Component<Props, States> {
     createCertificate: PropTypes.func.isRequired,
     updateCertificate: PropTypes.func.isRequired,
     deleteCertificate: PropTypes.func.isRequired,
-    files: PropTypes.object.isRequired,
     emptySearchedOrganization: PropTypes.func.isRequired,
     getOrganizationsFilterByOfficialName: PropTypes.func.isRequired,
     searchedOrganizations: PropTypes.array.isRequired,
@@ -64,7 +61,7 @@ class Certificate extends React.Component<Props, States> {
 
   render() {
     const {
-      owner, translate, createCertificate, files, updateCertificate, deleteCertificate, certificates,
+      owner, translate, createCertificate, updateCertificate, deleteCertificate, certificates,
       getOrganizationsFilterByOfficialName, searchedOrganizations, emptySearchedOrganization,
     } = this.props
     const {isEdit} = this.state
@@ -77,7 +74,7 @@ class Certificate extends React.Component<Props, States> {
                                    getOrganizationsFilterByOfficialName={getOrganizationsFilterByOfficialName}
                                    searchedOrganization={searchedOrganizations}
                                    emptySearchedOrganization={emptySearchedOrganization}/>
-                : <CertificateView updateCertificate={updateCertificate} files={files} certificates={certificates}
+                : <CertificateView updateCertificate={updateCertificate} certificates={certificates}
                                    owner={owner} translate={translate} toggleEdit={this._toggleEdit}
                                    getOrganizationsFilterByOfficialName={getOrganizationsFilterByOfficialName}
                                    searchedOrganization={searchedOrganizations}

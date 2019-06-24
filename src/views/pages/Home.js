@@ -1,18 +1,18 @@
 // @flow
 import * as React from "react"
+import constants from "src/consts/constants"
 import HomePosts from "./home/HomePosts"
 import HomeSideBar from "./home/HomeSideBar"
+import OrganizationBee from "../common/components/OrganizationBee"
+import OrganizationLeadershipCard from "../common/components/OrganizationLeadershipCard"
 import PropTypes from "prop-types"
 import setExchangeActions from "src/redux/actions/user/setSelectedExchangeAction"
+import SuggestExchanges from "../common/components/SuggestExchanges"
+import UserBee from "../common/components/UserBee"
 import {bindActionCreators} from "redux"
 import {connect} from "react-redux"
 import {getMessages} from "src/redux/selectors/translateSelector"
-import constants from "src/consts/constants"
-import OrganizationLeadershipCard from "../common/components/OrganizationLeadershipCard"
-import OrganizationBee from "../common/components/OrganizationBee"
-import UserBee from "../common/components/UserBee"
-import SuggestExchanges from "../common/components/SuggestExchanges"
-import {Component} from 'react'
+import {PureComponent} from "react"
 
 
 type HomeProps = {|
@@ -23,7 +23,7 @@ type HomeProps = {|
   selectedExchange: number
 |}
 
-class Home extends Component<HomeProps, {| activeExchangeId: ?number |}> {
+class Home extends PureComponent<HomeProps, {| activeExchangeId: ?number |}> {
 
   static propTypes = {
     identityId: PropTypes.number,

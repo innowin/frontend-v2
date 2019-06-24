@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react'
-import PropTypes from 'prop-types'
+import * as PropTypes from 'prop-types'
 
 import CardContainer from '../../../common/cardContainer'
 import ContactForm from './ContactForm'
@@ -42,7 +42,7 @@ class Contact extends React.Component<Props, States> {
     return (
         <CardContainer>
           {
-            !!isEdit
+            isEdit
                 ? <ContactForm updateOrganization={updateOrganization} organization={organization} translate={translate}
                                toggleEdit={this._toggleEdit}/>
                 : <ContactView organization={organization} translate={translate} toggleEdit={this._toggleEdit}/>

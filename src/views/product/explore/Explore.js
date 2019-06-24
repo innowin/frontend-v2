@@ -15,9 +15,8 @@ class Explore extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      offset: 0,
       activeScrollHeight: 0,
-      scrollLoading: false,
+      offset: 24,
       search: null,
       scrollButton: false,
       isCollapsed: true,
@@ -49,17 +48,13 @@ class Explore extends PureComponent {
   }
 
   _onScroll = () => {
+    const {offset} = this.state
     if (Object.values(this.props.allProducts).length > 0) {
       let {activeScrollHeight} = this.state
       let scrollHeight = document.body ? document.body.scrollHeight : 0
       if (((window.innerHeight + window.scrollY) >= (scrollHeight - 250)) && (scrollHeight > activeScrollHeight)) {
-        this.setState({
-              ...this.state,
-              activeScrollHeight: scrollHeight,
-              scrollLoading: true,
-              offset: this.state.offset + 24,
-            },
-            () => this.props.actions.getAllproducts(24, this.state.offset, this.state.search))
+        this.setState({...this.state, activeScrollHeight: scrollHeight, offset: offset + 24},
+            () => this.props.actions.getAllproducts(24, offset, this.state.search))
       }
       if (window.scrollY > 1000)
         this.setState({...this.state, scrollButton: true})

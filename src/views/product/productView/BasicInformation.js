@@ -64,7 +64,7 @@ export class productBasicInformation extends PureComponent {
 
   render() {
     const {edit, editDescription, custom_attrs, error} = this.state
-    const {product, current_user_identity, product_owner, translate, files} = this.props
+    const {product, current_user_identity, product_owner, translate} = this.props
     const {deleteFile, updateProduct} = this.props.actions
 
     return (
@@ -139,7 +139,7 @@ export class productBasicInformation extends PureComponent {
             </div>
           </div>
 
-          <Catalog updateUser={undefined} updateProduct={updateProduct} translate={translate} owner={product} files={files} deleteFile={deleteFile}/>
+          <Catalog updateUser={undefined} updateProduct={updateProduct} translate={translate} owner={product} deleteFile={deleteFile}/>
 
         </div>
     )
@@ -148,7 +148,6 @@ export class productBasicInformation extends PureComponent {
 
 const mapStateToProps = (state) => ({
   translate: getMessages(state),
-  files: state.common.file.list,
 })
 
 const mapDispatchToProps = dispatch => ({

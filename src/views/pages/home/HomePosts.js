@@ -1,20 +1,20 @@
-import * as React from "react"
-import constant from "src/consts/constants"
-import CreatePostNew from "src/views/common/post/createPost/index"
-import NewRightArrowSvg from "src/images/common/new_right_arrow"
-import PostActions from "src/redux/actions/commonActions/postActions"
-import PropTypes from "prop-types"
-import {bindActionCreators} from "redux"
-import {connect} from "react-redux"
-import {exchangePostsSelector} from "src/redux/selectors/home/homePosts"
-import isExchangeMember from "src/helpers/isExchangeMember"
-import {FrameCard, ListGroup} from "src/views/common/cards/Frames"
-import {Link} from "react-router-dom"
-import {Post} from "src/views/common/post/Post"
-import {PureComponent} from "react"
-import {RightArrow, DesertIcon, EditIcon, ChannelIcon} from "src/images/icons"
-import {BarLoader} from "react-spinners"
-
+import * as React from 'react'
+import {PureComponent} from 'react'
+import constant from 'src/consts/constants'
+import CreatePostNew from 'src/views/common/post/createPost/index'
+import NewRightArrowSvg from 'src/images/common/new_right_arrow'
+import PostActions from 'src/redux/actions/commonActions/postActions'
+import * as PropTypes from 'prop-types'
+import {bindActionCreators} from 'redux'
+import {connect} from 'react-redux'
+import {exchangePostsSelector} from 'src/redux/selectors/home/homePosts'
+import isExchangeMember from 'src/helpers/isExchangeMember'
+import {FrameCard, ListGroup} from 'src/views/common/cards/Frames'
+import {Link} from 'react-router-dom'
+import {Post} from 'src/views/common/post/Post'
+import {RightArrow, DesertIcon, EditIcon, ChannelIcon} from 'src/images/icons'
+import {BarLoader} from 'react-spinners'
+import SocialActions from '../../../redux/actions/commonActions/socialActions'
 
 class HomePosts extends PureComponent {
 
@@ -28,7 +28,7 @@ class HomePosts extends PureComponent {
     super(props)
     this.state = {
       activeScrollHeight: 0,
-      offset: 0,
+      offset: 10,
       scrollButton: false,
       showCreatePostSmall: false,
       hideTopBar: false,
@@ -37,123 +37,70 @@ class HomePosts extends PureComponent {
   }
 
   componentDidMount() {
-    document.addEventListener("scroll", this._onScroll)
-    const {actions, exchangeId} = this.props
-    const {filterPostsByPostParentLimitOffset} = actions
-    const limit = 100
-    const offset = 0
+    const {actions, exchangeId, identityId} = this.props
+    const {filterPostsByPostParentLimitOffset, getFollowees} = actions
     if (exchangeId) {
-      filterPostsByPostParentLimitOffset({
-        postParentId: exchangeId, postType: null, limit, offset, postParentType: constant.POST_PARENT.EXCHANGE,
-      })
+      filterPostsByPostParentLimitOffset({postParentId: exchangeId, postType: null, limit: 10, offset: 0, postParentType: constant.POST_PARENT.EXCHANGE})
     }
+    // needed for instant view
+    getFollowees({notProfile: true, followOwnerIdentity: identityId, followOwnerId: identityId})
+    document.addEventListener('scroll', this.onScroll)
   }
 
-  componentDidUpdate(prevProps, prevState, ss) {
-    const {actions, exchangeId} = this.props
-    const {filterPostsByPostParentLimitOffset} = actions
-    const limit = 100
-    const offset = 0
-    if (exchangeId && exchangeId !== prevProps.exchangeId) {
-      filterPostsByPostParentLimitOffset({
-        postParentId: exchangeId, postType: null, limit, offset, postParentType: constant.POST_PARENT.EXCHANGE,
+  componentWillReceiveProps(nextProps) {
+    const {actions, exchangeId} = nextProps
+    if (exchangeId && exchangeId !== this.props.exchangeId) {
+      this.setState({...this.state, activeScrollHeight: 0, offset: 10}, () => {
+        const {filterPostsByPostParentLimitOffset} = actions
+        filterPostsByPostParentLimitOffset({
+          postParentId: exchangeId, postType: null, limit: 10, offset: 0, postParentType: constant.POST_PARENT.EXCHANGE,
+        })
       })
     }
-    // if (this.headerImg && this.headerCanvas && exchangeId && prevProps.exchangeId !== exchangeId) {
-    //   this.headerImg.onload = () => {
-    //     console.log("Header Img Loaded")
-    //     let can = this.headerCanvas
-    //     let canCtx = can && can.getContext("2d")
-    //     let img = this.headerImg
-    //     let imgRect = img.getBoundingClientRect()
-    //     let newImg = new Image()
-    //     newImg.src = img.src
-    //     let imageData
-    //     newImg.onload = (e) => {
-    //       can.width = e.path[0].width
-    //       can.height = e.path[0].height
-    //       canCtx.drawImage(img, 0, 0)
-    //       try {
-    //         console.log("Header Img Data Success")
-    //         imageData = canCtx.getImageData(0, 0, imgRect.width, imgRect.height)
-    //         console.log(imageData.data)
-    //       } catch (e) {
-    //         console.log("Header Img Error Catch")
-    //         console.log(e)
-    //         imageData = {data: [37, 53, 69, 255]}
-    //       }
-    //
-    //       let rPlate = 0, gPlate = 0, bPlate = 0, counter = 0
-    //       for (let i = 0; i < imageData.data.length + 4; i += 4) {
-    //         if (imageData.data[i + 3] === 255) {
-    //           counter++
-    //           rPlate += imageData.data[i]
-    //           gPlate += imageData.data[i + 1]
-    //           bPlate += imageData.data[i + 2]
-    //         }
-    //       }
-    //       rPlate = ~~(rPlate / counter)
-    //       gPlate = ~~(gPlate / counter)
-    //       bPlate = ~~(bPlate / counter)
-    //
-    //       counter !== 0 ?
-    //           this.setState({...this.state, averageColor: [rPlate, gPlate, bPlate]}) : this.setState({...this.state, averageColor: [37, 53, 69]})
-    //     }
-    //   }
-    // }
   }
 
   componentWillUnmount() {
-    window.removeEventListener("scroll", this._onScroll)
+    document.removeEventListener('scroll', this.onScroll)
   }
 
-  _onScroll = () => {
-    const {offset, activeScrollHeight} = this.state
-    const {posts, exchangeId, filterPostsByPostParentLimitOffset} = this.props
-    const limit = 100
-    const scrollHeight = document.body.scrollHeight
-    if (exchangeId
-        && posts.length > (limit - 1)
-        && (~~(window.innerHeight + window.scrollY) >= (scrollHeight - 500))
-        && (scrollHeight > activeScrollHeight)) {
-      const newOffset = offset + 100
-      this.setState({...this.state, offset: newOffset, activeScrollHeight: scrollHeight, scrollLoading: true},
-          () => filterPostsByPostParentLimitOffset({
-            postParentId: exchangeId,
-            postType: null,
-            postParentType: constant.POST_PARENT.EXCHANGE,
-            limit,
-            offset: newOffset,
-          }),
-      )
-    }
-
-    if (window.innerWidth > 480) {
-      if (window.scrollY > 1000)
-        this.setState({...this.state, scrollButton: true})
-      else this.setState({...this.state, scrollButton: false})
-    }
-    else {
-      if (window.scrollY > 400)
-        this.setState({...this.state, scrollButton: true})
-      else this.setState({...this.state, scrollButton: false})
+  onScroll = () => {
+    if (Object.values(this.props.posts).length > 0) {
+      const {offset} = this.state
+      const {exchangeId, actions} = this.props
+      const {filterPostsByPostParentLimitOffset} = actions
+      const {activeScrollHeight} = this.state
+      const scrollHeight = document.body ? document.body.scrollHeight : 0
+      if (((window.innerHeight + window.scrollY) >= (scrollHeight - 250)) && (scrollHeight > activeScrollHeight)) {
+        this.setState({...this.state, activeScrollHeight: scrollHeight, offset: offset + 10},
+            () => {
+              filterPostsByPostParentLimitOffset({
+                postParentId: exchangeId,
+                postType: null,
+                postParentType: constant.POST_PARENT.EXCHANGE,
+                limit: 10,
+                offset: offset,
+              })
+            },
+        )
+      }
     }
 
     if (document.body.clientWidth <= 480) {
-      if (window.scrollY > this.state.scrollY) {
-        this.setState({...this.state, hideTopBar: true, scrollY: window.scrollY})
-      }
-      else {
-        this.setState({...this.state, hideTopBar: false, scrollY: window.scrollY})
-      }
+      if (window.scrollY > this.state.scrollY) this.setState({...this.state, hideTopBar: true, scrollY: window.scrollY})
+      else this.setState({...this.state, hideTopBar: false, scrollY: window.scrollY})
+      if (window.scrollY > 1000) this.setState({...this.state, scrollButton: true})
+      else this.setState({...this.state, scrollButton: false})
     }
-
+    else {
+      if (window.scrollY > 400) this.setState({...this.state, scrollButton: true})
+      else this.setState({...this.state, scrollButton: false})
+    }
   }
 
   goUp = () => {
     window.scroll({
       top: 0,
-      behavior: "smooth",
+      behavior: 'smooth',
     })
   }
 
@@ -161,7 +108,7 @@ class HomePosts extends PureComponent {
     let {exchangePage} = this.props
     this.setState({...this.state, showCreatePostSmall: true}, exchangePage && window.scroll({
       top: 350,
-      behavior: "smooth",
+      behavior: 'smooth',
     }))
   }
 
@@ -194,7 +141,7 @@ class HomePosts extends PureComponent {
                                 postParentId={exchangeId}
                                 postParentType={constant.POST_PARENT.EXCHANGE}
                                 postsCountInThisPage={posts.length}
-                            /> : <div style={{marginBottom: "1.75%"}}/>
+                            /> : <div style={{marginBottom: '1.75%'}}/>
                         : <CreatePostNew
                             postParentId={exchangeId}
                             postParentType={constant.POST_PARENT.EXCHANGE}
@@ -202,14 +149,14 @@ class HomePosts extends PureComponent {
                         />
                   }
                   <div style={{background: `rgba(${averageColor[0]}, ${averageColor[1]}, ${averageColor[2]})`}}
-                       className={hideTopBar ? "top-bar-entity show top-bar-entity-top" : "top-bar-entity show"}>
+                       className={hideTopBar ? 'top-bar-entity show top-bar-entity-top' : 'top-bar-entity show'}>
                     <NewRightArrowSvg onClick={unSetExchangeId} className='back-button'/>
-                    <Link to={"/exchange/" + exchangeId} className='profile-top-bar'>
+                    <Link to={'/exchange/' + exchangeId} className='profile-top-bar'>
                       {selectedExchange && selectedExchange.exchange_image
                           ?
                           <React.Fragment>
                             <img ref={e => this.headerImg = e} src={selectedExchange.exchange_image.file} alt='profile' className='profile-top-bar'/>
-                            <canvas ref={e => this.headerCanvas = e} width={"auto"} height={"auto"} style={{display: "none"}}>مرورگر شما این ویژگی
+                            <canvas ref={e => this.headerCanvas = e} width={'auto'} height={'auto'} style={{display: 'none'}}>مرورگر شما این ویژگی
                               را پشتیبانی نمیکند
                             </canvas>
                           </React.Fragment>
@@ -221,10 +168,10 @@ class HomePosts extends PureComponent {
                         </span>
                   </div>
 
-                  <FrameCard className={exchangePage ? "-frameCardPostEx border-top-0" : "-frameCardPost border-top-0"}>
+                  <FrameCard className={exchangePage ? '-frameCardPostEx border-top-0' : '-frameCardPost border-top-0'}>
                     {isLoading === true &&
-                    <div style={{textAlign: "center", margin: "1% auto", display: "flex", justifyContent: "center", alignItems: "center"}}>
-                      <BarLoader color={"#d8d9dc"} size={50}/>
+                    <div style={{textAlign: 'center', margin: '1% auto', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                      <BarLoader color={'#d8d9dc'} size={50}/>
                     </div>}
                     <ListGroup>
                       {
@@ -244,13 +191,13 @@ class HomePosts extends PureComponent {
                       }
                     </ListGroup>
                   </FrameCard>
-                  <div className={this.state.scrollButton ? "go-up-logo-cont" : "go-up-logo-cont-hide"} onClick={this.goUp}>
+                  <div className={this.state.scrollButton ? 'go-up-logo-cont' : 'go-up-logo-cont-hide'} onClick={this.goUp}>
                     <RightArrow className='go-up-logo'/>
                   </div>
 
                   {
                     window.innerWidth <= 480 &&
-                    <div className={this.state.scrollButton ? "write-post-hide" : "write-post"}
+                    <div className={this.state.scrollButton ? 'write-post-hide' : 'write-post'}
                          onClick={this._showCreatePostSmall}>
                       <EditIcon className='write-post-logo'/>
                     </div>
@@ -283,6 +230,7 @@ const mapDispatchToProps = dispatch => ({
     filterPostsByPostParentLimitOffset: PostActions.filterPostsByPostParentLimitOffset,
     updatePost: PostActions.updatePost,
     deletePost: PostActions.deletePost,
+    getFollowees: SocialActions.getFollowees,
   }, dispatch),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(HomePosts)

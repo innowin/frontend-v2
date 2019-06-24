@@ -5,12 +5,8 @@
 }
 
 .-main {
-  //margin-top: $topBarHeight;
-  position: absolute;
-  top: $topBarHeight;
-  width: 100%;
+  margin-top: $topBarHeight;
   background-color: $full-bg-color;
-  //min-height: 100vh;
 }
 
 .top-bar-entity {

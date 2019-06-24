@@ -27,9 +27,6 @@ class Login extends PureComponent {
         password: '',
       },
       signUpFields: {
-        // todo Hoseyn
-        // username: '',
-        // userType: constants.USER_TYPES.USER,
         password: '',
         email: '',
       },

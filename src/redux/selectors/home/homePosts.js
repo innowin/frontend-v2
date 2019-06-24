@@ -6,12 +6,11 @@ const getExchanges = state => state.exchanges.list
 const getProducts = state => state.common.product.products.list
 const getExchangePosts = (state, props) => {
   const {exchangeId} = props
-  return state.exchanges.list[exchangeId] && state.exchanges.list[exchangeId].posts
-      ? state.exchanges.list[exchangeId].posts.content
+  return state.exchanges.list[exchangeId] && state.exchanges.list[exchangeId].posts && state.exchanges.list[exchangeId].posts.content
+      ? Object.values(state.exchanges.list[exchangeId].posts.content).sort((a, b) => b - a)
       : []
 }
 const getExchangeId = (state, props) => props.exchangeId
-
 
 export const exchangePostsSelector = createSelector(
     [getPosts, getExchanges, getProducts, getExchangePosts, getExchangeId],
@@ -24,14 +23,16 @@ export const exchangePostsSelector = createSelector(
           const postRelatedProductId = postRelatedProduct && post.post_related_product.id
           if (postRelatedProduct && postRelatedProductId) {
             return {...post, post_related_product: products[postRelatedProductId]}
-          } else if (postRelatedProduct && !postRelatedProductId) {
+          }
+          else if (postRelatedProduct && !postRelatedProductId) {
             return {...post, post_related_product: products[postRelatedProduct]}
-          } else {
+          }
+          else {
             return post
           }
         })]
       }
       return []
-    }
+    },
 )
 
