@@ -33,10 +33,12 @@ class NewFollowings extends Component {
     createFollow({formValues})
   }
 
-  unFollow(followId) {
-    const {clientId, actions} = this.props
+  unFollow(userId) {
+    const {clientFollowings, clientId, actions} = this.props
     const {unFollow} = actions
-    unFollow({followId: followId, followOwnerId: clientId})
+    clientFollowings.forEach(p =>
+        p.id === userId ? unFollow({followId: p.followId, followOwnerId: clientId}) : null,
+    )
   }
 
   componentDidMount() {
@@ -85,7 +87,7 @@ class NewFollowings extends Component {
                                 <span className="member-follow-green-button">دنبال کردن</span>
                               </div>
                               :
-                              <div className="member-follow" onClick={() => this.unFollow(user.followId)}>
+                              <div className="member-follow" onClick={() => this.unFollow(user.id)}>
                                 <span className="member-following-button"> </span>
                               </div>
                           : null

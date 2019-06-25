@@ -211,6 +211,30 @@
     }
   }
 
+  .member-follow-here {
+    cursor: pointer;
+    position: absolute;
+    bottom: 15px;
+    left: 26%;
+    right: 26%;
+    font-size: $font-size-followed;
+    color: white;
+    border-radius: 30px;
+    height: 31px;
+    transition-duration: $animation-timing;
+    background-color: $secondary-color;
+    border: 1.5px solid $secondary-color;
+
+    &:after {
+      content: "دنبال کردن";
+    }
+
+    &:hover {
+      background-color: white;
+      color: $secondary-color;
+    }
+  }
+
   .member-accept-button {
     position: absolute;
     bottom: 15px;

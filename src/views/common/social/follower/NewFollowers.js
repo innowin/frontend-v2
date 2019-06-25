@@ -33,10 +33,12 @@ class NewFollowers extends Component {
     createFollow({formValues})
   }
 
-  unFollow(followId) {
-    const {clientId, actions} = this.props
+  unFollow(userId) {
+    const {clientFollowings, clientId, actions} = this.props
     const {unFollow} = actions
-    unFollow({followId: followId, followOwnerId: clientId})
+    clientFollowings.forEach(p =>
+        p.id === userId ? unFollow({followId: p.followId, followOwnerId: clientId}) : null,
+    )
   }
 
   componentDidMount() {
@@ -46,7 +48,7 @@ class NewFollowers extends Component {
   render() {
     let {/*moreMembers,*/viewType} = this.state
     let {followers, clientFollowings, translate, clientId} = this.props
-
+    console.log('me: ', clientFollowings)
     return (
         <div className='members-frame'>
           <div className='members-header-right'>
@@ -85,7 +87,7 @@ class NewFollowers extends Component {
                                 <span className="member-follow-green-button">دنبال کردن</span>
                               </div>
                               :
-                              <div className="member-follow" onClick={() => this.unFollow(user.followId)}>
+                              <div className="member-follow" onClick={() => this.unFollow(user.id)}>
                                 <span className="member-following-button"> </span>
                               </div>
                           : null

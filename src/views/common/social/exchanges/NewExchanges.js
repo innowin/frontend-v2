@@ -1,27 +1,8 @@
-// @flow
-import * as React from 'react'
+import React from 'react'
 import {Link} from 'react-router-dom'
-
 import {Contacts, QuestionMark, Stream, ChannelIcon} from 'src/images/icons'
-import type {exchangeType} from 'src/consts/flowTypes/exchange/exchange'
-import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
 
-type Props = {
-  deleteExchangeMembership: Function,
-  exchanges: (exchangeType)[],
-  translate: TranslatorType,
-  userId: number,
-}
-type States = {
-  followingOrgans: [],
-  followingUsers: [],
-  initialMembers: [],
-  moreMembers: boolean,
-  requested: boolean,
-  viewType: string,
-}
-
-class NewExchanges extends React.Component<Props, States> {
+class NewExchanges extends React.Component {
   constructor(props: Props) {
     super(props)
     this.state = {
@@ -44,32 +25,43 @@ class NewExchanges extends React.Component<Props, States> {
     // } else this.setState({...this.state, viewType: 'member-square-user'})
   }
 
-  _onDeleteFollowing(exchange: exchangeType) {
+  _onDeleteFollowing(exchange) {
     const {deleteExchangeMembership, userId} = this.props
     deleteExchangeMembership({exchangeMembershipId: exchange.membership_id, exchangeMembershipOwnerId: userId})
   }
 
-  getMembers(exchange: exchangeType, index: number) {
+  follow(exchangeId) {
+    const {follow, clientId} = this.props
+    follow({identityId: clientId, exchangeIdentity: exchangeId})
+  }
+
+  getMembers(exchange, index, followed) {
     const {id} = exchange
-    // if (exchanges[id]) {
     return <div key={index} className={this.state.viewType}>
       <Link to={`/exchange/${id}`}>
         <div className={'member-picture-container'}>
-          {exchange.exchange_image ?
-              <img alt='exchange' src={exchange.exchange_image.file} width={'55px'} height={'55px'}
-                   className={'member-picture'}/>
-              : <ChannelIcon height={'55px'} width={'55px'} className="member-picture default-exchange"/>}
+          {
+            exchange.exchange_image ?
+                <img alt='exchange' src={exchange.exchange_image.file} width={'55px'} height={'55px'}
+                     className='member-picture'/>
+                : <ChannelIcon height={'55px'} width={'55px'} className="member-picture default-exchange"/>
+          }
         </div>
 
-        <div className={'member-info-container'}>
-          <div className={'member-name'}>{exchange.name}</div>
-          <div className={'member-description'}>{exchange.description}</div>
+        <div className='member-info-container'>
+          <div className='member-name'>{exchange.name}</div>
+          <div className='member-description'>{exchange.description}</div>
         </div>
       </Link>
       {
-        <div className="member-follow" onClick={() => this._onDeleteFollowing(exchange)}>
-          <span className="member-following-button"> </span>
-        </div>
+        followed[exchange.id] ?
+            <div className="member-follow" onClick={() => this._onDeleteFollowing(exchange)}>
+              <span className="member-following-button"> </span>
+            </div>
+            :
+            <div className="member-follow" onClick={() => this.follow(exchange.id)}>
+              <span className="member-follow-here"> </span>
+            </div>
       }
     </div>
   }
@@ -80,7 +72,7 @@ class NewExchanges extends React.Component<Props, States> {
 
   render() {
     let {viewType} = this.state
-    let {exchanges, translate} = this.props
+    let {exchanges, translate, followed} = this.props
 
     return (
         <div className='members-frame'>
@@ -96,7 +88,7 @@ class NewExchanges extends React.Component<Props, States> {
           <div className='members-body'>
             {
               exchanges.map((p, index) => {
-                return this.getMembers(p, index)
+                return this.getMembers(p, index, followed)
               })
             }
             <div className='zero-height-member'/>

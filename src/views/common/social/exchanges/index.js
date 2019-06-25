@@ -10,6 +10,7 @@ import {bindActionCreators} from 'redux'
 import {getExchangeMembershipsSelector} from 'src/redux/selectors/common/social/getExchangeMemberships'
 import {getMessages} from 'src/redux/selectors/translateSelector'
 import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
+import exchangeActions from '../../../../redux/actions/commonActions/exchangeMembershipActions'
 
 type PropsSocials = {
   ownerId: number,
@@ -31,20 +32,43 @@ class Socials extends React.Component<PropsSocials, StateSocials> {
     exchanges: PropTypes.array.isRequired,
   }
 
+  constructor(props) {
+    super(props)
+    this.state = {
+      followed: [],
+    }
+  }
+
+
   componentDidMount() {
     const {actions, ownerId} = this.props
     const {getExchangeMembershipByMemberIdentity} = actions
     getExchangeMembershipByMemberIdentity({identityId: ownerId, exchangeMembershipOwnerId: ownerId})
   }
 
+  componentWillReceiveProps(nextProps, nextContext) {
+    const {clientExchangeMemberships, exchangeMemberships} = nextProps
+    if (clientExchangeMemberships.length > 0) {
+      const followed = clientExchangeMemberships.reduce((sum, exId) =>
+          exchangeMemberships[exId] && {...sum, [exchangeMemberships[exId].exchange_identity_related_exchange.id]: exchangeMemberships[exId].id}, {},
+      )
+      this.setState({...this.state, followed: {...followed}})
+    }
+    else this.setState({...this.state, followed: []})
+  }
+
   render() {
-    const {actions, exchanges, ownerId, translate} = this.props
-    const {deleteExchangeMembership} = actions
+    const {actions, exchanges, ownerId, translate, clientId} = this.props
+    const {followed} = this.state
+    const {deleteExchangeMembership, follow} = actions
 
     return <NewExchanges translate={translate}
+                         followed={followed}
                          userId={ownerId}
                          deleteExchangeMembership={deleteExchangeMembership}
                          exchanges={exchanges}
+                         clientId={clientId}
+                         follow={follow}
     />
   }
 }
@@ -53,6 +77,9 @@ const mapStateToProps = (state, ownProps) => {
   return {
     translate: getMessages(state),
     exchanges: getExchangeMembershipsSelector(state, ownProps),
+    clientExchangeMemberships: state.auth.client.exchangeMemberships,
+    exchangeMemberships: state.common.exchangeMembership.list,
+    clientId: state.auth.client.identity.content,
   }
 }
 
@@ -60,6 +87,7 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     getExchangeMembershipByMemberIdentity: ExchangeMembershipActions.getExchangeMembershipByMemberIdentity,
     deleteExchangeMembership: ExchangeMembershipActions.deleteExchangeMembership,
+    follow: exchangeActions.createExchangeMembership,
   }, dispatch),
 })
 

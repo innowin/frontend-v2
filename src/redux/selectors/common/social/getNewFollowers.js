@@ -14,7 +14,7 @@ export const getFollowersSelector = createSelector(
         user_follows_arr && user_follows_arr.forEach(id => follows[id] ? user_follows_obj[id] = {...follows[id], followId: id} : null)
         let user_follows = Object.values(user_follows_obj).filter(p => p.follow_followed.id ? p.follow_followed.id === userId : p.follow_followed === userId)
         return user_follows.reduce((sum, p) => {
-          return [...sum, {...p.follow_follower, followId: p.followId}]
+          return [...sum, {...p.follow_follower, id: p.follow_follower.id ? p.follow_follower.id : p.follow_follower, followId: p.followId}]
         }, [])
       }
       else return []
