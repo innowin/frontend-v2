@@ -138,13 +138,13 @@ class PostView extends React.PureComponent<postExtendedViewProps, postViewState>
       }
     }
 
-    if (!extendedView && self.text && self.text.clientHeight > 70) {
+    if (!extendedView && self.text && self.text.clientHeight > 146) {
       const height = self.text.clientHeight
       if (post.post_description && new RegExp('^[A-Za-z]*$').test(post.post_description[0])) {
         self.text.style.paddingRight = '60px'
       }
       else self.text.style.paddingLeft = '60px'
-      self.text.style.height = '63px'
+      self.text.style.height = '139px'
       this.setState({...this.state, showMore: true, descriptionHeight: height})
     }
 
@@ -153,28 +153,13 @@ class PostView extends React.PureComponent<postExtendedViewProps, postViewState>
   }
 
   componentWillReceiveProps(nextProps) {
-    const {post, extendedView} = nextProps
-    if (!extendedView && post && post.post_description && post.post_description.length !== this.props.post.post_description.length) {
-      const self: any = this
-      let showMore = false
-      let height = null
-      if (self.text.clientHeight > 70) {
-        height = self.text.clientHeight
-        if (post.post_description && new RegExp('^[A-Za-z]*$').test(post.post_description[0])) {
-          self.text.style.paddingRight = '60px'
-        }
-        else self.text.style.paddingLeft = '60px'
-        self.text.style.height = '63px'
-        showMore = true
-      }
-      this.setState({...this.state, showMore, descriptionHeight: height})
-    }
-  }
-
-  componentDidUpdate(prevProps) {
-    const {instantViewComments, actions, post} = this.props
+    const {post, extendedView, instantViewComments, actions} = nextProps
     const {getCommentsByParentId} = actions
-    if (instantViewComments && prevProps.instantViewComments && prevProps.instantViewComments.length > instantViewComments.length && instantViewComments.length < 3) {
+    const self: any = this
+    if (!extendedView && post && post.post_description && post.post_description.length !== this.props.post.post_description.length) {
+      this.setState({...this.state, showMore: false, descriptionHeight: self.text.scrollHeight})
+    }
+    if (instantViewComments && this.props.instantViewComments && this.props.instantViewComments.length > instantViewComments.length && instantViewComments.length < 3) {
       getCommentsByParentId({parentId: post.id, commentParentType: constants.COMMENT_PARENT.POST, limit: 3})
     }
   }
