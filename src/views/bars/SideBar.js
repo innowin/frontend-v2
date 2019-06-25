@@ -199,11 +199,11 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
   _getValues = () => {
     const {owner, bannerIdTemp, pictureIdTemp, sideBarType} = this.props
     const {descriptionState, editName, editLastName, editTown, editBirthDate, editTelegram, editInstagram, editLinkedIn, editTwitter, editStaff, editStatusTitle} = this.state
-    const bannerId = bannerIdTemp ? bannerIdTemp : owner.profile_banner
-    const pictureId = pictureIdTemp ? pictureIdTemp : owner.profile_media
+    const bannerId = bannerIdTemp ? bannerIdTemp : null
+    const pictureId = pictureIdTemp ? pictureIdTemp : null
     const name = sideBarType === constants.USER_TYPES.USER ? {first_name: editName, last_name: editLastName} : {nike_name: editName, official_name: editLastName}
     const birth_date = sideBarType === constants.USER_TYPES.USER ? {birth_date: editBirthDate} : {established_year: editBirthDate}
-    return {
+    let temp = {
       id: owner.id,
       description: descriptionState,
       profile_banner: bannerId,
@@ -218,6 +218,10 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
       ...name,
       ...birth_date,
     }
+    Object.keys(temp).forEach(p => {
+      if (temp[p] === null && (p === 'profile_banner' || p === 'profile_media')) delete temp[p]
+    })
+    return {...temp}
   }
 
   _formValidate = () => {
