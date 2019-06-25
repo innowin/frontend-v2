@@ -3,19 +3,20 @@ const base = (state, action) => {
   const prevMembership = state.list[exchangeMembershipId]
   return {
     ...state,
-    list:{
+    list: {
       ...state.list,
-      [exchangeMembershipId]: {...prevMembership, error: null, isLoading: true}
-    }
+      [exchangeMembershipId]: {...prevMembership, error: null, isLoading: true},
+    },
   }
 }
 
 const success = (state, action) => {
   const {exchangeMembershipId} = action.payload
-  const {[`${exchangeMembershipId}`]: deleted, ...deleteRest} = state.list
+  const temp = {...state.list}
+  delete temp[exchangeMembershipId]
   return {
     ...state,
-    list: {...deleteRest}
+    list: {...temp},
   }
 }
 
@@ -24,10 +25,10 @@ const error = (state, action) => {
   const prevMembership = state.list[exchangeMembershipId]
   return {
     ...state,
-    list:{
+    list: {
       ...state.list,
-      [exchangeMembershipId]: {...prevMembership, isLoading: true, error: message}
-    }
+      [exchangeMembershipId]: {...prevMembership, isLoading: true, error: message},
+    },
   }
 }
 

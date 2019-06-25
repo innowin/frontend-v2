@@ -74,8 +74,6 @@ class NewExchanges extends React.Component {
     let {viewType} = this.state
     let {exchanges, translate, followed} = this.props
 
-    console.log('herere: ', followed)
-
     return (
         <div className='members-frame'>
           <div className='members-header-right'>

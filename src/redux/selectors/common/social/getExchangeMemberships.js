@@ -19,7 +19,7 @@ export const getExchangeMembershipsSelector = createSelector(
     (memberships, userMemberships, ownerId) => {
       if (memberships && Object.keys(memberships).length !== 0 && memberships.constructor === Object && userMemberships && ownerId) {
         const arrayMemberships = helpers.getObjectOfArrayKeys(userMemberships, memberships)
-        return arrayMemberships.map(membership => {
+        return arrayMemberships.filter(p => p).map(membership => {
           const membershipOwnerIdentity = membership.exchange_identity_related_identity
           const membershipOwnerId = membershipOwnerIdentity.id
           const membershipOwnerType = membershipOwnerIdentity.identity_type
