@@ -41,9 +41,10 @@ class Socials extends React.Component<PropsSocials, StateSocials> {
 
 
   componentDidMount() {
-    const {actions, ownerId} = this.props
+    const {actions, ownerId, clientId} = this.props
     const {getExchangeMembershipByMemberIdentity} = actions
     getExchangeMembershipByMemberIdentity({identityId: ownerId, exchangeMembershipOwnerId: ownerId})
+    getExchangeMembershipByMemberIdentity({identityId: clientId, exchangeMembershipOwnerId: clientId})
   }
 
   componentWillReceiveProps(nextProps, nextContext) {
