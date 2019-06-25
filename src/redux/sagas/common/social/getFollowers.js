@@ -6,9 +6,10 @@ import {put, take, fork, call} from 'redux-saga/effects'
 
 export function* getFollowers(action) {
   const {notProfile, followOwnerIdentity, followOwnerId} = action.payload
-  const socketChannel = yield call(api.createSocketChannel, results.COMMON.SOCIAL.GET_FOLLOWERS)
+  const result = `${results.COMMON.SOCIAL.GET_FOLLOWERS}-${followOwnerId}`
+  const socketChannel = yield call(api.createSocketChannel, result)
   try {
-    yield fork(api.get, urls.COMMON.SOCIAL.FOLLOW, results.COMMON.SOCIAL.GET_FOLLOWERS, `?follow_followed=${followOwnerIdentity}&limit=10000`)
+    yield fork(api.get, urls.COMMON.SOCIAL.FOLLOW, result, `?follow_followed=${followOwnerIdentity}&limit=10000`)
     const data = yield take(socketChannel)
     yield put({type: types.SUCCESS.COMMON.SOCIAL.GET_FOLLOWERS, payload: {data, followOwnerId, followOwnerIdentity}})
     if (!notProfile) {

@@ -63,6 +63,8 @@ class Socials extends React.Component<PropsSocials, StateSocials> {
     const {followed} = this.state
     const {deleteExchangeMembership, follow} = actions
 
+    console.log("exchanges: ",exchanges)
+
     return <NewExchanges translate={translate}
                          followed={followed}
                          userId={ownerId}

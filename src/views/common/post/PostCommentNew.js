@@ -1,11 +1,11 @@
 // @flow
-import * as React from "react"
-import CommentActions from "src/redux/actions/commonActions/commentActions"
-import {AttachFileIcon, DefaultUserIcon, PostSendIcon} from "src/images/icons"
-import {bindActionCreators} from "redux"
-import {connect} from "react-redux"
-import {getMessages} from "src/redux/selectors/translateSelector"
-import type {commentType} from "src/consts/flowTypes/common/comment";
+import * as React from 'react'
+import CommentActions from 'src/redux/actions/commonActions/commentActions'
+import {AttachFileIcon, DefaultUserIcon, PostSendIcon} from 'src/images/icons'
+import {bindActionCreators} from 'redux'
+import {connect} from 'react-redux'
+import {getMessages} from 'src/redux/selectors/translateSelector'
+import type {commentType} from 'src/consts/flowTypes/common/comment'
 import constants from 'src/consts/constants'
 
 type props = {
@@ -33,8 +33,8 @@ class PostCommentNew extends React.Component<props, states> {
     super(props)
     this.state = {
       open: false,
-      commentBody: "comment-body",
-      descriptionClass: "hide-message",
+      commentBody: 'comment-body',
+      descriptionClass: 'hide-message',
       comment: '',
       replySender: '',
     }
@@ -71,7 +71,7 @@ class PostCommentNew extends React.Component<props, states> {
 
   createComment(commentOn, commentText, commentTextField) {
     const {extendedView} = this.props
-    if (commentText.length > 4 && commentText.length <= 750) {
+    if (commentText.length > 0 && commentText.length <= 750) {
       const {actions, post} = this.props
       const {replySender} = this.state
       const {createComment} = actions
@@ -85,12 +85,14 @@ class PostCommentNew extends React.Component<props, states> {
       let formValues
       if (commentOn) {
         formValues = {text: commentText, comment_parent: post.id, comment_replied_to: commentOn.id}
-      } else {
+      }
+      else {
         formValues = {text: commentText, comment_parent: post.id}
       }
-      commentTextField.value = ""
+      commentTextField.value = ''
       createComment({formValues, parentId: post.id, commentParentType: constants.COMMENT_PARENT.POST, getComments: extendedView})
-    } else console.log("Handle Notification for Illegal Comment")
+    }
+    else console.log('Handle Notification for Illegal Comment')
   }
 
   _handleChangeText(e) {
@@ -101,7 +103,8 @@ class PostCommentNew extends React.Component<props, states> {
       if (!comment.startsWith(replySender)) {
         removeCommentOn()
         this.setState({...this.state, replySender: ''})
-      } else {
+      }
+      else {
         comment = comment.substr(replySender.length)
       }
     }
@@ -111,17 +114,13 @@ class PostCommentNew extends React.Component<props, states> {
     const checkCharacter = (description) => {
       const descriptionLength = description.trim().length
       if (descriptionLength === 0)
-        this.setState({...this.state, descriptionClass: "hide-message"})
-      if (descriptionLength > 0 && descriptionLength < 5)
-        this.setState({...this.state, open: true, descriptionClass: "error-message"})
-      if (descriptionLength >= 5 && descriptionLength < 10)
-        this.setState({...this.state, descriptionClass: "neutral-message"})
-      if (descriptionLength >= 10 && descriptionLength <= 740)
-        this.setState({...this.state, descriptionClass: "neutral-message"})
+        this.setState({...this.state, descriptionClass: 'hide-message'})
+      if (descriptionLength >= 1 && descriptionLength <= 740)
+        this.setState({...this.state, descriptionClass: 'neutral-message'})
       if (descriptionLength > 740 && descriptionLength <= 750)
-        this.setState({...this.state, descriptionClass: "warning-message"})
-      // else if (descriptionLength > 750)
-      //   this.setState({...this.state, descriptionClass: "error-message"})
+        this.setState({...this.state, descriptionClass: 'warning-message'})
+      else if (descriptionLength > 750)
+        this.setState({...this.state, descriptionClass: 'error-message'})
     }
   }
 
@@ -134,48 +133,47 @@ class PostCommentNew extends React.Component<props, states> {
         <div className="comment-container">
           <div>
             {currentUserMedia !== null && currentUserMedia !== undefined ?
-                <img alt='profile' src={currentUserMedia} className={"comment-owner"}/>
+                <img alt='profile' src={currentUserMedia} className={'comment-owner'}/>
                 :
                 <DefaultUserIcon width='45px' height='45px'/>
             }
           </div>
           <div className={commentBody}>
             {descriptionClass &&
-            <span className={descriptionClass + " description-character"}> {comment.trim().length + "/750"} </span>
+            <span className={descriptionClass + ' description-character'}> {comment.trim().length + '/750'} </span>
             }
             <textarea ref={e => self.text = e}
-                      className={open ? "comment-text-area-open" : "comment-text-area"}
-                      placeholder={translate["Send comment"]}
+                      className={open ? 'comment-text-area-open' : 'comment-text-area'}
+                      placeholder={translate['Send comment']}
                       onChange={this._handleChangeText}
                       onFocus={() => this.setState({
                         ...this.state,
-                        commentBody: "comment-body-focused",
-                        descriptionClass: comment.length < 5 ?
-                            comment.length === 0 ? "hide-message" : "error-message" :
-                            comment.length > 750 ? "error-message" : "neutral-message"
+                        commentBody: 'comment-body-focused',
+                        descriptionClass: comment.length < 1 ?
+                            'hide-message' :
+                            comment.length > 750 ? 'error-message' : 'neutral-message',
                       })}
                       onBlur={(e) => (e.target.value.length === 0 && !instantViewComments) ? this.setState({
                             ...this.state,
                             open: false,
-                            commentBody: "comment-body",
-                            descriptionClass: "hide-message",
+                            commentBody: 'comment-body',
+                            descriptionClass: 'hide-message',
                           })
                           : this.setState({
                             ...this.state,
                             open: true,
-                            commentBody: "comment-body",
-                            descriptionClass: "hide-message",
+                            commentBody: 'comment-body',
+                            descriptionClass: 'hide-message',
                           })
                       }
             />
             <div className='comment-icons' contentEditable={false}>
-                  <span onClick={() => console.log("Handle Show Menu")}>
+                  <span onClick={() => console.log('Handle Show Menu')}>
                     <AttachFileIcon className='post-component-footer-send-attach'/>
                   </span>
               <span onClick={this.createComment.bind(this, commentOn, comment, self.text)}>
-                  <PostSendIcon className={comment.length > 4 ? "post-component-footer-send-attach"
-                      : "post-component-footer-send-attach-inactive"}/>
-                </span>
+                  <PostSendIcon className={comment.length > 0 ? 'post-component-footer-send-attach' : 'post-component-footer-send-attach-inactive'}/>
+              </span>
             </div>
           </div>
         </div>
@@ -199,6 +197,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     createComment: CommentActions.createComment,
-  }, dispatch)
+  }, dispatch),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(PostCommentNew)
