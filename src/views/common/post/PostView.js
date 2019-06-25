@@ -75,6 +75,7 @@ class PostView extends React.PureComponent<postExtendedViewProps, postViewState>
       showMore: false,
       descriptionHeight: null,
       menuToggleBottom: false,
+      linkTimer: false,
     }
 
     const self: any = this
@@ -88,6 +89,8 @@ class PostView extends React.PureComponent<postExtendedViewProps, postViewState>
     self._showConfirm = this._showConfirm.bind(this)
     self.showMoreComment = this.showMoreComment.bind(this)
     self._delete = this._delete.bind(this)
+    self.onLinkClick = this.onLinkClick.bind(this)
+    self.onLinkDown = this.onLinkDown.bind(this)
   }
 
   postMenuId: string = 'sidebar-post-menu-box-'
@@ -254,6 +257,20 @@ class PostView extends React.PureComponent<postExtendedViewProps, postViewState>
     }
   }
 
+  onLinkClick(e) {
+    const {linkTimer} = this.state
+    if (linkTimer) {
+      e.preventDefault()
+      this.setState({...this.state, linkTimer: false})
+    }
+  }
+
+  onLinkDown() {
+    setTimeout(() => {
+      this.setState({...this.state, linkTimer: true})
+    }, 400)
+  }
+
   render() {
     const self: any = this
 
@@ -305,7 +322,11 @@ class PostView extends React.PureComponent<postExtendedViewProps, postViewState>
                           {postDescription}
                         </div>
                         :
-                        <Link to={postIdentity && postIdentity.identity_type === 'user' ? `/user/${postOwnerId}/Posts/${post.id}` : `/organization/${postOwnerId}/Posts/${post.id}`} className='link-post-decoration'>
+                        <Link
+                            className='link-post-decoration'
+                            onMouseDown={this.onLinkDown}
+                            onClick={this.onLinkClick}
+                            to={postIdentity && postIdentity.identity_type === 'user' ? `/user/${postOwnerId}/Posts/${post.id}` : `/organization/${postOwnerId}/Posts/${post.id}`}>
                           <div className='post-content'
                                style={new RegExp('^[A-Za-z]*$').test(postDescription && postDescription[0]) ? {direction: 'ltr'} : {direction: 'rtl'}}
                                ref={e => self.text = e}>

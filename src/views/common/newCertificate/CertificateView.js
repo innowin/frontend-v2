@@ -97,8 +97,8 @@ class CertificateView extends React.Component <CertificateProps, CertificateStat
 
           <div className="content">
             {certificates.map(certificate => {
-              const certificatePicture = (certificate.certificate_picture && certificate.certificate_picture.id) || certificate.certificate_picture
-              const organizationId = (certificate.certificate_organization && certificate.certificate_organization.id) || certificate.certificate_organization
+              const certificatePicture = certificate.certificate_picture
+              const organizationId = certificate.certificate_organization
               return (
                   !isEdit[certificate.id]
                       ? <React.Fragment key={'certificate ' + certificate.id}>

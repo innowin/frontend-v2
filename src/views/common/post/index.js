@@ -9,12 +9,14 @@ const Posts = (props) => {
         <ListGroup>
           {
             posts && posts.map(post =>
-                <Post
-                    post={post}
-                    updatePost={updatePost}
-                    key={post.id + 'Posts'}
-                    deletePost={deletePost}
-                />,
+                post && post.id ?
+                    <Post
+                        post={post}
+                        updatePost={updatePost}
+                        key={post.id + 'Posts'}
+                        deletePost={deletePost}
+                    />
+                    : null,
             )
           }
         </ListGroup>

@@ -64,14 +64,11 @@ const PostMenu = (props: PostMenuProps) => {
 
 PostMenu.propTypes = {
   post: PropTypes.object.isRequired,
-  clientIdentity: PropTypes.number.isRequired,
+  clientIdentity: PropTypes.number,
   extendedView: PropTypes.bool.isRequired,
   menuToggle: PropTypes.bool.isRequired,
   openMenu: PropTypes.func.isRequired,
-  postIdentity: PropTypes.oneOfType([
-    PropTypes.object.isRequired,
-    PropTypes.number.isRequired,
-  ]),
+  postIdentity: PropTypes.oneOfType([PropTypes.object, PropTypes.number,]),
   translate: PropTypes.object.isRequired,
   deletePost: PropTypes.func.isRequired,
   showEdit: PropTypes.oneOfType([
