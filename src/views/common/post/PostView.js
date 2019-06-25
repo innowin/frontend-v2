@@ -154,7 +154,7 @@ class PostView extends React.PureComponent<postExtendedViewProps, postViewState>
 
   componentWillReceiveProps(nextProps) {
     const {post, extendedView} = nextProps
-    if (!extendedView && post && post.post_description !== this.props.post.post_description) {
+    if (!extendedView && post && post.post_description && post.post_description.length !== this.props.post.post_description.length) {
       const self: any = this
       let showMore = false
       let height = null

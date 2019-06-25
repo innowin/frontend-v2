@@ -25,9 +25,9 @@ class NewExchanges extends React.Component {
     // } else this.setState({...this.state, viewType: 'member-square-user'})
   }
 
-  _onDeleteFollowing(exchange) {
-    const {deleteExchangeMembership, userId} = this.props
-    deleteExchangeMembership({exchangeMembershipId: exchange.membership_id, exchangeMembershipOwnerId: userId})
+  _onDeleteFollowing(exchangeId) {
+    const {deleteExchangeMembership, clientId, followed} = this.props
+    deleteExchangeMembership({exchangeMembershipId: followed[exchangeId], exchangeMembershipOwnerId: clientId})
   }
 
   follow(exchangeId) {
@@ -55,7 +55,7 @@ class NewExchanges extends React.Component {
       </Link>
       {
         followed[exchange.id] ?
-            <div className="member-follow" onClick={() => this._onDeleteFollowing(exchange)}>
+            <div className="member-follow" onClick={() => this._onDeleteFollowing(exchange.id)}>
               <span className="member-following-button"> </span>
             </div>
             :

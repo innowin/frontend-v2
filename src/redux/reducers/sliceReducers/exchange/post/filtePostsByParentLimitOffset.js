@@ -4,7 +4,9 @@ const success = (state, action) => {
   const exchangeId = postParentId
 
   const postIds = data.reduce((sum, post) => {
-    return {...sum, [post.id]: post.id}
+    if (post.id !== 0)
+      return {...sum, [post.id]: post.id}
+    else return {...sum}
   }, {})
 
 

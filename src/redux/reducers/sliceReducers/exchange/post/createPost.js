@@ -5,17 +5,17 @@ const success = (state, action) => {
   const prevPostsContent = prevPosts ? prevPosts.content : []
   return {
     ...state,
-    list:{
+    list: {
       ...state.list,
       [exchangeId]: {
         ...state.list[exchangeId],
         posts: {
-          content: [data.id, ...prevPostsContent],
+          content: {...prevPostsContent, [data.id]: data.id},
           isLoading: false,
-          error: null
-        }
-      }
-    }
+          error: null,
+        },
+      },
+    },
   }
 }
 
@@ -30,5 +30,5 @@ const base = (state, action) => {
 export default {
   base,
   error,
-  success
+  success,
 }
