@@ -158,9 +158,10 @@ class PostView extends React.PureComponent<postExtendedViewProps, postViewState>
   componentWillReceiveProps(nextProps) {
     const {post, extendedView, instantViewComments, actions} = nextProps
     const {getCommentsByParentId} = actions
-    const self: any = this
     if (!extendedView && post && post.post_description && post.post_description.length !== this.props.post.post_description.length) {
-      this.setState({...this.state, showMore: false, descriptionHeight: self.text.scrollHeight})
+      const self: any = this
+      self.text.style.height = 'auto'
+      this.setState({...this.state, showMore: false})
     }
     if (instantViewComments && this.props.instantViewComments && this.props.instantViewComments.length > instantViewComments.length && instantViewComments.length < 3) {
       getCommentsByParentId({parentId: post.id, commentParentType: constants.COMMENT_PARENT.POST, limit: 3})

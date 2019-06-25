@@ -17,9 +17,9 @@ const validateEmail = ({value, translate}) => {
 }
 
 const validateWebSite = ({value, translate}) => {
-  if (!/^https|http:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}$/.test(value)) {
+  const urlExp = new RegExp('^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[A-Za-z0-9]+([\\-.][A-Za-z0-9]+)*\\.[A-Za-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$')
+  if (!urlExp.test(value))
     return translate['Url is wrong']
-  }
   else {
     return false
   }
