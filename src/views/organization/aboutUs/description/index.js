@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react'
-import PropTypes from 'prop-types'
+import * as PropTypes from 'prop-types'
 
 import CardContainer from '../../../common/cardContainer'
 import DescriptionForm from './DescriptionForm'
@@ -41,7 +41,7 @@ class Description extends React.Component<Props, States> {
     return (
         <CardContainer>
           {
-            !!isEdit
+            isEdit
                 ? <DescriptionForm updateOrganization={updateOrganization} toggleEdit={this._toggleEdit}
                                    organization={organization} translate={translate}/>
                 : <DescriptionView toggleEdit={this._toggleEdit} organization={organization} translate={translate}/>

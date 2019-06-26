@@ -13,7 +13,7 @@ const getAllExchanges = (state) => {
           let ok = false
           state.exchanges.searchByHashtags.forEach(hashtag => {
             exchange.exchange_hashtag.forEach(tag => {
-              if (!ok) ok = hashtag === tag.id
+              if (!ok) ok = hashtag === tag
             })
           })
           return ok

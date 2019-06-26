@@ -21,7 +21,7 @@ const DescriptionView = (props: Props) => {
             {translate['Organization biography']}
           </div>
           <CheckOwner id={organization.id}>
-            <div className='edit-button pulse' onClick={toggleEdit}>
+            <div id='editBiography' className='edit-button pulse' onClick={toggleEdit}>
               {translate['Edit']}
             </div>
           </CheckOwner>

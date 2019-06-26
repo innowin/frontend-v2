@@ -7,14 +7,15 @@ import {put, take, fork, call, select} from 'redux-saga/effects'
 export function* getAllExchanges(action) {
   const {limit, offset, search, hashtags, getAll} = action.payload
   let params = search ? `?name=${search}` : `?limit=${limit}&offset=${offset}`
-  if (hashtags) hashtags.forEach(tag => params += `&hashtag_filter=${JSON.stringify(tag)}`)
+  if (hashtags) hashtags && hashtags.forEach(tag => params += `&hashtag_filter=${tag}`)
   yield put({type: types.SUCCESS.EXCHANGE.GET_EXCHANGES, payload: {data: [], search: getAll ? null : search, hashtags: getAll ? null : hashtags, isLoading: true}})
-  const socketChannel = yield call(api.createSocketChannel, results.EXCHANGE.GET_EXCHANGES)
+  const result = `${results.EXCHANGE.GET_EXCHANGES}-${Math.random()}`
+  const socketChannel = yield call(api.createSocketChannel, result)
   try {
     yield fork(
         api.get,
         urls.EXCHANGE_EXPLORER,
-        results.EXCHANGE.GET_EXCHANGES,
+        result,
         params,
     )
     const data = yield take(socketChannel)

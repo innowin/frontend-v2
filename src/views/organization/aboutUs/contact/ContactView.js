@@ -21,7 +21,7 @@ const ContactView = (props: ContactProps) => {
             {translate['Call']}
           </div>
           <CheckOwner id={organization.id}>
-            <div className='edit-button pulse' onClick={toggleEdit}>
+            <div id='editContact' className='edit-button pulse' onClick={toggleEdit}>
               {translate['Edit']}
             </div>
           </CheckOwner>

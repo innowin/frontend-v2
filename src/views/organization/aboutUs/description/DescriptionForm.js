@@ -96,7 +96,7 @@ class DescriptionForm extends React.Component <Props, States> {
           </div>
 
           <form className='content' onSubmit={this._onSubmit} method='POST'>
-            <textarea onChange={this._onChangeFields} className='edit-text-fields' defaultValue={organization.biography}
+            <textarea id='bioTxt' onChange={this._onChangeFields} className='edit-text-fields' defaultValue={organization.biography}
                       name='biography'/>
             {biography && <div className='text-field-error'>{biography}</div>}
             <ConfirmFormButton translate={translate} toggleEdit={toggleEdit}/>

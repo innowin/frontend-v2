@@ -1,6 +1,7 @@
 // @flow
 import * as React from 'react'
-import PropTypes from 'prop-types'
+import * as PropTypes from 'prop-types'
+import {Redirect} from 'react-router-dom'
 import type {organizationType} from 'src/consts/flowTypes/organization/organization'
 import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
 import type {userType} from 'src/consts/flowTypes/user/basicInformation'
@@ -34,6 +35,7 @@ import getAllCountries from '../../redux/selectors/common/location/getCountry'
 import {getCountries} from '../../redux/actions/commonActions/location'
 import MyDatePicker from '../common/components/DatePicker'
 import {getFolloweesSelector} from 'src/redux/selectors/common/social/getFollowees'
+import CatalogForm from '../organization/aboutUs/catalog/CatalogForm'
 
 type PropsSideBarContent = {
   sideBarType: string,
@@ -104,6 +106,8 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
       processingBanner: false,
       profileBannerId: null,
       profileMediaId: null,
+      redirect: false,
+      redirectUrl: '',
       showModalState: {
         add: false,
         education: false,
@@ -111,6 +115,7 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
         skill: false,
         certificate: false,
         research: false,
+        catalog: false,
       },
     }
   }
@@ -391,6 +396,125 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
     }
   }
 
+  editBio = () => {
+    const {paramId} = this.props
+    const redirectUrl = `/organization/${paramId}/basicInformation`
+    if (!window.location.pathname.includes(redirectUrl)) {
+      this.setState({
+        ...this.state,
+        redirect: true,
+        redirectUrl,
+        showModalState: {add: false},
+      }, () => {
+        setTimeout(() => {
+          const btnEdit = document.getElementById('editBiography')
+          if (btnEdit) {
+            const rect = btnEdit.getBoundingClientRect()
+            window.scroll({
+              top: window.scrollY + rect.top - 90,
+              behavior: 'smooth',
+            })
+            btnEdit.click()
+            setTimeout(() => {
+              this.setState({
+                ...this.state,
+                redirect: false,
+                redirectUrl: '',
+              }, () => {
+                const bioTxt = document.getElementById('bioTxt')
+                bioTxt && bioTxt.focus()
+              })
+            }, 300)
+          }
+        }, 300)
+      })
+    }
+    else {
+      this.setState({
+        ...this.state,
+        showModalState: {add: false},
+      }, () => {
+        const btnEdit = document.getElementById('editBiography')
+        if (btnEdit) {
+          const rect = btnEdit.getBoundingClientRect()
+          window.scroll({
+            top: window.scrollY + rect.top - 90,
+            behavior: 'smooth',
+          })
+          btnEdit.click()
+          setTimeout(() => {
+            this.setState({
+              ...this.state,
+              redirect: false,
+              redirectUrl: '',
+            }, () => {
+              const bioTxt = document.getElementById('bioTxt')
+              bioTxt && bioTxt.focus()
+            })
+          }, 300)
+        }
+      })
+    }
+  }
+
+  editContact = () => {
+    const {paramId} = this.props
+    const redirectUrl = `/organization/${paramId}/basicInformation`
+    if (!window.location.pathname.includes(redirectUrl)) {
+      this.setState({
+        ...this.state,
+        redirect: true,
+        redirectUrl,
+        showModalState: {add: false},
+      }, () => {
+        setTimeout(() => {
+          const btnEdit = document.getElementById('editContact')
+          if (btnEdit) {
+            const rect = btnEdit.getBoundingClientRect()
+            window.scroll({
+              top: window.scrollY + rect.top - 90,
+              behavior: 'smooth',
+            })
+            btnEdit.click()
+            this.setState({
+              ...this.state,
+              redirect: false,
+              redirectUrl: '',
+            })
+          }
+        }, 300)
+      })
+    }
+    else {
+      this.setState({
+        ...this.state,
+        showModalState: {add: false},
+      }, () => {
+        const btnEdit = document.getElementById('editContact')
+        if (btnEdit) {
+          const rect = btnEdit.getBoundingClientRect()
+          window.scroll({
+            top: window.scrollY + rect.top - 90,
+            behavior: 'smooth',
+          })
+          btnEdit.click()
+          this.setState({
+            ...this.state,
+            redirect: false,
+            redirectUrl: '',
+          })
+        }
+      })
+    }
+  }
+
+  renderRedirect() {
+    const {redirect, redirectUrl} = this.state
+    if (redirect) {
+      return <Redirect to={redirectUrl}/>
+    }
+  }
+
   render() {
     const {
       editProfile, selectedBanner, selectedImage, descriptionState, descriptionClass, processing,
@@ -399,7 +523,7 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
     } = this.state
     const {sideBarType, badges, translate: tr, paramId, followees, owner, bannerIdTemp, pictureIdTemp, actions, temp, countries} = this.props
     const {createWorkExperience, createEducation, createCertificate, createSkill, createResearch} = actions
-    const {add, education, research, certificate, skill, workExperience} = showModalState
+    const {add, education, research, certificate, skill, workExperience, catalog} = showModalState
     const badgesImg = badges.map(badge => !badge ? '' : badge.badge_related_badge_category.badge_related_media.file)
     const chosenBadgesImg = badgesImg.slice(0, 4)
     const showFollow = !followees.map(follower => follower.follow_followed && follower.follow_followed.id ? follower.follow_followed.id : parseInt(follower.follow_followed, 10)).includes(owner.id)
@@ -411,6 +535,7 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
 
     return (
         <div className='col-md-3 col-sm-1 -right-sidebar-wrapper col'>
+          {this.renderRedirect()}
           <form className='-right-sidebar-wrapper-cont' onSubmit={this._handleSubmit}>
             <div className="editable-profile-img">
               {
@@ -778,12 +903,25 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
               <div className="head">
                 <div className="title">{tr && tr['Add new expereince']}</div>
               </div>
-              <p onClick={() => this._toggleEducationModal('education')} className='item pulse'>{tr && tr['Education Experience']}</p>
-              <p onClick={() => this._toggleEducationModal('workExperience')} className='item pulse'>{tr && tr['Work experience']}</p>
-              <p onClick={() => this._toggleEducationModal('skill')} className='item pulse'>{tr && tr['Skill']}</p>
-              <p onClick={() => this._toggleEducationModal('certificate')} className='item pulse'>{tr && tr['Certificate']}</p>
-              <p onClick={() => this._toggleEducationModal('product')} className='item pulse'>{tr && tr['Product']}</p>
-              <p onClick={() => this._toggleEducationModal('research')} className='item pulse'>{tr && tr['Scientific Research']}</p>
+              {
+                sideBarType === constants.USER_TYPES.ORG ?
+                    <React.Fragment>
+                      <p onClick={this.editBio} className='item pulse'>معرفی شرکت</p>
+                      <p onClick={this.editContact} className='item pulse'>اطلاعات تماس</p>
+                      <p onClick={() => this._toggleEducationModal('certificate')} className='item pulse'>{tr && tr['Certificate']}</p>
+                      <p onClick={() => this._toggleEducationModal('product')} className='item pulse'>{tr && tr['Product']}</p>
+                      <p onClick={() => this._toggleEducationModal('catalog')} className='item pulse'>کاتالوگ</p>
+                    </React.Fragment>
+                    :
+                    <React.Fragment>
+                      <p onClick={() => this._toggleEducationModal('education')} className='item pulse'>{tr && tr['Education Experience']}</p>
+                      <p onClick={() => this._toggleEducationModal('workExperience')} className='item pulse'>{tr && tr['Work experience']}</p>
+                      <p onClick={() => this._toggleEducationModal('skill')} className='item pulse'>{tr && tr['Skill']}</p>
+                      <p onClick={() => this._toggleEducationModal('certificate')} className='item pulse'>{tr && tr['Certificate']}</p>
+                      <p onClick={() => this._toggleEducationModal('product')} className='item pulse'>{tr && tr['Product']}</p>
+                      <p onClick={() => this._toggleEducationModal('research')} className='item pulse'>{tr && tr['Scientific Research']}</p>
+                    </React.Fragment>
+              }
             </div>
           </Modal>
 
@@ -820,6 +958,12 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
                                       translate={tr}
                                       owner={owner}
                                       toggleEdit={() => this._toggleEducationModal('research')}
+            />
+          }
+          {
+            catalog && <CatalogForm translate={tr}
+                                    owner={owner}
+                                    toggleEdit={() => this._toggleEducationModal('catalog')}
             />
           }
 
