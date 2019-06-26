@@ -5,14 +5,15 @@
     display: none;
   }
 
-  .comment-svg-container{
-    .comment-svg{
+  .comment-svg-container {
+    .comment-svg .like-svg .liked-svg {
       position: absolute;
       left: -17px;
     }
+
     & > span {
       position: absolute;
-      right: 10px;
+      right: 35px;
       font-size: 4mm;
     }
   }

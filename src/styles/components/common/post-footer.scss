@@ -5,9 +5,10 @@
   height: 12px;
   margin-right: 1px;
   margin-bottom: 2px;
+  fill: lighten($text-light-color, 3%);
 }
 
-.more-option-svg-container{
+.more-option-svg-container {
   width: 30px;
   height: 30px;
 }
@@ -16,13 +17,25 @@
   width: 20px;
 }
 
-.comment-svg-container{
+.like-svg {
+  fill: lighten($text-light-color, 3%);
+  width: 19px;
+}
+
+.liked-svg {
+  fill: lighten($secondary-color, 3%);
+  transition-duration: $animation-timing;
+  width: 19px;
+}
+
+.comment-svg-container {
   width: 30px;
   height: 30px;
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
+
   & > span {
     position: absolute;
     right: -10px;

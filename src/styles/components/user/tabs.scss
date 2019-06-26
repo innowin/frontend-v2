@@ -267,10 +267,6 @@
     .footer-part {
       flex: 1;
 
-      svg {
-        fill: lighten($text-light-color, 3%);
-      }
-
       span, i {
         color: lighten($text-light-color, 3%);
       }
