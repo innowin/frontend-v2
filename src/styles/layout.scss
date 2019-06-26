@@ -33,16 +33,46 @@
 
 .home-sidebar-cont {
   margin-top: 10px;
-  border-radius: $border-radius-size;
   height: calc(99vh - 351px);
   overflow-y: auto;
-  //background: $text-lightest-color;
-  //box-shadow: 0 3px 3px $box-shadow-color;
+  padding-left: 1px;
+
   .item-wrapper {
     &.active {
-      background: darken($image-background-color, 2%);
+      background: $selected-exchange;
+      border-left: 2px solid $success-color;
     }
   }
+
+  &:hover {
+    &::-webkit-scrollbar-thumb {
+      background-color: $scroll-color;
+      transition: all linear 0.3s;
+    }
+  }
+
+  &::-webkit-scrollbar {
+    width: 5px;
+    border-radius: $border-radius-size;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+    border-radius: $border-radius-size;
+    box-shadow: none;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: transparent;
+    border-radius: $border-radius-size;
+    box-shadow: none;
+    transition: all linear 0.3s;
+
+    &:hover {
+      background: $scroll-color-hover;
+    }
+  }
+
 }
 
 .exchanges-last {
@@ -54,27 +84,6 @@
   transform: translateY(-95%);
   left: 0;
   right: 0;
-}
-
-.home-sidebar-cont::-webkit-scrollbar {
-  width: 5px;
-  border-radius: $border-radius-size;
-}
-
-.home-sidebar-cont::-webkit-scrollbar-track {
-  background-color: transparent;
-  border-radius: $border-radius-size;
-  box-shadow: none;
-}
-
-.home-sidebar-cont::-webkit-scrollbar-thumb {
-  background: $scroll-color;
-  border-radius: $border-radius-size;
-  box-shadow: none;
-
-  &:hover {
-    background: $scroll-color-hover;
-  }
 }
 
 .home-sidebar-cont-title {

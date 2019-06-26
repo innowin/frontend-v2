@@ -121,9 +121,8 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
   }
 
   componentDidMount() {
-    const {actions, description, clientIdentityId} = this.props
-    const {getFollowees, getCountries} = actions || {}
-    getFollowees({notProfile: true, followOwnerIdentity: clientIdentityId, followOwnerId: clientIdentityId})
+    const {actions, description} = this.props
+    const {getCountries} = actions
     getCountries()
     this.setState({...this.state, descriptionState: description}, () => this._checkCharacter(description))
   }

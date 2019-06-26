@@ -72,7 +72,7 @@ class LeftSideRegisterStepsModal extends React.Component<LeftSideRegisterStepsMo
                     onClick={onNext}>{step === 5 ? translate['Start Inovin'] : translate['Next']}</button>
             {step === 5 &&
             <button className='common-modal-button back-button footer-button'
-                    onClick={onStartTour}>{translate['Inovin tour']}
+                    onClick={onStartTour}>{translate['Innowin tour']}
             </button>
             }
             {step === 5 &&

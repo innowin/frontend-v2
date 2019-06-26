@@ -7,9 +7,6 @@ export default {
     // this field sets in createProduct success
     // and sets to null again by in createProduct request (base type).
   },
-  productPicture: {
-    list: {}
-  },
   price: {
     list: {}
   }

@@ -82,7 +82,7 @@ module.exports = {
   'Connect to linkedin': 'اتصال به اکانت لینکدین',
   'You can follow users': 'می توانید تعدادی از افراد را دنبال کنید',
   'Start Inovin': 'آغاز اینوین',
-  'Inovin tour': 'تور اینوین',
+  'Innowin tour': 'تور اینوین',
   'Complete profile': 'تکمیل پروفایل',
   'Windows': 'پنجره ها',
   'Select at least one favorite': 'برای ادامه، حداقل یک مورد از زمینه های علاقه مندی خود را انتخاب کنید.',
@@ -574,4 +574,5 @@ module.exports = {
   'full_time_hire': 'کارت تمام وقت',
   'internship_hire': 'فرصت کارآموزی',
   'not_hiring': 'جذب نیرو نداریم',
+  'bitch please': 'عشقی داداش'
 }

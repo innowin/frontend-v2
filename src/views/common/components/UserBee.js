@@ -87,19 +87,20 @@ class UserBee extends PureComponent {
       let job = 0
       let bio = 0
 
-      if (currentUser.profile_media) {
+      if (currentUser && currentUser.profile_media) {
         image = 30
       }
-      if ((currentUser.last_name && currentUser.last_name.trim().length > 0) || (currentUser.first_name && currentUser.first_name.trim().length > 0)) {
+      if ((currentUser && currentUser.last_name && currentUser.last_name.trim().length > 0) ||
+          (currentUser && currentUser.first_name && currentUser.first_name.trim().length > 0)) {
         name = 20
       }
-      if (currentUser.description && currentUser.description.trim().length > 0) {
+      if (currentUser && currentUser.description && currentUser.description.trim().length > 0) {
         bio = 20
       }
-      if (currentUser.educations && currentUser.educations.content.length > 0) {
+      if (currentUser && currentUser.educations && currentUser.educations.content.length > 0) {
         graduate = 15
       }
-      if (currentUser.workExperiences && currentUser.workExperiences.content.length > 0) {
+      if (currentUser && currentUser.workExperiences && currentUser.workExperiences.content.length > 0) {
         job = 15
       }
 

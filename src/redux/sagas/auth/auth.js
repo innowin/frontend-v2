@@ -44,4 +44,5 @@ export function* signOut() {
   yield call(client.clearData)
   yield put({type: types.RESET})
   yield put({type: types.AUTH.SIGN_OUT_FINISHED})
+  window.location.reload()
 }

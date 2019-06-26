@@ -18,7 +18,10 @@ import ProductView from './views/product/productView/ProductView'
 import ExchangeExplorer from './views/exchange/explore/Explore'
 import ExchangeView from './views/exchange/Exchange_View'
 import Notifications from './views/pages/Notifications'
-
+import GetUserActions from './redux/actions/user/getUserActions'
+import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
+import SocialActions from './redux/actions/commonActions/socialActions'
 
 class App extends React.PureComponent {
   constructor(props) {
@@ -33,6 +36,15 @@ class App extends React.PureComponent {
   }
 
   _hideModalClick = () => this.setState({...this.state, showRegisterModal: false})
+
+  componentDidMount() {
+    const {clientId, actions} = this.props
+    // needed for instant view & clear cache
+    if (clientId) {
+      actions.getUserByUserId(clientId)
+      actions.getFollowees({notProfile: true, followOwnerIdentity: clientId, followOwnerId: clientId})
+    }
+  }
 
   _onRegisterClick = () => {
     const {email, password} = this.state.signUpFields
@@ -83,7 +95,17 @@ class App extends React.PureComponent {
         </div>
     )
   }
-
 }
 
-export default App
+const mapStateToProps = state => ({
+  clientId: state.auth.client.identity.content,
+})
+
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators({
+    getUserByUserId: GetUserActions.getUserByUserId,
+    getFollowees: SocialActions.getFollowees,
+  }, dispatch),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)

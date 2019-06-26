@@ -14,7 +14,7 @@ import IntroduceBadges from './TopBarComponents/IntroduceBadges'
 import LinkedAccounts from './TopBarComponents/LinkedAccounts'
 import Material from '../common/components/Material'
 import Privacy from './TopBarComponents/Privacy'
-import PropTypes from 'prop-types'
+import * as PropTypes from 'prop-types'
 import UserAgreement from './TopBarComponents/UserAgreement'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
@@ -264,7 +264,6 @@ class TopBar extends PureComponent<PropsTopBar, StatesTopBar> {
       showHamburger: false,
     })
     this.props.actions.signOut()
-    window.location.reload()
   }
 
   _handleMouseEnter = () => {
