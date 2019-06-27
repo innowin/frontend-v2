@@ -1,14 +1,14 @@
 // @flow
 import * as React from "react"
-import * as PropTypes from 'prop-types'
+import * as PropTypes from "prop-types"
 import {bindActionCreators} from "redux"
 import {connect} from "react-redux"
 
 import type {workExperienceType} from "src/consts/flowTypes/user/others"
-import WorkExperience from './WorkExperience'
-import WorkExperienceActions from "../../../redux/actions/user/workExperienceActions";
+import WorkExperience from "./WorkExperience"
+import WorkExperienceActions from "../../../redux/actions/user/workExperienceActions"
 import WorkExperienceCreateForm from "./WorkExperienceCreateForm"
-import workExperienceIcon from "../../../images/user/workExperience_svg";
+import workExperienceIcon from "../../../images/user/workExperience_svg"
 import {FrameCard, CategoryTitle, ListGroup, ItemWrapper} from "src/views/common/cards/Frames"
 import {getMessages} from "../../../redux/selectors/translateSelector"
 import {makeGetWorkExperiences} from "../../../redux/selectors/user/userGetWorkExperiencesSelector"
@@ -79,7 +79,7 @@ class WorkExperiences extends React.Component<PropsWorkExperiences, StateWorkExp
         // <VerifyWrapper isLoading={isLoading} error={error}>
         <div>
           <CategoryTitle
-              title={translate['WorkExperience']}
+              title={translate["WorkExperience"]}
               showCreateForm={this._showCreateForm}
               createForm={createForm}
           />
@@ -145,7 +145,7 @@ const mapDispatchToProps = dispatch => ({
     updateWorkExperienceByUserId: WorkExperienceActions.updateWorkExperienceByUserId,
     createWorkExperienceByUserId: WorkExperienceActions.createWorkExperienceByUserId,
     deleteWorkExperienceByUserId: WorkExperienceActions.deleteWorkExperienceByUserId,
-  }, dispatch)
+  }, dispatch),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(WorkExperiences)

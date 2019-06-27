@@ -374,7 +374,7 @@ class OrganizationLeadershipModal extends PureComponent {
                    onClick={() => jobTitle.length > 2 && this.setState({...this.state, level: ++level})}>
                 ذخیره و ادامه
               </div>
-              <div className="org-leadership-previous-button" onClick={() => this.props.actions.createLike({like_sender: 2445, like_parent: 32609})}>
+              <div className="org-leadership-previous-button" onClick={() => toggle()}>
                 لغو
               </div>
             </React.Fragment>

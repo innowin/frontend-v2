@@ -1,5 +1,5 @@
 import * as React from "react"
-import * as PropTypes from 'prop-types'
+import * as PropTypes from "prop-types"
 import {MoreOptionSvg} from "src/images/icons"
 import {Link} from "react-router-dom"
 import checkOwner from "../CheckOwner"
@@ -68,7 +68,7 @@ PostMenu.propTypes = {
   extendedView: PropTypes.bool.isRequired,
   menuToggle: PropTypes.bool.isRequired,
   openMenu: PropTypes.func.isRequired,
-  postIdentity: PropTypes.oneOfType([PropTypes.object, PropTypes.number,]),
+  postIdentity: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
   translate: PropTypes.object.isRequired,
   deletePost: PropTypes.func.isRequired,
   showEdit: PropTypes.oneOfType([
