@@ -93,16 +93,9 @@ class OrganizationLeadershipModal extends PureComponent {
         post_title: "موقعیت شغلی: " + jobTitle + " " + jobTypes.map(p => p),
         post_type: "demand",
       }
-      let postOwnerId = clientIdentity.id
       let postParentId = parseInt(exId, 10)
       let postParentType = "exchange"
-      createPost({
-        formValues,
-        postOwnerId,
-        postParentId,
-        postParentType,
-        postFileIds: [],
-      })
+      createPost({formValues, postParentId, postParentType, postFileIds: [],})
     })
     this.setState({...this.state, level: 1}, toggle())
 

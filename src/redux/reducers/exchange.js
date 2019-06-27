@@ -46,12 +46,6 @@ const exchanges = (state = initialState.exchanges, action) => {
 
     case types.EXCHANGE.REMOVE_SEARCH_MODE:
       return removeExchangesSearchMode.success(state, action)
-      /** -------------------------- add one post to exchange posts  -------------------------> **/
-    case types.SUCCESS.COMMON.POST.CREATE_POST :
-      if (postParentType === POST_PARENT.EXCHANGE) {
-        return postsExchange.createPost.success(state, action)
-      }
-      return state
       /** -------------------------- delete one post from exchange posts  -------------------------> **/
     case types.SUCCESS.COMMON.POST.DELETE_POST:
       if (postParentType === POST_PARENT.EXCHANGE) {

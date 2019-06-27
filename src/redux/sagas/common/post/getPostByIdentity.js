@@ -24,14 +24,12 @@ export function* getPostByIdentity(action) {
         tempUsersId.push(data[i].post_related_identity.id)
         yield put({type: types.SUCCESS.USER.GET_USER_BY_USER_ID, payload: {data: {...data[i].post_related_identity}, userId: data[i].post_related_identity.id}})
       }
+      if (data[i].post_related_product) {
+        yield put({type: types.COMMON.GET_PRODUCT_INFO, payload: {id: data[i].post_related_product}})
+      }
       data[i].post_related_identity = data[i].post_related_identity.id
     }
     yield put({type: types.SUCCESS.COMMON.POST.GET_POST_BY_IDENTITY, payload: {data, postIdentity, postOwnerId}})
-    for (let post of data) {
-      if (post.post_related_product) {
-        yield put({type: types.COMMON.GET_PRODUCT_INFO, payload: {id: post.post_related_product}})
-      }
-    }
   }
   catch (error) {
     const {message} = error

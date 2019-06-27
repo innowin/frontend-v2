@@ -146,7 +146,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     getProductsByIdentity: ProductActions.getProductsByIdentity,
-    getProductInfo: ProductActions.getProductInfo,
   }, dispatch),
 })
 

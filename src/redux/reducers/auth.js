@@ -42,9 +42,6 @@ const auth = (state = initialState.auth, action) => {
         return slices.getPost.success(state, action)
       else return state
     }
-      /** -------------------------- create post  -------------------------> **/
-    case types.SUCCESS.COMMON.POST.CREATE_POST:
-      return slices.createPost.success(state, action)
       /** -------------------------- delete post  -------------------------> **/
     case types.SUCCESS.COMMON.POST.DELETE_POST:
       return slices.deletePost.success(state, action)

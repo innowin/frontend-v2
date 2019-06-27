@@ -303,7 +303,7 @@ class PostView extends React.PureComponent<postExtendedViewProps, postViewState>
     } = this.props
 
     const {menuToggleBottom, menuToggleTop, confirm, showComment, commentOn, is_liked} = this.state
-    const postDescription = post && post.post_description.trim()
+    const postDescription = post && post.post_description && post.post_description.trim()
     const postOwnerId = postIdentity && postIdentity.id
     const postFilesArray = post && post.post_files_array
 

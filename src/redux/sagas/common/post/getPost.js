@@ -10,6 +10,8 @@ export function* getPost(action) {
   try {
     yield fork(api.get, urls.COMMON.POST, results.COMMON.POST.GET_POST, `${postId}`)
     const data = yield take(socketChannel)
+    yield put({type: types.SUCCESS.USER.GET_USER_BY_USER_ID, payload: {data: data.post_related_identity}, userId: data.post_related_identity.id})
+    data.post_related_identity = data.post_related_identity.id
     if (data.post_related_product) {
       yield put({type: types.COMMON.GET_PRODUCT_INFO, payload: {id: data.post_related_product}})
     }

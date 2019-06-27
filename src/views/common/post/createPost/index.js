@@ -486,14 +486,11 @@ class CreatePost extends PureComponent {
   }
 
   _save = () => {
-    const {
-      actions, currentUserId, postParentId, postParentType, postImg1Id, postImg2Id, postImg3Id,
-      postMediaId, postFileId, isUpdate, updateFunc, post,
-    } = this.props
+    const {actions, postParentId, postParentType, postImg1Id, postImg2Id, postImg3Id, postMediaId, postFileId, isUpdate, updateFunc, post} = this.props
     const {removePictureArray} = this.state
     const {createPost, removeFileFromTemp, deleteFile} = actions
     const formValues = this._getValues()
-    const postPictureIds = [postImg1Id, postImg2Id, postImg3Id].filter(img => img) //filter imges that not null & not undefined
+    const postPictureIds = [postImg1Id, postImg2Id, postImg3Id].filter(img => img) //filter images that not null & not undefined
     const postAttachedFileIds = (postPictureIds.length > 0 && postPictureIds)
         || (postMediaId && [postMediaId])
         || (postFileId && [postFileId]) || []
@@ -504,10 +501,7 @@ class CreatePost extends PureComponent {
       updateFunc(formValues, post.id, postAttachedFileIds)
     }
     else {
-      createPost({
-        formValues, postOwnerId: currentUserId, postParentId, postParentType,
-        postFileIds: postAttachedFileIds,
-      })
+      createPost({formValues, postParentId, postParentType, postFileIds: postAttachedFileIds})
     }
     removeFileFromTemp(POST_IMG1_TEMP_KEY)
     removeFileFromTemp(POST_IMG2_TEMP_KEY)

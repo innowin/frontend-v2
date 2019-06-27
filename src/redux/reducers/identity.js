@@ -388,9 +388,6 @@ const identities = (state = initialState.identities, action) => {
       /** -------------------------- get post  -------------------------> **/
     case types.SUCCESS.COMMON.POST.GET_POST:
       return userSlices.getPost.success(state, action)
-      /** -------------------------- create post  -------------------------> **/
-    case types.SUCCESS.COMMON.POST.CREATE_POST:
-      return userSlices.createPost.success(state, action)
       /** -------------------------- delete post  -------------------------> **/
     case types.SUCCESS.COMMON.POST.DELETE_POST:
       return userSlices.deletePost.success(state, action)

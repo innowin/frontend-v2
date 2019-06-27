@@ -61,12 +61,11 @@ const getPost = ({postId, postOwnerId}) => {
   }
 }
 
-const createPost = ({formValues, postOwnerId, postParentId, postParentType, postFileIds = []}) => {
+const createPost = ({formValues, postParentId, postParentType, postFileIds = []}) => {
   return {
     type: types.COMMON.POST.CREATE_POST,
     payload: {
       formValues,
-      postOwnerId,
       postParentId,
       postParentType,
       postFileIds,

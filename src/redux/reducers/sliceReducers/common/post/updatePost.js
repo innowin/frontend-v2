@@ -3,10 +3,10 @@ const base = (state, action) => {
   const prevPost = state.list[postId]
   return {
     ...state,
-    list:{
+    list: {
       ...state.list,
-      [postId]: {...prevPost, error: null, isLoading: true}
-    }
+      [postId]: {...prevPost, error: null, isLoading: true},
+    },
   }
 }
 
@@ -15,15 +15,15 @@ const success = (state, action) => {
   const prevPost = state.list[postId]
   return {
     ...state,
-    list:{
+    list: {
       ...state.list,
       [postId]: {
         ...prevPost,
         ...data,
         isLoading: false,
-        error: null
-      }
-    }
+        error: null,
+      },
+    },
   }
 }
 
@@ -32,10 +32,10 @@ const error = (state, action) => {
   const prevPost = state.list[postId]
   return {
     ...state,
-    list:{
+    list: {
       ...state.list,
-      [postId]: {...prevPost, isLoading: true, error: message}
-    }
+      [postId]: {...prevPost, isLoading: true, error: message},
+    },
   }
 }
 
