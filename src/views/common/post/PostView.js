@@ -100,13 +100,14 @@ class PostView extends React.PureComponent<postExtendedViewProps, postViewState>
   postMenuId: string = 'sidebar-post-menu-box-'
 
   componentDidMount() {
-    let showMore = false
-    let is_liked = false
-    let descriptionHeight = null
     const self: any = this
     const {extendedView, post, actions} = this.props
 
     if (self.text) {
+      let showMore = false
+      let is_liked = false
+      let descriptionHeight = null
+
       const allWords = self.text.innerText.replace(/\n/g, ' ').split(' ')
       const mailExp = new RegExp('^(([^<>()\\[\\]\\\\.,;:\\s@"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$')
       const urlExp = new RegExp('^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[A-Za-z0-9]+([\\-.][A-Za-z0-9]+)*\\.[A-Za-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$')
@@ -141,26 +142,24 @@ class PostView extends React.PureComponent<postExtendedViewProps, postViewState>
         }
       }
 
-      if (!extendedView && post.post_description && self.text.clientHeight > 146) {
-        const height = self.text.clientHeight
-        if (new RegExp('^[A-Za-z]*$').test(post.post_description[0])) self.text.style.paddingRight = '60px'
-        else self.text.style.paddingLeft = '60px'
-        self.text.style.height = '139px'
-        showMore = true
-        descriptionHeight = height
+      if (post && post.is_post_liked_by_logged_in_user !== undefined) {
+        is_liked = post.is_post_liked_by_logged_in_user
       }
-      else if (extendedView) {
+      if (extendedView) {
         const {getCommentsByParentId} = actions
         const {match} = this.props
         getCommentsByParentId({parentId: match.params.id, commentParentType: constants.COMMENT_PARENT.POST})
       }
+      else if (post.post_description && self.text.clientHeight > 146) {
+        showMore = true
+        descriptionHeight = self.text.scrollHeight + 20
+        if (new RegExp('^[A-Za-z]*$').test(post.post_description[0])) self.text.style.paddingRight = '60px'
+        else self.text.style.paddingLeft = '60px'
+        self.text.style.height = '139px'
+      }
+      this.setState({...this.state, is_liked, showMore, descriptionHeight})
     }
 
-    if (post && post.is_post_liked_by_logged_in_user !== undefined) {
-      is_liked = post.is_post_liked_by_logged_in_user
-    }
-
-    this.setState({...this.state, is_liked, showMore, descriptionHeight})
 
     document.addEventListener('click', this._handleClickOutMenuBoxBottom)
     document.addEventListener('touchend', this._handleClickOutMenuBoxBottom)
@@ -169,22 +168,18 @@ class PostView extends React.PureComponent<postExtendedViewProps, postViewState>
   componentWillReceiveProps(nextProps) {
     const {post, extendedView, instantViewComments, actions} = nextProps
     if (post) {
-      const {getCommentsByParentId} = actions
-      let showMore = false
-      let is_liked = false
-
       if (post !== this.props.post && post.is_post_liked_by_logged_in_user !== undefined) {
-        is_liked = post.is_post_liked_by_logged_in_user
+        this.setState({...this.state, is_liked: post.is_post_liked_by_logged_in_user})
       }
       if (!extendedView && post.post_description && post.post_description.length !== this.props.post.post_description.length) {
         const self: any = this
         self.text.style.height = 'auto'
-        showMore = false
+        this.setState({...this.state, showMore: false})
       }
       if (instantViewComments && this.props.instantViewComments && this.props.instantViewComments.length > instantViewComments.length && instantViewComments.length < 3) {
+        const {getCommentsByParentId} = actions
         getCommentsByParentId({parentId: post.id, commentParentType: constants.COMMENT_PARENT.POST, limit: 3})
       }
-      this.setState({...this.state, showMore, is_liked})
     }
   }
 
@@ -269,8 +264,7 @@ class PostView extends React.PureComponent<postExtendedViewProps, postViewState>
       const {descriptionHeight} = this.state
       const self: any = this
       self.text.style.height = descriptionHeight && descriptionHeight + 'px'
-      self.text.style.paddingRight = '0'
-      self.text.style.paddingLeft = '0'
+      self.text.style.padding = '10px 0'
     })
   }
 
