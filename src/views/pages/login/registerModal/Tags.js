@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react'
-import PropTypes from "prop-types"
+import * as PropTypes from 'prop-types'
 import FontAwesome from "react-fontawesome"
 import constants from "src/consts/constants";
 

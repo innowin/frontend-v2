@@ -19,7 +19,7 @@ export function* getAllExchanges(action) {
         params,
     )
     const data = yield take(socketChannel)
-    yield put({type: types.SUCCESS.EXCHANGE.GET_EXCHANGES, payload: {data, search: getAll ? null : search, hashtags: getAll ? null : hashtags, isLoading: false}})
+    yield put({type: types.SUCCESS.EXCHANGE.GET_EXCHANGES, payload: {data, search: getAll && data.length === 0 ? null : search, hashtags: getAll && data.length === 0 ? null : hashtags, isLoading: false}})
 // Added for get membership
     const identityId = yield select((state) => state.auth.client.identity.content)
     yield put({

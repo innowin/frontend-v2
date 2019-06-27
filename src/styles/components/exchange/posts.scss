@@ -1,26 +1,13 @@
 @import "../../variables";
 
-.standard-exchange-margin-top {
-  margin-top: $standard-vertical-margin;
-}
-
 .exchange-content-view-frame {
-  //margin-top: $standard-vertical-margin;
-  //margin-right: calc(5% + 340px + 30px);
   display: inline-block;
   vertical-align: top;
   border-radius: $border-radius-size;
   background-color: transparent;
-  min-height: 20px;
-  height: auto;
   width: 99.5%;
   padding-right: .5%;
-  //overflow-y: hidden;
-}
-
-
-.posts-frame-container {
-  transition-duration: $animation-timing;
+  margin-top: 10px;
 }
 
 .posts-frame {

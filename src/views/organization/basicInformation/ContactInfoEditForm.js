@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react"
-import PropTypes from "prop-types"
+import * as PropTypes from 'prop-types'
 import {Field, reduxForm} from "redux-form"
 
 import organizationContactInfoValidation from 'src/helpers/validations/organizationContactInformation'

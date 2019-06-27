@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react'
-import PropTypes from 'prop-types'
+import * as PropTypes from 'prop-types'
 import {TickSvgIcon, CloseIconSvg, InformationIcon, WarningIcon} from "src/images/icons";
 import constants from "src/consts/constants";
 import type {toastType} from "src/consts/flowTypes/toast";

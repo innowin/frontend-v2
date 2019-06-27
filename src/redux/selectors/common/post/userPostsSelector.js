@@ -5,7 +5,7 @@ const getPosts = state => state.common.post.list
 const getUserPosts = (state, props) => {
   const ownerId = props.id
   if (state.identities.list[ownerId] && state.identities.list[ownerId].posts)
-    return state.identities.list[ownerId].posts.content
+    return Object.values(state.identities.list[ownerId].posts.content).sort((a, b) => b - a)
   else return undefined
 }
 const getOwnerId = (state, props) => props.id

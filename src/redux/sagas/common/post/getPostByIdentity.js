@@ -5,13 +5,25 @@ import types from 'src/redux/actions/types'
 import {put, take, fork, call} from 'redux-saga/effects'
 
 export function* getPostByIdentity(action) {
-  const {postIdentity, postOwnerId} = action.payload
-  const socketChannel = yield call(api.createSocketChannel, results.COMMON.POST.GET_POST_BY_IDENTITY + postIdentity)
+  const {postIdentity, postOwnerId, limit = 100, offset = 0} = action.payload
+  let filter = `?post_related_identity=${postIdentity}`
+  if (offset) {
+    filter = filter + `&offset=${offset}`
+  }
+  if (limit) {
+    filter += `&limit=${limit}`
+  }
+  const result = results.COMMON.POST.GET_POST_BY_IDENTITY + postIdentity + Math.random()
+  const socketChannel = yield call(api.createSocketChannel, result)
   try {
-    yield fork(api.get, urls.COMMON.POST, results.COMMON.POST.GET_POST_BY_IDENTITY + postIdentity, `?post_related_identity=${postIdentity}`)
+    yield fork(api.get, urls.COMMON.POST, result, filter)
     const data = yield take(socketChannel)
+    let tempUsersId = []
     for (let i = 0; i < data.length; i++) {
-      yield put({type: types.SUCCESS.USER.GET_USER_BY_USER_ID, payload: {data: {...data[i].post_related_identity}, userId: data[i].post_related_identity.id}})
+      if (!tempUsersId.includes(data[i].post_related_identity.id)) {
+        tempUsersId.push(data[i].post_related_identity.id)
+        yield put({type: types.SUCCESS.USER.GET_USER_BY_USER_ID, payload: {data: {...data[i].post_related_identity}, userId: data[i].post_related_identity.id}})
+      }
       data[i].post_related_identity = data[i].post_related_identity.id
     }
     yield put({type: types.SUCCESS.COMMON.POST.GET_POST_BY_IDENTITY, payload: {data, postIdentity, postOwnerId}})

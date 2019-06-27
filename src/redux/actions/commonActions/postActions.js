@@ -7,8 +7,8 @@ const filterPostsByPostParentLimitOffset = ({postParentId, postType, postParentT
     postType,
     limit,
     offset,
-    postParentType
-  }
+    postParentType,
+  },
 })
 
 const filterPostsByPostRelatedProduct = ({postRelatedProductId, postType, postParentType, limit, offset}) => ({
@@ -18,17 +18,19 @@ const filterPostsByPostRelatedProduct = ({postRelatedProductId, postType, postPa
     postType,
     limit,
     offset,
-    postParentType
-  }
+    postParentType,
+  },
 })
 
-const getPostByIdentity = ({postIdentity, postOwnerId}) => {
+const getPostByIdentity = ({postIdentity, postOwnerId, limit, offset}) => {
   return {
     type: types.COMMON.POST.GET_POST_BY_IDENTITY,
     payload: {
       postIdentity,
       postOwnerId,
-    }
+      limit,
+      offset,
+    },
   }
 }
 
@@ -37,8 +39,8 @@ const getPostViewerCount = (postId) => {
     // type: types.COMMON.POST.GET_POST_VIEWER_COUNT,
     type: '',
     payload: {
-      postId
-    }
+      postId,
+    },
   }
 }
 
@@ -47,15 +49,15 @@ const setPostViewer = (postId, getPostViewerCount) => {
     type: types.COMMON.POST.SET_POST_VIEWER,
     payload: {
       postId,
-      getPostViewerCount
-    }
+      getPostViewerCount,
+    },
   }
 }
 
 const getPost = ({postId, postOwnerId}) => {
   return {
     type: types.COMMON.POST.GET_POST,
-    payload: {postId, postOwnerId}
+    payload: {postId, postOwnerId},
   }
 }
 
@@ -67,8 +69,8 @@ const createPost = ({formValues, postOwnerId, postParentId, postParentType, post
       postOwnerId,
       postParentId,
       postParentType,
-      postFileIds
-    }
+      postFileIds,
+    },
   }
 }
 
@@ -80,7 +82,7 @@ const updatePost = ({formValues, postId, postOwnerId, postFileIds}) => {
       postId,
       postOwnerId,
       postFileIds,
-    }
+    },
   }
 }
 
@@ -91,8 +93,8 @@ const deletePost = ({postId, postOwnerId, postParentId, postParentType}) => {
       postId,
       postOwnerId,
       postParentId,
-      postParentType
-    }
+      postParentType,
+    },
   }
 }
 
@@ -105,7 +107,7 @@ const PostActions = {
   updatePost,
   deletePost,
   filterPostsByPostParentLimitOffset,
-  filterPostsByPostRelatedProduct
+  filterPostsByPostRelatedProduct,
 }
 
 export default PostActions

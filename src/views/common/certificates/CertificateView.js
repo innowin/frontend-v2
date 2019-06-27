@@ -1,6 +1,6 @@
 // @flow
 import type {certificateType} from "../../../consts/flowTypes/user/others";
-import PropTypes from "prop-types";
+import * as PropTypes from 'prop-types';
 import {EditIcon, CertificateTick} from "../../../images/icons";
 import * as React from "react";
 import CheckOwner from "../../common/CheckOwner";

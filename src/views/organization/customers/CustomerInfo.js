@@ -1,6 +1,6 @@
 import type {CustomerType} from "src/consts/flowTypes/organization/customer";
 import {Component} from "react";
-import PropTypes from "prop-types";
+import * as PropTypes from 'prop-types';
 import CustomerInfoEditForm from "./CustomerInfoEditForm";
 import * as React from "react";
 import {VerifyWrapper} from "../../common/cards/Frames";

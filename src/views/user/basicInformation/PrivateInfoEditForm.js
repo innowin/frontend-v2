@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react'
-import PropTypes from 'prop-types'
+import * as PropTypes from 'prop-types'
 
 import renderTextField from '../../common/inputs/reduxFormRenderTextField'
 import {ReduxFormDateInput} from 'src/views/common/inputs/reduxFormDateInput'

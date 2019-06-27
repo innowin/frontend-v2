@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react'
-import PropTypes from "prop-types"
+import * as PropTypes from 'prop-types'
 
 import {favoriteType} from 'src/consts/flowTypes/favorite'
 import {TickSvgIcon} from "src/images/icons";

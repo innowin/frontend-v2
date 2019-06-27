@@ -2,7 +2,7 @@
 import * as React from "react"
 import cx from 'classnames'
 import FontAwesome from 'react-fontawesome'
-import PropTypes from 'prop-types'
+import * as PropTypes from 'prop-types'
 import {EditIcon} from 'src/images/icons'
 import ErrorCard from "./ErrorCard"
 import {loadingCard} from "./LoadingCard"

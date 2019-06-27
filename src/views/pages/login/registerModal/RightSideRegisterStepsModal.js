@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react'
-import PropTypes from "prop-types"
+import * as PropTypes from 'prop-types'
 
 import {TickSvgIcon, StarIcon, TagSvg, ExchangeExploreIcon} from 'src/images/icons'
 

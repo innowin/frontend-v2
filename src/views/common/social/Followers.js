@@ -4,7 +4,7 @@ import {ItemHeader, ItemWrapper} from "../cards/Frames";
 import SocialIcon from "../../../images/common/social_svg";
 import {Link} from "react-router-dom";
 import DefaultUserIcon from "../../../images/defaults/defaultUser_svg";
-import PropTypes from "prop-types";
+import * as PropTypes from 'prop-types';
 import FontAwesome from "react-fontawesome";
 import CheckOwner from "../CheckOwner";
 

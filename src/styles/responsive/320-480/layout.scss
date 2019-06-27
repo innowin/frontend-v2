@@ -40,7 +40,7 @@
     height: $smallTopBarHeight;
     width: 100%;
     left: 0;
-    //background: $primary-color-light3;
+    background: $primary-color;
     display: flex;
     align-items: center;
     transition: all $animation-timing ease;
@@ -68,7 +68,7 @@
       width: $smallTopBarHeight * 0.7;
       height: $smallTopBarHeight * 0.7;
       border-radius: 30px;
-      //border: 1.5px solid gray;
+      object-fit: cover;
       margin-left: 10px;
     }
 

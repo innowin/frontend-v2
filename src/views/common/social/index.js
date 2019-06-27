@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react'
-import PropTypes from 'prop-types'
+import * as PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import ExchangeMembershipActions from 'src/redux/actions/commonActions/exchangeMembershipActions'
 import type {exchangeType} from 'src/consts/flowTypes/exchange/exchange'

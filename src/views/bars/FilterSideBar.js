@@ -1,5 +1,5 @@
 import React, {Component} from "react"
-import PropTypes from "prop-types"
+import * as PropTypes from 'prop-types'
 import {ContributionsType} from "./filter/ContributionType"
 import {CategoryType} from "./filter/CategoryType"
 import {ExtraParams} from "./filter/ExtraParams"

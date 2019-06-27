@@ -2,9 +2,7 @@ import initialState from "src/redux/reducers/initialState"
 import types from "src/redux/actions/types"
 import exchangeSlice from "./sliceReducers/exchange"
 import constants from "src/consts/constants"
-// import pushAnObjToStateList from "./sliceReducers/utilsSlices/pushAnObjToStateList"
 import createAnObj from "./sliceReducers/utilsSlices/createAnObj"
-// this badge function just set received success exchanges in user or organ or ...
 
 const exchanges = (state = initialState.exchanges, action) => {
   const {postParentType} = action.payload || {}

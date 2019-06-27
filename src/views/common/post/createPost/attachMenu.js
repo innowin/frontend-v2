@@ -1,5 +1,5 @@
 import React from "react"
-import PropTypes from "prop-types"
+import * as PropTypes from 'prop-types'
 import AttachFile from "src/views/common/inputs/AttachFile"
 import AttachFileIcon from "src/images/common/attachFileNew_svg"
 import ContributionIcon from "src/images/common/contribution_svg"

@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react"
-import PropTypes from 'prop-types'
+import * as PropTypes from 'prop-types'
 
 import CheckOwner from '../../../common/CheckOwner'
 import type {identityType} from 'src/consts/flowTypes/identityType'

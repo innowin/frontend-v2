@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react'
-import PropTypes from "prop-types"
+import * as PropTypes from 'prop-types'
 
 export class ImageViewerAgent extends React.Component{
   constructor(props){

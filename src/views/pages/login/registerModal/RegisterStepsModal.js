@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react'
-import PropTypes from 'prop-types'
+import * as PropTypes from 'prop-types'
 
 import RightSideRegisterStepsModal from './RightSideRegisterStepsModal'
 import LeftSideRegisterStepsModal from './LeftSideRegisterStepsModal'

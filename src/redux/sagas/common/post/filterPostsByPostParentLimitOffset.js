@@ -29,8 +29,12 @@ export function* filterPostsByPostParentPostTypeLimitOffset(action) {
         filter,
     )
     const data = yield take(socketChannel)
+    let tempUsersId = []
     for (let i = 0; i < data.length; i++) {
-      yield put({type: types.SUCCESS.USER.GET_USER_BY_USER_ID, payload: {data: {...data[i].post_related_identity}, userId: data[i].post_related_identity.id}})
+      if (!tempUsersId.includes(data[i].post_related_identity.id)) {
+        tempUsersId.push(data[i].post_related_identity.id)
+        yield put({type: types.SUCCESS.USER.GET_USER_BY_USER_ID, payload: {data: {...data[i].post_related_identity}, userId: data[i].post_related_identity.id}})
+      }
       data[i].post_related_identity = data[i].post_related_identity.id
     }
     yield put({type: types.SUCCESS.COMMON.POST.FILTER_POSTS_BY_POST_PARENT_LIMIT_OFFSET, payload: {data, postParentId, postParentType}})

@@ -105,46 +105,44 @@ class InfoView extends PureComponent<props, state> {
       // console.log("ownerEducations", ownerEducations)
       if (owner) {
         return (
-            <div className="standard-exchange-margin-top">
-              <div className="info-frame">
-                <div className="info-header">
-                  {/*
+            <div className="info-frame">
+              <div className="info-header">
+                {/*
                   <Info width="22px" height="22px"
                         containerClass={"svg-container-info-view"}
                         svgClass={"svg-info-view"}/>
 */}
-                  <span>معرفی</span>
-                  {
-                    checkOwner({
-                      id: ownerId,
-                      children: <a className={editBio ? 'info-header-edit-bio-text-hide' : 'info-header-edit-bio-text'}
-                                   onClick={() => this._handleEditBioView()}> ویرایش </a>,
-                    })
-                  }
+                <span>معرفی</span>
+                {
+                  checkOwner({
+                    id: ownerId,
+                    children: <a className={editBio ? 'info-header-edit-bio-text-hide' : 'info-header-edit-bio-text'}
+                                 onClick={() => this._handleEditBioView()}> ویرایش </a>,
+                  })
+                }
 
-                </div>
-                <div className="info-body">
-                  {editBio ?
-                      <div>
+              </div>
+              <div className="info-body">
+                {editBio ?
+                    <div>
                         <textarea className="info-body-bio-text-area" placeholder="معرفی‌نامه پنجره"
                                   defaultValue={exchangeBio !== '' ? exchangeBio : currentExchange && currentExchange.biography}
                                   onChange={(e) => this.setState({...this.state, exchangeBio: e.target.value})}/>
-                        <div className={'info-body-bio-text-area-error-hide'} ref={e => this.bioError = e}>
-                          {translate['Biography Length is Illegal']}
-                        </div>
-                        <button className="info-confirm-button" onClick={() => this._handleEditBio()}>
-                          {translate['Confirm']}
-                        </button>
-                        <button className="info-cancel-button" onClick={() => this._handleEditBioView()}>
-                          {translate['Cancel']}
-                        </button>
-                        <div style={{clear: 'both'}}/>
+                      <div className={'info-body-bio-text-area-error-hide'} ref={e => this.bioError = e}>
+                        {translate['Biography Length is Illegal']}
                       </div>
-                      :
-                      currentExchange && (currentExchange.biography === '' || currentExchange.biography === null) ?
-                          'بدون معرفی‌نامه' : currentExchange.biography
-                  }
-                </div>
+                      <button className="info-confirm-button" onClick={() => this._handleEditBio()}>
+                        {translate['Confirm']}
+                      </button>
+                      <button className="info-cancel-button" onClick={() => this._handleEditBioView()}>
+                        {translate['Cancel']}
+                      </button>
+                      <div style={{clear: 'both'}}/>
+                    </div>
+                    :
+                    currentExchange && (currentExchange.biography === '' || currentExchange.biography === null) ?
+                        'بدون معرفی‌نامه' : currentExchange.biography
+                }
               </div>
 
               <div className={'info-frame'}>

@@ -1,9 +1,6 @@
 @import "../../../../variables";
 
 @media screen and (max-width: 480px) and (min-width: 0) {
-  .exchange-navbar-container {
-    width: 98%;
-  }
   .topBar {
     height: $smallTopBarHeight;
     justify-content: space-between;
@@ -144,6 +141,7 @@
 
   .-right-sidebar-wrapper {
     flex: 1 1 100%;
+    margin-top: 60px;
 
     .sidebar-organ-user {
       .social-network {

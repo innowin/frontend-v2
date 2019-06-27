@@ -1,6 +1,6 @@
 import * as React from "react"
 import {MainLbarArrow} from "src/images/icons"
-import PropTypes from "prop-types"
+import * as PropTypes from 'prop-types'
 import {PureComponent} from 'react'
 
 class InteliInput extends PureComponent {

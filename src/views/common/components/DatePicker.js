@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react'
 import JDate from 'jalali-date'
-import PropTypes from 'prop-types'
+import * as PropTypes from 'prop-types'
 
 class MyDatePicker extends PureComponent {
   static propTypes = {

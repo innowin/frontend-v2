@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import PropTypes from 'prop-types'
+import * as PropTypes from 'prop-types'
 import AuthActions from 'src/redux/actions/authActions'
 import CheckUsernameAction from 'src/redux/actions/user/checkUsernameAction'
 import client from 'src/consts/client'

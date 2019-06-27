@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react'
-import PropTypes from 'prop-types'
+import * as PropTypes from 'prop-types'
 
 import {DefaultImage} from 'src/images/icons'
 import type {postType} from 'src/consts/flowTypes/common/post'

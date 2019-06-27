@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react'
 import Moment from 'react-moment'
-import PropTypes from 'prop-types'
+import * as PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 
 import type {fileType} from 'src/consts/flowTypes/common/fileType'

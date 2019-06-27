@@ -1,7 +1,7 @@
 // @flow
 import type {userResearchType} from "../../../consts/flowTypes/user/basicInformation"
 import {PureComponent} from 'react'
-import PropTypes from "prop-types"
+import * as PropTypes from 'prop-types'
 import * as React from "react"
 
 import ResearchInfo from './ResearchInfo'

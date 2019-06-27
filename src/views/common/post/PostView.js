@@ -170,7 +170,6 @@ class PostView extends React.PureComponent<postExtendedViewProps, postViewState>
     if (post && post !== this.props.post && post.is_post_liked_by_logged_in_user !== undefined) {
       this.setState({...this.state, is_liked: post.is_post_liked_by_logged_in_user})
     }
-
     if (!extendedView && post && post.post_description && post.post_description.length !== this.props.post.post_description.length) {
       const self: any = this
       self.text.style.height = "auto"

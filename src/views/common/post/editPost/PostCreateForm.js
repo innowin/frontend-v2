@@ -1,7 +1,7 @@
 /*global __*/
 
 import {Component} from "react";
-import PropTypes from "prop-types";
+import * as PropTypes from 'prop-types';
 import {PostForm} from "./PostForm";
 import React from "react";
 

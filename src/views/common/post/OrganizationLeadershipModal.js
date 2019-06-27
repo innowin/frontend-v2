@@ -2,7 +2,7 @@ import React, {PureComponent} from "react"
 import exchangeActions from "src/redux/actions/exchangeActions"
 import ExchangeMembershipActions from "src/redux/actions/commonActions/exchangeMembershipActions"
 import PostActions from "src/redux/actions/commonActions/postActions"
-import PropTypes from "prop-types"
+import * as PropTypes from 'prop-types'
 import {bindActionCreators} from "redux"
 import {connect} from "react-redux"
 import {DefaultOrganIcon} from "src/images/icons"

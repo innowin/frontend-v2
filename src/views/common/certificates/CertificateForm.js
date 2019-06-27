@@ -1,7 +1,7 @@
 // @flow
 import type {certificateType} from "../../../consts/flowTypes/user/others";
 import * as React from "react";
-import PropTypes from "prop-types";
+import * as PropTypes from 'prop-types';
 import {FileInput} from "../../common/inputs/FileInput";
 import {Field, reduxForm} from "redux-form";
 import certificateValidation from "../../../helpers/validations/commonCertificate";

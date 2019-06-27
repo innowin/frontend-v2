@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react'
-import PropTypes from 'prop-types'
+import * as PropTypes from 'prop-types'
 import 'moment/locale/fa'
 import type {exchangeType} from 'src/consts/flowTypes/exchange/exchange'
 import {DefaultExchangeIcon} from 'src/images/icons'

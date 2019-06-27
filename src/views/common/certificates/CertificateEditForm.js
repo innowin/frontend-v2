@@ -1,7 +1,7 @@
 // @flow
 import type {certificateType, certificateInputType} from "../../../consts/flowTypes/user/others"
 import {Component} from "react"
-import PropTypes from "prop-types"
+import * as PropTypes from 'prop-types'
 import * as React from "react"
 import {Confirm} from "../../common/cards/Confirm"
 import CertificateForm from "./CertificateForm"

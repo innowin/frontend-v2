@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react'
 import connect from 'react-redux/es/connect/connect'
-import PropTypes from 'prop-types'
+import * as PropTypes from 'prop-types'
 import {bindActionCreators} from 'redux'
 import LinkInfoEditForm from './LinkInfoEditForm'
 import {InformationIcon} from 'src/images/icons'

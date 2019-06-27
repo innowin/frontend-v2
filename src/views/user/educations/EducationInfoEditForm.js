@@ -1,7 +1,7 @@
 // @flow
 import * as React from "react"
 import {Component} from "react"
-import PropTypes from "prop-types"
+import * as PropTypes from 'prop-types'
 
 import {Confirm} from "../../common/cards/Confirm"
 import EducationInfoForm from './EducationInfoForm'

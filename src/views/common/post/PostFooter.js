@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react"
-import PropTypes from "prop-types"
+import * as PropTypes from 'prop-types'
 import type {identityType} from "src/consts/flowTypes/user/basicInformation"
 import type {postType} from "src/consts/flowTypes/common/post"
 import {CommentSvg, LikeSvg} from "src/images/icons"

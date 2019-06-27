@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react'
-import PropTypes from "prop-types"
+import * as PropTypes from 'prop-types'
 import FontAwesome from "react-fontawesome"
 
 import {TickSvgIcon, OnePersonSvg, SocialPersonSvg, DefaultUserIcon} from "src/images/icons";

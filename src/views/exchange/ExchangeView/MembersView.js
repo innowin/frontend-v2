@@ -253,7 +253,7 @@ class MembersView extends PureComponent<props, states> {
   render() {
     let {initialMembers, moreMembers, viewType, requested} = this.state
     return (
-        <div className={'members-frame standard-exchange-margin-top'}>
+        <div className='members-frame'>
           <div className={'members-header-right'}>
             {/*<Contacts width="22px" height="22px" containerClass={"svg-container-info-view"} svgClass={"svg-info-view"}/>*/}
             <span>اعضا</span>

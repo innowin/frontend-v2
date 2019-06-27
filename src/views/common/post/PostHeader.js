@@ -1,17 +1,17 @@
-import * as React from "react"
-import PropTypes from "prop-types"
-import Moment from "react-moment"
-import {Link} from "react-router-dom"
-import DefaultUserIcon from "src/images/defaults/defaultUser_svg"
-import PostMenu from "./PostMenu"
-import constants from "src/consts/constants"
-import Material from "../components/Material"
-import connect from "react-redux/es/connect/connect"
-import socialActions from "src/redux/actions/commonActions/socialActions"
-import {bindActionCreators} from "redux"
-import {getFolloweesSelector} from "src/redux/selectors/common/social/getFollowees"
+import * as React from 'react'
+import * as PropTypes from 'prop-types'
+import Moment from 'react-moment'
+import {Link} from 'react-router-dom'
+import DefaultUserIcon from 'src/images/defaults/defaultUser_svg'
+import PostMenu from './PostMenu'
+import constants from 'src/consts/constants'
+import Material from '../components/Material'
+import connect from 'react-redux/es/connect/connect'
+import socialActions from 'src/redux/actions/commonActions/socialActions'
+import {bindActionCreators} from 'redux'
+import {getFolloweesSelector} from 'src/redux/selectors/common/social/getFollowees'
 
-class PostHeader extends React.Component {
+class PostHeader extends React.PureComponent {
   constructor(props) {
     super(props)
     this.state = {
@@ -53,13 +53,13 @@ class PostHeader extends React.Component {
     const {instantView, x, y} = this.state
     const {post, translate, postRelatedIdentityImage, postIdentity, showEdit, extendedView, openMenu, deletePost, menuToggle, postMenuId, followees, clientIdentity} = this.props
     let createdTime
-    let name = ""
-    let url = ""
+    let name = ''
+    let url = ''
     if (post) {
       createdTime = post.created_time
       if (postIdentity && postIdentity.id) {
         const isUser = postIdentity.identity_type === constants.USER_TYPES.USER
-        name = isUser ? ((postIdentity.first_name || postIdentity.last_name) ? postIdentity.first_name + " " + postIdentity.last_name : undefined)
+        name = isUser ? ((postIdentity.first_name || postIdentity.last_name) ? postIdentity.first_name + ' ' + postIdentity.last_name : undefined)
             : (postIdentity.nike_name || postIdentity.official_name || undefined)
         url = isUser ? `/user/${postIdentity.id}` : `/organization/${postIdentity.id}`
       }
@@ -67,7 +67,7 @@ class PostHeader extends React.Component {
     const showFollow = !followees.map(follower => follower.follow_followed && follower.follow_followed.id ? follower.follow_followed.id : parseInt(follower.follow_followed, 10)).includes(postIdentity && postIdentity.id)
     return (
         <div className="-item-headerPost">
-          <div ref={e => this.container = e} style={{position: "relative"}} onMouseEnter={this.showInstant} onMouseLeave={this.hideInstant}
+          <div ref={e => this.container = e} style={{position: 'relative'}} onMouseEnter={this.showInstant} onMouseLeave={this.hideInstant}
                onMouseMove={this.mouseMove}>
             <Link to={url} className='link-post'>
               <div className="-img-col">
@@ -84,12 +84,12 @@ class PostHeader extends React.Component {
                 </div>
                 <div className='post-date'>
                   <Moment className="-green2" element="span" fromNow ago>{createdTime}</Moment>
-                  <span className="-green2"> {translate["Last"]}</span>
+                  <span className="-green2"> {translate['Last']}</span>
                 </div>
               </div>
             </Link>
 
-            <div className={instantView ? "post-instant-view" : "post-instant-view-hide"} style={{top: y, left: x}}>
+            <div className={instantView ? 'post-instant-view' : 'post-instant-view-hide'} style={{top: y, left: x}}>
               {
                 postRelatedIdentityImage ?
                     <img className="post-instant-view-img rounded-circle covered-img" src={postRelatedIdentityImage} alt=""/>
@@ -102,9 +102,9 @@ class PostHeader extends React.Component {
                     <div className='post-instant-view-follow'>
                       {
                         showFollow ?
-                            <Material className='post-instant-view-follow-btn' content={translate["Follow"]} onClick={this._follow}/>
+                            <Material className='post-instant-view-follow-btn' content={translate['Follow']} onClick={this._follow}/>
                             :
-                            <Material className='post-instant-view-followed-btn' content={translate["Followed"]}/>
+                            <Material className='post-instant-view-followed-btn' content={translate['Followed']}/>
                       }
                     </div>
                     : null

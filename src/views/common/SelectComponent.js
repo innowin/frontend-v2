@@ -1,6 +1,6 @@
 /*global __*/
 import React, {PureComponent} from 'react'
-import PropTypes from 'prop-types'
+import * as PropTypes from 'prop-types'
 import Select from 'react-select'
 import cx from 'classnames'
 

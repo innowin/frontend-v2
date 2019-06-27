@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import PropTypes from "prop-types";
+import * as PropTypes from 'prop-types';
 
 import type {postType} from "../../../consts/flowTypes/common/post";
 import constants from "../../../consts/constants";

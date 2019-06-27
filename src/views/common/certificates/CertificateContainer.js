@@ -2,7 +2,7 @@
 import * as React from 'react'
 import CertificateActions from '../../../redux/actions/commonActions/certificateActions'
 import connect from 'react-redux/es/connect/connect'
-import PropTypes from 'prop-types'
+import * as PropTypes from 'prop-types'
 import type {certificateType} from '../../../consts/flowTypes/user/others'
 import {bindActionCreators} from 'redux'
 import {ItemHeader, ItemWrapper} from '../../common/cards/Frames'

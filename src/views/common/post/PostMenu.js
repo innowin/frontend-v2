@@ -1,5 +1,5 @@
 import * as React from "react"
-import PropTypes from "prop-types"
+import * as PropTypes from 'prop-types'
 import {MoreOptionSvg} from "src/images/icons"
 import {Link} from "react-router-dom"
 import checkOwner from "../CheckOwner"

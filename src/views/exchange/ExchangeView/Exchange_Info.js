@@ -1,10 +1,10 @@
 // @flow
-import * as React from "react"
-import InfoView from "./InfoView"
-import StatisticView from "./StatisticView"
-import ExchangeManager from "./ExchangeManager"
-import MembersView from "./MembersView"
-import HomePosts from "../../pages/home/HomePosts"
+import * as React from 'react'
+import InfoView from './InfoView'
+import StatisticView from './StatisticView'
+import ExchangeManager from './ExchangeManager'
+import MembersView from './MembersView'
+import HomePosts from '../../pages/home/HomePosts'
 import {PureComponent} from 'react'
 
 type props = {
@@ -19,25 +19,33 @@ export default class Exchange_Info extends PureComponent<props> {
   render() {
     const {activeTab, exchangeId} = this.props
     switch (activeTab) {
-      case "Stream":
+      case 'Stream':
         return (
             <HomePosts unSetExchangeId={this.backButton} exchangeId={exchangeId} className="post-wrapper active-exchange" exchangePage={true}/>
         )
-      case "Info":
+      case 'Info':
         return (
-            <InfoView exchangeId={exchangeId}/>
+            <div className='exchange-content-view-frame'>
+              <InfoView exchangeId={exchangeId}/>
+            </div>
         )
-      case "Members":
+      case 'Members':
         return (
-            <MembersView exchangeId={exchangeId}/>
+            <div className='exchange-content-view-frame'>
+              <MembersView exchangeId={exchangeId}/>
+            </div>
         )
-      case "Statistic":
+      case 'Statistic':
         return (
-            <StatisticView exchangeId={exchangeId}/>
+            <div className='exchange-content-view-frame'>
+              <StatisticView exchangeId={exchangeId}/>
+            </div>
         )
-      case "Exchange Manager":
+      case 'Exchange Manager':
         return (
-            <ExchangeManager exchangeId={exchangeId}/>
+            <div className='exchange-content-view-frame'>
+              <ExchangeManager exchangeId={exchangeId}/>
+            </div>
         )
       default:
         return (

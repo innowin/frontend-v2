@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from "prop-types";
+import * as PropTypes from 'prop-types';
 
 const DefaultProductIcon = ({className='', onClickFunc= () => null, ...props}) => (
   <svg viewBox="0 0 32 32" className={className} height={props.height} width={props.width}>

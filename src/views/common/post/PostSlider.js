@@ -1,5 +1,5 @@
 import React, {PureComponent} from 'react'
-import PropTypes from "prop-types"
+import * as PropTypes from 'prop-types'
 // import {CSSTransition, TransitionGroup} from "react-transition-group"
 import {MainLbarArrow} from "src/images/icons"
 

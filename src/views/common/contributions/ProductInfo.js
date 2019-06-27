@@ -1,6 +1,6 @@
 import type {ProductGetType} from "../../../consts/flowTypes/product/productTypes";
 import {PureComponent} from 'react'
-import PropTypes from "prop-types";
+import * as PropTypes from 'prop-types';
 import ProductInfoForm from "./ProductInfoForm";
 import * as React from "react";
 import {VerifyWrapper} from "../cards/Frames";

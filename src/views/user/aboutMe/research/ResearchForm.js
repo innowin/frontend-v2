@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react'
-import PropTypes from 'prop-types'
+import * as PropTypes from 'prop-types'
 
 import Modal from '../../../pages/modal/modal'
 import type {identityType} from 'src/consts/flowTypes/identityType'

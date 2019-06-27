@@ -22,13 +22,12 @@ import SideBarContent from '../bars/SideBar'
 import GetUserActions from 'src/redux/actions/user/getUserActions'
 import UserSkeleton from '../user/skeleton/UserSkeleton'
 import OrganAboutUs from 'src/views/organization/aboutUs'
-import RightArrowSvg from 'src/images/common/right_arrow_svg'
-import type {fileType} from 'src/consts/flowTypes/common/fileType'
 import DefaultOrganIcon from 'src/images/defaults/defaultOrganization_svg'
 import ProductActions from 'src/redux/actions/commonActions/productActions'
 import {userPostsSelector} from 'src/redux/selectors/common/post/userPostsSelector'
 import PostActions from 'src/redux/actions/commonActions/postActions'
 import PrivateRoute from '../../consts/PrivateRoute'
+import {NewRightArrow} from '../../images/icons'
 
 type PropsOrganization = {
   userObject: organStateObject,
@@ -46,8 +45,6 @@ type PropsOrganization = {
   },
   identityObject: identityStateObject,
   translate: { [string]: string | {} },
-  profileBanner: fileType,
-  profileMedia: fileType,
 }
 
 type StatesOrganization = {
@@ -96,9 +93,8 @@ class Organization extends PureComponent<PropsOrganization, StatesOrganization> 
 
   componentDidMount() {
     const {params} = this.props.match
-    const {getUserByUserId, setParamUserId, getProducts, getPostByIdentity} = this.props.actions
+    const {getUserByUserId, setParamUserId, getProducts} = this.props.actions
     const userId: number = +params.id
-    getPostByIdentity({postIdentity: userId, postOwnerId: userId})
     getUserByUserId(userId)
     setParamUserId({id: userId})
     getProducts({productOwnerId: userId})
@@ -120,19 +116,14 @@ class Organization extends PureComponent<PropsOrganization, StatesOrganization> 
     }
   }
 
-  _goUp = () => {
-    window.scroll({
-      top: 0,
-      behavior: 'smooth',
-    })
-    this.setState({...this.state, showSecondHeader: false})
+  _goBack = () => {
+    window.history.back()
   }
-
 
   render() {
     const {showSecondHeader} = this.state
-    const {match, userObject, badges, translate, profileMedia, actions, posts} = this.props
-    const {updatePost, deletePost} = actions
+    const {match, userObject, badges, translate, actions, posts} = this.props
+    const {updatePost, deletePost, getPostByIdentity} = actions
     const {path, url, params} = match
     const userId: number = +params.id
     const isLoading = userObject.id ? false : userObject.isLoading ? userObject.isLoading : true
@@ -145,14 +136,14 @@ class Organization extends PureComponent<PropsOrganization, StatesOrganization> 
               :
               <React.Fragment>
                 <div className={showSecondHeader ? 'top-bar-entity show' : 'top-bar-entity hide'}>
-                  <RightArrowSvg onClick={this._goUp} className='back-button'/>
-                  {!profileMedia
-                      ? <img src={profileMedia.file} className='profile-top-bar' alt='profile'/>
-                      : <DefaultOrganIcon className='profile-top-bar default-profile-organ'/>
+                  <Material backgroundColor='rgba(255,255,255,0.5)' onClick={this._goBack} className='back-button-material' content={<NewRightArrow className='back-button-product'/>}/>
+                  {
+                    userObject.profile_media ?
+                        <img src={userObject.profile_media.file} className='profile-top-bar' alt='profile'/>
+                        :
+                        <DefaultOrganIcon className='profile-top-bar default-profile-organ'/>
                   }
-                  <span className='organ-name'>
-                  {userObject.nike_name || userObject.official_name || userObject.nike_name}
-                  </span>
+                  <span className='organ-name'>{userObject.nike_name || userObject.official_name}</span>
                 </div>
                 <div className={showSecondHeader ? '-main page-content has-two-header' : '-main page-content'}>
                   <SideBarContent
@@ -223,6 +214,8 @@ class Organization extends PureComponent<PropsOrganization, StatesOrganization> 
                                     updatePost={updatePost}
                                     deletePost={deletePost}
                                     posts={posts}
+                                    userId={userId}
+                                    getPostByIdentity={getPostByIdentity}
                       />
                       <PrivateRoute exact path={`${path}/basicInformation`}
                                     component={OrganAboutUs}
@@ -278,19 +271,13 @@ const mapStateToProps = (state, ownProps) => {
   const userId = +params.id
   const defaultObject = {content: [], isLoading: true, error: null}
   const user = state.identities.list[userId] || defaultObject
-  const profileBannerId = (user && user.profile_banner)
-  const profileMediaId = (user && user.profile_media)
-  const profileBanner = (profileBannerId && state.common.file.list[profileBannerId]) || {}
-  const profileMedia = (profileMediaId && state.common.file.list[profileMediaId]) || {}
   const badgesObjectInUser = (user && user.badges) || defaultObject
   const allBadges = state.common.badges.badge.list
   const badges = badgesObjectInUser.content.map(badgeId => allBadges[badgeId])
   return {
     userObject: user,
     badgesObject: badgesObjectInUser,
-    profileBanner,
     translate: getMessages(state),
-    profileMedia,
     badges,
     posts: userPostsSelector(state, {id: userId}),
   }

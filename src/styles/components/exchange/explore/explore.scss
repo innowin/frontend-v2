@@ -1168,6 +1168,7 @@
 .media-header {
   @media screen and (max-width: 480px) and (min-width: 0) {
     margin-top: -20px;
+    padding: 0 10px;
   }
 }
 

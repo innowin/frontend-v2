@@ -1,6 +1,6 @@
 /*global __*/
 import React, {PureComponent} from 'react'
-import PropTypes from 'prop-types'
+import * as PropTypes from 'prop-types'
 import {defaultImg} from "../../images/icons";
 import {VerifyWrapper} from "../common/cards/Frames";
 import {getExchange, getExchangeMember} from "../../crud/exchange/exchange";

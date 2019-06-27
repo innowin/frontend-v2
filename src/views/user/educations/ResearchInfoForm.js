@@ -2,7 +2,7 @@
 import type {userResearchType} from "../../../consts/flowTypes/user/basicInformation";
 import * as React from "react";
 import {Component} from "react";
-import PropTypes from "prop-types";
+import * as PropTypes from 'prop-types';
 import {Field, reduxForm} from "redux-form";
 import renderTextField from "../../common/inputs/reduxFormRenderTextField";
 import researchInfoValidation from "../../../helpers/validations/researchInfoValidation";

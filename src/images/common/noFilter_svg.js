@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import PropTypes from "prop-types";
+import * as PropTypes from 'prop-types';
 
 class NoFilterIcon extends Component {
   static propTypes = {

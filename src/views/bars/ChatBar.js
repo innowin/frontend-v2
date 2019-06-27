@@ -1,5 +1,5 @@
 import React, {Component} from "react"
-import PropTypes from "prop-types"
+import * as PropTypes from 'prop-types'
 // import {Link} from "react-router-dom"
 // import FontAwesome from "react-fontawesome"
 // import {userInfoIcon, workExperienceIcon, postIcon} from "src/images/icons"

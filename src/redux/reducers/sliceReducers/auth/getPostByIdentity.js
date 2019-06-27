@@ -2,24 +2,21 @@ const base = (state, action) => {
 }
 
 const success = (state, action) => {
-  const {data, postIdentity} = action.payload || {}
+  const {data} = action.payload || {}
   const client = {...state.client}
-  const previousPost = (client && client.posts) || []
+  const previousPost = (client && client.posts) || {}
+  const postIds = data.reduce((sum, post) => {
+    if (post.id !== 0)
+      return {...sum, [post.id]: post.id}
+    else return {...sum}
+  }, {})
 
-  const arrayOfPostId = []
-  data.map(post => {
-    if (postIdentity === state.client.identity.content && (!previousPost.includes(post.id))) {
-      return arrayOfPostId.push(post.id)
-    }
-    return arrayOfPostId
-  })
   return {
     ...state,
     client: {
       ...client,
-      // posts: [...previousPost, ...arrayOfPostId],
-      posts: arrayOfPostId,
-    }
+      posts: {...previousPost, postIds},
+    },
   }
 }
 

@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react"
-import PropTypes from "prop-types"
+import * as PropTypes from 'prop-types'
 
 import type {workExperienceType} from "../../../consts/flowTypes/user/others"
 import {Confirm} from "../../common/cards/Confirm"

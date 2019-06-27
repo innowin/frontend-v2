@@ -1,7 +1,7 @@
 /*global __*/
 //@flow
 import * as React from 'react'
-import PropTypes from "prop-types"
+import * as PropTypes from 'prop-types'
 import {userInfoIcon} from "src/images/icons"
 import {Link} from 'react-router-dom'
 import {DefaultUserIcon} from 'src/images/icons'

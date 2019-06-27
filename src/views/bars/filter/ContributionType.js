@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 // import {Collapse} from 'reactstrap';
-import PropTypes from 'prop-types';
+import * as PropTypes from 'prop-types';
 import FontAwesome from 'react-fontawesome';
 
 export class ContributionsType extends Component {

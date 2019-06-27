@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react'
-import PropTypes from "prop-types"
+import * as PropTypes from 'prop-types'
 import LabelTag from '../../common/tag-label.js'
 export class SuperTag extends React.Component{
   constructor(props){

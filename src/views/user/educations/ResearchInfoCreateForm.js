@@ -1,6 +1,6 @@
 // flow type of EducationInfoForm
 import * as React from "react"
-import PropTypes from "prop-types"
+import * as PropTypes from 'prop-types'
 import ResearchInfoForm from './ResearchInfoForm'
 import type {userResearchInputType} from "../../../consts/flowTypes/user/basicInformation"
 

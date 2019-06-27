@@ -1,5 +1,5 @@
 import React, {PureComponent} from 'react'
-import PropTypes from "prop-types"
+import * as PropTypes from 'prop-types'
 import ExchangeViewBar from "../bars/ExchangeViewBar"
 import ExchangeTabs from "./ExchangeView/Exchange_Tabs"
 import {bindActionCreators} from "redux"

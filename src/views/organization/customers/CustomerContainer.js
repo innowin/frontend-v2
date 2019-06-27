@@ -1,7 +1,7 @@
 // @flow
 import * as React from "react"
 import CustomerInfo from './CustomerInfo'
-import PropTypes from "prop-types"
+import * as PropTypes from 'prop-types'
 import type {CustomerType} from "src/consts/flowTypes/organization/customer"
 import {ContributionIcon} from "src/images/icons"
 import {ItemHeader, ItemWrapper} from "../../common/cards/Frames"

@@ -2,7 +2,7 @@
 import * as React from 'react'
 import {Component} from 'react'
 import {connect} from 'react-redux'
-import PropTypes from 'prop-types'
+import * as PropTypes from 'prop-types'
 
 import {FrameCard, ListGroup} from 'src/views/common/cards/Frames'
 import {getMessages} from 'src/redux/selectors/translateSelector'

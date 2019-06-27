@@ -1,4 +1,5 @@
 @import "../../../../../variables";
+
 @media screen and (max-width: 480px) and (min-width: 0) {
   .exchange-page {
     padding-top: $topBarHeight + 30px;
@@ -9,11 +10,18 @@
     margin-bottom: 10px;
   }
 
-  .header-container-exchange{
+  .header-container-exchange {
     width: 100%;
   }
 
-  .exchange-navbar-container{
+  .exchange-navbar-container {
     width: 100%;
+    padding: 0 8px;
+    margin: 0;
+  }
+
+  .exchange-content-view-frame {
+    width: 100%;
+    padding: 0;
   }
 }

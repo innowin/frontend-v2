@@ -1,5 +1,5 @@
 import * as React from "react"
-import PropTypes from 'prop-types'
+import * as PropTypes from 'prop-types'
 
 import type {commentType} from "src/consts/flowTypes/common/comment"
 import Comment from './Comment'
@@ -12,7 +12,7 @@ type postCommentsProps = {
   deleteComment: Function,
 }
 
-class PostComments extends React.Component<postCommentsProps, {}> {
+class PostComments extends React.PureComponent<postCommentsProps, {}> {
 
   static propTypes = {
     comments: PropTypes.array.isRequired,

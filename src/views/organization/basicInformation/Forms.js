@@ -1,7 +1,7 @@
 /*global __*/
 //@flow 
 import * as React from 'react'
-import PropTypes from "prop-types"
+import * as PropTypes from 'prop-types'
 import {TextInput} from "src/views/common/inputs/TextInput"
 // import {updateOrganization} from "src/crud/organization/basicInformation"
 import {OrganizationMember} from './Views'

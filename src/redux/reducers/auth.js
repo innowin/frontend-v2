@@ -31,24 +31,24 @@ const auth = (state = initialState.auth, action) => {
     case types.SUCCESS.ORG.SET_ORGANIZATION_INFO_MEDIA:
       return slices.setClientOrganMedia.success(state, action)
       /** -------------------------- get posts by identity  -------------------------> **/
-    case types.SUCCESS.COMMON.POST.GET_POST_BY_IDENTITY:
-      return slices.getPostByIdentity.success(state, action)
+    case types.SUCCESS.COMMON.POST.GET_POST_BY_IDENTITY: {
+      if (state.client.identity.content === action.payload.postOwnerId)
+        return slices.getPostByIdentity.success(state, action)
+      else return state
+    }
       /** -------------------------- get post  -------------------------> **/
-    case types.SUCCESS.COMMON.POST.GET_POST:
-      return slices.getPost.success(state, action)
+    case types.SUCCESS.COMMON.POST.GET_POST: {
+      if (state.client.identity.content === action.payload.postOwnerId)
+        return slices.getPost.success(state, action)
+      else return state
+    }
       /** -------------------------- create post  -------------------------> **/
     case types.SUCCESS.COMMON.POST.CREATE_POST:
       return slices.createPost.success(state, action)
       /** -------------------------- delete post  -------------------------> **/
     case types.SUCCESS.COMMON.POST.DELETE_POST:
       return slices.deletePost.success(state, action)
-      /** -------------------------- get followers  -------------------------> **/
-      // case types.SUCCESS.COMMON.SOCIAL.GET_FOLLOWERS:
-      //   return slices.getFollowers.success(state, action)
-      /** -------------------------- get followees  -------------------------> **/
-      // case types.SUCCESS.COMMON.SOCIAL.GET_FOLLOWEES:
-      //   return slices.getFollowees.success(state, action)
-      /** -------------------------- delete follow  -------------------------> **/
+
     case types.SUCCESS.COMMON.SOCIAL.DELETE_FOLLOW:
       return slices.deleteFollow.success(state, action)
       /** -------------------------- delete follow  -------------------------> **/

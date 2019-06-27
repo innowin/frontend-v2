@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react"
-import PropTypes from "prop-types"
+import * as PropTypes from 'prop-types'
 
 import {Field, FieldLabel, FieldValue, ItemHeader} from "../../common/cards/Frames"
 import {JalaliDateWithDot} from "../../common/JalaliWithFarsiMonth"

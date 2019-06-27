@@ -1,7 +1,7 @@
 // flow type of CustomerInfoForm
 import * as React from 'react'
 import {Component} from 'react'
-import PropTypes from 'prop-types'
+import * as PropTypes from 'prop-types'
 
 import type {CustomerType} from 'src/consts/flowTypes/organization/customer'
 import constants from 'src/consts/constants'

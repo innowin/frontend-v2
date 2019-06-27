@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react"
-import PropTypes from "prop-types"
+import * as PropTypes from 'prop-types'
 import renderTextField from "../../common/inputs/reduxFormRenderTextField"
 import {Field, reduxForm} from "redux-form";
 import type {userProfileType} from "src/consts/flowTypes/user/basicInformation"

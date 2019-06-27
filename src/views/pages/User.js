@@ -14,7 +14,6 @@ import Exchanges from 'src/views/common/social/exchanges/index'
 import Following from 'src/views/common/social/following/index'
 import Follower from 'src/views/common/social/follower/index'
 import type {badgeType} from 'src/consts/flowTypes/common/badges'
-import type {fileType} from 'src/consts/flowTypes/common/fileType'
 import type {userStateObject, listOfIdObject} from 'src/consts/flowTypes/stateObjectType'
 import UserAboutMe from '../user/aboutMe'
 import UserSkeleton from '../user/skeleton/UserSkeleton'
@@ -24,12 +23,11 @@ import {connect} from 'react-redux'
 import {getMessages} from 'src/redux/selectors/translateSelector'
 import {NavLink, Switch, Redirect} from 'react-router-dom'
 import SideBarContent from '../bars/SideBar'
-import RightArrowSvg from 'src/images/common/right_arrow_svg'
-import DefaultOrganIcon from 'src/images/defaults/defaultOrganization_svg'
 import ProductActions from 'src/redux/actions/commonActions/productActions'
 import PostActions from 'src/redux/actions/commonActions/postActions'
 import {userPostsSelector} from 'src/redux/selectors/common/post/userPostsSelector'
 import PrivateRoute from '../../consts/PrivateRoute'
+import {DefaultUserIcon, NewRightArrow} from '../../images/icons'
 // import Contributions from './common/contributions'
 // import Educations from 'src/views/user/educations'
 // import UserBasicInformation from './user/basicInformation'
@@ -47,8 +45,6 @@ type PropsUser = {
     removeParamUserId: Function,
     setParamUserId: Function,
   },
-  profileBanner: fileType | {},
-  profileMedia: fileType | {},
   userObject: userStateObject,
   badgesObject: listOfIdObject,
   badges: Array<badgeType>,
@@ -99,9 +95,8 @@ class User extends Component<PropsUser, StatesUser> {
 
   componentDidMount() {
     const {params} = this.props.match
-    const {getUserByUserId, setParamUserId, getProducts, getPostByIdentity} = this.props.actions
+    const {getUserByUserId, setParamUserId, getProducts} = this.props.actions
     const userId: number = +params.id
-    getPostByIdentity({postIdentity: userId, postOwnerId: userId})
     getUserByUserId(userId)
     setParamUserId({id: userId})
     getProducts({productOwnerId: userId})
@@ -123,19 +118,14 @@ class User extends Component<PropsUser, StatesUser> {
     }
   }
 
-  _goUp = () => {
-    window.scroll({
-      top: 0,
-      behavior: 'smooth',
-    })
-    this.setState({...this.state, showSecondHeader: false})
+  _goBack = () => {
+    window.history.back()
   }
-
 
   render() {
     const {showSecondHeader} = this.state
-    const {match, userObject, badges, translate, profileMedia, actions, posts} = this.props
-    const {updatePost, deletePost} = actions
+    const {match, userObject, badges, translate, actions, posts} = this.props
+    const {updatePost, deletePost, getPostByIdentity} = actions
     const {path, url, params} = match
     const userId: number = +params.id
     const isLoading = userObject.id ? false : userObject.isLoading ? userObject.isLoading : true
@@ -147,13 +137,14 @@ class User extends Component<PropsUser, StatesUser> {
                 ? <UserSkeleton type='user'/>
                 : <React.Fragment>
                   <div className={showSecondHeader ? 'top-bar-entity show' : 'top-bar-entity hide'}>
-                    <RightArrowSvg onClick={this._goUp} className='back-button'/>
+                    <Material backgroundColor='rgba(255,255,255,0.5)' onClick={this._goBack} className='back-button-material' content={<NewRightArrow className='back-button-product'/>}/>
                     {
-                      profileMedia ? <DefaultOrganIcon className='profile-top-bar default-profile-organ'/> : <img src={profileMedia.file} className='profile-top-bar' alt='profile'/>
+                      userObject.profile_media ?
+                          <img src={userObject.profile_media.file} className='profile-top-bar' alt='profile'/>
+                          :
+                          <DefaultUserIcon className='profile-top-bar default-profile-organ'/>
                     }
-                    <span className='organ-name'>
-                      {userObject.nike_name || userObject.official_name || userObject.username}
-                    </span>
+                    <span className='organ-name'>{(userObject.first_name + ' ' + userObject.last_name) || userObject.username}</span>
                   </div>
                   <div className={showSecondHeader ? '-main page-content has-two-header' : '-main page-content'}>
                     <SideBarContent
@@ -221,6 +212,8 @@ class User extends Component<PropsUser, StatesUser> {
                                       updatePost={updatePost}
                                       deletePost={deletePost}
                                       posts={posts}
+                                      userId={userId}
+                                      getPostByIdentity={getPostByIdentity}
                         />
                         <PrivateRoute path={`${path}/basicInformation`}
                                       component={UserAboutMe}
@@ -289,19 +282,13 @@ const mapStateToProps = (state, ownProps) => {
   const userId = +params.id
   const defaultObject = {content: [], isLoading: true, error: null}
   const user = state.identities.list[userId] || defaultObject
-  const profileBannerId = (user && user.profile_banner)
-  const profileMediaId = (user && user.profile_media)
-  const profileBanner = (profileBannerId && state.common.file.list[profileBannerId]) || {}
-  const profileMedia = (profileMediaId && state.common.file.list[profileMediaId]) || {}
   const badgesObjectInUser = (user && user.badges) || defaultObject
   const allBadges = state.common.badges.badge.list
   const badges = badgesObjectInUser.content.map(badgeId => allBadges[badgeId])
   return {
     userObject: user,
     badgesObject: badgesObjectInUser,
-    profileBanner,
     translate: getMessages(state),
-    profileMedia,
     badges,
     posts: userPostsSelector(state, {id: userId}),
   }

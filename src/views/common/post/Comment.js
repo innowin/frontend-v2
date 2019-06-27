@@ -1,6 +1,6 @@
 import * as React from "react"
 import Moment from "react-moment"
-import PropTypes from 'prop-types'
+import * as PropTypes from 'prop-types'
 import {Link} from 'react-router-dom'
 
 import ReplyArrow from "src/images/common/reply_arrow_svg"

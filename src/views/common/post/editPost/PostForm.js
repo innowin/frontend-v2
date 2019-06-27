@@ -1,5 +1,5 @@
 import {PureComponent} from 'react'
-import PropTypes from 'prop-types'
+import * as PropTypes from 'prop-types'
 import {SelectComponent} from '../../SelectComponent'
 import {TextInput} from '../../inputs/TextInput'
 import {TextareaInput} from '../../inputs/TextareaInput'

@@ -3,7 +3,7 @@ const success = (state, action) => {
   const exchangeId = postParentId
   const prevPosts = state.list[exchangeId] && state.list[exchangeId].posts
   const prevPostsContent = prevPosts && prevPosts.content
-  const newPosts = prevPostsContent.filter(id => id !== postId)
+  delete prevPostsContent[postId]
   return {
     ...state,
     list: {
@@ -11,12 +11,12 @@ const success = (state, action) => {
       [exchangeId]: {
         ...state.list[exchangeId],
         posts: {
-          content: newPosts,
+          content: {...prevPostsContent},
           isLoading: false,
-          error: null
-        }
-      }
-    }
+          error: null,
+        },
+      },
+    },
   }
 }
 
@@ -31,5 +31,5 @@ const base = (state, action) => {
 export default {
   base,
   error,
-  success
+  success,
 }

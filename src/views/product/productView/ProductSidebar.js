@@ -265,7 +265,7 @@ class SideBar extends PureComponent {
   render() {
     const {galleryModal, image, edit, selectedCountry, selectedProvince, price, firstCategory, secondCategory, error} = this.state
     const {product, country, province, product_owner, product_category, current_user_identity, countries, provinces, cities, categories, product_price} = this.props
-    const {name, created_time} = product
+    const {name, updated_time} = product
     const pictures_array = product.product_media ? product.product_media.filter(p => p.type === 'image') : []
 
     return (
@@ -345,7 +345,7 @@ class SideBar extends PureComponent {
                     </div>
                   </div>
 
-                  <div className='product-view-sidebar-date-editing'><Date className='product-view-sidebar-svg'/>تاریخ ثبت: <Moment element="span" fromNow ago>{created_time}</Moment> پیش</div>
+                  <div className='product-view-sidebar-date-editing'><Date className='product-view-sidebar-svg'/>تاریخ ثبت: <Moment element="span" fromNow ago>{updated_time}</Moment> پیش</div>
 
                   <div className='product-view-sidebar-location-edit'>
                     <div className='product-view-sidebar-main-img-title'>محدوده جغرافیایی</div>
@@ -468,7 +468,7 @@ class SideBar extends PureComponent {
                     <div style={{display: pictures_array && pictures_array.length > 4 ? 'inline-flex' : 'none'}} className='product-view-sidebar-more' onClick={this._showGallery}>بیشتر</div>
                   </div>
 
-                  <div className='product-view-sidebar-date'><Date className='product-view-sidebar-svg'/>تاریخ ثبت: <Moment element="span" fromNow ago>{created_time}</Moment> پیش</div>
+                  <div className='product-view-sidebar-date'><Date className='product-view-sidebar-svg'/>تاریخ ثبت: <Moment element="span" fromNow ago>{updated_time}</Moment> پیش</div>
                   {
                     country && country.name && province && province.name && <div className='product-view-sidebar-location'><Location className='product-view-sidebar-svg'/>{country.name}، {province.name}</div>
                   }

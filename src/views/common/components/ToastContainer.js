@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react'
-import PropTypes from 'prop-types'
+import * as PropTypes from 'prop-types'
 import Toast from './Toast'
 // import constants from "src/consts/constants";
 import connect from 'react-redux/es/connect/connect'

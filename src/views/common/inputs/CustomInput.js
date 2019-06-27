@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import cx from 'classnames'
-import PropTypes from 'prop-types'
+import * as PropTypes from 'prop-types'
 
 export class CustomInput extends Component {
     static defaultProps = {

@@ -2,7 +2,7 @@ import * as React from "react";
 import constants from 'src/consts/constants'
 import DefaultUserIcon from "../../../images/defaults/defaultUser_svg";
 import FontAwesome from 'react-fontawesome'
-import PropTypes from "prop-types";
+import * as PropTypes from 'prop-types';
 import SocialIcon from "../../../images/common/social_svg";
 import {ItemHeader, ItemWrapper} from "../cards/Frames";
 import {Link} from "react-router-dom";

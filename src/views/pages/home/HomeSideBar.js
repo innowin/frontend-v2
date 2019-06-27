@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react'
 import {PureComponent} from 'react'
-import PropTypes from 'prop-types'
+import * as PropTypes from 'prop-types'
 import ExchangeMembershipActions from 'src/redux/actions/commonActions/exchangeMembershipActions'
 import type {exchangeType} from 'src/consts/flowTypes/exchange/exchange.js'
 import {bindActionCreators} from 'redux'

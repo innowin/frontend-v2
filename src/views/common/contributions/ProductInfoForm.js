@@ -1,7 +1,7 @@
 // @flow
 import * as React from "react"
 import {Component} from "react"
-import PropTypes from "prop-types"
+import * as PropTypes from 'prop-types'
 import {Field, reduxForm} from "redux-form"
 
 import type {ProductFormValuesType, ProductGetType} from "../../../consts/flowTypes/product/productTypes"

@@ -1,30 +1,24 @@
-// @flow
-import React, {Component} from 'react'
-import PropTypes from 'prop-types'
+import React, {PureComponent} from 'react'
+import * as PropTypes from 'prop-types'
 import {bindActionCreators} from 'redux'
 import connect from 'react-redux/es/connect/connect'
 import AttachFileIcon from 'src/images/common/attachFileNew_svg'
 import FileActions from 'src/redux/actions/commonActions/fileActions'
 import PostActions from 'src/redux/actions/commonActions/postActions'
 import DefaultUserIcon from 'src/images/defaults/defaultUser_svg'
-import socialActions from 'src/redux/actions/commonActions/socialActions'
 import {getMessages} from 'src/redux/selectors/translateSelector'
 import CommentActions from 'src/redux/actions/commonActions/commentActions'
 import TempActions from 'src/redux/actions/tempActions'
 import {createFileFunc} from 'src/views/common/Functions'
 import types from 'src/redux/actions/types'
 import AttachMenu from './attachMenu'
-import ContactMenu from './contactMenu'
 import LinkModal from './linkModal'
 import ViewAttachedFiles from './viewAttachedFiles'
 import StickersMenu from '../../components/StickersMenu'
 import AddProductModal from './addProductModal'
 import ProductInfoView from '../../contributions/ProductInfoView'
 import constants from 'src/consts/constants'
-import type {postType} from 'src/consts/flowTypes/common/post'
-import type {fileType} from 'src/consts/flowTypes/common/fileType'
 import uuid from 'uuid'
-import type {identityType} from 'src/consts/flowTypes/user/basicInformation'
 import ProductActions from '../../../../redux/actions/commonActions/productActions'
 
 const POST_MEDIA_TEMP_KEY = 'POST_MEDIA'
@@ -38,78 +32,7 @@ const maxAllowedWordCounts = 4096
 const minAllowedHeaderWordCounts = 5
 const maxAllowedHeaderWordCounts = 70
 
-
-type createPostPropsTypes = {
-  postParentId?: number,
-  postParentType?: string,
-  postsCountInThisPage?: number,
-  className?: string,
-  isUpdate?: boolean,
-  hideEdit?: Function,
-  post?: postType,
-  updateFunc?: Function,
-  hideCreatePost?: Function,
-  actions: Function,
-  postImg1Id: number,
-  postImg2Id: number,
-  postImg3Id: number,
-  postMediaId: number,
-  postFileId: number,
-  translate: { [string]: string },
-  tempFiles: { [string]: { progress: number, close: Function } },
-  currentUserType: string,
-  currentUserId: number,
-  currentUserIdentity: identityType | number,
-  currentUserMedia: string | null,
-  deleteFile: Function,
-}
-
-type createPostStateTypes = {
-  open: boolean,
-  attachMenu: boolean,
-  enterAttach: boolean,
-  contactMenu: boolean,
-  labels: {},
-  context: boolean,
-  linkModal: boolean,
-  addProductModal: boolean,
-  pageX: number,
-  pageY: number,
-  commentBody: string,
-  placeholder: string,
-  selectedText: string,
-  postImg1: {} | null,
-  postImg2: {} | null,
-  postImg3: {} | null,
-  postFile: string | null,
-  postMedia: string,
-  link: string,
-  description: string,
-  descriptionHeader: string,
-  descriptionClass: string,
-  descriptionHeaderClass: string,
-  profileLoaded: boolean,
-  focused: boolean,
-  keys: [],
-  selectedProduct?: {},
-  scrollHeight: number,
-  textLength: number,
-  postType: string,
-  getFollowers: boolean,
-  removePictureArray: Array<fileType>,
-  postImg1Index: number,
-  postImg2Index: number,
-  postImg3Index: number,
-  postFileIndex: number,
-  postMediaIndex: number,
-  isLoading: boolean,
-  attachPhotoIdArray: [string, string, string],
-  attachFileId: string,
-  attachVideoId: string,
-}
-
-
-class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
+class CreatePost extends PureComponent {
   static defaultProps = {
     className: '',
     postsCountInThisPage: 0,
@@ -129,8 +52,7 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
 
   constructor(props) {
     super(props)
-    let open = false
-    open = !(window.innerWidth > 480)
+    let open = !(window.innerWidth > 480)
     this.state = {
       open: open,
       attachMenu: false,
@@ -143,7 +65,6 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
       pageX: 0,
       pageY: 0,
       commentBody: 'comment-body',
-      placeholder: '',
       selectedText: '',
       postImg1: null,
       postImg2: null,
@@ -155,14 +76,12 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
       descriptionHeader: '',
       descriptionClass: '',
       descriptionHeaderClass: '',
-      profileLoaded: false,
       focused: false,
       keys: [],
       selectedProduct: undefined,
       scrollHeight: 0,
       textLength: 0,
       postType: constants.POST.POST_TYPE.POST,
-      getFollowers: false,
       removePictureArray: [],
       postImg1Index: -1,
       postImg2Index: -1,
@@ -178,45 +97,11 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
 
   attachMenuId: string
 
-  componentWillMount(): void {
-    document.addEventListener('mousedown', this.handleClickOutside)
-    document.addEventListener('touchend', this.handleClickOutside)
-
-    const {actions, translate, currentUserType, currentUserId, currentUserIdentity} = this.props
-    const {getFollowers} = actions
-    if (currentUserIdentity && currentUserType && currentUserId) {
-      getFollowers({
-        followOwnerIdentity: currentUserIdentity,
-        followOwnerId: currentUserId,
-        notProfile: true,
-      })
-      this.setState({...this.state, placeholder: translate['Be in zist boom']})
-    }
-    else {
-      this.setState({...this.state, getFollowers: true, placeholder: translate['Be in zist boom']})
-    }
-  }
-
   componentDidMount() {
-    const {actions, currentUserMedia, isUpdate, post, currentUserIdentity, currentUserId} = this.props
-    const {getFollowers, setFileProgressTemp} = actions
+    const {actions, isUpdate, post} = this.props
+    const {setFileProgressTemp} = actions
     const {attachPhotoIdArray} = this.state
-    if (this.state.getFollowers) {
-      getFollowers({
-        followOwnerIdentity: currentUserIdentity,
-        followOwnerId: currentUserId,
-        notProfile: true,
-      })
-    }
 
-    //Added for profile url check
-    if (currentUserMedia) {
-      let profile = new Image()
-      profile.src = currentUserMedia
-      profile.onload = () => {
-        this.setState({...this.state, profileLoaded: true})
-      }
-    }
     if (isUpdate && post) {
       let postType, postFilesArray = post.post_files_array, postImg1 = null, postImg2 = null, postImg3 = null,
           postFile = null, postProduct = post.post_related_product, selectedProduct = undefined, postImg1Index = -1,
@@ -283,6 +168,8 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
       }
     }
     this.attachMenuId = 'create-post-attach-menu-box' + uuid()
+    document.addEventListener('mousedown', this.handleClickOutside)
+    document.addEventListener('touchend', this.handleClickOutside)
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -304,20 +191,6 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
         || (postFile && !postFileId && postFile !== prevState.postFile)
         || (postMedia && !postMediaId && postMedia !== prevState.postMedia)) {
       this.setState({...this.state, isLoading: false})
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (this.props.currentUserMedia !== nextProps.currentUserMedia) {
-      this.setState({...this.state, profileLoaded: false}, () => {
-        if (nextProps.currentUserMedia) {
-          let profile = new Image()
-          profile.src = nextProps.currentUserMedia
-          profile.onload = () => {
-            this.setState({...this.state, profileLoaded: true})
-          }
-        }
-      })
     }
   }
 
@@ -536,10 +409,7 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
 
   _getValues = () => {
     const {postType, link, description, selectedProduct, descriptionHeader} = this.state
-    const {
-      currentUserIdentity, postParentId, postImg1Id, postImg2Id, postImg3Id, postMediaId,
-      postFileId,
-    } = this.props
+    const {currentUserId, postParentId, postImg1Id, postImg2Id, postImg3Id, postMediaId, postFileId} = this.props
     const post_link = link.trim() !== '' ? link : null
     const filesCount = (postMediaId || postFileId) ? 1 :
         ([postImg1Id, postImg2Id, postImg3Id].filter(img => img).length)
@@ -549,7 +419,7 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
       post_title: descriptionHeader.length > 0 ? descriptionHeader : '',
       post_type: postType,
       post_parent: postParentId,
-      post_related_identity: currentUserIdentity,
+      post_related_identity: currentUserId,
       post_related_product: selectedProduct ? selectedProduct.id : '',
       post_link,
     }
@@ -871,12 +741,12 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
 
   render() {
     const {
-      hideCreatePost, post, hideEdit, className, isUpdate, followers, exchanges, currentUserIdentity,
+      hideCreatePost, post, hideEdit, className, isUpdate,
       currentUserMedia, currentUserName, translate, tempFiles, actions,
     } = this.props
     const {
-      postImg1, postImg2, postImg3, open, attachMenu, labels, link, contactMenu, linkModal, postFile, postMedia,
-      isLoading, profileLoaded, description, descriptionClass, descriptionHeaderClass, focused, addProductModal, selectedProduct, postType, descriptionHeader,
+      postImg1, postImg2, postImg3, open, attachMenu, link, linkModal, postFile, postMedia,
+      isLoading, description, descriptionClass, descriptionHeaderClass, focused, addProductModal, selectedProduct, postType, descriptionHeader,
       attachPhotoIdArray, attachFileId, attachVideoId,
     } = this.state
     const {setFileProgressTemp, getProductInfo} = actions
@@ -885,11 +755,10 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
     const attachPhotoId = postImagesLength === 0 ? attachPhotoIdArray[0] : attachPhotoIdArray[postImagesLength]
     const allowSubmit = this._allowSubmitCheck()
     return (
-        <form
-            className={isUpdate ? ('post-component-edit-container ' + className) : ('post-component-container ' + className)}
-            ref={e => this.form = e} onSubmit={this._onSubmit}>
+        <form className={isUpdate ? ('post-component-edit-container ' + className) : ('post-component-container ' + className)}
+              ref={e => this.form = e} onSubmit={this._onSubmit}>
           <div className={open ? 'post-component-header' : 'post-component-header-hide'}>
-            {currentUserMedia && profileLoaded ?
+            {currentUserMedia ?
                 <img alt='profile' src={currentUserMedia} className='post-component-header-img'/>
                 :
                 <DefaultUserIcon className='post-component-header-img'/>
@@ -1086,15 +955,15 @@ class CreatePost extends Component<createPostPropsTypes, createPostStateTypes> {
               />
             </div>
 
-            <ContactMenu
-                ref={e => this.setWrapperSecondRef = (e ? e.contactMenuRef : e)}
-                contactMenu={contactMenu}
-                labels={labels}
-                followers={followers}
-                exchanges={exchanges}
-                currentUserIdentity={currentUserIdentity}
-                handleLabel={this._handleLabel}
-            />
+            {/*<ContactMenu*/}
+            {/*    ref={e => this.setWrapperSecondRef = (e ? e.contactMenuRef : e)}*/}
+            {/*    contactMenu={contactMenu}*/}
+            {/*    labels={labels}*/}
+            {/*    followers={followers}*/}
+            {/*    exchanges={exchanges}*/}
+            {/*    currentUserIdentity={currentUserId}*/}
+            {/*    handleLabel={this._handleLabel}*/}
+            {/*/>*/}
 
           </div>
 
@@ -1137,21 +1006,18 @@ const mapStateToProps = state => {
   const postMediaId = state.temp.file[POST_MEDIA_TEMP_KEY] || null
   const postFileId = state.temp.file[POST_FILE_TEMP_KEY] || null
   const tempFiles = state.temp.file
-
   const {user_type} = state.auth.client
   const isUser = user_type === constants.USER_TYPES.USER
-  const name = isUser && identity
-      ? identity.first_name + ' ' + identity.last_name
-      : identity ? identity.nike_name : ''
+  const name = identity ?
+      isUser ?
+          identity.last_name ? identity.first_name + ' ' + identity.last_name : identity.username
+          : identity.nike_name || identity.official_name || identity.username
+      : ''
 
   return ({
-    currentUserType: client.user_type,
-    currentUserIdentity: identityId,
-    currentUserId: identity ? identity.id : undefined,
-    currentUserMedia: (identity && identity.profile_media && identity.profile_media.file),
+    currentUserId: identityId,
+    currentUserMedia: identity && identity.profile_media && identity.profile_media.file,
     currentUserName: name,
-    exchanges: state.common.exchangeMembership.list,
-    followers: state.common.social.follows.list,
     postImg1Id,
     postImg2Id,
     postImg3Id,
@@ -1164,7 +1030,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
-    getFollowers: socialActions.getFollowers,
     createPost: PostActions.createPost,
     createFile: FileActions.createFile,
     removeFileFromTemp: TempActions.removeFileFromTemp,
