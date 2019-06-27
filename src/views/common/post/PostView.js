@@ -51,7 +51,6 @@ type postViewState = {
   showComment: boolean,
   commentOn: commentType,
   showMore: boolean,
-  descriptionHeight: ?number,
   is_liked: boolean,
 }
 
@@ -75,7 +74,6 @@ class PostView extends React.PureComponent<postExtendedViewProps, postViewState>
       showComment: false,
       commentOn: undefined,
       showMore: false,
-      descriptionHeight: null,
       menuToggleBottom: false,
       linkTimer: false,
       is_liked: false,
@@ -103,10 +101,9 @@ class PostView extends React.PureComponent<postExtendedViewProps, postViewState>
     const self: any = this
     const {extendedView, post, actions} = this.props
 
-    if (self.text) {
+    if (self.text && post && post.post_description) {
       let showMore = false
       let is_liked = false
-      let descriptionHeight = null
 
       const allWords = self.text.innerText.replace(/\n/g, ' ').split(' ')
       const mailExp = new RegExp('^(([^<>()\\[\\]\\\\.,;:\\s@"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$')
@@ -142,7 +139,7 @@ class PostView extends React.PureComponent<postExtendedViewProps, postViewState>
         }
       }
 
-      if (post && post.is_post_liked_by_logged_in_user !== undefined) {
+      if (post.is_post_liked_by_logged_in_user !== undefined) {
         is_liked = post.is_post_liked_by_logged_in_user
       }
       if (extendedView) {
@@ -150,14 +147,13 @@ class PostView extends React.PureComponent<postExtendedViewProps, postViewState>
         const {match} = this.props
         getCommentsByParentId({parentId: match.params.id, commentParentType: constants.COMMENT_PARENT.POST})
       }
-      else if (post.post_description && self.text.clientHeight > 146) {
-        showMore = true
-        descriptionHeight = self.text.scrollHeight + 20
-        if (new RegExp('^[A-Za-z]*$').test(post.post_description[0])) self.text.style.paddingRight = '60px'
-        else self.text.style.paddingLeft = '60px'
+      else if (self.text.clientHeight > 146) {
+        if (new RegExp('^[A-Za-z]*$').test(post.post_description[0]) && document.body.clientWidth > 480) self.text.style.paddingRight = '62px'
+        else self.text.style.paddingLeft = '62px'
         self.text.style.height = '139px'
+        showMore = true
       }
-      this.setState({...this.state, is_liked, showMore, descriptionHeight})
+      this.setState({...this.state, is_liked, showMore})
     }
 
 
@@ -261,10 +257,13 @@ class PostView extends React.PureComponent<postExtendedViewProps, postViewState>
 
   _readMore() {
     this.setState({...this.state, showMore: false}, () => {
-      const {descriptionHeight} = this.state
       const self: any = this
-      self.text.style.height = descriptionHeight && descriptionHeight + 'px'
-      self.text.style.padding = '10px 0'
+      self.text.style.height = 'auto'
+      if (document.body.clientWidth > 480) {
+        self.text.style.paddingRight = '0'
+        self.text.style.paddingLeft = '0'
+      }
+      else self.text.style.paddingLeft = '0'
     })
   }
 
@@ -304,13 +303,9 @@ class PostView extends React.PureComponent<postExtendedViewProps, postViewState>
     } = this.props
 
     const {menuToggleBottom, menuToggleTop, confirm, showComment, commentOn, is_liked} = this.state
-    let postDescription = '', postOwnerId = 0, postFilesArray
-
-    if (post) {
-      postDescription = post.post_description
-      postOwnerId = postIdentity && postIdentity.id
-      postFilesArray = post.post_files_array
-    }
+    const postDescription = post && post.post_description.trim()
+    const postOwnerId = postIdentity && postIdentity.id
+    const postFilesArray = post && post.post_files_array
 
     return (
         confirm
@@ -339,24 +334,21 @@ class PostView extends React.PureComponent<postExtendedViewProps, postViewState>
                               clientIdentity={clientIdentity}
                   />
                   {
-                    extendedView ?
-                        <div className='post-content'
-                             style={new RegExp('^[A-Za-z]*$').test(postDescription && postDescription[0]) ? {direction: 'ltr'} : {direction: 'rtl'}}
-                             ref={e => self.text = e}>
-                          {postDescription}
-                        </div>
-                        :
-                        <Link
-                            className='link-post-decoration'
-                            onMouseDown={this.onLinkDown}
-                            onClick={this.onLinkClick}
-                            to={postIdentity && postIdentity.identity_type === 'user' ? `/user/${postOwnerId}/Posts/${post.id}` : `/organization/${postOwnerId}/Posts/${post.id}`}>
-                          <div className='post-content'
-                               style={new RegExp('^[A-Za-z]*$').test(postDescription && postDescription[0]) ? {direction: 'ltr'} : {direction: 'rtl'}}
-                               ref={e => self.text = e}>
+                    !extendedView || !postIdentity ?
+                        <Link className='link-post-decoration'
+                              onMouseDown={this.onLinkDown}
+                              onClick={this.onLinkClick}
+                              to={postIdentity && postIdentity.identity_type === 'user' ? `/user/${postOwnerId}/Posts/${post.id}` : `/organization/${postOwnerId}/Posts/${post.id}`}>
+                          <div ref={e => self.text = e} className='post-content'
+                               style={{paddingTop: '10px', paddingBottom: '10px', direction: new RegExp('^[A-Za-z]*$').test(postDescription && postDescription[0]) ? 'ltr' : 'rtl'}}>
                             {postDescription}
                           </div>
                         </Link>
+                        :
+                        <div ref={e => self.text = e} className='post-content'
+                             style={{paddingTop: '10px', paddingBottom: '10px', direction: new RegExp('^[A-Za-z]*$').test(postDescription && postDescription[0]) ? 'ltr' : 'rtl'}}>
+                          {postDescription}
+                        </div>
                   }
 
                   <div className={this.state.showMore ? 'post-content-more' : 'post-content-more-hide'}

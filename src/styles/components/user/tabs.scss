@@ -1,6 +1,20 @@
 @import "../../variables";
 //********************* Skills ******************************
 
+.post-content {
+  line-height: 2.1;
+  overflow-y: hidden;
+  font-size: $font-size-post-content;
+  margin: 0 18px;
+  text-align: justify;
+  white-space: pre-wrap;
+  word-break: break-word;
+
+  @media screen and (max-width: 480px) {
+    padding-right: 62px;
+  }
+}
+
 .tagCross {
   font-size: $font-size-boxText;
 }
@@ -228,21 +242,6 @@
         }
       }
     }
-  }
-
-  .post-content {
-    position: relative;
-    white-space: pre-wrap;
-    line-height: 2.1;
-    overflow-y: hidden;
-    font-size: $font-size-post-content;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    margin-left: 18px;
-    margin-right: 18px;
-    text-align: justify;
-    transition: height ease 0.2s;
-    word-break: break-word;
   }
 
   .post-content-more {
