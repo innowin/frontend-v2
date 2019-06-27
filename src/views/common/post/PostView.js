@@ -1,30 +1,30 @@
 // @flow
-import * as React from "react"
-import "moment/locale/fa"
-import CommentActions from "src/redux/actions/commonActions/commentActions"
-import connect from "react-redux/es/connect/connect"
-import constants from "src/consts/constants"
-import FontAwesome from "react-fontawesome"
-import PostActions from "src/redux/actions/commonActions/postActions"
-import PostCommentNew from "./PostCommentNew"
-import PostComments from "./PostComments"
-import PostFooter from "./PostFooter"
-import PostHeader from "./PostHeader"
-import PostImage from "./PostImage"
-import PostType from "./PostType"
-import ProductInfoView from "../contributions/ProductInfoView"
-import * as PropTypes from "prop-types"
-import type {commentType} from "src/consts/flowTypes/common/comment"
-import type {identityType} from "src/consts/flowTypes/user/basicInformation"
-import type {postType} from "src/consts/flowTypes/common/post"
-import {bindActionCreators} from "redux"
-import {CategoryTitle} from "src/views/common/cards/Frames"
-import {Confirm} from "../cards/Confirm"
-import {getMessages} from "src/redux/selectors/translateSelector"
-import {Link} from "react-router-dom"
-import {userCommentsSelector} from "src/redux/selectors/common/comment/postCommentsSelector"
-import {userInstantCommentsSelector} from "src/redux/selectors/common/comment/postInstantCommentSelector"
-import likeActions from "src/redux/actions/commonActions/likeActions"
+import * as React from 'react'
+import 'moment/locale/fa'
+import CommentActions from 'src/redux/actions/commonActions/commentActions'
+import connect from 'react-redux/es/connect/connect'
+import constants from 'src/consts/constants'
+import FontAwesome from 'react-fontawesome'
+import PostActions from 'src/redux/actions/commonActions/postActions'
+import PostCommentNew from './PostCommentNew'
+import PostComments from './PostComments'
+import PostFooter from './PostFooter'
+import PostHeader from './PostHeader'
+import PostImage from './PostImage'
+import PostType from './PostType'
+import ProductInfoView from '../contributions/ProductInfoView'
+import * as PropTypes from 'prop-types'
+import type {commentType} from 'src/consts/flowTypes/common/comment'
+import type {identityType} from 'src/consts/flowTypes/user/basicInformation'
+import type {postType} from 'src/consts/flowTypes/common/post'
+import {bindActionCreators} from 'redux'
+import {CategoryTitle} from 'src/views/common/cards/Frames'
+import {Confirm} from '../cards/Confirm'
+import {getMessages} from 'src/redux/selectors/translateSelector'
+import {Link} from 'react-router-dom'
+import {userCommentsSelector} from 'src/redux/selectors/common/comment/postCommentsSelector'
+import {userInstantCommentsSelector} from 'src/redux/selectors/common/comment/postInstantCommentSelector'
+import likeActions from 'src/redux/actions/commonActions/likeActions'
 
 type postExtendedViewProps = {
   actions: {
@@ -97,92 +97,100 @@ class PostView extends React.PureComponent<postExtendedViewProps, postViewState>
     self.onLinkDown = this.onLinkDown.bind(this)
   }
 
-  postMenuId: string = "sidebar-post-menu-box-"
+  postMenuId: string = 'sidebar-post-menu-box-'
 
   componentDidMount() {
+    let showMore = false
+    let is_liked = false
+    let descriptionHeight = null
     const self: any = this
     const {extendedView, post, actions} = this.props
-    const {getCommentsByParentId} = actions
-
-    if (extendedView) {
-      const {match} = this.props
-      getCommentsByParentId({parentId: match.params.id, commentParentType: constants.COMMENT_PARENT.POST})
-    }
-
-    if (post && post.is_post_liked_by_logged_in_user !== undefined) {
-      this.setState({...this.state, is_liked: post.is_post_liked_by_logged_in_user})
-    }
 
     if (self.text) {
-      const allWords = self.text.innerText.replace(/\n/g, " ").split(" ")
-      const mailExp = new RegExp("^(([^<>()\\[\\]\\\\.,;:\\s@\"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$")
-      const urlExp = new RegExp("^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[A-Za-z0-9]+([\\-.][A-Za-z0-9]+)*\\.[A-Za-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$")
+      const allWords = self.text.innerText.replace(/\n/g, ' ').split(' ')
+      const mailExp = new RegExp('^(([^<>()\\[\\]\\\\.,;:\\s@"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$')
+      const urlExp = new RegExp('^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[A-Za-z0-9]+([\\-.][A-Za-z0-9]+)*\\.[A-Za-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$')
       // Phone Reg
-      const first = new RegExp("(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{4}[)]?))")
-      const second = new RegExp("([-]?[0-9]{3})")
-      const third = new RegExp("([-]?[0-9]{3,4})")
+      const first = new RegExp('(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{4}[)]?))')
+      const second = new RegExp('([-]?[0-9]{3})')
+      const third = new RegExp('([-]?[0-9]{3,4})')
 
       for (let i = 0; i < allWords.length; i++) {
         const word = allWords[i].trim()
         if (urlExp.test(word)) {
-          word.includes("http://") || word.includes("https://") ?
-              self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, "g"), `<span style="color: blue;cursor: pointer;" title=${word} onclick="window.open('${word}', '_blank')">${word.length > 60 ? word.slice(0, 60) + "..." : word}</span>`)
+          word.includes('http://') || word.includes('https://') ?
+              self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<span style="color: blue;cursor: pointer;" title=${word} onclick="window.open('${word}', '_blank')">${word.length > 60 ? word.slice(0, 60) + '...' : word}</span>`)
               :
-              self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, "g"), `<span style="color: blue;cursor: pointer;" title=${word} onclick="window.open('http://${word}', '_blank')">${word.length > 60 ? word.slice(0, 60) + "..." : word}</span>`)
+              self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<span style="color: blue;cursor: pointer;" title=${word} onclick="window.open('http://${word}', '_blank')">${word.length > 60 ? word.slice(0, 60) + '...' : word}</span>`)
         }
-        else if (word[0] === "@" && word.length >= 6 && !word.substring(1, word.length).includes("@")) {
-          self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, "g"), `<span style="color: blue;cursor: pointer;" title=${word} onclick="window.open('${word.slice(1, word.length)}')">${word}</span>`)
+        else if (word[0] === '@' && word.length >= 6 && !word.substring(1, word.length).includes('@')) {
+          self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<span style="color: blue;cursor: pointer;" title=${word} onclick="window.open('${word.slice(1, word.length)}')">${word}</span>`)
         }
-        else if (word[0] === "#" && word.length >= 3 && !word.substring(1, word.length).includes("#")) {
-          self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, "g"), `<span style="color: blue;cursor: pointer;" title=${word} onclick="window.open('${word}')">${word}</span>`)
+        else if (word[0] === '#' && word.length >= 3 && !word.substring(1, word.length).includes('#')) {
+          self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<span style="color: blue;cursor: pointer;" title=${word} onclick="window.open('${word}')">${word}</span>`)
         }
         else if (mailExp.test(word)) {
-          self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, "g"), `<span style="color: blue;cursor: pointer;" title=${word} onclick="window.open('mailto:${word}', '_blank')">${word.length > 60 ? word.slice(0, 60) + "..." : word}</span>`)
+          self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<span style="color: blue;cursor: pointer;" title=${word} onclick="window.open('mailto:${word}', '_blank')">${word.length > 60 ? word.slice(0, 60) + '...' : word}</span>`)
         }
-        else if (!isNaN(word.replace(/\\+/g, "")) && word.length > 4 && (first.test(word) || second.test(word) || third.test(word))) {
+        else if (!isNaN(word.replace(/\\+/g, '')) && word.length > 4 && (first.test(word) || second.test(word) || third.test(word))) {
           // don't touch it !
-          word.includes("+") ?
-              self.text.innerHTML = self.text.innerHTML.replace(new RegExp(`\\${word}`, "g"), `<span style="color: blue;cursor: pointer;" title=${word} onclick="window.open('tel:${word}', '_blank')">${word}</span>`)
+          word.includes('+') ?
+              self.text.innerHTML = self.text.innerHTML.replace(new RegExp(`\\${word}`, 'g'), `<span style="color: blue;cursor: pointer;" title=${word} onclick="window.open('tel:${word}', '_blank')">${word}</span>`)
               :
-              self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, "g"), `<span style="color: blue;cursor: pointer;" title=${word} onclick="window.open('tel:${word}', '_blank')">${word}</span>`)
+              self.text.innerHTML = self.text.innerHTML.replace(new RegExp(word, 'g'), `<span style="color: blue;cursor: pointer;" title=${word} onclick="window.open('tel:${word}', '_blank')">${word}</span>`)
         }
       }
-    }
 
-    if (!extendedView && self.text && self.text.clientHeight > 146) {
-      const height = self.text.clientHeight
-      if (post.post_description && new RegExp("^[A-Za-z]*$").test(post.post_description[0])) {
-        self.text.style.paddingRight = "60px"
+      if (!extendedView && post.post_description && self.text.clientHeight > 146) {
+        const height = self.text.clientHeight
+        if (new RegExp('^[A-Za-z]*$').test(post.post_description[0])) self.text.style.paddingRight = '60px'
+        else self.text.style.paddingLeft = '60px'
+        self.text.style.height = '139px'
+        showMore = true
+        descriptionHeight = height
       }
-      else self.text.style.paddingLeft = "60px"
-      self.text.style.height = "139px"
-      this.setState({...this.state, showMore: true, descriptionHeight: height})
+      else if (extendedView) {
+        const {getCommentsByParentId} = actions
+        const {match} = this.props
+        getCommentsByParentId({parentId: match.params.id, commentParentType: constants.COMMENT_PARENT.POST})
+      }
     }
 
-    document.addEventListener("click", this._handleClickOutMenuBoxBottom)
-    document.addEventListener("touchend", this._handleClickOutMenuBoxBottom)
+    if (post && post.is_post_liked_by_logged_in_user !== undefined) {
+      is_liked = post.is_post_liked_by_logged_in_user
+    }
+
+    this.setState({...this.state, is_liked, showMore, descriptionHeight})
+
+    document.addEventListener('click', this._handleClickOutMenuBoxBottom)
+    document.addEventListener('touchend', this._handleClickOutMenuBoxBottom)
   }
 
   componentWillReceiveProps(nextProps) {
     const {post, extendedView, instantViewComments, actions} = nextProps
-    const {getCommentsByParentId} = actions
+    if (post) {
+      const {getCommentsByParentId} = actions
+      let showMore = false
+      let is_liked = false
 
-    if (post && post !== this.props.post && post.is_post_liked_by_logged_in_user !== undefined) {
-      this.setState({...this.state, is_liked: post.is_post_liked_by_logged_in_user})
-    }
-    if (!extendedView && post && post.post_description && post.post_description.length !== this.props.post.post_description.length) {
-      const self: any = this
-      self.text.style.height = "auto"
-      this.setState({...this.state, showMore: false})
-    }
-    if (instantViewComments && this.props.instantViewComments && this.props.instantViewComments.length > instantViewComments.length && instantViewComments.length < 3) {
-      getCommentsByParentId({parentId: post.id, commentParentType: constants.COMMENT_PARENT.POST, limit: 3})
+      if (post !== this.props.post && post.is_post_liked_by_logged_in_user !== undefined) {
+        is_liked = post.is_post_liked_by_logged_in_user
+      }
+      if (!extendedView && post.post_description && post.post_description.length !== this.props.post.post_description.length) {
+        const self: any = this
+        self.text.style.height = 'auto'
+        showMore = false
+      }
+      if (instantViewComments && this.props.instantViewComments && this.props.instantViewComments.length > instantViewComments.length && instantViewComments.length < 3) {
+        getCommentsByParentId({parentId: post.id, commentParentType: constants.COMMENT_PARENT.POST, limit: 3})
+      }
+      this.setState({...this.state, showMore, is_liked})
     }
   }
 
   componentWillUnmount() {
-    document.removeEventListener("click", this._handleClickOutMenuBoxBottom)
-    document.removeEventListener("touchend", this._handleClickOutMenuBoxBottom)
+    document.removeEventListener('click', this._handleClickOutMenuBoxBottom)
+    document.removeEventListener('touchend', this._handleClickOutMenuBoxBottom)
   }
 
   _openMenuTop(e) {
@@ -216,10 +224,10 @@ class PostView extends React.PureComponent<postExtendedViewProps, postViewState>
   }
 
   _handleClickOutMenuBoxBottom(e: any) {
-    if (this.state.menuToggleBottom === true && !e.target.closest("#" + this.postMenuId + "bottom") && !e.target.closest(".post-menu-bottom")) {
+    if (this.state.menuToggleBottom === true && !e.target.closest('#' + this.postMenuId + 'bottom') && !e.target.closest('.post-menu-bottom')) {
       this.setState({...this.state, menuToggleBottom: false})
     }
-    if (this.state.menuToggleTop === true && !e.target.closest("#" + this.postMenuId + "top") && !e.target.closest(".post-menu-bottom")) {
+    if (this.state.menuToggleTop === true && !e.target.closest('#' + this.postMenuId + 'top') && !e.target.closest('.post-menu-bottom')) {
       this.setState({...this.state, menuToggleTop: false})
     }
   }
@@ -260,9 +268,9 @@ class PostView extends React.PureComponent<postExtendedViewProps, postViewState>
     this.setState({...this.state, showMore: false}, () => {
       const {descriptionHeight} = this.state
       const self: any = this
-      self.text.style.height = descriptionHeight && descriptionHeight + "px"
-      self.text.style.paddingRight = "0"
-      self.text.style.paddingLeft = "0"
+      self.text.style.height = descriptionHeight && descriptionHeight + 'px'
+      self.text.style.paddingRight = '0'
+      self.text.style.paddingLeft = '0'
     })
   }
 
@@ -302,7 +310,7 @@ class PostView extends React.PureComponent<postExtendedViewProps, postViewState>
     } = this.props
 
     const {menuToggleBottom, menuToggleTop, confirm, showComment, commentOn, is_liked} = this.state
-    let postDescription = "", postOwnerId = 0, postFilesArray
+    let postDescription = '', postOwnerId = 0, postFilesArray
 
     if (post) {
       postDescription = post.post_description
@@ -312,13 +320,13 @@ class PostView extends React.PureComponent<postExtendedViewProps, postViewState>
 
     return (
         confirm
-            ? <div className={extendedView ? "post-view-container remove-post-container" : "remove-post-container"}>
+            ? <div className={extendedView ? 'post-view-container remove-post-container' : 'remove-post-container'}>
               <Confirm cancelRemoving={this._cancelConfirm} remove={this._delete}/>
             </div>
             : post ?
             <div className='-itemWrapperPost'>
-              {extendedView && <CategoryTitle title={translate["Single post"]}/>}
-              <div className={extendedView ? "post-view-container" : undefined}>
+              {extendedView && <CategoryTitle title={translate['Single post']}/>}
+              <div className={extendedView ? 'post-view-container' : undefined}>
                 {
                   post.post_type !== constants.POST.POST_TYPE.POST &&
                   <PostType translate={translate} post={post}/>
@@ -333,13 +341,13 @@ class PostView extends React.PureComponent<postExtendedViewProps, postViewState>
                               openMenu={this._openMenuTop}
                               deletePost={this._delete}
                               menuToggle={menuToggleTop}
-                              postMenuId={this.postMenuId + "top"}
+                              postMenuId={this.postMenuId + 'top'}
                               clientIdentity={clientIdentity}
                   />
                   {
                     extendedView ?
                         <div className='post-content'
-                             style={new RegExp("^[A-Za-z]*$").test(postDescription && postDescription[0]) ? {direction: "ltr"} : {direction: "rtl"}}
+                             style={new RegExp('^[A-Za-z]*$').test(postDescription && postDescription[0]) ? {direction: 'ltr'} : {direction: 'rtl'}}
                              ref={e => self.text = e}>
                           {postDescription}
                         </div>
@@ -348,19 +356,19 @@ class PostView extends React.PureComponent<postExtendedViewProps, postViewState>
                             className='link-post-decoration'
                             onMouseDown={this.onLinkDown}
                             onClick={this.onLinkClick}
-                            to={postIdentity && postIdentity.identity_type === "user" ? `/user/${postOwnerId}/Posts/${post.id}` : `/organization/${postOwnerId}/Posts/${post.id}`}>
+                            to={postIdentity && postIdentity.identity_type === 'user' ? `/user/${postOwnerId}/Posts/${post.id}` : `/organization/${postOwnerId}/Posts/${post.id}`}>
                           <div className='post-content'
-                               style={new RegExp("^[A-Za-z]*$").test(postDescription && postDescription[0]) ? {direction: "ltr"} : {direction: "rtl"}}
+                               style={new RegExp('^[A-Za-z]*$').test(postDescription && postDescription[0]) ? {direction: 'ltr'} : {direction: 'rtl'}}
                                ref={e => self.text = e}>
                             {postDescription}
                           </div>
                         </Link>
                   }
 
-                  <div className={this.state.showMore ? "post-content-more" : "post-content-more-hide"}
-                       style={new RegExp("^[A-Za-z]*$").test(postDescription && postDescription[0]) ?
-                           {right: "10px"} :
-                           {left: "10px"}}
+                  <div className={this.state.showMore ? 'post-content-more' : 'post-content-more-hide'}
+                       style={new RegExp('^[A-Za-z]*$').test(postDescription && postDescription[0]) ?
+                           {right: '10px'} :
+                           {left: '10px'}}
                        onClick={this._readMore}>
                     ادامه
                     <div className='post-content-more-sign'>«</div>
@@ -378,8 +386,8 @@ class PostView extends React.PureComponent<postExtendedViewProps, postViewState>
                 {
                   postFilesArray && postFilesArray.map(file =>
                       file.type === constants.CREATE_FILE_TYPES.FILE &&
-                      <a key={"post file" + file.id} className='get-file pulse' href={file.file}>
-                        <FontAwesome name='download'/> {translate["Get file"]}
+                      <a key={'post file' + file.id} className='get-file pulse' href={file.file}>
+                        <FontAwesome name='download'/> {translate['Get file']}
                       </a>,
                   )
                 }
@@ -391,7 +399,7 @@ class PostView extends React.PureComponent<postExtendedViewProps, postViewState>
                             handleLike={this._handleLike}
                             is_liked={is_liked}
                             showEdit={showEdit}
-                            postMenuId={this.postMenuId + "bottom"}
+                            postMenuId={this.postMenuId + 'bottom'}
                 />
 
                 {showComment &&
@@ -408,7 +416,7 @@ class PostView extends React.PureComponent<postExtendedViewProps, postViewState>
                 <React.Fragment>
                   {
                     post.comments_count !== instantViewComments.length &&
-                    <div onClick={this.showMoreComment} className='show-more-comment'>{translate["Show More Comments"]}</div>
+                    <div onClick={this.showMoreComment} className='show-more-comment'>{translate['Show More Comments']}</div>
                   }
                   <PostComments comments={instantViewComments}
                                 stateComments={stateComments}

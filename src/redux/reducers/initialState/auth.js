@@ -10,7 +10,7 @@ export default {
     profile: {},
     user: {},
     organization: null,
-    posts: [], /* ids of posts that postIdentity of them is identity of this client*/
+    posts: {}, /* ids of posts that postIdentity of them is identity of this client*/
     educations: [], /* ids of educations that client has them*/
     researches: [], /* ids of researches that client has them*/
     skills: [], /* ids of skills that client has them*/
