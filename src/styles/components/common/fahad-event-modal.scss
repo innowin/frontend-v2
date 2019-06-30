@@ -1,0 +1,96 @@
+@import "../../variables";
+
+.organization-leadership-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.event-reg-modal-elements {
+  width: 60%;
+  position: relative;
+  color: $foreground-color;
+}
+
+.event-reg-modal-header {
+  width: 100%;
+  border-bottom: 1.25px solid #cdcdcd;
+  padding: 15px 5px;
+  color: $foreground-color;
+  font-size: $font-size-regular;
+  text-align: right;
+  margin-bottom: 30px;
+}
+
+.event-reg-modal-body {
+  width: 100%;
+  padding: 0 10%;
+  color: $foreground-color;
+  font-size: $font-size-regular;
+  text-align: right;
+
+  input {
+    margin-top: 10px;
+    margin-bottom: 20px;
+  }
+
+  textarea {
+    margin-top: 10px;
+    margin-bottom: 20px;
+  }
+}
+
+.event-reg-modal-checkbox-cont {
+  font-size: 12px;
+  vertical-align: top;
+  display: inline-block;
+  width: 100%;
+  text-align: right;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.event-reg-modal-checkbox-title {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.event-reg-modal-checkbox-selected {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1px solid $secondary-color;
+  position: relative;
+  margin-left: 8px;
+  cursor: pointer;
+
+  &:after {
+    content: ' ';
+    position: absolute;
+    vertical-align: top;
+    top: 5px;
+    left: 5px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: $secondary-color;
+  }
+}
+
+.event-reg-modal-checkbox {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1px solid $scroll-color;
+  position: relative;
+  margin-left: 8px;
+  cursor: pointer;
+}
+
+.small-event-arrow {
+  width: 5px;
+  fill: $foreground-color;
+  transform: translateY(2px) rotate(180deg);
+}

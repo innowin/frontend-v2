@@ -2,7 +2,7 @@ import React, {PureComponent} from "react"
 import exchangeActions from "src/redux/actions/exchangeActions"
 import ExchangeMembershipActions from "src/redux/actions/commonActions/exchangeMembershipActions"
 import PostActions from "src/redux/actions/commonActions/postActions"
-import * as PropTypes from 'prop-types'
+import * as PropTypes from "prop-types"
 import {bindActionCreators} from "redux"
 import {connect} from "react-redux"
 import {DefaultOrganIcon} from "src/images/icons"
@@ -95,7 +95,7 @@ class OrganizationLeadershipModal extends PureComponent {
       }
       let postParentId = parseInt(exId, 10)
       let postParentType = "exchange"
-      createPost({formValues, postParentId, postParentType, postFileIds: [],})
+      createPost({formValues, postParentId, postParentType, postFileIds: []})
     })
     this.setState({...this.state, level: 1}, toggle())
 
@@ -440,24 +440,22 @@ ${jobStatus}`,
   render() {
     let {modalIsOpen} = this.props
     return (
-        <React.Fragment>
-          <div className={modalIsOpen ? "organization-leadership-bg" : "organization-leadership-bg-out"}>
-            {
-              modalIsOpen ?
-                  <React.Fragment>
-                    <div className="organization-leadership-container">
-                      <div className="organization-leadership-elements">
-                        {this.currentLevel()}
-                      </div>
+        <div className={modalIsOpen ? "organization-leadership-bg" : "organization-leadership-bg-out"}>
+          {
+            modalIsOpen ?
+                <React.Fragment>
+                  <div className="organization-leadership-container">
+                    <div className="organization-leadership-elements">
+                      {this.currentLevel()}
                     </div>
-                    <div className="organization-leadership-footer">
-                      {this.currentFooter()}
-                    </div>
-                  </React.Fragment>
-                  : null
-            }
-          </div>
-        </React.Fragment>
+                  </div>
+                  <div className="organization-leadership-footer">
+                    {this.currentFooter()}
+                  </div>
+                </React.Fragment>
+                : null
+          }
+        </div>
     )
   }
 }

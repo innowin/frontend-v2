@@ -13,6 +13,7 @@ import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import {getMessages} from 'src/redux/selectors/translateSelector'
 import {PureComponent} from 'react'
+import FahadEventCard from "src/views/common/components/Fahad/FahadEventCard"
 
 
 type HomeProps = {|
@@ -72,10 +73,10 @@ class Home extends PureComponent<HomeProps, {| activeExchangeId: ?number |}> {
                          className={activeExchangeId ? 'post-wrapper active-exchange' : 'post-wrapper'}/>
               <div className={activeExchangeId ? 'user-detail-wrapper active-exchange' : 'user-detail-wrapper'}>
                 {/*{identityType === constants.USER_TYPES.ORG && <OrganizationLeadershipCard/>}*/}
+                {/*<FahadEventCard/>*/}
                 <OrganizationLeadershipCard/>
                 {isBeeDone ? null : identityType === constants.USER_TYPES.ORG ? <OrganizationBee/> : <UserBee/>}
                 <SuggestExchanges/>
-                {/*<EventCard/>*/}
               </div>
             </div>
             {/*<ChatBar className="-left-sidebar-wrapper"/>*/}

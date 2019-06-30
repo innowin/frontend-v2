@@ -1,57 +1,77 @@
 @import "../../variables";
 
 .event-card {
-	background-color: #ffffff;
-	border-radius: $border-radius-size;
-	box-shadow: 0 3px 3px $box-shadow-color;
-	padding: 10px 15px;
-	position: relative;
-	margin-top: 15px;
-	.close-button {
-		vertical-align: top;
-		margin-top: 5px;
-		left: 5px;
-		display: block;
-		position: absolute;
-		width: 15px;
-		font-size: 10px;
-		font-weight: bold;
-		color: $post-hover-border-color;
-		cursor: pointer;
-	}
-	.image {
-		svg {
-			width: 180px;
-			display: block;
-			margin: 30px auto;
-		}
-	}
-	.text {
-		.title {
-			font-weight: bold;
-			font-size: 14px;
-			text-align: center;
-		}
-		.description {
-			font-size: 13px;
-			padding: 20px;
-			text-align: center;
-			color: $text-light-color;
-		}
-	}
-	.button {
-		background: $primary-color-light3;
-		color: white;
-		border-radius: 20px;
-		font-size: 12px;
-		padding: 5px 15px;
-		width: 150px;
-		transition: all 0.3s ease;
-		margin: 0 auto 20px auto;
-		text-align: center;
-		cursor: pointer;
-		&:hover {
-			background: darken($primary-color-light3,10%);
-		}
-	}
+  background-color: #ffffff;
+  border-radius: $border-radius-size;
+  //box-shadow: 0 3px 3px $box-shadow-color;
+  padding: 10px 15px;
+  position: relative;
+  margin-bottom: 10px;
+
+  .close-button {
+    vertical-align: top;
+    margin-top: 5px;
+    left: 5px;
+    display: block;
+    position: absolute;
+    width: 15px;
+    font-size: 10px;
+    font-weight: bold;
+    color: $post-hover-border-color;
+    cursor: pointer;
+  }
+
+  .image {
+    svg {
+      width: 180px;
+      display: block;
+      margin: 30px auto;
+    }
+  }
+
+  .text {
+    .title {
+      font-weight: bold;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .description {
+      font-size: 13px;
+      padding: 20px;
+      text-align: center;
+      color: $text-light-color;
+    }
+  }
+
+  .button {
+    background: $primary-color-light3;
+    color: white;
+    border-radius: 20px;
+    font-size: $font-size-description;
+    padding: 5px 15px;
+    width: 150px;
+    transition: all 0.3s ease;
+    border: 1.25px solid $background-color;
+    margin: 0 auto 20px auto;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 0 0 0 0 $primary-color-light3;
+
+    &:hover {
+      color: $primary-color-light3;
+      border: 1.25px solid $primary-color-light3;
+      background-color: $background-color;
+      transition-duration: $animation-timing;
+      box-shadow: 0 0 0 0 $primary-color-light3;
+    }
+
+    &:active {
+      background-color: $primary-color-light3;
+      border: 1.25px solid $background-color;
+      color: $background-color;
+      transition-duration: $animation-timing-short;
+      box-shadow: 0 0 0 2px $primary-color-light3;
+    }
+  }
 }

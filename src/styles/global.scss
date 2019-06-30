@@ -1,6 +1,6 @@
 @import "variables";
 
-div, body, ul, nav, caption,select,html, li, span, a, p, ol, i, strong,img, label, input, table, td, th, tt, tr, article, aside,h1,h2,h3,h4,h5, button, main, b, pre, form,footer,header,figure, textarea, svg, hr, br {
+div, body, ul, nav, caption, select, html, li, span, a, p, ol, i, strong, img, label, input, table, td, th, tt, tr, article, aside, h1, h2, h3, h4, h5, button, main, b, pre, form, footer, header, figure, textarea, svg, hr, br {
   margin: 0;
   padding: 0;
   border: none;
@@ -70,6 +70,7 @@ input, textarea, button, select {
 @import "components/common/edit-form-button";
 @import "components/common/edit-modal";
 @import "components/common/event-card";
+@import "components/common/fahad-event-modal";
 @import "components/common/image/image";
 @import "components/common/input-group-vertical";
 @import "components/common/inputs/circular-checkbox";
@@ -98,6 +99,7 @@ input, textarea, button, select {
 @import "components/common/user-detail-panel";
 @import "components/common/warning-modal";
 @import "components/common/wrappers/wrappers";
+@import "components/DatePicker.css";
 @import "components/exchange/exchangeView";
 @import "components/exchange/ExchangeView/index";
 @import "components/exchange/ExchangeView/post";
@@ -125,7 +127,6 @@ input, textarea, button, select {
 @import "components/user/social";
 @import "components/user/tabs";
 @import "components/validation_styles";
-@import "components/DatePicker.css";
 @import "icons_svg";
 @import "layout";
 @import "organization/about-us";
@@ -168,6 +169,7 @@ a, a:hover, a:active {
 .background-strips {
   background-image: repeating-linear-gradient(-45deg, #eee, #eee 10px, #f8f8f8 10px, #f8f8f8 20px);
 }
+
 @media screen and (max-width: 10000px) {
   .colMd3 {
     vertical-align: top;
