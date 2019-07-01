@@ -5,7 +5,6 @@ import ChatBar from '../bars/ChatBar'
 import Posts from 'src/views/common/post/index'
 import PostExtendedView from 'src/views/common/post/PostView'
 import * as PropTypes from 'prop-types'
-import Social from 'src/views/common/social/index'
 import Followings from 'src/views/common/social/following/index'
 import Followers from 'src/views/common/social/follower/index'
 import type {badgeType} from 'src/consts/flowTypes/common/badges'
@@ -28,6 +27,7 @@ import {userPostsSelector} from 'src/redux/selectors/common/post/userPostsSelect
 import PostActions from 'src/redux/actions/commonActions/postActions'
 import PrivateRoute from '../../consts/PrivateRoute'
 import {NewRightArrow} from '../../images/icons'
+import Exchanges from 'src/views/common/social/exchanges/index'
 
 type PropsOrganization = {
   userObject: organStateObject,
@@ -234,7 +234,8 @@ class Organization extends PureComponent<PropsOrganization, StatesOrganization> 
                                     identityType={constants.USER_TYPES.ORG}
                                     user={userObject}
                       />
-                      <PrivateRoute path={`${path}/Exchanges`} component={Social}
+                      <PrivateRoute path={`${path}/Exchanges`}
+                                    component={Exchanges}
                                     ownerId={userId}
                                     identityType={constants.USER_TYPES.ORG}
                                     user={userObject}

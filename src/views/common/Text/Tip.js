@@ -2,7 +2,6 @@
 import * as React from "react"
 import {TipsIcon} from '../../../images/icons'
 
-
 type TipProps = {
   desc: string
 }

@@ -28,11 +28,6 @@ import PostActions from 'src/redux/actions/commonActions/postActions'
 import {userPostsSelector} from 'src/redux/selectors/common/post/userPostsSelector'
 import PrivateRoute from '../../consts/PrivateRoute'
 import {DefaultUserIcon, NewRightArrow} from '../../images/icons'
-// import Contributions from './common/contributions'
-// import Educations from 'src/views/user/educations'
-// import UserBasicInformation from './user/basicInformation'
-// import WorkExperiences from './user/workExperience/index'
-// import Exchanges from 'src/views/common/social/index'
 
 type PropsUser = {
   match: {
