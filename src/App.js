@@ -1,6 +1,7 @@
 import React from 'react'
 import 'src/fontawesome/css/font-awesome.min.css'
 import 'src/styles/global.scss'
+import 'moment/locale/fa'
 import Login from 'src/views/pages/Login'
 import PropsRoute from 'src/consts/PropsRoute'
 import {Switch} from 'react-router-dom'
