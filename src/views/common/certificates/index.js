@@ -1,7 +1,6 @@
 // @flow
 import * as React from "react";
 import * as PropTypes from "prop-types";
-import {FrameCard, ListGroup} from "../../common/cards/Frames";
 import {Component} from "react";
 import CertificateContainer from './CertificateContainer'
 import connect from "react-redux/es/connect/connect";
@@ -73,8 +72,8 @@ export class Index extends Component<PropsCertificates, StateCertificates> {
             </div>
             }
             {certificateCreateForm &&
-            <FrameCard className='education-tab'>
-              <ListGroup>
+            <div className='education-tab'>
+              <div className='list-group list-group-flush'>
                 <div className='education-research-create-container'>
                   <p className='education-research-create-header'>{translate['Certificate']}</p>
                   <CertificateInfoCreateForm hideCreateForm={this._hideCertificateCreateForm}
@@ -82,16 +81,16 @@ export class Index extends Component<PropsCertificates, StateCertificates> {
                                              translate={translate}/>
 
                 </div>
-              </ListGroup>
-            </FrameCard>
+              </div>
+            </div>
             }
           </CheckOwner>
 
-          <FrameCard>
-            <ListGroup>
+          <div>
+            <div className='list-group list-group-flush'>
               <CertificateContainer ownerId={ownerId} identityId={ownerId} identityType={identityType}/>
-            </ListGroup>
-          </FrameCard>
+            </div>
+          </div>
         </div>
         //</VerifyWrapper>
     )

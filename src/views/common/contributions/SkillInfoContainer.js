@@ -45,7 +45,6 @@ class SkillInfoContainer extends React.Component<PropsSkills> {
     const {translate, skills, userId, actions} = this.props
     const {updateSkillByUserId, deleteSkillByUserId} = actions
     return (
-        //<VerifyWrapper isLoading={isLoading} error={error}>
         <ItemWrapper icon={<NewSkillIcon/>}>
           <ItemHeader title={translate['Skills']}/>
           {
@@ -61,7 +60,6 @@ class SkillInfoContainer extends React.Component<PropsSkills> {
             ))
           }
         </ItemWrapper>
-        //</VerifyWrapper>
     )
   }
 }

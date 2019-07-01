@@ -9,10 +9,7 @@
   text-align: justify;
   white-space: pre-wrap;
   word-break: break-word;
-
-  @media screen and (max-width: 480px) {
-    padding-right: 62px;
-  }
+  padding-right: 62px;
 }
 
 .tagCross {
@@ -346,19 +343,15 @@
 
   .post-type-container {
     display: flex;
-    font-size: $font-size-post-title-extended;
-    color: $primary-color-light2;
-    padding: 13px 18px;
+    align-items: center;
+    font-size: $font-size-regular;
+    padding: 16px;
     border-bottom: 1px solid lighten($text-lighter-color, 6%);
 
     .post-type {
-      .title-label {
-        margin-right: 18px;
-      }
-
       .title {
+        margin-right: 12px;
         font-weight: bold;
-        color: $success-color;
       }
     }
   }
@@ -825,4 +818,56 @@
   opacity: 0;
   height: 0;
   overflow: hidden;
+}
+
+
+.post-supply-demand-button {
+  text-align: center;
+  border: 1.25px solid $primary-color-light3;
+  font-size: $font-size-description;
+  color: $primary-color-light3;
+  background-color: $background-color;
+  padding: 4px 0;
+  width: 45px;
+  vertical-align: top;
+  display: inline-block;
+  border-radius: 25px;
+  margin: 3px;
+  cursor: pointer;
+  user-select: none;
+  transition-duration: $animation-timing-short;
+
+  &:hover {
+    background-color: $primary-color-light3;
+    border: 1.25px solid $background-color;
+    color: $background-color;
+    box-shadow: 0 0 0 2px $primary-color-light3;
+    transition-duration: $animation-timing-short;
+  }
+
+  &:active {
+    border: 1.25px solid $primary-color-light3;
+    box-shadow: none;
+    transition-duration: $animation-timing;
+  }
+}
+
+.post-supply {
+  &:after {
+    content: 'عرضه';
+  }
+
+  &:hover:after {
+    content: 'پاسخ';
+  }
+}
+
+.post-demand {
+  &:after {
+    content: 'تقاضا';
+  }
+
+  &:hover:after {
+    content: 'پاسخ';
+  }
 }

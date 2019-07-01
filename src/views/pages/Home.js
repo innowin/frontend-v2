@@ -1,5 +1,4 @@
-// @flow
-import * as React from 'react'
+import React from 'react'
 import constants from 'src/consts/constants'
 import HomePosts from './home/HomePosts'
 import HomeSideBar from './home/HomeSideBar'
@@ -13,19 +12,9 @@ import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import {getMessages} from 'src/redux/selectors/translateSelector'
 import {PureComponent} from 'react'
-import FahadEventCard from "src/views/common/components/Fahad/FahadEventCard"
+import FahadEventCard from 'src/views/common/components/Fahad/FahadEventCard'
 
-
-type HomeProps = {|
-  identityId?: number,
-  identityType?: string,
-  translate: { [string]: string },
-  actions: { setExchange: Function },
-  selectedExchange: number
-|}
-
-class Home extends PureComponent<HomeProps, {| activeExchangeId: ?number |}> {
-
+class Home extends PureComponent {
   static propTypes = {
     identityId: PropTypes.number,
     identityType: PropTypes.string,
@@ -38,7 +27,7 @@ class Home extends PureComponent<HomeProps, {| activeExchangeId: ?number |}> {
     this.state = {activeExchangeId: this.props.selectedExchange}
   }
 
-  _setExchangeId = (exchangeId: number) => {
+  _setExchangeId = (exchangeId) => {
     const {activeExchangeId} = this.state
     if (exchangeId !== activeExchangeId) {
       this.setState({...this.state, activeExchangeId: exchangeId}, () => {
@@ -60,15 +49,12 @@ class Home extends PureComponent<HomeProps, {| activeExchangeId: ?number |}> {
         <div className="home-wrapper global-wrapper">
           <main className="-main">
             <div className="page-content home-page-content">
-              {
-                identityId && identityType &&
-                <HomeSideBar setExchangeId={this._setExchangeId}
-                             classNames={activeExchangeId ? 'right-sidebar active-exchange' : 'right-sidebar'}
-                             identityId={identityId}
-                             identityType={identityType}
-                             activeExchangeId={activeExchangeId}
-                />
-              }
+              <HomeSideBar setExchangeId={this._setExchangeId}
+                           classNames={activeExchangeId ? 'right-sidebar active-exchange' : 'right-sidebar'}
+                           identityId={identityId}
+                           identityType={identityType}
+                           activeExchangeId={activeExchangeId}
+              />
               <HomePosts unSetExchangeId={this._unSetExchangeId} exchangeId={activeExchangeId}
                          className={activeExchangeId ? 'post-wrapper active-exchange' : 'post-wrapper'}/>
               <div className={activeExchangeId ? 'user-detail-wrapper active-exchange' : 'user-detail-wrapper'}>
@@ -90,8 +76,8 @@ const mapStateToProps = state => {
   const client = state.auth.client
   const selectedExchange = client.selectedExchange
   const allIdentities = state.identities.list
-  const clientIdentityId = client.identity.content || null
-  const clientIdentity = (clientIdentityId && allIdentities[clientIdentityId]) ? allIdentities[clientIdentityId] : {}
+  const clientIdentityId = client.identity.content
+  const clientIdentity = allIdentities[clientIdentityId]
   const identityType = clientIdentity ? clientIdentity.identity_type : undefined
 
   return {

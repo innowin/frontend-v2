@@ -1,4 +1,4 @@
-import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/hardSet'
+import autoMerge from 'redux-persist/lib/stateReconciler/hardSet'
 import createEncryptor from 'redux-persist-transform-encrypt'
 import createHistory from 'history/createBrowserHistory'
 import createSagaMiddleware from 'redux-saga'
@@ -34,20 +34,16 @@ const persistConfig = {
   version: migrations.LATEST_VERSION,
   migrate: createMigrate(migrations.ROOT, {debug: true}),
   blacklist: ['form', 'param', 'toast', 'temp'],
-  stateReconciler: autoMergeLevel2,
+  stateReconciler: autoMerge,
 }
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 
-const configureStore = () => {
-  return createStore(persistedReducer,
-      process.env.NODE_ENV !== 'production' ? window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__() : undefined,
-      applyMiddleware(
-          navMiddleware,
-          sagaMiddleware,
-          gaMiddleware,
-          logger,
-      ),
-  )
-}
+const configureStore = () =>
+    createStore(
+        persistedReducer,
+        process.env.NODE_ENV !== 'production' ? window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__() : undefined,
+        applyMiddleware(navMiddleware, sagaMiddleware, gaMiddleware, logger),
+    )
+
 export const runSaga = () => sagaMiddleware.run(rootSaga)
 export default configureStore

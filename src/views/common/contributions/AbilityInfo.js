@@ -1,11 +1,10 @@
 // @flow
-import * as React from "react"
+import * as React from 'react'
 import * as PropTypes from 'prop-types'
 
-import AbilityInfoForm from "./AbilityInfoForm"
-import AbilityInfoView from "./AbilityInfoView"
-import type {AbilityType} from "../../../consts/flowTypes/organization/ability"
-import {VerifyWrapper} from "../cards/Frames"
+import AbilityInfoForm from './AbilityInfoForm'
+import AbilityInfoView from './AbilityInfoView'
+import type {AbilityType} from '../../../consts/flowTypes/organization/ability'
 
 type PropsAbilityInfo = {
   updateAbility: Function,
@@ -52,19 +51,16 @@ class AbilityInfo extends React.Component<PropsAbilityInfo, StateAbilityInfo> {
     const {edit} = this.state
     // FixMe: mohammad isLoading and error come from redux
     return (
-        <VerifyWrapper isLoading={false} error={false}>
-          {edit ?
-              <AbilityInfoForm
-                  organizationId={organizationId}
-                  ability={ability}
-                  hideEdit={this._hideEdit}
-                  update={updateAbility}
-                  deleteAbility={this._delete}
-                  translate={translate}
-              />
-              : <AbilityInfoView ability={ability} organizationId={organizationId} showEdit={this._showEdit}/>
-          }
-        </VerifyWrapper>
+        edit ?
+            <AbilityInfoForm
+                organizationId={organizationId}
+                ability={ability}
+                hideEdit={this._hideEdit}
+                update={updateAbility}
+                deleteAbility={this._delete}
+                translate={translate}
+            />
+            : <AbilityInfoView ability={ability} organizationId={organizationId} showEdit={this._showEdit}/>
     )
   }
 }

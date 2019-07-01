@@ -5,9 +5,6 @@ import * as PropTypes from 'prop-types'
 import BiographyEditForm from './BiographyEditForm'
 import BiographyView from './BiographyView'
 import type {organizationType} from "src/consts/flowTypes/organization/organization"
-import {InformationIcon} from "src/images/icons"
-import {ItemWrapper} from "src/views/common/cards/Frames"
-import {VerifyWrapper} from "src/views/common/cards/Frames"
 
 //OrganizationInfo flowTypes
 type OrganizationInfoProps = {|

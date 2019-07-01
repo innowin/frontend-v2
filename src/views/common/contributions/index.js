@@ -50,8 +50,8 @@ class Contributions extends React.Component {
             {/*dark div*/}
           </div>
 
-          <FrameCard>
-            <ListGroup>
+          <div>
+            <div className='list-group list-group-flush'>
               <ProductInfoContainer
                   ownerId={ownerId}
                   translate={translate}
@@ -69,8 +69,8 @@ class Contributions extends React.Component {
                         translate={translate}
                     />
               }
-            </ListGroup>
-          </FrameCard>
+            </div>
+          </div>
         </div>
     )
   }

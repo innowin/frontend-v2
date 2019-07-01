@@ -3,7 +3,6 @@ import * as React from "react"
 import {connect} from "react-redux"
 import * as PropTypes from 'prop-types'
 import {getMessages} from "../../../redux/selectors/translateSelector"
-import {FrameCard, ListGroup} from "../../common/cards/Frames"
 import EducationInfoContainer from './EducationInfoContainer'
 import ResearchesInfoContainer from "./ResearchesInfoContainer"
 import CheckOwner from "../../common/CheckOwner"
@@ -88,8 +87,8 @@ class Educations extends React.Component<PropsEducations, StatesEducations> {
             </div>
             }
             {educationCreateForm &&
-            <FrameCard className='education-tab'>
-              <ListGroup>
+            <div className='education-tab'>
+              <div className='list-group list-group-flush'>
                 <div className='education-research-create-container'>
                   <p className='education-research-create-header'>{translate['Education']}</p>
                   <EducationInfoCreateForm hideEdit={this._hideEducationCreateForm} create={this._createEducation}
@@ -97,28 +96,28 @@ class Educations extends React.Component<PropsEducations, StatesEducations> {
                                            userId={userId}/>
 
                 </div>
-              </ListGroup>
-            </FrameCard>
+              </div>
+            </div>
             }
             {researchCreateForm &&
-            <FrameCard className='education-tab'>
-              <ListGroup>
+            <div className='education-tab'>
+              <div className='list-group list-group-flush'>
                 <div className='education-research-create-container'>
                   <p className='education-research-create-header'>{translate['Research']}</p>
                   <ResearchInfoCreateForm hideEdit={this._hideResearchCreateForm} create={this._createResearch}
                                           translate={translate}
                                           userId={userId}/>
                 </div>
-              </ListGroup>
-            </FrameCard>
+              </div>
+            </div>
             }
           </CheckOwner>
-          <FrameCard className={educations.length === 0 && researches.length === 0 ? 'education-tab-frame' : ''}>
-            <ListGroup>
+          <div className={educations.length === 0 && researches.length === 0 ? 'education-tab-frame' : ''}>
+            <div className='list-group list-group-flush'>
               <EducationInfoContainer userId={userId} translate={translate}/>
               <ResearchesInfoContainer userId={userId} translate={translate}/>
-            </ListGroup>
-          </FrameCard>
+            </div>
+          </div>
         </div>
     )
   }

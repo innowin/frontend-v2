@@ -4,6 +4,8 @@ import exchangeActions from 'src/redux/actions/exchangeActions'
 import {bindActionCreators} from 'redux'
 import {getExchanges} from 'src/redux/selectors/common/exchanges/GetAllExchanges'
 import ExchangeSuggestView from './ExchangeSuggestView'
+import {clientMemberships} from 'src/redux/selectors/common/exchanges/ClientMemberships'
+import {exchangeMemberships} from 'src/redux/selectors/common/exchanges/ExchangeMemberships'
 
 class SuggestExchanges extends PureComponent {
   constructor(props) {
@@ -52,8 +54,8 @@ class SuggestExchanges extends PureComponent {
 
 const mapStateToProps = (state) => ({
   exchanges: getExchanges(state),
-  clientExchangeMemberships: state.auth.client.exchangeMemberships,
-  exchangeMemberships: state.common.exchangeMembership.list,
+  clientExchangeMemberships: clientMemberships(state),
+  exchangeMemberships: exchangeMemberships(state),
 })
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({

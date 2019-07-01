@@ -4,7 +4,7 @@ import * as PropTypes from 'prop-types'
 
 import ResearchInfoEditForm from "./ResearchInfoEditForm"
 import type {userResearchType} from "../../../consts/flowTypes/user/basicInformation"
-import {Field, FieldValue, ItemHeader, VerifyWrapper} from "../../common/cards/Frames"
+import {Field, FieldValue, ItemHeader} from "../../common/cards/Frames"
 import {ItemWrapper} from "src/views/common/cards/Frames"
 import {EducationIcon} from "../../../images/icons"
 
@@ -55,7 +55,6 @@ class ResearchInfo extends React.Component<ResearchInfoProps, ResearchInfoState>
     const {edit} = this.state
 
     return (
-        <VerifyWrapper isLoading={false} error={false}>
           <ItemWrapper icon={<EducationIcon/>}>
             {edit ? (
                 <ResearchInfoEditForm
@@ -101,7 +100,6 @@ class ResearchInfo extends React.Component<ResearchInfoProps, ResearchInfoState>
                 </div>
             )}
           </ItemWrapper>
-        </VerifyWrapper>
     )
   }
 }

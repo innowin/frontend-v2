@@ -15,7 +15,6 @@ import researchState from './research'
 import skillState from './skill'
 import tempState from './temp'
 import toastState from './toast'
-import usersState from './users'
 import workExperienceState from './workExperience'
 import modalState from './modal'
 
@@ -36,7 +35,6 @@ export default {
   skill: skillState,
   temp: tempState,
   toast: toastState,
-  users: usersState,
   workExperience: workExperienceState,
   common: {
     agencyRequest: commonStates.agencyRequestState,
@@ -58,16 +56,25 @@ export default {
 }
 
 export const clearCache = {
+  ability: abilityState,
+  customer: customerState,
   education: educationState,
+  event: eventState,
+  eventAssignment: eventAssignmentState,
   exchanges: exchangesState,
+  favorite: favoriteState,
   identities: identitiesState,
   intl: intlState,
+  organization: organizationState,
+  param: paramState,
   research: researchState,
   skill: skillState,
   temp: tempState,
   toast: toastState,
   workExperience: workExperienceState,
   common: {
+    badges: commonStates.badgeState,
+    category: commonStates.categoryState,
     certificate: commonStates.certificateState,
     comment: commonStates.commentState,
     educationField: commonStates.educationFieldState,

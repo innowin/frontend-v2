@@ -9,7 +9,7 @@ import WorkExperience from "./WorkExperience"
 import WorkExperienceActions from "../../../redux/actions/user/workExperienceActions"
 import WorkExperienceCreateForm from "./WorkExperienceCreateForm"
 import workExperienceIcon from "../../../images/user/workExperience_svg"
-import {FrameCard, CategoryTitle, ListGroup, ItemWrapper} from "src/views/common/cards/Frames"
+import {CategoryTitle, ItemWrapper} from "src/views/common/cards/Frames"
 import {getMessages} from "../../../redux/selectors/translateSelector"
 import {makeGetWorkExperiences} from "../../../redux/selectors/user/userGetWorkExperiencesSelector"
 
@@ -76,7 +76,6 @@ class WorkExperiences extends React.Component<PropsWorkExperiences, StateWorkExp
     const {translate, workExperiences, userId, actions} = this.props
     const {updateWorkExperienceByUserId, deleteWorkExperienceByUserId} = actions
     return (
-        // <VerifyWrapper isLoading={isLoading} error={error}>
         <div>
           <CategoryTitle
               title={translate["WorkExperience"]}
@@ -85,20 +84,20 @@ class WorkExperiences extends React.Component<PropsWorkExperiences, StateWorkExp
           />
           {
             createForm &&
-            <FrameCard>
-              <ListGroup>
+            <div>
+              <div className='list-group list-group-flush'>
                 <ItemWrapper icon={workExperienceIcon}>
                   <WorkExperienceCreateForm hideCreateForm={this._hideCreateForm} create={this._create}
                                             translate={translate}
                                             userId={userId}/>
                 </ItemWrapper>
-              </ListGroup>
-            </FrameCard>
+              </div>
+            </div>
           }
           {
             workExperiences.length > 0 &&
-            <FrameCard>
-              <ListGroup>
+            <div>
+              <div className='list-group list-group-flush'>
                 {
                   workExperiences.map((workExperience) => (
                       <WorkExperience
@@ -111,12 +110,11 @@ class WorkExperiences extends React.Component<PropsWorkExperiences, StateWorkExp
                       />
                   ))
                 }
-              </ListGroup>
-            </FrameCard>
+              </div>
+            </div>
 
           }
         </div>
-        // </VerifyWrapper>
     )
   }
 }

@@ -1,11 +1,11 @@
 // @flow
-import * as React from "react"
+import * as React from 'react'
 import * as PropTypes from 'prop-types'
 
-import type {workExperienceType} from "../../../consts/flowTypes/user/others"
-import WorkExperienceEditForm from "./WorkExperienceEditForm"
-import workExperienceIcon from "../../../images/user/workExperience_svg"
-import {Field, FieldValue, ItemHeader, ItemWrapper, VerifyWrapper} from "../../common/cards/Frames"
+import type {workExperienceType} from '../../../consts/flowTypes/user/others'
+import WorkExperienceEditForm from './WorkExperienceEditForm'
+import workExperienceIcon from '../../../images/user/workExperience_svg'
+import {Field, FieldValue, ItemHeader, ItemWrapper} from '../../common/cards/Frames'
 
 // flow type of WorkExperience
 type PropsWorkExperience = {
@@ -54,39 +54,37 @@ class WorkExperience extends React.Component<PropsWorkExperience, StateWorkExper
     const {workExperience} = this.props
     const {translate, updateWorkExperienceByUserId, userId} = this.props
     return (
-        <VerifyWrapper isLoading={false} error={false}>
-          <ItemWrapper icon={workExperienceIcon}>
-            {edit ?
-                <WorkExperienceEditForm
-                    workExperience={workExperience}
-                    hideEdit={this._hideEdit}
-                    deleteWorkExperience={this._delete}
-                    update={updateWorkExperienceByUserId}
-                    translate={translate}
-                    userId={userId}
-                />
-                : workExperience &&
-                <div>
-                  <ItemHeader title={workExperience.position} showEdit={this._showEdit}/>
-                  {workExperience.name &&
-                  <Field>
-                    <FieldValue value={workExperience.name}/>
-                  </Field>
-                  }
-                  {(workExperience.from_date || workExperience.to_date) &&
-                  <Field>
-                    <FieldValue
-                        value={workExperience.from_date ?
-                            workExperience.from_date : ""
-                            + " - " +
-                            workExperience.to_date ?
-                                workExperience.to_date : ""}/>
-                  </Field>
-                  }
-                </div>
-            }
-          </ItemWrapper>
-        </VerifyWrapper>
+        <ItemWrapper icon={workExperienceIcon}>
+          {edit ?
+              <WorkExperienceEditForm
+                  workExperience={workExperience}
+                  hideEdit={this._hideEdit}
+                  deleteWorkExperience={this._delete}
+                  update={updateWorkExperienceByUserId}
+                  translate={translate}
+                  userId={userId}
+              />
+              : workExperience &&
+              <div>
+                <ItemHeader title={workExperience.position} showEdit={this._showEdit}/>
+                {workExperience.name &&
+                <Field>
+                  <FieldValue value={workExperience.name}/>
+                </Field>
+                }
+                {(workExperience.from_date || workExperience.to_date) &&
+                <Field>
+                  <FieldValue
+                      value={workExperience.from_date ?
+                          workExperience.from_date : ''
+                          + ' - ' +
+                          workExperience.to_date ?
+                              workExperience.to_date : ''}/>
+                </Field>
+                }
+              </div>
+          }
+        </ItemWrapper>
     )
   }
 }

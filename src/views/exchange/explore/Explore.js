@@ -11,6 +11,8 @@ import {PureComponent} from 'react'
 import MobileHeader from '../../user/explore/MobileHeader'
 import {getHashTags} from 'src/redux/actions/commonActions/hashTagActions'
 import {hashTagsListSelector} from 'src/redux/selectors/common/hashTags/hashTag'
+import {clientMemberships} from 'src/redux/selectors/common/exchanges/ClientMemberships'
+import {exchangeMemberships} from 'src/redux/selectors/common/exchanges/ExchangeMemberships'
 
 class Explore extends PureComponent {
   constructor(props) {
@@ -116,8 +118,8 @@ class Explore extends PureComponent {
 const mapStateToProps = (state) => ({
   allExchanges: getExchanges(state),
   loading: state.exchanges.isLoading,
-  clientExchangeMemberships: state.auth.client.exchangeMemberships,
-  exchangeMemberships: state.common.exchangeMembership.list,
+  clientExchangeMemberships: clientMemberships(state),
+  exchangeMemberships: exchangeMemberships(state),
   HashTags: hashTagsListSelector(state),
 })
 const mapDispatchToProps = dispatch => ({

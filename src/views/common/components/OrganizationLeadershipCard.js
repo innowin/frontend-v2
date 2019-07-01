@@ -1,4 +1,4 @@
-import * as React from "react"
+import React from "react"
 import {PureComponent} from "react"
 import OrganizationLeadershipModal from "../post/OrganizationLeadershipModal"
 
@@ -10,7 +10,7 @@ export default class OrganizationLeadershipCard extends PureComponent {
     }
   }
 
-  componentDidMount(): void {
+  componentDidMount() {
     if (this.state.modalIsOpen && document.body) {
       document.body.style.overflow = "auto hidden"
     }
@@ -75,7 +75,7 @@ export default class OrganizationLeadershipCard extends PureComponent {
                 منتور ها شما را راهنمایی خواهند کرد.
               </div>
             </label>
-            <label ref={e => (this.fund = e)} className='organization-leadership-card-checkbox-done'>
+            <label className='organization-leadership-card-checkbox-done'>
               <div className="organization-leadership-card-checkbox-title">
                 {/*<input type="checkbox" name="kind" onChange={() => OrganizationLeadershipCard.changeCheckState(this.fund)}/>*/}
                 <span className='checkmark'/>

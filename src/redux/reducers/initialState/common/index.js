@@ -1,4 +1,3 @@
-import agencyRequestState from "./agencyRequest"
 import badgeState from "./badge"
 import categoryState from "./category"
 import certificateState from "./certificate"
@@ -14,7 +13,6 @@ import socialState from "./social"
 import universityState from "./university"
 
 export default {
-  agencyRequestState,
   badgeState,
   categoryState,
   certificateState,

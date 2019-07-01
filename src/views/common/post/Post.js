@@ -1,21 +1,9 @@
-import * as React from 'react'
+import React from 'react'
 import * as PropTypes from 'prop-types'
-import type {postType} from '../../../consts/flowTypes/common/post'
-import {VerifyWrapper} from '../cards/Frames'
 import PostView from './PostView'
 import CreatePost from './createPost'
 
-type postPropTypes = {
-  post: postType,
-  updatePost: Function,
-  deletePost: Function
-}
-
-type postStateTypes = {
-  edit: boolean,
-}
-
-export class Post extends React.PureComponent<postPropTypes, postStateTypes> {
+export class Post extends React.PureComponent {
 
   static propTypes = {
     post: PropTypes.object.isRequired,
@@ -23,7 +11,7 @@ export class Post extends React.PureComponent<postPropTypes, postStateTypes> {
     deletePost: PropTypes.func.isRequired,
   }
 
-  constructor(props: postPropTypes) {
+  constructor(props) {
     super(props)
     this.state = {
       edit: false,
@@ -38,7 +26,7 @@ export class Post extends React.PureComponent<postPropTypes, postStateTypes> {
     this.setState({edit: false})
   }
 
-  _update = (formValues: postType, postId: number, postFileIds: []) => {
+  _update = (formValues, postId, postFileIds: []) => {
     const {updatePost, post} = this.props
     const postRelatedIdentity = post.post_related_identity
     const postOwnerId = postRelatedIdentity.id
@@ -49,19 +37,20 @@ export class Post extends React.PureComponent<postPropTypes, postStateTypes> {
     const {edit} = this.state
     const {post} = this.props
     return (
-        <VerifyWrapper isLoading={false} error={false} className='post-view-container'>
-          {edit ?
-              <div className="-itemWrapperPost">
-                <CreatePost key={'edit ' + post.id} hideEdit={this._hideEdit} post={post} updateFunc={this._update} isUpdate={true}/>
-              </div>
-              :
-              <PostView post={post}
-                        key={'view ' + post.id}
-                        showEdit={this._showEdit}
-                        extendedView={false}
-              />
+        <div className='post-view-container'>
+          {
+            edit ?
+                <div className="-itemWrapperPost">
+                  <CreatePost key={'edit ' + post.id} hideEdit={this._hideEdit} post={post} updateFunc={this._update} isUpdate={true}/>
+                </div>
+                :
+                <PostView post={post}
+                          key={'view ' + post.id}
+                          showEdit={this._showEdit}
+                          extendedView={false}
+                />
           }
-        </VerifyWrapper>
+        </div>
     )
   }
 }

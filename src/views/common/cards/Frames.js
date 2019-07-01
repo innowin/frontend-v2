@@ -1,30 +1,16 @@
 // @flow
-import * as React from "react"
-import cx from 'classnames'
+import * as React from 'react'
 import FontAwesome from 'react-fontawesome'
 import * as PropTypes from 'prop-types'
 import {EditIcon} from 'src/images/icons'
-import ErrorCard from "./ErrorCard"
-import {loadingCard} from "./LoadingCard"
-import client from "src/consts/client"
-import CheckOwner from "../CheckOwner";
-import {connect} from "react-redux"
-import type {paramType} from "src/consts/flowTypes/paramType";
+import ErrorCard from './ErrorCard'
+import {loadingCard} from './LoadingCard'
+import client from 'src/consts/client'
+import CheckOwner from '../CheckOwner'
+import {connect} from 'react-redux'
+import type {paramType} from 'src/consts/flowTypes/paramType'
 
 type div = React.Element<'div'>
-type PropsTabs = {
-  children?: React.Node
-}
-
-export const Tabs = (props: PropsTabs): div => {
-  return (
-      <div className="tab-container">
-        <div className="-tabs">
-          {props.children}
-        </div>
-      </div>
-  )
-}
 
 type PropsItemWrapper = {
   children?: React.Node,
@@ -36,7 +22,7 @@ export const ItemWrapper = (props: PropsItemWrapper): div => {
   const {icon, children} = props
   const className = props.className || ''
   return (
-      <div className={"-itemWrapper " + className}>
+      <div className={'-itemWrapper ' + className}>
         <div className="-item-icon">{icon}</div>
         <div className="-item-content">
           {children}
@@ -46,20 +32,7 @@ export const ItemWrapper = (props: PropsItemWrapper): div => {
 }
 ItemWrapper.propTypes = {
   icon: PropTypes.node,
-  className: PropTypes.string
-}
-
-
-type PropsListGroup = {
-  children?: React.Node
-}
-
-export const ListGroup = (props: PropsListGroup): div => {
-  return (
-      <div className="list-group list-group-flush">
-        {props.children}
-      </div>
-  )
+  className: PropTypes.string,
 }
 
 type PropsItemHeader = {
@@ -88,9 +61,9 @@ let ItemHeader = (props: PropsItemHeader): div => {
   )
 }
 
-const mapStateItemHeaderToProps = (state, props) => {
+const mapStateItemHeaderToProps = (state) => {
   return {
-    param: state.param
+    param: state.param,
   }
 }
 ItemHeader = connect(mapStateItemHeaderToProps)(ItemHeader)
@@ -98,25 +71,7 @@ export {ItemHeader}
 
 ItemHeader.propTypes = {
   title: PropTypes.node,
-  showEdit: PropTypes.func
-}
-
-
-type PropsFrameCard = {
-  children?: React.Node,
-  className?: string
-}
-
-export const FrameCard = (props: PropsFrameCard): div => {
-  const className = props.className || ''
-  return (
-      <div className={cx("-frameCard\u0020" + className)}>
-        {props.children}
-      </div>
-  )
-}
-FrameCard.propTypes = {
-  className: PropTypes.string
+  showEdit: PropTypes.func,
 }
 
 type PropsCategoryTitle = {
@@ -159,9 +114,9 @@ CategoryTitle.propTypes = {
   showCreateForm: PropTypes.func,
   param: PropTypes.object,
 }
-const mapStateCategoryTitleToProps = (state, props) => {
+const mapStateCategoryTitleToProps = (state) => {
   return {
-    param: state.param
+    param: state.param,
   }
 }
 CategoryTitle = connect(mapStateCategoryTitleToProps)(CategoryTitle)
@@ -192,13 +147,13 @@ type PropsFieldValue = {
 export const FieldValue = (props: PropsFieldValue) => {
   const {className} = props
   return (
-      <div className={className ? "field-value break-word " + className : "field-value break-word"}>
+      <div className={className ? 'field-value break-word ' + className : 'field-value break-word'}>
         {props.value}
       </div>
   )
 }
 FieldValue.propTypes = {
-  value: PropTypes.any
+  value: PropTypes.any,
 }
 
 type PropsField = {
@@ -208,7 +163,7 @@ type PropsField = {
 export const Field = (props: PropsField): div => {
   const {className} = props
   return (
-      <div className={className ? "row col-form-label " + className : "row col-form-label"}>
+      <div className={className ? 'row col-form-label ' + className : 'row col-form-label'}>
         {props.children}
       </div>
   )
@@ -222,7 +177,7 @@ type PropsVerifyWrapper = {
   isLoading?: boolean
 }
 
-export const VerifyWrapper = ({error, retry = () => alert("retry"), ...props}: PropsVerifyWrapper): div => {
+export const VerifyWrapper = ({error, retry = () => alert('retry'), ...props}: PropsVerifyWrapper): div => {
   const {isLoading, children, className} = props
   if (!isLoading) {
     if (!error) {
@@ -241,6 +196,6 @@ VerifyWrapper.propTypes = {
   isLoading: PropTypes.bool,
   error: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   retry: PropTypes.func,
-  className: PropTypes.string
+  className: PropTypes.string,
 }
 

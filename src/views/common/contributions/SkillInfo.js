@@ -1,11 +1,10 @@
 // @flow
-import * as React from "react"
+import * as React from 'react'
 import * as PropTypes from 'prop-types'
 
-import SkillInfoForm from "./SkillInfoForm"
-import SkillInfoView from "./SkillInfoView"
-import type {skillType} from "../../../consts/flowTypes/user/others"
-import {VerifyWrapper} from "../cards/Frames"
+import SkillInfoForm from './SkillInfoForm'
+import SkillInfoView from './SkillInfoView'
+import type {skillType} from '../../../consts/flowTypes/user/others'
 
 type PropsSkillInfo = {
   updateSkillByUserId: Function,
@@ -52,19 +51,16 @@ class SkillInfo extends React.Component<PropsSkillInfo, StateSkillInfo> {
     const {edit} = this.state
     // FixMe: mohammad isLoading and error come from redux
     return (
-        <VerifyWrapper isLoading={false} error={false}>
-          {edit ?
-              <SkillInfoForm
-                  userId={userId}
-                  skill={skill}
-                  hideEdit={this._hideEdit}
-                  update={updateSkillByUserId}
-                  deleteSkillByUserId={this._delete}
-                  translate={translate}
-              />
-              : <SkillInfoView skill={skill} userId={userId} showEdit={this._showEdit}/>
-          }
-        </VerifyWrapper>
+        edit ?
+            <SkillInfoForm
+                userId={userId}
+                skill={skill}
+                hideEdit={this._hideEdit}
+                update={updateSkillByUserId}
+                deleteSkillByUserId={this._delete}
+                translate={translate}
+            />
+            : <SkillInfoView skill={skill} userId={userId} showEdit={this._showEdit}/>
     )
   }
 }

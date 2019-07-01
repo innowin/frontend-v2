@@ -1,10 +1,9 @@
-import type {ProductGetType} from "../../../consts/flowTypes/product/productTypes";
+import type {ProductGetType} from '../../../consts/flowTypes/product/productTypes'
 import {PureComponent} from 'react'
-import * as PropTypes from 'prop-types';
-import ProductInfoForm from "./ProductInfoForm";
-import * as React from "react";
-import {VerifyWrapper} from "../cards/Frames";
-import ProductInfoView from "./ProductInfoView";
+import * as PropTypes from 'prop-types'
+import ProductInfoForm from './ProductInfoForm'
+import * as React from 'react'
+import ProductInfoView from './ProductInfoView'
 
 type PropsProductInfo = {
   updateProduct: Function,
@@ -55,18 +54,15 @@ class ProductInfo extends PureComponent<PropsProductInfo, StateProductInfo> {
     const {edit} = this.state
     // FixMe: mohammad isLoading and error come from redux
     return (
-        <VerifyWrapper isLoading={false} error={false}>
-          {edit ? <ProductInfoForm
-                  ownerId={ownerId}
-                  product={product}
-                  hideEdit={this._hideEdit}
-                  update={updateProduct}
-                  deleteProduct={this._delete}
-                  translate={translate}
-              />
-              : <ProductInfoView product={product} showEdit={this._showEdit}/>
-          }
-        </VerifyWrapper>
+        edit ? <ProductInfoForm
+                ownerId={ownerId}
+                product={product}
+                hideEdit={this._hideEdit}
+                update={updateProduct}
+                deleteProduct={this._delete}
+                translate={translate}
+            />
+            : <ProductInfoView product={product} showEdit={this._showEdit}/>
     )
   }
 }

@@ -1,4 +1,3 @@
-// @flow
 import ability from './ability'
 import auth from './auth'
 import common from './commonReducer/index'

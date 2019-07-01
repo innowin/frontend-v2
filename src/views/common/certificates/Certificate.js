@@ -1,12 +1,11 @@
 // @flow
-import {Component} from "react";
-import * as PropTypes from 'prop-types';
-import {VerifyWrapper} from "../../common/cards/Frames";
-import CertificateView from "./CertificateView"
-import {CertificateEditForm} from "./CertificateEditForm";
-import * as React from "react";
-import type {certificateType} from "../../../consts/flowTypes/user/others";
-import type {paramType} from "../../../consts/flowTypes/paramType";
+import {Component} from 'react'
+import * as PropTypes from 'prop-types'
+import CertificateView from './CertificateView'
+import {CertificateEditForm} from './CertificateEditForm'
+import * as React from 'react'
+import type {certificateType} from '../../../consts/flowTypes/user/others'
+import type {paramType} from '../../../consts/flowTypes/paramType'
 
 type PropsCertificate = {
   certificate: certificateType,
@@ -48,9 +47,9 @@ export class Certificate extends Component<PropsCertificate, StateCertificate> {
     const certificateParent = certificate.certificate_parent
     const certificateIdentity = certificate.certificate_identity
     const certificateIdentityUserId = certificateIdentity.identity_user
-      && (certificateIdentity.identity_user.id || certificateIdentity.identity_user)
+        && (certificateIdentity.identity_user.id || certificateIdentity.identity_user)
     const certificateIdentityOrganId = certificateIdentity.identity_organization
-      && (certificateIdentity.identity_organization.id || certificateIdentity.identity_organization)
+        && (certificateIdentity.identity_organization.id || certificateIdentity.identity_organization)
     const certificateParentType = (certificateParent && certificateParent.child_name) || null
     const certificateParentId = (certificateParent && certificateParent.id) || null
     const certificateOwnerId = certificateIdentityUserId || certificateIdentityOrganId
@@ -58,7 +57,7 @@ export class Certificate extends Component<PropsCertificate, StateCertificate> {
       certificateId: certificate.id,
       certificateOwnerId,
       certificateParentId,
-      certificateParentType
+      certificateParentType,
     })
   }
 
@@ -67,20 +66,17 @@ export class Certificate extends Component<PropsCertificate, StateCertificate> {
     const {translate, certificate, updateCertificate, param} = this.props
 
     return (
-      <VerifyWrapper isLoading={false} error={false}>
-        {edit ?
-          <CertificateEditForm
-            certificate={certificate}
-            hideEdit={this._hideEdit}
-            translate={translate}
-            deleteCertificate={this._delete}
-            update={updateCertificate}
-          />
-          : <CertificateView certificate={certificate}
-                             showEdit={this._showEdit}
-                             param={param}/>
-        }
-      </VerifyWrapper>
+        edit ?
+            <CertificateEditForm
+                certificate={certificate}
+                hideEdit={this._hideEdit}
+                translate={translate}
+                deleteCertificate={this._delete}
+                update={updateCertificate}
+            />
+            : <CertificateView certificate={certificate}
+                               showEdit={this._showEdit}
+                               param={param}/>
     )
   }
 }

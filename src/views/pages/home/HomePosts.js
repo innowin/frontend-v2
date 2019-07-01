@@ -1,19 +1,20 @@
-import * as React from "react"
-import {PureComponent} from "react"
-import constant from "src/consts/constants"
-import CreatePostNew from "src/views/common/post/createPost/index"
-import NewRightArrowSvg from "src/images/common/new_right_arrow"
-import PostActions from "src/redux/actions/commonActions/postActions"
-import * as PropTypes from "prop-types"
-import {bindActionCreators} from "redux"
-import {connect} from "react-redux"
-import {exchangePostsSelector} from "src/redux/selectors/home/homePosts"
-import isExchangeMember from "src/helpers/isExchangeMember"
-import {FrameCard, ListGroup} from "src/views/common/cards/Frames"
-import {Link} from "react-router-dom"
-import {Post} from "src/views/common/post/Post"
-import {RightArrow, DesertIcon, EditIcon, ChannelIcon} from "src/images/icons"
-import {BarLoader} from "react-spinners"
+import React from 'react'
+import {PureComponent} from 'react'
+import constant from 'src/consts/constants'
+import CreatePostNew from 'src/views/common/post/createPost/index'
+import NewRightArrowSvg from 'src/images/common/new_right_arrow'
+import PostActions from 'src/redux/actions/commonActions/postActions'
+import * as PropTypes from 'prop-types'
+import {bindActionCreators} from 'redux'
+import {connect} from 'react-redux'
+import {exchangePostsSelector} from 'src/redux/selectors/home/homePosts'
+import isExchangeMember from 'src/helpers/isExchangeMember'
+import {exchangeMemberships} from 'src/redux/selectors/common/exchanges/ExchangeMemberships'
+import {clientMemberships} from 'src/redux/selectors/common/exchanges/ClientMemberships'
+import {Link} from 'react-router-dom'
+import {Post} from 'src/views/common/post/Post'
+import {RightArrow, DesertIcon, EditIcon, ChannelIcon} from 'src/images/icons'
+import {BarLoader} from 'react-spinners'
 
 class HomePosts extends PureComponent {
 
@@ -36,6 +37,7 @@ class HomePosts extends PureComponent {
   }
 
   componentDidMount() {
+    // setTimeout(() => {
     const {actions, exchangeId} = this.props
     const {filterPostsByPostParentLimitOffset} = actions
     if (exchangeId) {
@@ -47,25 +49,27 @@ class HomePosts extends PureComponent {
         postParentType: constant.POST_PARENT.EXCHANGE,
       })
     }
-    document.addEventListener("scroll", this.onScroll)
+    // }, 500)
+    document.addEventListener('scroll', this.onScroll)
   }
 
   componentWillReceiveProps(nextProps) {
     const {actions, exchangeId} = nextProps
-    if (exchangeId && exchangeId !== this.props.exchangeId) {
-      setTimeout(() => {
+    const previousId = this.props.exchangeId
+    setTimeout(() => {
+      if (exchangeId && exchangeId !== previousId) {
         this.setState({...this.state, activeScrollHeight: 0, offset: 10}, () => {
           const {filterPostsByPostParentLimitOffset} = actions
           filterPostsByPostParentLimitOffset({
             postParentId: exchangeId, postType: null, limit: 10, offset: 0, postParentType: constant.POST_PARENT.EXCHANGE,
           })
         })
-      }, 500)
-    }
+      }
+    }, 500)
   }
 
   componentWillUnmount() {
-    document.removeEventListener("scroll", this.onScroll)
+    document.removeEventListener('scroll', this.onScroll)
   }
 
   onScroll = () => {
@@ -105,7 +109,7 @@ class HomePosts extends PureComponent {
   goUp = () => {
     window.scroll({
       top: 0,
-      behavior: "smooth",
+      behavior: 'smooth',
     })
   }
 
@@ -113,7 +117,7 @@ class HomePosts extends PureComponent {
     let {exchangePage} = this.props
     this.setState({...this.state, showCreatePostSmall: true}, exchangePage && window.scroll({
       top: 350,
-      behavior: "smooth",
+      behavior: 'smooth',
     }))
   }
 
@@ -142,7 +146,7 @@ class HomePosts extends PureComponent {
                   {
                     exchangePage ?
                         isExchangeMember({exchangeId, identityMemberships, exchangeMemberships}) ?
-                            <div style={{marginBottom: "11px"}}>
+                            <div style={{marginBottom: '11px'}}>
                               <CreatePostNew
                                   postParentId={exchangeId}
                                   postParentType={constant.POST_PARENT.EXCHANGE}
@@ -150,7 +154,7 @@ class HomePosts extends PureComponent {
                               />
                             </div>
                             :
-                            <div style={{marginBottom: "11px"}}/>
+                            <div style={{marginBottom: '11px'}}/>
                         : <CreatePostNew
                             postParentId={exchangeId}
                             postParentType={constant.POST_PARENT.EXCHANGE}
@@ -158,14 +162,14 @@ class HomePosts extends PureComponent {
                         />
                   }
                   <div style={{background: `rgba(${averageColor[0]}, ${averageColor[1]}, ${averageColor[2]})`}}
-                       className={hideTopBar ? "top-bar-entity show top-bar-entity-top" : "top-bar-entity show"}>
+                       className={hideTopBar ? 'top-bar-entity show top-bar-entity-top' : 'top-bar-entity show'}>
                     <NewRightArrowSvg onClick={unSetExchangeId} className='back-button'/>
-                    <Link to={"/exchange/" + exchangeId} className='profile-top-bar'>
+                    <Link to={'/exchange/' + exchangeId} className='profile-top-bar'>
                       {selectedExchange && selectedExchange.exchange_image
                           ?
                           <React.Fragment>
                             <img ref={e => this.headerImg = e} src={selectedExchange.exchange_image.file} alt='profile' className='profile-top-bar'/>
-                            <canvas ref={e => this.headerCanvas = e} width={"auto"} height={"auto"} style={{display: "none"}}>مرورگر شما این ویژگی
+                            <canvas ref={e => this.headerCanvas = e} width={'auto'} height={'auto'} style={{display: 'none'}}>مرورگر شما این ویژگی
                               را پشتیبانی نمیکند
                             </canvas>
                           </React.Fragment>
@@ -177,11 +181,11 @@ class HomePosts extends PureComponent {
                         </span>
                   </div>
 
-                  <FrameCard className={exchangePage ? "-frameCardPostEx border-top-0" : "-frameCardPost border-top-0"}>
-                    <div className={isLoading === true ? "home-posts-loading" : "home-posts-loading home-posts-loading-hide"}>
-                      <BarLoader color={"#d8d9dc"} size={50}/>
+                  <div className={exchangePage ? '-frameCardPostEx border-top-0' : '-frameCardPost border-top-0'}>
+                    <div className={isLoading === true ? 'home-posts-loading' : 'home-posts-loading home-posts-loading-hide'}>
+                      <BarLoader color={'#d8d9dc'} size={50}/>
                     </div>
-                    <ListGroup>
+                    <div className='list-group list-group-flush'>
                       {
                         posts.length > 0 ? posts.map((post) => post &&
                             <Post
@@ -197,15 +201,15 @@ class HomePosts extends PureComponent {
                               <DesertIcon width="100%" text="پستی بارگذاری نشده"/>
                             </div>
                       }
-                    </ListGroup>
-                  </FrameCard>
-                  <div className={this.state.scrollButton ? "go-up-logo-cont" : "go-up-logo-cont-hide"} onClick={this.goUp}>
+                    </div>
+                  </div>
+                  <div className={this.state.scrollButton ? 'go-up-logo-cont' : 'go-up-logo-cont-hide'} onClick={this.goUp}>
                     <RightArrow className='go-up-logo'/>
                   </div>
 
                   {
                     window.innerWidth <= 480 &&
-                    <div className={this.state.scrollButton ? "write-post-hide" : "write-post"}
+                    <div className={this.state.scrollButton ? 'write-post-hide' : 'write-post'}
                          onClick={this._showCreatePostSmall}>
                       <EditIcon className='write-post-logo'/>
                     </div>
@@ -222,15 +226,13 @@ class HomePosts extends PureComponent {
 const mapStateToProps = (state, ownProps) => {
   const exchangeId = ownProps.exchangeId
   const allExchange = state.exchanges.list
-  const identityId = state.auth.client.identity.content
   const isLoading = (exchangeId && allExchange[exchangeId] && allExchange[exchangeId].posts && allExchange[exchangeId].posts.isLoading)
   return {
     posts: exchangePostsSelector(state, ownProps),
     isLoading,
     selectedExchange: allExchange[exchangeId],
-    identityId,
-    identityMemberships: state.identities.list[identityId] && state.identities.list[identityId].exchangeMemberships && state.identities.list[identityId].exchangeMemberships.content,
-    exchangeMemberships: state.common.exchangeMembership.list,
+    identityMemberships: clientMemberships(state),
+    exchangeMemberships: exchangeMemberships(state),
   }
 }
 const mapDispatchToProps = dispatch => ({

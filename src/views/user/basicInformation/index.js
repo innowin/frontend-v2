@@ -3,8 +3,6 @@ import * as React from 'react'
 import {Component} from 'react'
 import {connect} from 'react-redux'
 import * as PropTypes from 'prop-types'
-
-import {FrameCard, ListGroup} from 'src/views/common/cards/Frames'
 import {getMessages} from 'src/redux/selectors/translateSelector'
 import {BasicInfo} from './BasicInfo'
 import {ContactInfo} from './ContactInfo'
@@ -40,16 +38,16 @@ export class UserBasicInformation extends Component<UserBasicInformationProps> {
           {/*<CategoryTitle*/}
           {/*title={translate['Basic information']}*/}
           {/*/>*/}
-          <FrameCard>
-            <ListGroup>
+          <div>
+            <div className='list-group list-group-flush'>
               <BasicInfo {...{userId}} translate={translate} user={user}/>
               <ContactInfo {...{userId}} translate={translate} user={user}/>
               <LinkInfo {...{userId}} translate={translate} user={user}/>
               <CheckOwner id={userId}>
                 <PrivateInfo {...{userId}} user={user} translate={translate}/>
               </CheckOwner>
-            </ListGroup>
-          </FrameCard>
+            </div>
+          </div>
         </div>
     )
   }

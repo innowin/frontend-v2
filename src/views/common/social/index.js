@@ -6,7 +6,6 @@ import ExchangeMembershipActions from 'src/redux/actions/commonActions/exchangeM
 import type {exchangeType} from 'src/consts/flowTypes/exchange/exchange'
 import {bindActionCreators} from 'redux'
 import {Exchanges} from './Exchanges'
-import {FrameCard} from 'src/views/common/cards/Frames'
 import {getMessages} from 'src/redux/selectors/translateSelector'
 import {getExchangeMembershipsSelector} from 'src/redux/selectors/common/social/getExchangeMemberships'
 import type {paramType} from 'src/consts/flowTypes/paramType'
@@ -68,14 +67,14 @@ class Socials extends PureComponent<PropsSocials, StateSocials> {
 
     return (
         <div>
-          <FrameCard className="frameCardSocial">
+          <div className="frameCardSocial">
             <Exchanges removeMembership={deleteExchangeMembership}
                        exchanges={exchanges}
                        showEdit={this._showExchangesEdit}
                        edit={editExchanges}
                        translate={translate}
             />
-          </FrameCard>
+          </div>
         </div>
     )
   }

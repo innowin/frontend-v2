@@ -41,7 +41,6 @@ class ResearchesInfoContainer extends PureComponent<ResearchesInfoProps> {
     const {translate, researches, userId, actions} = this.props
     const {updateResearchByUserId, deleteResearchByUserId} = actions
     return (
-        // <VerifyWrapper isLoading={isLoading} error={error}>
         <div>
           {
             researches.map((research, index) => (
@@ -52,7 +51,6 @@ class ResearchesInfoContainer extends PureComponent<ResearchesInfoProps> {
             ))
           }
         </div>
-        // </VerifyWrapper>
     )
   }
 }

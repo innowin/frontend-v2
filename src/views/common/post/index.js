@@ -1,5 +1,4 @@
-import * as React from 'react'
-import {FrameCard, ListGroup} from 'src/views/common/cards/Frames'
+import React from 'react'
 import {Post} from './Post'
 
 class Posts extends React.PureComponent {
@@ -40,8 +39,8 @@ class Posts extends React.PureComponent {
   render() {
     const {posts, updatePost, deletePost} = this.props
     return (
-        <FrameCard className="-frameCardPost user-posts">
-          <ListGroup>
+        <div className="-frameCardPost user-posts">
+          <div className='list-group list-group-flush'>
             {
               posts && posts.map(post =>
                   post && post.id ?
@@ -54,8 +53,8 @@ class Posts extends React.PureComponent {
                       : null,
               )
             }
-          </ListGroup>
-        </FrameCard>
+          </div>
+        </div>
     )
   }
 }

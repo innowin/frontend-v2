@@ -43,7 +43,6 @@ class EducationInfoContainer extends React.Component<PropsEducations> {
     const {translate, userId, educations, actions} = this.props
     const {updateEducationByUserId, deleteEducationByUserId} = actions
     return (
-        // <VerifyWrapper isLoading={isLoading} error={error}>
         <div>{
           educations.map((education, index) => (
               <EducationInfo userId={userId}
@@ -55,7 +54,6 @@ class EducationInfoContainer extends React.Component<PropsEducations> {
           ))
         }
         </div>
-        // </VerifyWrapper>
     )
   }
 }

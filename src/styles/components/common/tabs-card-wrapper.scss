@@ -25,6 +25,7 @@
     }
 
     .editing {
+      white-space: nowrap;
       width: 140px;
       font-size: $font-size-regular;
       color: $text-medium-dark;

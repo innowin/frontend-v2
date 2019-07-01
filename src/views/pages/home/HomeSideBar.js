@@ -94,7 +94,6 @@ type PropsHomeSideBar = {|
   actions: {
     getExchangeMembershipByMemberIdentity: Function
   },
-  identityType: string,
 |}
 
 class HomeSideBar extends PureComponent<PropsHomeSideBar, StateHomeSideBar> {
@@ -103,7 +102,6 @@ class HomeSideBar extends PureComponent<PropsHomeSideBar, StateHomeSideBar> {
     activeExchangeId: PropTypes.number,
     setExchangeId: PropTypes.func.isRequired,
     classNames: PropTypes.string,
-    identityType: PropTypes.string.isRequired,
   }
 
   constructor(props) {
@@ -112,14 +110,14 @@ class HomeSideBar extends PureComponent<PropsHomeSideBar, StateHomeSideBar> {
   }
 
   componentDidMount() {
-    const {identityId, identityType} = this.props
+    const {identityId} = this.props
     const {getExchangeMembershipByMemberIdentity} = this.props.actions
-    if (identityId && identityType)
+    if (identityId)
       getExchangeMembershipByMemberIdentity({identityId, exchangeMembershipOwnerId: identityId})
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!this.props.activeExchangeId && window.innerWidth > 480 && nextProps.clientExchanges.length > 0) {
+    if (!this.props.activeExchangeId && document.body.clientWidth > 480 && nextProps.clientExchanges.length > 0) {
       const {setExchangeId, clientExchanges} = nextProps
       setExchangeId(clientExchanges[0].id)
     }
@@ -139,9 +137,7 @@ class HomeSideBar extends PureComponent<PropsHomeSideBar, StateHomeSideBar> {
           <div className='home-sidebar-cont'>
             {
               clientExchanges && clientExchanges.length > 0 ?
-                  clientExchanges
-                      .sort((a, b) => new Date(b.updated_time) - new Date(a.updated_time))
-                      .map((exchange, i) =>
+                  clientExchanges.map((exchange, i) =>
                           <SideBarItem key={i}
                                        exchange={exchange}
                                        handleClick={this._handleClick}

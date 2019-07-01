@@ -69,20 +69,20 @@ class Customers extends React.Component<PropsCustomers, StatesCustomer> {
           </div>
           }
           {customerCreateForm &&
-          <FrameCard className='customer-tab'>
-            <ListGroup>
+          <div className='customer-tab'>
+            <div className='list-group list-group-flush'>
                 <p className='customer-create-header'>{translate['Customer']}</p>
                 <CustomerInfoCreateForm
                   hideEdit={this._hideCustomerCreateForm}
                   translate={translate}
                   organizationId={organizationId}
                 />
-            </ListGroup>
-          </FrameCard>
+            </div>
+          </div>
           }
         </CheckOwner>
-        <FrameCard>
-          <ListGroup>
+        <div>
+          <div className='list-group list-group-flush'>
             <CustomerInfoContainer
               organizationId={organizationId}
               translate={translate}
@@ -90,8 +90,8 @@ class Customers extends React.Component<PropsCustomers, StatesCustomer> {
               error={customerObjectError}
               isLoading={customerObjectIsLoading}
             />
-          </ListGroup>
-        </FrameCard>
+          </div>
+        </div>
       </div>
     )
   }

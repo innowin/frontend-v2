@@ -1,34 +1,12 @@
-// @flow
-import * as React from 'react'
+import React from 'react'
 import CommentActions from 'src/redux/actions/commonActions/commentActions'
 import {AttachFileIcon, DefaultUserIcon, PostSendIcon} from 'src/images/icons'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import {getMessages} from 'src/redux/selectors/translateSelector'
-import type {commentType} from 'src/consts/flowTypes/common/comment'
 import constants from 'src/consts/constants'
 
-type props = {
-  actions: any,
-  commentParentType: ?string,
-  currentUserMedia: ?number,
-  post: { id: number },
-  translate: { [string]: string },
-  commentOn: commentType,
-  removeCommentOn: Function,
-  instantViewComments: boolean,
-  extendedView: boolean,
-}
-
-type states = {
-  comment: string,
-  commentBody: string,
-  descriptionClass: string,
-  open: boolean,
-  replySender: string,
-}
-
-class PostCommentNew extends React.Component<props, states> {
+class PostCommentNew extends React.PureComponent {
   constructor(props) {
     super(props)
     this.state = {
@@ -38,33 +16,30 @@ class PostCommentNew extends React.Component<props, states> {
       comment: '',
       replySender: '',
     }
-    const self: any = this
-    self._handleChangeText = self._handleChangeText.bind(self)
+    this._handleChangeText = this._handleChangeText.bind(this)
   }
 
   componentDidMount() {
-    const self: any = this
     const {commentOn} = this.props
-    if (self.text) {
-      self.text.focus()
+    if (this.text) {
+      this.text.focus()
     }
-    if (commentOn && self.text) {
-      self.text.focus()
+    if (commentOn && this.text) {
+      this.text.focus()
       const replySender = commentOn.comment_sender.username + '@ '
-      self.text.value = replySender
+      this.text.value = replySender
       this.setState({...this.state, replySender})
     }
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    const self: any = this
-    const {commentOn} = this.props
-    if (commentOn && self.text) {
-      self.text.focus()
+  componentWillReceiveProps(nextProps) {
+    const {commentOn} = nextProps
+    if (commentOn && this.text) {
+      this.text.focus()
     }
-    if (commentOn !== prevProps.commentOn && commentOn) {
+    if (commentOn !== this.props.commentOn && commentOn) {
       const replySender = commentOn.comment_sender.username + '@ '
-      self.text.value = replySender
+      this.text.value = replySender
       this.setState({...this.state, replySender})
     }
   }
@@ -127,22 +102,21 @@ class PostCommentNew extends React.Component<props, states> {
   render() {
     const {commentBody, open, descriptionClass, comment} = this.state
     const {currentUserMedia, translate, commentOn, instantViewComments} = this.props
-    const self: any = this
-    // console.log(currentUserMedia)
     return (
         <div className="comment-container">
           <div>
-            {currentUserMedia !== null && currentUserMedia !== undefined ?
-                <img alt='profile' src={currentUserMedia} className={'comment-owner'}/>
-                :
-                <DefaultUserIcon width='45px' height='45px'/>
+            {
+              currentUserMedia ?
+                  <img alt='profile' src={currentUserMedia.file} className='comment-owner'/>
+                  :
+                  <DefaultUserIcon width='45px' height='45px'/>
             }
           </div>
           <div className={commentBody}>
             {descriptionClass &&
             <span className={descriptionClass + ' description-character'}> {comment.trim().length + '/750'} </span>
             }
-            <textarea ref={e => self.text = e}
+            <textarea ref={e => this.text = e}
                       className={open ? 'comment-text-area-open' : 'comment-text-area'}
                       placeholder={translate['Send comment']}
                       onChange={this._handleChangeText}
@@ -171,7 +145,7 @@ class PostCommentNew extends React.Component<props, states> {
                   <span onClick={() => console.log('Handle Show Menu')}>
                     <AttachFileIcon className='post-component-footer-send-attach'/>
                   </span>
-              <span onClick={this.createComment.bind(this, commentOn, comment, self.text)}>
+              <span onClick={this.createComment.bind(this, commentOn, comment, this.text)}>
                   <PostSendIcon className={comment.length > 0 ? 'post-component-footer-send-attach' : 'post-component-footer-send-attach-inactive'}/>
               </span>
             </div>
@@ -184,10 +158,7 @@ class PostCommentNew extends React.Component<props, states> {
 const mapStateToProps = (state) => {
   const identityId = state.auth.client.identity.content
   const identities = state.identities.list
-  const clientImgId = identities[identityId].profile_media
-  const {common} = state
-  const {file} = common
-  const currentUserMedia = file.list[clientImgId] ? file.list[clientImgId].file : null
+  const currentUserMedia = identities[identityId].profile_media
   return {
     currentUserMedia,
     translate: getMessages(state),

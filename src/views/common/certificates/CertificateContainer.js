@@ -51,7 +51,6 @@ export class CertificateContainer extends Component<PropsCertificates> {
     const {updateCertificate, deleteCertificate} = actions
 
     return (
-        //<VerifyWrapper isLoading={isLoading} error={error}>
         <ItemWrapper icon={<CertificateIcon/>}>
           <ItemHeader title={translate['Certificates']}/>
           {
@@ -69,7 +68,6 @@ export class CertificateContainer extends Component<PropsCertificates> {
             /*</div>*/
           }
         </ItemWrapper>
-        //</VerifyWrapper>
     )
   }
 }
