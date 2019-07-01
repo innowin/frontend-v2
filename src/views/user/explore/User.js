@@ -23,19 +23,17 @@ class User extends PureComponent {
   }
 
   _follow() {
-    const {identities, actions, currentUser, data} = this.props
+    const {actions, currentUser, data} = this.props
     this.setState({followLoading: true}, () => {
-      if (identities[data.id] && identities[data.id].id) {
-        const formValues = {follow_follower: currentUser.id, follow_followed: identities[data.id].id}
-        actions.follow({formValues, followOwnerId: currentUser.id})
-      }
+      const formValues = {follow_follower: currentUser, follow_followed: data.id}
+      actions.follow({formValues, followOwnerId: currentUser})
     })
   }
 
   _unFollow() {
     const {actions, followees, data, currentUser} = this.props
     this.setState({followLoading: false}, () => {
-      actions.unFollow({followId: followees[data.id].id, followOwnerId: currentUser.id})
+      actions.unFollow({followId: followees[data.id].id, followOwnerId: currentUser})
     })
   }
 

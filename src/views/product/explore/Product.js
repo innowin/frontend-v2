@@ -6,9 +6,8 @@ import {ClipLoader} from 'react-spinners'
 
 class Product extends PureComponent {
   render() {
-    const {data, identities} = this.props
+    const {data, identity} = this.props
     const pictures_array = data.product_media ? data.product_media.filter(p => p.type === 'image') : []
-    const id = data.product_owner
 
     return (
         <Link to={`/product/${data.id}`} className='product-model'>
@@ -26,8 +25,8 @@ class Product extends PureComponent {
               <span className='product-model-seller'>فروشنده: </span>
               <div className='product-model-seller-name'>
                 {
-                  identities[id] ?
-                      identities[id].official_name ? identities[id].official_name : identities[id].nike_name ? identities[id].nike_name : identities[id].first_name || identities[id].last_name ? identities[id].first_name + ' ' + identities[id].last_name
+                  identity ?
+                      identity.official_name ? identity.official_name : identity.nike_name ? identity.nike_name : identity.first_name || identity.last_name ? identity.first_name + ' ' + identity.last_name
                           : <span style={{color: 'red'}}>فاقد نام</span> : <div style={{verticalAlign: 'top', display: 'inline-block', marginTop: '3px'}}><ClipLoader size={15}/></div>
                 }
               </div>

@@ -6,7 +6,7 @@ import constants from 'src/consts/constants'
 const loadingArr = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
 const Users = (props) => {
-  let {users, followees, followers, justFollowing, justFollowed, justUsers, justOrgans, identities, files, translate, currentUser} = props
+  let {users, followees, followers, justFollowing, justFollowed, justUsers, justOrgans, files, translate, currentUser} = props
 
   let usersArr = Object.values(users).filter(user => user.id).sort((a, b) => a.id - b.id)
 
@@ -40,7 +40,7 @@ const Users = (props) => {
 
   if (usersArr.length > 0) {
     return usersArr.map((user, i) =>
-        <User followees={followees} key={i} data={user} identities={identities} files={files} translate={translate} currentUser={currentUser}/>,
+        <User followees={followees} key={i} data={user} files={files} translate={translate} currentUser={currentUser}/>,
     )
   }
   else if (!props.loading) {

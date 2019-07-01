@@ -1,20 +1,12 @@
-import * as React from 'react'
+import React from 'react'
 import Product from './Product'
 import {makeCategorySelector} from 'src/redux/selectors/common/category/getCategoriesByParentId'
 import connect from 'react-redux/es/connect/connect'
 import ProductSkeleton from './ProductSkeleton'
-// import ExchangeSkeleton from './Exchange_Skeleton'
-
-type appProps =
-    {|
-      products: { products: {} },
-      justFollowing: boolean,
-      loading: boolean
-    |}
 
 const loadingArr = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
-const Products = (props: appProps) => {
+const Products = (props) => {
   let {products, catLevel1, catLevel2, catLevel3, categories, identities} = props
   const list = Object.values(categories.list)
 
@@ -53,7 +45,7 @@ const Products = (props: appProps) => {
     return <React.Fragment>
       {
         products.reverse().map((product, i): any =>
-            <Product key={i} data={product} identities={identities}/>,
+            <Product key={i} data={product} identity={identities[product.product_owner]}/>,
         )
       }
     </React.Fragment>

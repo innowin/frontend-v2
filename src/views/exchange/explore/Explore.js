@@ -29,8 +29,10 @@ class Explore extends PureComponent {
   }
 
   componentDidMount() {
-    this.props.actions.getAllExchanges(24, 0, null, null)
-    this.props.actions.getHashTags()
+    setTimeout(() => {
+      this.props.actions.getAllExchanges(24, 0, null, null)
+      this.props.actions.getHashTags()
+    }, 500)
     const {clientExchangeMemberships, exchangeMemberships} = this.props
     if (clientExchangeMemberships.length > 0) {
       const followed = clientExchangeMemberships.reduce((sum, exId) =>
@@ -43,13 +45,15 @@ class Explore extends PureComponent {
 
   componentWillReceiveProps(nextProps, nextContext) {
     const {clientExchangeMemberships, exchangeMemberships} = nextProps
-    if (clientExchangeMemberships.length > 0) {
-      const followed = clientExchangeMemberships.reduce((sum, exId) =>
-          exchangeMemberships[exId] && {...sum, [exchangeMemberships[exId].exchange_identity_related_exchange.id]: exchangeMemberships[exId].id}, {},
-      )
-      this.setState({...this.state, followed: {...followed}})
+    if (clientExchangeMemberships !== this.props.clientExchangeMemberships || exchangeMemberships !== this.props.exchangeMemberships) {
+      if (clientExchangeMemberships.length > 0) {
+        const followed = clientExchangeMemberships.reduce((sum, exId) =>
+            exchangeMemberships[exId] && {...sum, [exchangeMemberships[exId].exchange_identity_related_exchange.id]: exchangeMemberships[exId].id}, {},
+        )
+        this.setState({...this.state, followed: {...followed}})
+      }
+      else this.setState({...this.state, followed: []})
     }
-    else this.setState({...this.state, followed: []})
   }
 
   componentWillUnmount() {

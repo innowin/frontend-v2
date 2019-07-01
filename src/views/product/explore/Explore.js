@@ -27,7 +27,7 @@ class Explore extends PureComponent {
   }
 
   componentDidMount() {
-    this.props.actions.getAllproducts(24, 0, null)
+    setTimeout(() => this.props.actions.getAllproducts(24, 0, null), 500)
     document.addEventListener('scroll', this._onScroll)
   }
 

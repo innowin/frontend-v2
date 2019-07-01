@@ -30,10 +30,12 @@ class Explore extends PureComponent {
   }
 
   componentDidMount() {
-    const {currentUser, actions} = this.props
-    actions.getUsers(24, 0, null, null)
-    actions.getFollowees({followOwnerIdentity: currentUser.id, followOwnerId: currentUser.id, notProfile: true})
-    actions.getFollowers({followOwnerIdentity: currentUser.id, followOwnerId: currentUser.id, notProfile: true})
+    setTimeout(() => {
+      const {currentUser, actions} = this.props
+      actions.getUsers(24, 0, null, null)
+      actions.getFollowees({followOwnerIdentity: currentUser.id, followOwnerId: currentUser.id, notProfile: true})
+      actions.getFollowers({followOwnerIdentity: currentUser.id, followOwnerId: currentUser.id, notProfile: true})
+    }, 500)
     document.addEventListener('scroll', this._onScroll)
   }
 
@@ -90,7 +92,7 @@ class Explore extends PureComponent {
   }
 
   render() {
-    const {loading, allUsers, currentUser, identities, translate, followees, followers, path} = this.props
+    const {loading, allUsers, currentUser, translate, followees, followers, path} = this.props
     const {justFollowing, justFollowed, scrollButton, justOrgans, justUsers} = this.state
 
     const followeesArr = Object.values(followees).reduce((all, follow) => {
@@ -124,7 +126,6 @@ class Explore extends PureComponent {
                    justOrgans={justOrgans}
                    justUsers={justUsers}
                    loading={loading}
-                   identities={identities}
                    translate={translate}
                    currentUser={currentUser}
             />
@@ -143,11 +144,9 @@ class Explore extends PureComponent {
 
 const mapStateToProps = (state) => {
   const id = state.auth.client.identity.content
-  const currentUser = state.identities.list[id]
 
   return {
-    currentUser,
-    identities: state.identities.list,
+    currentUser: id,
     allUsers: getUsers(state),
     followers: getFollowersSelector(state, {ownerId: id}),
     followees: getFolloweesSelector(state, {ownerId: id}),
