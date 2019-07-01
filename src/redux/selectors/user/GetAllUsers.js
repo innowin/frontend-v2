@@ -6,9 +6,9 @@ const getAllUsers = (state) => {
   if (state.identities.search) {
     return Object.values(allUsers).filter(
         user =>
-            (user.username && user.username.includes(state.identities.search)) ||
-            (user.first_name && user.first_name.includes(state.identities.search)) ||
-            (user.last_name && user.last_name.includes(state.identities.search)),
+            (user.username.includes(state.identities.search)) ||
+            ((user.first_name + ' ' + user.last_name).includes(state.identities.search)) ||
+            ((user.official_name + ' ' + user.nike_name).includes(state.identities.search)),
     )
   }
   else return allUsers
@@ -19,7 +19,6 @@ export const getUsers = createSelector(
     user => user,
 )
 
-
 const getSearchedUsers_ = (state) => {
   let allUsers = {...state.identities.list}
   delete allUsers[state.auth.client.identity.content]
@@ -27,9 +26,9 @@ const getSearchedUsers_ = (state) => {
   if (state.identities.search)
     return allUsersArray.filter(
         user =>
-            (user.username && user.username.includes(state.identities.search)) ||
-            (user.first_name && user.first_name.includes(state.identities.search)) ||
-            (user.last_name && user.last_name.includes(state.identities.search)),
+            (user.username.includes(state.identities.search)) ||
+            ((user.first_name + ' ' + user.last_name).includes(state.identities.search)) ||
+            ((user.official_name + ' ' + user.nike_name).includes(state.identities.search)),
     )
   else return []
 }

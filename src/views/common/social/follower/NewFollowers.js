@@ -48,7 +48,6 @@ class NewFollowers extends Component {
   render() {
     let {/*moreMembers,*/viewType} = this.state
     let {followers, clientFollowings, translate, clientId} = this.props
-    console.log('me: ', clientFollowings)
     return (
         <div className='members-frame'>
           <div className='members-header-right'>
