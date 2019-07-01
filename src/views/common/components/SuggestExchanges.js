@@ -38,7 +38,8 @@ class SuggestExchanges extends PureComponent {
             <div className='bee-text'>پنجره های پیشنهادی برای شما</div>
             <div>
               {
-                Object.values(exchanges).sort((a, b) => a.id - b.id)
+                Object.values(exchanges)
+                    .sort((a, b) => a.id - b.id)
                     .filter(ex => !followed[ex.id])
                     .slice(0, 3)
                     .map((exchange, i) =>

@@ -19,8 +19,8 @@ import workExperienceState from './workExperience'
 import modalState from './modal'
 
 export default {
-  ability: abilityState,
   auth: authState,
+  ability: abilityState,
   customer: customerState,
   education: educationState,
   event: eventState,
@@ -37,7 +37,6 @@ export default {
   toast: toastState,
   workExperience: workExperienceState,
   common: {
-    agencyRequest: commonStates.agencyRequestState,
     badges: commonStates.badgeState,
     category: commonStates.categoryState,
     certificate: commonStates.certificateState,

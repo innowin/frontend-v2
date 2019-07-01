@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import * as PropTypes from 'prop-types'
 import Moment from 'react-moment'
 import {Link} from 'react-router-dom'
@@ -79,7 +79,7 @@ class PostHeader extends React.PureComponent {
               </div>
               <div className="-item-titlePost">
                 <div>
-                  <div className="post-name">{name}</div>
+                  <div style={{display: !name || name.trim().length === 0 ? 'none' : 'inline-block'}} className="post-name">{name}</div>
                   <div className="-green2 post-username">{postIdentity && postIdentity.username}</div>
                 </div>
                 <div className='post-date'>
