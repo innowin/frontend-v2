@@ -17,6 +17,11 @@
   width: 20px;
 }
 
+.suggest-svg {
+  fill: lighten($text-light-color, 3%);
+  width: 16px;
+}
+
 .like-svg {
   fill: lighten($text-light-color, 3%);
   width: 19px;
@@ -48,9 +53,9 @@
 }
 
 .cls-2-comment {
-  stroke: #c2c2c2;
+  stroke: lighten($text-light-color, 3%);
   stroke-linecap: round;
-  strokeWidth: 2px;
+  stroke-width: 1px;
 }
 
 .cls-3-comment, .cls-4-comment {
@@ -58,5 +63,5 @@
 }
 
 .cls-4-comment {
-  fill: #c2c2c2;
+  fill: lighten($text-light-color, 3%);
 }

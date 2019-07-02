@@ -1,64 +1,64 @@
-import io from "socket.io-client"
+import io from 'socket.io-client'
 
-export const SOCKET_URL = "https://socket.innowin.ir"
-export const REST_URL = "https://back.beta.innowin.ir"
-export const DOMAIN = "http://innowin.ir"
-export const SOCKET = io(SOCKET_URL, {secure: true, extraHeader: {"Access-Control-Allow-Origin": "*"}})
+export const SOCKET_URL = 'https://socket.innowin.ir'
+export const REST_URL = 'https://back.beta.innowin.ir'
+export const DOMAIN = 'http://innowin.ir'
+export const SOCKET = io(SOCKET_URL, {secure: true, extraHeader: {'Access-Control-Allow-Origin': '*'}})
 
 const urls = {
-  SIGN_IN: "api-token-auth",
-  VERIFY_TOKEN: "api-token-verify",
+  SIGN_IN: 'api-token-auth',
+  VERIFY_TOKEN: 'api-token-verify',
 
   USER: {
-    USERNAME_CHECK: "users/user_exist",
-    EMAIL_CHECK: "users/email_exist",
-    CREATE_USER_PERSON: "users",
-    CREATE_USER_ORGAN: "organizations",
+    USERNAME_CHECK: 'users/user_exist',
+    EMAIL_CHECK: 'users/email_exist',
+    CREATE_USER_PERSON: 'users',
+    CREATE_USER_ORGAN: 'organizations',
     // GET_USER_BY_USER_ID: "users/identities",
-    GET_USER_BY_USER_ID: "users",
-    GET_EDUCATIONS_BY_USER_ID: "users/educations",
+    GET_USER_BY_USER_ID: 'users',
+    GET_EDUCATIONS_BY_USER_ID: 'users/educations',
     // UPDATE_USER_BY_USER_ID: "users/identities",
-    UPDATE_USER_BY_USER_ID: "users",
-    GET_USERS: "users",
-    GET_ALL_USERS: "users/identities",
-    GET_IDENTITY: "users/identities",
-    PASSWORD_RESET_BY_SMS_REQUEST: "users/password_reset_by_sms_request",
-    PASSWORD_RESET_BY_SMS_CHECK_CODE: "users/password_reset_by_sms_check_code",
-    PASSWORD_RESET_BY_SMS: "users/password_reset_by_sms",
-    PASSWORD_RECOVERY_BY_EMAIL: "users/forget-password",
-    SEARCH_USER: "users/search_users",
+    UPDATE_USER_BY_USER_ID: 'users',
+    GET_USERS: 'users',
+    GET_ALL_USERS: 'users/identities',
+    GET_IDENTITY: 'users/identities',
+    PASSWORD_RESET_BY_SMS_REQUEST: 'users/password_reset_by_sms_request',
+    PASSWORD_RESET_BY_SMS_CHECK_CODE: 'users/password_reset_by_sms_check_code',
+    PASSWORD_RESET_BY_SMS: 'users/password_reset_by_sms',
+    PASSWORD_RECOVERY_BY_EMAIL: 'users/forget-password',
+    SEARCH_USER: 'users/search_users',
   },
   ORG: {
-    GET_ORGANIZATION: "organizations",
-    GET_ORGANIZATION_MEMBERS: "organizations/staff",
-    UPDATE_ORGANIZATION_INFO: "organizations",
-    GET_PRODUCTS: "products",
-    GET_ORG_FOLLOWERS: "users/identities",
-    GET_ORG_FOLLOWERS_IDENTITIES: "organizations/follows",
-    GET_ORG_FOLLOWINGS_IDENTITIES: "organizations/follows",
-    GET_ORG_FOLLOWINGS: "users/identities",
-    GET_ORG_EXCHANGES: "exchanges/identities",
-    GET_ORG_CERTIFICATES: "base/certificates",
-    CREATE_CERTIFICATE: "base/certificates",
-    CREATE_PRODUCT: "products",
-    GET_PRODUCT_CATEGORIES: "products/category",
-    UPDATE_PRODUCT: "products",
-    ADD_PRODUCT_PICTURE: "products/pictures",
-    GET_PRODUCT_PICTURE: "products/pictures",
-    GET_PRODUCT_PRICE: "products/prices",
-    DELETE_PRODUCT: "products",
-    GET_STAFF: "organizations/staff",
-    AGENCY_REQUEST: "users/agent-requests",
+    GET_ORGANIZATION: 'organizations',
+    GET_ORGANIZATION_MEMBERS: 'organizations/staff',
+    UPDATE_ORGANIZATION_INFO: 'organizations',
+    GET_PRODUCTS: 'products',
+    GET_ORG_FOLLOWERS: 'users/identities',
+    GET_ORG_FOLLOWERS_IDENTITIES: 'organizations/follows',
+    GET_ORG_FOLLOWINGS_IDENTITIES: 'organizations/follows',
+    GET_ORG_FOLLOWINGS: 'users/identities',
+    GET_ORG_EXCHANGES: 'exchanges/identities',
+    GET_ORG_CERTIFICATES: 'base/certificates',
+    CREATE_CERTIFICATE: 'base/certificates',
+    CREATE_PRODUCT: 'products',
+    GET_PRODUCT_CATEGORIES: 'products/category',
+    UPDATE_PRODUCT: 'products',
+    ADD_PRODUCT_PICTURE: 'products/pictures',
+    GET_PRODUCT_PICTURE: 'products/pictures',
+    GET_PRODUCT_PRICE: 'products/prices',
+    DELETE_PRODUCT: 'products',
+    GET_STAFF: 'organizations/staff',
+    AGENCY_REQUEST: 'users/agent-requests',
 
     // customer
-    CUSTOMER: "organizations/customers",
+    CUSTOMER: 'organizations/customers',
   },
-  EXCHANGE_EXPLORER: "exchanges/explore",
-  EXCHANGE: "exchanges",
-  WORK_EXPERIENCE: "users/work-experiences",
-  EDUCATION: "users/educations",
-  RESEARCH: "users/researches",
-  ABILITY: "organizations/abilities",
+  EXCHANGE_EXPLORER: 'exchanges/explore',
+  EXCHANGE: 'exchanges',
+  WORK_EXPERIENCE: 'users/work-experiences',
+  EDUCATION: 'users/educations',
+  RESEARCH: 'users/researches',
+  ABILITY: 'organizations/abilities',
 
   COMMON: {
     // notifications
@@ -66,48 +66,50 @@ const urls = {
     NOTIFICATIONS_SEEN: 'notifications/notifyme/seen',
 
     // product
-    PRODUCT: "products",
-    PRICE: "products/prices",
+    PRODUCT: 'products',
+    PRICE: 'products/prices',
 
     // file
-    FILE: "files",
+    FILE: 'files',
 
     // category
-    CATEGORY: "products/category",
+    CATEGORY: 'products/category',
 
     // certificate
-    CERTIFICATE: "base/certificates",
+    CERTIFICATE: 'base/certificates',
 
     // badge
-    BADGE: "base/badges",
+    BADGE: 'base/badges',
 
     // hashTags
-    HASH_TAG_PARENT: "base/hashtag-parents",
-    HASH_TAG: "base/hashtags",
+    HASH_TAG_PARENT: 'base/hashtag-parents',
+    HASH_TAG: 'base/hashtags',
 
     // location
-    COUNTRY: "base/countries",
-    PROVINCE: "base/provinces",
-    CITY: "base/towns",
+    COUNTRY: 'base/countries',
+    PROVINCE: 'base/provinces',
+    CITY: 'base/towns',
 
-    UNIVERSITY: "users/universities",
-    EDUCATION_FIELDS: "users/university-fields",
+    UNIVERSITY: 'users/universities',
+    EDUCATION_FIELDS: 'users/university-fields',
 
-    POST: "base/posts",
+    POST: 'base/posts',
 
-    LIKE: "base/like",
+    LIKE: 'base/like',
 
-    COMMENT: "base/comments",
+    COMMENT: 'base/comments',
+
+    PROPOSAL: 'base/proposals',
 
     SOCIAL: {
-      FOLLOW: "organizations/follows",
+      FOLLOW: 'organizations/follows',
     },
 
-    EXCHANGE_MEMBERSHIP: "exchanges/identities",
+    EXCHANGE_MEMBERSHIP: 'exchanges/identities',
   },
-  SKILL: "users/skills",
-  FAVORITE: "base/favorites",
-  EVENTS: "base/events",
-  EVENT_ASSIGNMENT: "base/event-assignments",
+  SKILL: 'users/skills',
+  FAVORITE: 'base/favorites',
+  EVENTS: 'base/events',
+  EVENT_ASSIGNMENT: 'base/event-assignments',
 }
 export default urls

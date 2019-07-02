@@ -1,15 +1,16 @@
-import badgeWatchers from "./badge/badge"
-import categoryWatchers from "./category/category"
-import certificateWatchers from "./certificate/certificate"
+import badgeWatchers from './badge/badge'
+import categoryWatchers from './category/category'
+import certificateWatchers from './certificate/certificate'
 import commentWatchers from './comment/comment'
+import proposalWatchers from './proposal'
 import educationFieldsWatchers from './educationField/educationField'
 import exchangeMembershipWatchers from './exchangeMembership/exchangeMembership'
-import fileWatchers from "./file"
-import likeWatchers from "./like"
-import hashTagWatchers from "./hashTag/hashTag"
-import locationWatchers from "./location/location"
+import fileWatchers from './file'
+import likeWatchers from './like'
+import hashTagWatchers from './hashTag/hashTag'
+import locationWatchers from './location/location'
 import postWatchers from './post/post'
-import productWatchers from "./product/product"
+import productWatchers from './product/product'
 import socialWatchers from './social/social'
 import universityWatchers from './university/university'
 
@@ -47,11 +48,13 @@ export default [
   // comment
   ...commentWatchers,
 
+  ...proposalWatchers,
+
   // exchangeMembership
   ...exchangeMembershipWatchers,
 
   ...universityWatchers,
 
-  ...educationFieldsWatchers
+  ...educationFieldsWatchers,
 
 ]

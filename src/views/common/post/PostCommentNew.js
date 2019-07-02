@@ -101,7 +101,7 @@ class PostCommentNew extends React.PureComponent {
 
   render() {
     const {commentBody, open, descriptionClass, comment} = this.state
-    const {currentUserMedia, translate, commentOn, instantViewComments} = this.props
+    const {currentUserMedia, translate, commentOn, comments} = this.props
     return (
         <div className="comment-container">
           <div>
@@ -127,7 +127,7 @@ class PostCommentNew extends React.PureComponent {
                             'hide-message' :
                             comment.length > 750 ? 'error-message' : 'neutral-message',
                       })}
-                      onBlur={(e) => (e.target.value.length === 0 && !instantViewComments) ? this.setState({
+                      onBlur={(e) => (e.target.value.length === 0 && !comments) ? this.setState({
                             ...this.state,
                             open: false,
                             commentBody: 'comment-body',

@@ -3,7 +3,6 @@ import * as React from 'react'
 import * as PropTypes from 'prop-types'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
-
 import Certificate from '../../common/newCertificate'
 import CertificateActions from 'src/redux/actions/commonActions/certificateActions'
 import Education from './education'

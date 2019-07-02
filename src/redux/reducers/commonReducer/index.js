@@ -2,6 +2,7 @@ import badges from './badges/index'
 import category from './category'
 import certificate from './certificate'
 import comment from './comment'
+import proposal from './proposal'
 import educationField from './educationField'
 import exchangeMembership from './exchangeMembership'
 import file from './file'
@@ -18,6 +19,7 @@ export default combineReducers({
   category,
   certificate,
   comment,
+  proposal,
   educationField,
   exchangeMembership,
   file,

@@ -2,6 +2,7 @@ import badgeState from "./badge"
 import categoryState from "./category"
 import certificateState from "./certificate"
 import commentState from "./comment"
+import proposalState from "./proposals"
 import educationFieldState from "./educationField"
 import exchangeMembershipState from "./exchangeMembership"
 import fileState from "./file"
@@ -17,6 +18,7 @@ export default {
   categoryState,
   certificateState,
   commentState,
+  proposalState,
   educationFieldState,
   exchangeMembershipState,
   fileState,

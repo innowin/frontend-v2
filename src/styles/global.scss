@@ -36,11 +36,11 @@ input, textarea, button, select {
 }
 
 @import "./font-face";
-@import "./_variables.scss";
-@import "./our_bootstrap.scss";
+@import "./_variables";
+@import "./our_bootstrap";
 @import "~react-select/dist/react-select.css";
-@import "~react-image-gallery/styles/scss/image-gallery.scss";
-@import "./components/utils.scss";
+@import "~react-image-gallery/styles/scss/image-gallery";
+@import "./components/utils";
 @import "./animations";
 @import "./pages/notFound";
 @import "./pages/modalBase";
@@ -86,7 +86,9 @@ input, textarea, button, select {
 @import "components/common/organization-leadership-card";
 @import "components/common/organization-leadership-modal";
 @import "components/common/post";
-@import "components/common/post-footer.scss";
+@import "components/post/post-slider";
+@import "components/post/proposal";
+@import "components/common/post-footer";
 @import "components/common/product";
 @import "components/common/stickers-menu";
 @import "components/common/tabs-card-wrapper";
@@ -104,12 +106,12 @@ input, textarea, button, select {
 @import "components/exchange/ExchangeView/index";
 @import "components/exchange/ExchangeView/post";
 @import "components/exchange/ExchangeView/view";
-@import "components/exchange/info.scss";
-@import "components/exchange/manager.scss";
+@import "components/exchange/info";
+@import "components/exchange/manager";
 @import "components/exchange/masonry";
-@import "components/exchange/members.scss";
-@import "components/exchange/members.scss";
-@import "components/exchange/posts.scss";
+@import "components/exchange/members";
+@import "components/exchange/members";
+@import "components/exchange/posts";
 @import "components/exchange/statics";
 @import "components/login/Carousel";
 @import "components/login/ContentLogin";
@@ -118,7 +120,6 @@ input, textarea, button, select {
 @import "components/organization/basicInformation";
 @import "components/organization/customers";
 @import "components/organization/products";
-@import "components/post/post-slider";
 @import "components/user/basic-information";
 @import "components/user/certificates";
 @import "components/user/education";

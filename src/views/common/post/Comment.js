@@ -11,7 +11,6 @@ class Comment extends React.PureComponent {
 
   static propTypes = {
     comment: PropTypes.object.isRequired,
-    stateComments: PropTypes.object.isRequired,
     translate: PropTypes.object.isRequired,
     replyComment: PropTypes.func.isRequired,
     deleteComment: PropTypes.func.isRequired,
@@ -55,12 +54,12 @@ class Comment extends React.PureComponent {
   }
 
   render() {
-    const {comment, translate, replyComment, deleteComment, stateComments} = this.props
+    const {comment, translate, replyComment, deleteComment, comments} = this.props
     const {menuToggle} = this.state
 
     const commentSender = comment.comment_sender
     const commentRepliedToId = comment.comment_replied_to && comment.comment_replied_to.id
-    const commentRepliedSender = commentRepliedToId && stateComments[commentRepliedToId] && stateComments[commentRepliedToId].comment_sender
+    const commentRepliedSender = commentRepliedToId && comments[commentRepliedToId] && comments[commentRepliedToId].comment_sender
     const name = (commentSender.first_name || commentSender.last_name)
         ? commentSender.first_name + ' ' + commentSender.last_name
         : commentSender.username

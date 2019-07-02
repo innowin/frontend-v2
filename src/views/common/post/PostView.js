@@ -16,9 +16,14 @@ import {bindActionCreators} from 'redux'
 import {CategoryTitle} from 'src/views/common/cards/Frames'
 import {getMessages} from 'src/redux/selectors/translateSelector'
 import {Link} from 'react-router-dom'
-import {userCommentsSelector} from 'src/redux/selectors/common/comment/postCommentsSelector'
-import {userInstantCommentsSelector} from 'src/redux/selectors/common/comment/postInstantCommentSelector'
+import {CommentsSelector} from 'src/redux/selectors/common/comment/CommentsSelector'
 import likeActions from 'src/redux/actions/commonActions/likeActions'
+import makeProductSelectorById from 'src/redux/selectors/common/product/getProductById'
+import ProposalsActions from 'src/redux/actions/commonActions/proposalActions'
+import PostNewProposal from './PostNewProposal'
+import {ProposalsSelector} from 'src/redux/selectors/common/proposal/proposalSelector'
+import {DefaultUserIcon} from 'src/images/icons'
+import Moment from 'react-moment'
 
 class PostView extends React.PureComponent {
   static propTypes = {
@@ -29,7 +34,6 @@ class PostView extends React.PureComponent {
     extendedView: PropTypes.bool,
     showEdit: PropTypes.func,
     comments: PropTypes.array,
-    instantViewComments: PropTypes.array,
   }
 
   constructor(props) {
@@ -37,7 +41,8 @@ class PostView extends React.PureComponent {
     this.state = {
       menuToggleTop: false,
       showComment: false,
-      commentOn: undefined,
+      showProposalSend: false,
+      commentOn: null,
       showMore: false,
       menuToggleBottom: false,
       linkTimer: false,
@@ -47,6 +52,7 @@ class PostView extends React.PureComponent {
     this._delete = this._delete.bind(this)
     this._handleClickOutMenuBoxBottom = this._handleClickOutMenuBoxBottom.bind(this)
     this._handleShowComment = this._handleShowComment.bind(this)
+    this.handleShowProposals = this.handleShowProposals.bind(this)
     this._handleLike = this._handleLike.bind(this)
     this._openMenuTop = this._openMenuTop.bind(this)
     this._openMenuBottom = this._openMenuBottom.bind(this)
@@ -63,9 +69,10 @@ class PostView extends React.PureComponent {
     const {extendedView, post, actions} = this.props
 
     if (extendedView) {
-      const {getCommentsByParentId, getPost} = actions
+      const {getCommentsByParentId, getPost, getProposals} = actions
       const {match, ownerId} = this.props
       getCommentsByParentId({parentId: match.params.id, commentParentType: constants.COMMENT_PARENT.POST})
+      post && getProposals(post.id)
       !post && getPost({postId: match.params.id, postOwnerId: ownerId})
     }
 
@@ -123,7 +130,7 @@ class PostView extends React.PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    const {post, extendedView, instantViewComments, actions} = nextProps
+    const {post, extendedView, comments, actions} = nextProps
     if (post) {
       if (post !== this.props.post && post.is_post_liked_by_logged_in_user !== undefined) {
         this.setState({...this.state, is_liked: post.is_post_liked_by_logged_in_user})
@@ -132,7 +139,7 @@ class PostView extends React.PureComponent {
         this.text.style.height = 'auto'
         this.setState({...this.state, showMore: false})
       }
-      if (instantViewComments && this.props.instantViewComments && this.props.instantViewComments.length > instantViewComments.length && instantViewComments.length < 3) {
+      if (comments && this.props.comments && this.props.comments.length > comments.length && comments.length < 3) {
         const {getCommentsByParentId} = actions
         getCommentsByParentId({parentId: post.id, commentParentType: constants.COMMENT_PARENT.POST, limit: 3})
       }
@@ -155,14 +162,24 @@ class PostView extends React.PureComponent {
   }
 
   _handleShowComment() {
-    const {extendedView, instantViewComments, actions, post} = this.props
+    const {extendedView, comments, actions, post} = this.props
     const {getCommentsByParentId} = actions
     let {showComment} = this.state
-    this.setState({...this.state, showComment: !showComment, commentOn: undefined})
+    this.setState({...this.state, showComment: !showComment, commentOn: null})
 
-    if (!extendedView && (!instantViewComments || (instantViewComments && instantViewComments.length < 3))) {
+    if (!extendedView && (!comments || (comments && comments.length < 3))) {
       getCommentsByParentId({parentId: post.id, commentParentType: constants.COMMENT_PARENT.POST, limit: 3})
     }
+  }
+
+  handleShowProposals() {
+    const {showProposalSend} = this.state
+    this.setState({...this.state, showProposalSend: !showProposalSend}, () => {
+      if (!showProposalSend) {
+        const {actions, post} = this.props
+        actions.getProposals(post.id)
+      }
+    })
   }
 
   _handleLike() {
@@ -186,8 +203,9 @@ class PostView extends React.PureComponent {
   _setCommentOn = (comment) => {
     this.setState({...this.state, commentOn: comment, showComment: true})
   }
+
   _removeCommentOn = () => {
-    this.setState({...this.state, commentOn: undefined})
+    this.setState({...this.state, commentOn: null})
   }
 
   _delete() {
@@ -215,14 +233,14 @@ class PostView extends React.PureComponent {
   }
 
   showMoreComment() {
-    const {extendedView, instantViewComments, actions, post} = this.props
+    const {extendedView, comments, actions, post} = this.props
     const {getCommentsByParentId} = actions
-    if (!extendedView && instantViewComments && instantViewComments.length !== 0) {
+    if (!extendedView && comments && comments.length !== 0) {
       getCommentsByParentId({
         parentId: post.id,
         commentParentType: constants.COMMENT_PARENT.POST,
         limit: 10,
-        offset: instantViewComments.length,
+        offset: comments.length,
       })
     }
   }
@@ -244,11 +262,10 @@ class PostView extends React.PureComponent {
   render() {
     if (this.props.postIdentity && this.props.post) {
       const {
-        post, translate, postIdentity, postRelatedIdentityImage, extendedView, showEdit, comments,
-        instantViewComments, commentParentType, postRelatedProduct, clientIdentity, stateComments,
+        post, translate, postIdentity, postRelatedIdentityImage, postRelatedProduct,
+        clientIdentity, extendedView, showEdit, comments, proposalLoading, proposals,
       } = this.props
-
-      const {menuToggleBottom, menuToggleTop, showComment, commentOn, is_liked} = this.state
+      const {menuToggleBottom, menuToggleTop, showComment, commentOn, is_liked, showProposalSend} = this.state
       const postDescription = post.post_description && post.post_description.trim()
       const postOwnerId = postIdentity && postIdentity.id
       const postFilesArray = post.post_files_array
@@ -256,10 +273,15 @@ class PostView extends React.PureComponent {
       return (
           <div className='-itemWrapperPost'>
             {extendedView && <CategoryTitle title={translate['Single post']}/>}
-            <div className={extendedView ? 'post-view-container' : undefined}>
+            <div className={extendedView ? 'post-view-container' : ''}>
               {
                 post.post_type !== constants.POST.POST_TYPE.POST &&
-                <PostType translate={translate} post={post}/>
+                <PostType translate={translate}
+                          post={post}
+                          postIdentity={postIdentity}
+                          clientIdentity={clientIdentity}
+                          showProposals={this.handleShowProposals}
+                />
               }
               <div className='post-view-relative'>
                 <PostHeader post={post}
@@ -304,7 +326,7 @@ class PostView extends React.PureComponent {
 
               <PostImage translate={translate} extendedView={extendedView} post={post}/>
               {
-                post.post_related_product &&
+                postRelatedProduct &&
                 <div className='post-view-product-container'>
                   <ProductInfoView product={postRelatedProduct}
                                    ownerId={postOwnerId}
@@ -319,11 +341,16 @@ class PostView extends React.PureComponent {
                     </a>,
                 )
               }
-              <PostFooter post={post} postIdentity={postIdentity} translate={translate}
-                          extendedView={extendedView} clientIdentity={clientIdentity}
-                          menuToggle={menuToggleBottom} openMenu={this._openMenuBottom}
+              <PostFooter post={post}
+                          postIdentity={postIdentity}
+                          translate={translate}
+                          extendedView={extendedView}
+                          clientIdentity={clientIdentity}
+                          menuToggle={menuToggleBottom}
+                          openMenu={this._openMenuBottom}
                           deletePost={this._delete}
                           showComment={this._handleShowComment}
+                          showProposals={this.handleShowProposals}
                           handleLike={this._handleLike}
                           is_liked={is_liked}
                           showEdit={showEdit}
@@ -331,42 +358,76 @@ class PostView extends React.PureComponent {
               />
 
               {
-                showComment &&
-                <PostCommentNew
-                    commentParentType={commentParentType}
-                    post={post}
-                    commentOn={commentOn}
-                    removeCommentOn={this._removeCommentOn}
-                    instantViewComments={instantViewComments}
-                    extendedView={extendedView}/>
+                showComment ?
+                    <PostCommentNew post={post}
+                                    commentOn={commentOn}
+                                    removeCommentOn={this._removeCommentOn}
+                                    comments={comments}
+                                    extendedView={extendedView}
+
+                    />
+                    :
+                    showProposalSend &&
+                    <PostNewProposal postId={post.id}
+                                     proposals={proposals}
+                                     loading={proposalLoading}
+                                     showProposals={this.handleShowProposals}
+                    />
               }
 
               {
-                showComment && !extendedView && instantViewComments && instantViewComments.length > 0 &&
+                comments && comments.length > 0 && (showComment || extendedView) &&
                 <React.Fragment>
                   {
-                    post.comments_count !== instantViewComments.length &&
+                    !extendedView && post.comments_count !== comments.length &&
                     <div onClick={this.showMoreComment} className='show-more-comment'>{translate['Show More Comments']}</div>
                   }
-                  <PostComments comments={instantViewComments}
-                                stateComments={stateComments}
+                  <PostComments comments={comments}
                                 translate={translate}
                                 replyComment={(comment) => this._setCommentOn(comment)}
                                 deleteComment={this.deleteComment}
                   />
                 </React.Fragment>
               }
-
-              {
-                extendedView && comments && comments.length > 0 &&
-                <PostComments comments={comments}
-                              stateComments={stateComments}
-                              translate={translate}
-                              replyComment={(comment) => this._setCommentOn(comment)}
-                              deleteComment={this.deleteComment}
-                />
-              }
             </div>
+
+            {
+              proposals && clientIdentity === postIdentity.id && extendedView &&
+              <div>
+                <div className='post-proposal-title'>پیشنهاده ها</div>
+                <div className='post-proposal-container'>
+                  {
+                    proposals.map((proposal, index) =>
+                        <div key={index} className='post-proposal-content'>
+                          <Link to={`/${proposal.proposal_identity.identity_type}/${proposal.proposal_identity.id}`} className='post-proposal-profile link-post-decoration'>
+                            {
+                              proposal.proposal_identity.profile_media ?
+                                  <img alt='profile' src={proposal.proposal_identity.profile_media.file} className='comment-owner'/>
+                                  :
+                                  <DefaultUserIcon className='comment-owner'/>
+                            }
+                            <div className='post-proposal-content-profile'>
+                              {
+                                proposal.proposal_identity.first_name || proposal.proposal_identity.last_name
+                                    ? proposal.proposal_identity.first_name + ' ' + proposal.proposal_identity.last_name :
+                                    proposal.proposal_identity.nike_name || proposal.proposal_identity.official_name
+                              }
+                              <span>   </span>
+                              <span className='proposal-send-profile-content-desc'>{proposal.proposal_identity.username}</span>
+                              <span>   </span>
+                              <div className='display-inline-block proposal-send-profile-content-desc'><Moment element='span' fromNow ago>{proposal.updated_time}</Moment></div>
+                            </div>
+                          </Link>
+                          <div className='post-proposal-content-desc' style={{direction: new RegExp('^[A-Za-z]*$').test(proposal.proposal_description && proposal.proposal_description[0]) ? 'ltr' : 'rtl'}}>
+                            {proposal.proposal_description}
+                          </div>
+                        </div>,
+                    )
+                  }
+                </div>
+              </div>
+            }
+
           </div>
       )
     }
@@ -379,22 +440,20 @@ const mapStateToProps = (state, ownProps) => {
   const post = ownProps.post || state.common.post.list[ownProps.match.params.id]
   const postIdentity = post && state.identities.list[post.post_related_identity]
   const postRelatedIdentityImage = postIdentity && postIdentity.profile_media && postIdentity.profile_media.file
-  const postRelatedProduct = post ? post.post_related_product && {
-    ...state.common.product.products.list[post.post_related_product.id ? post.post_related_product.id : post.post_related_product],
-    product_owner: postIdentity,
-  } : {}
+  const postRelatedProduct = post && post.post_related_product ? makeProductSelectorById()(state, post.post_related_product) : null
   return {
     post,
     postIdentity,
     clientIdentity,
     postRelatedProduct,
     postRelatedIdentityImage,
-    comments: userCommentsSelector(state, ownProps),
-    stateComments: state.common.comment.list,
+    comments: CommentsSelector(state, ownProps),
+    proposals: ProposalsSelector(state, ownProps),
+    proposalLoading: post && state.common.post.list[post.id] && state.common.post.list[post.id].proposals && state.common.post.list[post.id].proposals.loading,
     translate: getMessages(state),
-    instantViewComments: userInstantCommentsSelector(state, ownProps),
   }
 }
+
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     getPost: PostActions.getPost,
@@ -402,6 +461,7 @@ const mapDispatchToProps = dispatch => ({
     getCommentsByParentId: CommentActions.getCommentsByParentId,
     deleteComment: CommentActions.deleteComment,
     createLike: likeActions.createLike,
+    getProposals: ProposalsActions.getProposalsByPostId,
   }, dispatch),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(PostView)

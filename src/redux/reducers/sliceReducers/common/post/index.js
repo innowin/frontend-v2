@@ -1,11 +1,12 @@
 import createComment from './createComment'
 import createPost from './createPost'
-// import createLike from './createLike'
 import deleteComment from './deleteComment'
 import deletePost from './deletePost'
 import filterPostsByParentLimitOffset from "./filterPostsByParentLimitOffset"
 import filterPostsByPostRelatedProduct from "./filterPostsByPostRelatedProduct"
 import getCommentsByParentId from './getCommentsByParentId'
+import getProposalsByPostId from './getProposalsByPostId'
+import createProposal from './createProposal'
 import getFileByRelatedParentId from './getFileByRelatedParentId'
 import getPost from './getPost'
 import getPostByIdentity from './getPostByIdentity'
@@ -24,6 +25,8 @@ export default {
   filterPostsByParentLimitOffset,
   filterPostsByPostRelatedProduct,
   getCommentsByParentId,
+  getProposalsByPostId,
+  createProposal,
   getFileByRelatedParentId,
   getPost,
   getPostByIdentity,

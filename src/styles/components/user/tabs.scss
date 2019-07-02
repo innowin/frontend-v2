@@ -356,8 +356,8 @@
   }
 
   .comments-wrapper {
-    max-height: 600px;
-    overflow-y: auto;
+    //max-height: 600px;
+    //overflow-y: auto;
     border-top: 1px solid lighten($text-lighter-color, 2%);
 
     .comment-item-wrapper {

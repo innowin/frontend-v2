@@ -1,0 +1,138 @@
+@import "../../variables";
+
+.proposal-cont {
+  padding: 0 18px 18px 18px;
+}
+
+.proposal-send-box {
+  vertical-align: top;
+  width: calc(100% - 63px);
+  display: inline-block;
+  border: 1px solid #E7E7E7;
+  border-radius: 5px;
+}
+
+.proposal-send-textarea {
+  font-size: $font-size-regular;
+  margin: 10px 10px 0 10px;
+  width: calc(100% - 20px);
+  height: 70px;
+  border-radius: 5px;
+  resize: none;
+
+  &::placeholder {
+    color: #BEBEBE;
+  }
+}
+
+.proposal-send-profile {
+  vertical-align: top;
+  margin: 10px;
+  border: 1px solid #E7E7E7;
+  border-radius: 5px;
+  height: 96px;
+  padding: 18px;
+  overflow: hidden;
+}
+
+.proposal-owner {
+  display: inline-block;
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  margin-left: 18px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.proposal-send-profile-content {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  height: 60px;
+  font-size: $font-size-regular;
+  width: calc(100% - 78px);
+  vertical-align: top;
+
+  div {
+    flex-grow: 1;
+    min-width: 90%;
+    max-width: 90%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}
+
+.proposal-send-profile-content-desc {
+  color: #BEBEBE;
+}
+
+.proposal-send-btn {
+  width: 20px;
+  fill: lighten($primary-color-light3, 15%);
+  float: left;
+  margin-left: 10px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: all linear 0.3s;
+
+  &:hover {
+    fill: $primary-color-light3;
+    transition: all linear 0.3s;
+  }
+}
+
+.proposal-loading {
+  padding-top: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.proposal-loading-down {
+  padding-bottom: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.post-proposal-container {
+  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.post-proposal-title {
+  color: #BEBEBE;
+  font-size: $font-size-regular;
+  font-weight: bold;
+  padding: 10px 0;
+}
+
+.post-proposal-profile {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 45px;
+  overflow: hidden;
+}
+
+.post-proposal-content {
+  font-size: $font-size-regular;
+  padding: 18px;
+  background-color: white;
+  border-bottom: 1px solid #ECECEC;
+}
+
+.post-proposal-content-profile {
+  display: inline-block;
+  width: calc(100% - 63px);
+  vertical-align: top;
+}
+
+.post-proposal-content-desc {
+  margin-top: 15px;
+  vertical-align: top;
+  padding-right: 62px;
+}

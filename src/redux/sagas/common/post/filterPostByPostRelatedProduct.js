@@ -33,6 +33,9 @@ export function* filterPostByPostRelatedProduct(action) {
     for (let i = 0; i < data.length; i++) {
       yield put({type: types.SUCCESS.USER.GET_USER_BY_USER_ID, payload: {data: {...data[i].post_related_identity}, userId: data[i].post_related_identity.id}})
       data[i].post_related_identity = data[i].post_related_identity.id
+
+      yield put({type: types.SUCCESS.COMMON.GET_PRODUCT_INFO, payload: {data: data[i].post_related_product}})
+      data[i].post_related_product = data[i].post_related_product.id
     }
     yield put({
       type: types.SUCCESS.COMMON.POST.FILTER_POSTS_BY_POST_RELATED_PRODUCT,

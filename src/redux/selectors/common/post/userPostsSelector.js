@@ -8,13 +8,11 @@ const getUserPosts = (state, props) => {
     return Object.values(state.identities.list[ownerId].posts.content).sort((a, b) => b - a)
   else return undefined
 }
-const getOwnerId = (state, props) => props.id
-
 
 export const userPostsSelector = createSelector(
-    [getPosts, getUserPosts, getOwnerId],
-    (posts, userPosts, ownerId) => {
-      if (posts && Object.keys(posts).length !== 0 && posts.constructor === Object && userPosts && ownerId) {
+    [getPosts, getUserPosts],
+    (posts, userPosts) => {
+      if (posts && Object.keys(posts).length !== 0 && posts.constructor === Object && userPosts) {
         const arrayPost = helpers.getObjectOfArrayKeys(userPosts, posts)
         return [...arrayPost]
       }

@@ -9,7 +9,7 @@ const getParentComments = (state, props) => {
     return state.common.post.list[parentId].comments
 }
 
-export const userInstantCommentsSelector = createSelector(
+export const CommentsSelector = createSelector(
     [getComments, getParentComments],
     (comments, parentComments) => {
       if (comments && Object.keys(comments).length !== 0 && comments.constructor === Object && parentComments) {

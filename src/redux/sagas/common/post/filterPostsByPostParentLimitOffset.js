@@ -2,7 +2,7 @@ import api from 'src/consts/api'
 import urls from 'src/consts/URLS'
 import results from 'src/consts/resultName'
 import types from 'src/redux/actions/types'
-import {put, take, fork, call} from 'redux-saga/effects'
+import {put, take, fork, call, select} from 'redux-saga/effects'
 
 export function* filterPostsByPostParentPostTypeLimitOffset(action) {
   const {postParentId, postType, limit = 100, offset = 0, postParentType} = action.payload
@@ -36,11 +36,18 @@ export function* filterPostsByPostParentPostTypeLimitOffset(action) {
         yield put({type: types.SUCCESS.USER.GET_USER_BY_USER_ID, payload: {data: {...data[i].post_related_identity}, userId: data[i].post_related_identity.id}})
       }
       if (data[i].post_related_product) {
-        yield put({type: types.COMMON.GET_PRODUCT_INFO, payload: {id: data[i].post_related_product}})
+        yield put({type: types.SUCCESS.COMMON.GET_PRODUCT_INFO, payload: {data: data[i].post_related_product}})
+        data[i].post_related_product = data[i].post_related_product.id
       }
       data[i].post_related_identity = data[i].post_related_identity.id
     }
     yield put({type: types.SUCCESS.COMMON.POST.FILTER_POSTS_BY_POST_PARENT_LIMIT_OFFSET, payload: {data, postParentId, postParentType}})
+
+    const identity = yield select(state => state.auth.client.identity.content)
+    yield put({
+      type: types.COMMON.EXCHANGE_MEMBERSHIP.GET_EXCHANGE_MEMBERSHIP_BY_MEMBER_IDENTITY,
+      payload: {identityId: identity, exchangeMembershipOwnerId: identity},
+    })
   }
   catch (err) {
     const {message} = err
