@@ -17,6 +17,7 @@ export function* getAllExchanges(action) {
         urls.EXCHANGE_EXPLORER,
         result,
         params,
+        true
     )
     const data = yield take(socketChannel)
     yield put({type: types.SUCCESS.EXCHANGE.GET_EXCHANGES, payload: {data, search: getAll && data.length === 0 ? null : search, hashtags: getAll && data.length === 0 ? null : hashtags, isLoading: false}})

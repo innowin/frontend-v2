@@ -230,17 +230,15 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
 
   _formValidate = () => {
     let result = true
-    const {sideBarType} = this.props
-    const {descriptionState, editName, editLastName} = this.state
+    // const {sideBarType} = this.props
+    const {descriptionState, /*editName, editLastName*/} = this.state
     const descriptionLength = descriptionState ? descriptionState.trim().length : 0
     const descriptionError = descriptionLength > 70
-    const nameError = editName !== null && editName.length === 0
-    const lastNameError = sideBarType === constants.USER_TYPES.USER ? editLastName !== null && editLastName.length === 0 : false
+    // const nameError = editName !== null && editName.length === 0
+    // const lastNameError = sideBarType === constants.USER_TYPES.USER ? editLastName !== null && editLastName.length === 0 : false
 
     const validates = [
       descriptionError,
-      nameError,
-      lastNameError,
     ]
     for (let i = 0; i < validates.length; i++) {
       if (validates[i]) {
@@ -574,9 +572,9 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
                   {
                     editProfile ?
                         <div>
-                          <div className='user-edit-name-title-required'>{sideBarType === constants.USER_TYPES.USER ? 'نام' : 'نام کاربری'}</div>
+                          <div className='user-edit-name-title'>{sideBarType === constants.USER_TYPES.USER ? 'نام' : 'نام کاربری'}</div>
                           <input className='user-edit-name' type='text' value={editName} onChange={e => this.handleParameter('editName', e)}/>
-                          <div className={sideBarType === constants.USER_TYPES.USER ? 'user-edit-name-title-required-second' : 'user-edit-name-title-second'}>{sideBarType === constants.USER_TYPES.USER ? 'نام خانوادگی' : 'نام رسمی'}</div>
+                          <div className={sideBarType === constants.USER_TYPES.USER ? 'user-edit-name-title-second' : 'user-edit-name-title-second'}>{sideBarType === constants.USER_TYPES.USER ? 'نام خانوادگی' : 'نام رسمی'}</div>
                           <input className='user-edit-name' type='text' value={editLastName} onChange={e => this.handleParameter('editLastName', e)}/>
                         </div>
                         :

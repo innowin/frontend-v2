@@ -30,10 +30,8 @@ class FirstLevel extends PureComponent {
   _handleChange = (e) => {
     const username = e.target.value.trim()
     let valid = false
-    if (username.length > 4 && username.length < 33) {
-      if (/^[a-zA-Z]*[a-zA-Z0-9_\- ]+$/.test(username)) {
-        valid = true
-      }
+    if (username.length > 4 && username.length < 33 && /^[a-zA-Z]*[a-zA-Z0-9_\- ]+$/.test(username)) {
+      valid = true
     }
     this.setState({...this.state, username, valid, error: false})
   }

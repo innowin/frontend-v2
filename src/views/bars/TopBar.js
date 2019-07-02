@@ -264,6 +264,7 @@ class TopBar extends PureComponent<PropsTopBar, StatesTopBar> {
       showHamburger: false,
     })
     this.props.actions.signOut()
+    setTimeout(() => window.location.reload(), 500)
   }
 
   _handleMouseEnter = () => {

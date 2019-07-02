@@ -1,23 +1,23 @@
-import api from "src/consts/api";
-import results from "src/consts/resultName";
-import urls from "src/consts/URLS";
-import {call, put, fork, take} from "redux-saga/effects";
-import helpers from "src/consts/helperFunctions/helperFunctions"
-import types from "../../../actions/types"
+import api from 'src/consts/api'
+import results from 'src/consts/resultName'
+import urls from 'src/consts/URLS'
+import {call, put, fork, take} from 'redux-saga/effects'
+import helpers from 'src/consts/helperFunctions/helperFunctions'
+import types from '../../../actions/types'
 
 
-export function* getCountries(action) {
+export function* getCountries() {
   const socketChannel = yield call(api.createSocketChannel, results.COMMON.GET_COUNTRIES)
   try {
-    yield fork(api.get, urls.COMMON.COUNTRY, results.COMMON.GET_COUNTRIES)
+    yield fork(api.get, urls.COMMON.COUNTRY, results.COMMON.GET_COUNTRIES, '', true)
     const data = yield take(socketChannel)
     const normalData = helpers.arrayToIdKeyedObject(data)
     yield put({type: types.SUCCESS.COMMON.GET_COUNTRIES, data: normalData})
-
-  } catch (error) {
+  }
+  catch (error) {
     yield put({type: types.ERRORS.COMMON.GET_COUNTRIES, error})
-
-  } finally {
+  }
+  finally {
     socketChannel.close()
   }
 }
@@ -34,10 +34,12 @@ export function* getProvinces(action) { // action: { payload: { parentId } }
     const normalData = helpers.arrayToIdKeyedObject(data)
     yield put({type: types.SUCCESS.COMMON.GET_PROVINCES, data: normalData})
 
-  } catch (error) {
+  }
+  catch (error) {
     yield put({type: types.ERRORS.COMMON.GET_PROVINCES, error})
 
-  } finally {
+  }
+  finally {
     socketChannel.close()
   }
 }
@@ -54,10 +56,12 @@ export function* getCities(action) { // action: { payload: { parentId } }
     const normalData = helpers.arrayToIdKeyedObject(data)
     yield put({type: types.SUCCESS.COMMON.GET_CITIES, data: normalData})
 
-  } catch (error) {
+  }
+  catch (error) {
     yield put({type: types.ERRORS.COMMON.GET_CITIES, error})
 
-  } finally {
+  }
+  finally {
     socketChannel.close()
 
   }
@@ -72,10 +76,12 @@ export function* getCountry(action) {
     // const normalData = helpers.arrayToIdKeyedObject(data)
     // yield put({type: types.SUCCESS.COMMON.GET_COUNTRIES, data: normalData})
 
-  } catch (error) {
+  }
+  catch (error) {
     // yield put({type: types.ERRORS.COMMON.GET_COUNTRIES, error})
 
-  } finally {
+  }
+  finally {
     socketChannel.close()
   }
 }
@@ -90,10 +96,12 @@ export function* getProvince(action) {
     // const normalData = helpers.arrayToIdKeyedObject(data)
     // yield put({type: types.SUCCESS.COMMON.GET_COUNTRIES, data: normalData})
 
-  } catch (error) {
+  }
+  catch (error) {
     // yield put({type: types.ERRORS.COMMON.GET_COUNTRIES, error})
 
-  } finally {
+  }
+  finally {
     socketChannel.close()
   }
 }
@@ -106,9 +114,11 @@ export function* getCity(action) {
     // const normalData = helpers.arrayToIdKeyedObject(data)
     // yield put({type: types.SUCCESS.COMMON.GET_COUNTRIES, data: normalData})
 
-  } catch (error) {
+  }
+  catch (error) {
     // yield put({type: types.ERRORS.COMMON.GET_COUNTRIES, error})
-  } finally {
+  }
+  finally {
     socketChannel.close()
   }
 }

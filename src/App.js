@@ -79,13 +79,15 @@ class App extends React.PureComponent {
                   <PrivateRoute exact path='/' component={Home}/>
                   <PrivateRoute path='/user/:id' component={User}/>
                   <PrivateRoute path='/organization/:id' component={Organization}/>
-                  <PrivateRoute path='/exchange/exchange_explorer' component={ExchangeExplorer}/>
+                  <PropsRoute path='/users/users_explorer' component={User_Explorer}/>
+                  <PropsRoute path='/product/product_explorer' component={ProductExplorer}/>
+                  <PropsRoute path='/exchange/exchange_explorer' component={ExchangeExplorer}/>
                   <PrivateRoute path='/exchange/:id' component={ExchangeView}/>
-                  <PrivateRoute path='/product/product_explorer' component={ProductExplorer}/>
                   <PrivateRoute path='/product/:id' component={ProductView}/>
-                  <PrivateRoute path='/users/users_explorer' component={User_Explorer}/>
                   <PrivateRoute path='/notifications' component={Notifications}/>
-
+                  {/*<PrivateRoute path='/users/users_explorer' component={User_Explorer}/>*/}
+                  {/*<PrivateRoute path='/product/product_explorer' component={ProductExplorer}/>*/}
+                  {/*<PrivateRoute path='/exchange/exchange_explorer' component={ExchangeExplorer}/>*/}
                   <PrivateRoute path='*' component={NotFound}/>
                 </Switch>
                 <ToastContainer/>

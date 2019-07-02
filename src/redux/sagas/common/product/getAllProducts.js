@@ -15,6 +15,7 @@ export function* getAllProducts(action) {
         urls.COMMON.PRODUCT,
         results.COMMON.GET_ALL_PRODUCTS,
         params,
+        true,
     )
     let data = yield take(socketChannel)
     for (let i = 0; i < data.length; i++) {

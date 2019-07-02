@@ -111,7 +111,6 @@ class CatalogForm extends React.Component<Props, States> {
                     <span className="checkmark"/>
                     <p className='fill-resume-text'>{translate['Complete the profile with catalog']}</p>
                   </label>
-
                 </div>
               </div>
               <div className="buttons">
