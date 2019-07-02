@@ -15,6 +15,8 @@ import types from '../../redux/actions/types'
 import uuid from 'uuid'
 import {createFileFunc} from '../common/Functions'
 import constants from '../../consts/constants'
+import {clientMemberships} from '../../redux/selectors/common/exchanges/ClientMemberships'
+import {exchangeMemberships} from '../../redux/selectors/common/exchanges/ExchangeMemberships'
 
 
 class ExchangeViewBar extends Component {
@@ -510,8 +512,8 @@ const StateToProps = (state, ownProps) => {
     currentUserIdentity: state.auth.client.identity.content,
     currentUserId: userId,
     currentUserType: client.user_type,
-    exchangesIdentities: state.common.exchangeMembership.list,
-    clientExchangeMemberships: state.auth.client.exchangeMemberships,
+    exchangesIdentities: exchangeMemberships(state),
+    clientExchangeMemberships: clientMemberships(state),
     clientFiles: fileSelectorByKeyValue(state, 'identity', client.identity.content),
     temp: state.temp.file,
   })

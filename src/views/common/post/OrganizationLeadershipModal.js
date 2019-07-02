@@ -11,6 +11,7 @@ import constants from "src/consts/constants"
 import {getMessages} from "src/redux/selectors/translateSelector"
 import setExchangeActions from "src/redux/actions/user/setSelectedExchangeAction"
 import likeActions from "src/redux/actions/commonActions/likeActions"
+import {exchangeMemberships} from '../../../redux/selectors/common/exchanges/ExchangeMemberships'
 
 
 class OrganizationLeadershipModal extends PureComponent {
@@ -469,7 +470,7 @@ const mapStateToProps = state => {
     clientIdentity,
     clientExchangeMembership,
     exchanges: state.exchanges.list,
-    exchangeMemberships: state.common.exchangeMembership.list,
+    exchangeMemberships: exchangeMemberships(state),
     translate: getMessages(state),
   }
 }

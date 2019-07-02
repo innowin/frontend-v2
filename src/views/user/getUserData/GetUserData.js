@@ -13,6 +13,8 @@ import updateUserByUserIdAction from '../../../redux/actions/user/updateUserByUs
 import {getExchanges} from 'src/redux/selectors/common/exchanges/GetAllExchanges'
 import exchangeActions from 'src/redux/actions/exchangeActions'
 import ThirdLevel from './ThirdLevel'
+import {clientMemberships} from '../../../redux/selectors/common/exchanges/ClientMemberships'
+import {exchangeMemberships} from '../../../redux/selectors/common/exchanges/ExchangeMemberships'
 
 class GetUserData extends PureComponent {
   constructor(props) {
@@ -107,8 +109,8 @@ const mapStateToProps = (state) => ({
   HashTags: hashTagsListSelector(state),
   current_user_identity: state.auth.client.identity.content,
   allExchanges: getExchanges(state),
-  clientExchangeMemberships: state.auth.client.exchangeMemberships,
-  exchangeMemberships: state.common.exchangeMembership.list,
+  clientExchangeMemberships: clientMemberships(state),
+  exchangeMemberships: exchangeMemberships(state),
 })
 
 const mapDispatchToProps = dispatch => ({

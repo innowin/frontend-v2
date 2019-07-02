@@ -11,6 +11,8 @@ import {getExchangeMembershipsSelector} from 'src/redux/selectors/common/social/
 import {getMessages} from 'src/redux/selectors/translateSelector'
 import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
 import exchangeActions from '../../../../redux/actions/commonActions/exchangeMembershipActions'
+import {clientMemberships} from '../../../../redux/selectors/common/exchanges/ClientMemberships'
+import {exchangeMemberships} from '../../../../redux/selectors/common/exchanges/ExchangeMemberships'
 
 type PropsSocials = {
   ownerId: number,
@@ -78,8 +80,8 @@ const mapStateToProps = (state, ownProps) => {
   return {
     translate: getMessages(state),
     exchanges: getExchangeMembershipsSelector(state, ownProps),
-    clientExchangeMemberships: state.auth.client.exchangeMemberships,
-    exchangeMemberships: state.common.exchangeMembership.list,
+    clientExchangeMemberships: clientMemberships(state),
+    exchangeMemberships: exchangeMemberships(state),
     clientId: state.auth.client.identity.content,
   }
 }

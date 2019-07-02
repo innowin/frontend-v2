@@ -8,7 +8,7 @@ const loadingArr = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 const Users = (props) => {
   let {users, followees, followers, justFollowing, justFollowed, justUsers, justOrgans, files, translate, currentUser} = props
 
-  let usersArr = Object.values(users).filter(user => user.id).sort((a, b) => a.id - b.id)
+  let usersArr = Object.values(users).filter(user => user.id)
 
   let usersObj = {}
 

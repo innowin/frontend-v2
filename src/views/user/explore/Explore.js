@@ -33,8 +33,8 @@ class Explore extends PureComponent {
     setTimeout(() => {
       const {currentUser, actions} = this.props
       actions.getUsers(24, 0, null, null)
-      actions.getFollowees({followOwnerIdentity: currentUser.id, followOwnerId: currentUser.id, notProfile: true})
-      actions.getFollowers({followOwnerIdentity: currentUser.id, followOwnerId: currentUser.id, notProfile: true})
+      actions.getFollowees({followOwnerIdentity: currentUser, followOwnerId: currentUser, notProfile: true})
+      actions.getFollowers({followOwnerIdentity: currentUser, followOwnerId: currentUser, notProfile: true})
     }, 500)
     document.addEventListener('scroll', this._onScroll)
   }
