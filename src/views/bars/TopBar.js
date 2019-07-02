@@ -44,7 +44,6 @@ type PropsTopBar = {|
     showModal: Function,
   },
   clientName: ?string,
-  isLoggedIn: boolean,
   path: string,
   translate: { topBar: { [string]: string }, [string]: string },
   clientIdentity: identityType,
@@ -64,7 +63,6 @@ type StatesTopBar = {|
   exploreCollapse: boolean,
   getMediaFile: boolean,
   isSignedOut: boolean,
-  mouseIsOverMenu: boolean,
   selectedAbout: string,
   selectedSetting: string,
   showAbout: boolean,
@@ -97,7 +95,6 @@ class TopBar extends PureComponent<PropsTopBar, StatesTopBar> {
       exploreCollapse: false,
       getMediaFile: false,
       isSignedOut: false,
-      mouseIsOverMenu: true,
       selectedAbout: 'FAQ',
       selectedSetting: 'General Settings',
       showAbout: false,
@@ -137,11 +134,8 @@ class TopBar extends PureComponent<PropsTopBar, StatesTopBar> {
   }
 
   componentDidUpdate(prevProps) {
-    const {isLoggedIn, actions, path} = this.props
+    const {path} = this.props
     const {currentPage} = this.state
-    if (prevProps.isLoggedIn && prevProps.isLoggedIn !== isLoggedIn) {
-      actions.push('/login')
-    }
 
     if (currentPage !== path && prevProps.path !== path) {
       if (path === constants.TOP_BAR_PAGES.HOME) {
@@ -226,7 +220,8 @@ class TopBar extends PureComponent<PropsTopBar, StatesTopBar> {
   }
 
   _toggleProfile = () => {
-    this.setState({...this.state, collapseProfile: !this.state.collapseProfile, exploreCollapse: false})
+    if (this.props.clientIdentityId)
+      this.setState({...this.state, collapseProfile: !this.state.collapseProfile, exploreCollapse: false})
   }
 
   _handleExchangeUpgrade = () => {
@@ -267,14 +262,6 @@ class TopBar extends PureComponent<PropsTopBar, StatesTopBar> {
     setTimeout(() => window.location.reload(), 500)
   }
 
-  _handleMouseEnter = () => {
-    this.setState({...this.state, mouseIsOverMenu: true})
-  }
-
-  _handleMouseLeave = () => {
-    this.setState({...this.state, mouseIsOverMenu: false})
-  }
-
   _handleShowSetting = () => {
     setTimeout(() => {
       this.setState({...this.state, collapseProfile: false, showHamburger: false})
@@ -306,16 +293,12 @@ class TopBar extends PureComponent<PropsTopBar, StatesTopBar> {
   }
 
   _handleShowAbout = () => {
-    setTimeout(() => {
-      this.setState({...this.state, collapseProfile: false, showHamburger: false})
-    }, 350)
     this.setState({...this.state, showSetting: false, exploreCollapse: false, showAbout: true})
+    setTimeout(() => this.setState({...this.state, collapseProfile: false, showHamburger: false}), 350)
   }
 
   _handleCloseProfile = () => {
-    setTimeout(() =>
-            this.setState({...this.state, collapseProfile: false, showHamburger: false})
-        , 350)
+    setTimeout(() => this.setState({...this.state, collapseProfile: false, showHamburger: false}), 350)
   }
 
   _handleSettingSelected = (target) => {
@@ -332,9 +315,7 @@ class TopBar extends PureComponent<PropsTopBar, StatesTopBar> {
   }
 
   _hamburgerOff = () => {
-    setTimeout(() =>
-            this.setState({...this.state, showHamburger: false})
-        , 350)
+    setTimeout(() => this.setState({...this.state, showHamburger: false}), 350)
   }
 
   render() {
@@ -349,7 +330,7 @@ class TopBar extends PureComponent<PropsTopBar, StatesTopBar> {
         : ''
 
     return (
-        <div onMouseEnter={this._handleMouseEnter} onMouseLeave={this._handleMouseLeave}>
+        <div>
           <AgentForm active={agentForm} hide={this._handleHideAgent}/>
 
           <CreateExchange handleModalVisibility={this._createExchangeModalVisibilityHandler} modalIsOpen={createExchangeModalIsOpen}/>
@@ -638,8 +619,8 @@ const mapStateToProps = (state) => {
 
   return {
     selectedExchange: state.auth.client.selectedExchange,
-    isLoggedIn: state.auth.client.isLoggedIn,
     clientName,
+    clientIdentityId,
     clientIdentity,
     imgLink: profileImg,
     bannerLink: bannerImg,

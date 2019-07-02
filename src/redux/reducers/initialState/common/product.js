@@ -1,7 +1,7 @@
 export default {
   products: {
     list: {},
-    isLoading: false,
+    isLoading: true,
     search: null,
     nowCreatedId: null // the id of the product that is created now by the current user.
     // this field sets in createProduct success

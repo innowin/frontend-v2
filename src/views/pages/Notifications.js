@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {PureComponent} from 'react'
 import {REST_URL} from 'src/consts/URLS'
 import urls from 'src/consts/URLS'
 import {connect} from 'react-redux'
@@ -9,7 +9,7 @@ import constants from '../../consts/constants'
 import {DefaultOrganIcon, DefaultUserIcon} from '../../images/icons'
 import Material from '../common/components/Material'
 
-class Notifications extends Component {
+class Notifications extends PureComponent {
 
   constructor(props) {
     super(props)
@@ -22,7 +22,6 @@ class Notifications extends Component {
     this.seenNotif = this.seenNotif.bind(this)
   }
 
-
   componentDidMount() {
     this.getData()
   }
@@ -30,7 +29,9 @@ class Notifications extends Component {
   getData() {
     const {token} = this.props
     fetch(REST_URL + '/' + urls.COMMON.NOTIFICATIONS, {
-      headers: {'Authorization': `JWT ${token}`},
+      headers: {
+        'Authorization': `JWT ${token}`,
+      },
     })
         .then(res => res.json())
         .then(resJson => {
