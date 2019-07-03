@@ -16,6 +16,16 @@ const proposal = (state = initialState.common.proposal, action) => {
         },
       }
     }
+    case types.SUCCESS.COMMON.PROPOSAL.UPDATE_PROPOSAL: {
+      const {data} = action.payload
+      return {
+        ...state,
+        list: {
+          ...state.list,
+          [data.id]: {...data},
+        },
+      }
+    }
     case types.SUCCESS.COMMON.PROPOSAL.CREATE_PROPOSAL: {
       const {data} = action.payload
       return {

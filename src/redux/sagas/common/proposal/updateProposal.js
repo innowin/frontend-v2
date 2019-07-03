@@ -14,7 +14,7 @@ export function* updateProposal(action) {
   try {
     yield fork(api.patch, urls.COMMON.PROPOSAL, results.COMMON.PROPOSAL.UPDATE_PROPOSAL, formValues, `${proposalId}`)
     const data = yield take(socketChannel)
-    console.log('update babe: ', data)
+    yield put({type: types.SUCCESS.COMMON.PROPOSAL.UPDATE_PROPOSAL, payload: {data}})
     yield put({
       type: types.TOAST.ADD_TOAST,
       payload: {
@@ -30,7 +30,7 @@ export function* updateProposal(action) {
   }
   catch (e) {
     const {message} = e
-    yield put({type: types.ERRORS.COMMON.PROPOSAL.CREATE_PROPOSAL, payload: {message}})
+    yield put({type: types.ERRORS.COMMON.PROPOSAL.UPDATE_PROPOSAL, payload: {message}})
   }
   finally {
     socketChannel.close()

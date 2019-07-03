@@ -62,7 +62,9 @@ class PostNewProposal extends Component {
       this.setState({...this.state, isUpdating: null, id: null}, () => {
         if (isUpdating === true) actions.updateProposal(
             {
-              proposal_identity: currentUser.id, proposal_description: description,
+              proposal_identity: currentUser.id,
+              proposal_parent: postId,
+              proposal_description: description,
               proposal_file: sendResume && (currentUser.related_cv || currentUser.related_catalog) ?
                   currentUser.related_cv ? currentUser.related_cv.id : currentUser.related_catalog.id
                   : null,

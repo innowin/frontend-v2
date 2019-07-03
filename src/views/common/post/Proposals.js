@@ -39,7 +39,11 @@ const Proposals = (props) => {
                     {
                       proposal.bookmarked ? <BookmarkSvg className='post-proposal-bookmark'/> : <UnBookmarkSvg className='post-proposal-bookmark'/>
                     }
-                    <AttachmentSvg className={proposal.proposal_file ? 'post-proposal-resume-icon' : 'post-proposal-not-resume-icon'}/>
+                    {
+                      proposal.proposal_file ?
+                          <a href={proposal.proposal_file.file}><AttachmentSvg className='post-proposal-resume-icon'/></a>
+                          : <AttachmentSvg className='post-proposal-not-resume-icon'/>
+                    }
                     {
                       proposal.proposal_identity.identity_type === constants.USER_TYPES.USER ?
                           <UserIcon className='post-proposal-user-icon'/>

@@ -221,24 +221,27 @@
 }
 
 .post-proposal-user-icon {
+  vertical-align: top;
   fill: $disable-color;
   width: 18px;
   margin-right: 60px;
 }
 
 .post-proposal-resume-icon {
+  vertical-align: top;
   fill: $secondary-color;
   width: 18px;
   cursor: pointer;
 }
 
 .post-proposal-not-resume-icon {
+  vertical-align: top;
   fill: $disable-color;
   width: 18px;
 }
 
-
 .post-proposal-bookmark {
+  vertical-align: top;
   width: 12px;
   margin-left: 60px;
   cursor: pointer;

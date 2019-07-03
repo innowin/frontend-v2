@@ -23,8 +23,6 @@ import GetUserActions from './redux/actions/user/getUserActions'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import SocialActions from './redux/actions/commonActions/socialActions'
-import PostExtendedView from './views/common/post/PostView'
-import constants from './consts/constants'
 
 class App extends React.PureComponent {
   constructor(props) {
