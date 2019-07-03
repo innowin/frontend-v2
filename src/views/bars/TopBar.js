@@ -407,15 +407,15 @@ class TopBar extends PureComponent<PropsTopBar, StatesTopBar> {
                 <div className='hamburger-items-container'>
                   <h4 className='item-title'>{topBarTranslate['Explore']}</h4>
                   <Material className='display-block' content={
-                    <Link onClick={this._hamburgerOff} to='/exchange/exchange_explorer'
+                    <Link onClick={this._hamburgerOff} to='/exchanges/exchange_explorer'
                           className='item-text'>{translate['Windows']}</Link>
                   }/>
                   <Material className='display-block' content={
-                    <Link onClick={this._hamburgerOff} to='/users/users_explorer'
+                    <Link onClick={this._hamburgerOff} to='/users/user_explorer'
                           className='item-text'>{topBarTranslate['Persons']}</Link>
                   }/>
                   <Material className='display-block' content={
-                    <Link onClick={this._hamburgerOff} to={'/product/product_explorer'}
+                    <Link onClick={this._hamburgerOff} to={'/products/product_explorer'}
                           className='item-text'>محصولات و نمونه‌کار ها</Link>
                   }/>
                 </div>

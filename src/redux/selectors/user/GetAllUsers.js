@@ -6,9 +6,10 @@ const getAllUsers = (state) => {
   if (state.identities.search) {
     return Object.values(allUsers).filter(
         user =>
-            (user.username.includes(state.identities.search)) ||
-            ((user.first_name + ' ' + user.last_name).includes(state.identities.search)) ||
-            ((user.official_name + ' ' + user.nike_name).includes(state.identities.search)),
+            user.id &&
+            ((user.username && user.username.includes(state.identities.search)) ||
+                ((user.first_name + ' ' + user.last_name).includes(state.identities.search)) ||
+                ((user.official_name + ' ' + user.nike_name).includes(state.identities.search))),
     )
   }
   else return allUsers
@@ -26,9 +27,10 @@ const getSearchedUsers_ = (state) => {
   if (state.identities.search)
     return allUsersArray.filter(
         user =>
-            (user.username.includes(state.identities.search)) ||
-            ((user.first_name + ' ' + user.last_name).includes(state.identities.search)) ||
-            ((user.official_name + ' ' + user.nike_name).includes(state.identities.search)),
+            user.id &&
+            ((user.username && user.username.includes(state.identities.search)) ||
+                ((user.first_name + ' ' + user.last_name).includes(state.identities.search)) ||
+                ((user.official_name + ' ' + user.nike_name).includes(state.identities.search))),
     )
   else return []
 }

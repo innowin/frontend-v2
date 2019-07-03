@@ -28,6 +28,7 @@ import PostActions from 'src/redux/actions/commonActions/postActions'
 import PrivateRoute from '../../consts/PrivateRoute'
 import {NewRightArrow} from '../../images/icons'
 import Exchanges from 'src/views/common/social/exchanges/index'
+import PropsRoute from '../../consts/PropsRoute'
 
 type PropsOrganization = {
   userObject: organStateObject,
@@ -208,7 +209,7 @@ class Organization extends PureComponent<PropsOrganization, StatesOrganization> 
                       {/*identityType={constants.USER_TYPES.ORG}*/}
                       {/*isUser={false}*/}
                       {/*/>*/}
-                      <PrivateRoute exact={true}
+                      <PropsRoute exact={true}
                                     path={`${path}/Posts`}
                                     component={Posts}
                                     updatePost={updatePost}
@@ -240,7 +241,7 @@ class Organization extends PureComponent<PropsOrganization, StatesOrganization> 
                                     identityType={constants.USER_TYPES.ORG}
                                     user={userObject}
                       />
-                      <PrivateRoute path={`${path}/Posts/:id`}
+                      <PropsRoute path={`${path}/Posts/:id`}
                                     component={PostExtendedView}
                                     extendedView={true}
                                     commentParentType={constants.COMMENT_PARENT.POST}

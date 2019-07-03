@@ -39,14 +39,16 @@ class User extends PureComponent {
 
   _renderFollowed(data, followees) {
     const {followLoading} = this.state
-    const {translate} = this.props
-    if (followees[data.id]) {
-      return <Material className='user-follow' content=' ' onClick={this._unFollow}/>
-    }
-    else if (followLoading) {
-      return <Material className='user-follow-loading' content={<ClipLoader color='#008057' size={19}/>}/>
-    }
-    else return <Material className='user-followed' content={translate['Follow']} onClick={this._follow}/>
+    const {translate, currentUser} = this.props
+    if (currentUser)
+      if (followees[data.id]) {
+        return <Material className='user-follow' content=' ' onClick={this._unFollow}/>
+      }
+      else if (followLoading) {
+        return <Material className='user-follow-loading' content={<ClipLoader color='#008057' size={19}/>}/>
+      }
+      else return <Material className='user-followed' content={translate['Follow']} onClick={this._follow}/>
+    else return null
   }
 
   render() {

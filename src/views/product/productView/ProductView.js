@@ -71,7 +71,7 @@ class ProductView extends PureComponent {
         <div className='all-products-parent'>
 
           <div className={hideTopBar ? 'product-header-top' : 'product-header'}>
-            <Link to='/product/product_explorer'><Material backgroundColor='rgba(255,255,255,0.5)' className='back-button-material' content={<NewRightArrow className='back-button-product'/>}/></Link>
+            <Link to='/products/product_explorer'><Material backgroundColor='rgba(255,255,255,0.5)' className='back-button-material' content={<NewRightArrow className='back-button-product'/>}/></Link>
             <ProductWhite className='product-header-svg'/>
             <div className='product-header-title'>{product.name}</div>
           </div>

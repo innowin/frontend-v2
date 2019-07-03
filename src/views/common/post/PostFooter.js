@@ -68,7 +68,7 @@ PostFooter.propTypes = {
   translate: PropTypes.object.isRequired,
   deletePost: PropTypes.func.isRequired,
   showComment: PropTypes.func.isRequired,
-  clientIdentity: PropTypes.number.isRequired,
+  clientIdentity: PropTypes.number,
   showEdit: PropTypes.func,
 }
 

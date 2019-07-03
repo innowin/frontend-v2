@@ -3,8 +3,8 @@ import React from 'react'
 
 export default {
   TOP_BAR_PAGES: {
-    EXCHANGE_EXPLORER: '/exchange/Exchange_Explorer',
-    USER_EXPLORER: '/users/users_explorer',
+    EXCHANGE_EXPLORER: '/exchanges/Exchange_Explorer',
+    USER_EXPLORER: '/users/user_explorer',
     PRODUCT: '/product/',
     HOME: '/',
     OTHER: 'other',

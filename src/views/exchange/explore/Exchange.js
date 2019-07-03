@@ -55,7 +55,7 @@ class Exchange extends PureComponent {
   }
 
   render() {
-    const {data, translate} = this.props
+    const {data, translate, currentUserIdentity} = this.props
 
     return (
         <div className='exchange-model'>
@@ -90,14 +90,17 @@ class Exchange extends PureComponent {
             </div>
           </Link>
 
-          <div className='exchange-follow-green-buttons'>
-            <Link to={`/exchange/${data.id}`} className='link-post-decoration-delete-on-small'>
-              <Material className='exchange-link' content='مشاهده'/>
-            </Link>
-            {
-              this._renderFollowButton()
-            }
-          </div>
+          {
+            currentUserIdentity &&
+            <div className='exchange-follow-green-buttons'>
+              <Link to={`/exchange/${data.id}`} className='link-post-decoration-delete-on-small'>
+                <Material className='exchange-link' content='مشاهده'/>
+              </Link>
+              {
+                this._renderFollowButton()
+              }
+            </div>
+          }
 
         </div>
     )

@@ -28,6 +28,7 @@ import PostActions from 'src/redux/actions/commonActions/postActions'
 import {userPostsSelector} from 'src/redux/selectors/common/post/userPostsSelector'
 import PrivateRoute from '../../consts/PrivateRoute'
 import {DefaultUserIcon, NewRightArrow} from '../../images/icons'
+import PropsRoute from '../../consts/PropsRoute'
 
 type PropsUser = {
   match: {
@@ -201,7 +202,7 @@ class User extends Component<PropsUser, StatesUser> {
                       <Switch>
                         <Redirect exact from={`${url}/`} to={`${url}/Posts`}/>
 
-                        <PrivateRoute exact={true}
+                        <PropsRoute exact={true}
                                       path={`${path}/Posts`}
                                       component={Posts}
                                       updatePost={updatePost}
@@ -239,7 +240,7 @@ class User extends Component<PropsUser, StatesUser> {
                                       identityType={constants.USER_TYPES.USER}
                                       user={userObject}
                         />
-                        <PrivateRoute path={`${path}/Posts/:id`}
+                        <PropsRoute path={`${path}/Posts/:id`}
                                       component={PostExtendedView}
                                       extendedView={true}
                                       commentParentType={constants.COMMENT_PARENT.POST}

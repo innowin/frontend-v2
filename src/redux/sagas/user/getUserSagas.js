@@ -10,7 +10,7 @@ export function* getUserByUserId(action) {
   const {userId} = payload
   const socketChannel = yield call(api.createSocketChannel, results.USER.GET_USER_BY_USER_ID + userId)
   try {
-    yield fork(api.get, urls.USER.GET_USER_BY_USER_ID, results.USER.GET_USER_BY_USER_ID + userId, `${userId}`)
+    yield fork(api.get, urls.USER.GET_USER_BY_USER_ID, results.USER.GET_USER_BY_USER_ID + userId, `${userId}`, true)
     const data = yield take(socketChannel)
     yield put({type: types.SUCCESS.USER.GET_USER_BY_USER_ID, payload: {data, userId}})
   }
@@ -63,7 +63,7 @@ export function* getAllUsers(action) {
         urls.USER.GET_ALL_USERS,
         results.USER.GET_ALL_USERS,
         params,
-        true
+        true,
     )
     const data = yield take(socketChannel)
     yield put({type: types.SUCCESS.USER.GET_ALL_USERS, payload: {data, search, isLoading: false}})

@@ -20,13 +20,13 @@ class NotFound extends PureComponent {
               <Link to={`/${userType}/${id}`}>
                 <div>پروفایل من</div>
               </Link>
-              <Link to='/exchange/exchange_explorer'>
+              <Link to='/exchanges/exchange_explorer'>
                 <div>پنجره ها</div>
               </Link>
-              <Link to='/users/users_explorer'>
+              <Link to='/users/user_explorer'>
                 <div>افراد و شرکت ها</div>
               </Link>
-              <Link to='/product/product_explorer'>
+              <Link to='/products/product_explorer'>
                 <div>محصولات و خدمات</div>
               </Link>
             </div>

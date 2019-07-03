@@ -231,7 +231,7 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
   _formValidate = () => {
     let result = true
     // const {sideBarType} = this.props
-    const {descriptionState, /*editName, editLastName*/} = this.state
+    const {descriptionState /*editName, editLastName*/} = this.state
     const descriptionLength = descriptionState ? descriptionState.trim().length : 0
     const descriptionError = descriptionLength > 70
     // const nameError = editName !== null && editName.length === 0
@@ -518,7 +518,7 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
       processingBanner, profileBannerId, profileMediaId, showModalState, editName, editLastName,
       editBirthDate, editTelegram, editInstagram, editLinkedIn, editTwitter, editStatus, editStatusTitle,
     } = this.state
-    const {sideBarType, badges, translate: tr, paramId, followees, owner, bannerIdTemp, pictureIdTemp, actions, temp, countries} = this.props
+    const {sideBarType, badges, translate: tr, paramId, followees, owner, bannerIdTemp, pictureIdTemp, actions, temp, countries, clientIdentityId} = this.props
     const {createWorkExperience, createEducation, createCertificate, createSkill, createResearch} = actions
     const {add, education, research, certificate, skill, workExperience, catalog} = showModalState
     const badgesImg = badges.map(badge => !badge ? '' : badge.badge_related_badge_category.badge_related_media.file)
@@ -750,7 +750,7 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
               }
 
               {
-                !editProfile &&
+                !editProfile && clientIdentityId &&
                 <section className='user-sidebar-buttons'>
                   <CheckOwner showForOwner={false} id={paramId}>
                     <div className="sidebarBottomParent">
@@ -850,21 +850,6 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
               {
                 editProfile &&
                 <section className='user-sidebar-buttons'>
-                  <CheckOwner showForOwner={false} id={paramId}>
-                    <div className="sidebarBottomParent">
-                      <Material className="btn btn-outline-secondary sidebarBottom side-user"
-                                content={tr && tr['Send Message']}/>
-                      {showFollow ?
-                          <Material
-                              className="btn btn-outline-secondary sidebarFollowBottom follow-green-button side-user-follow"
-                              onClick={this._createFollow}
-                              content={tr && tr['Follow']}/>
-                          : <div className="followed-text">
-                            {tr && tr['Followed']}
-                          </div>
-                      }
-                    </div>
-                  </CheckOwner>
                   <CheckOwner showForOwner={true} id={paramId}>
                     <div className="sidebarBottomParent">
                       <Material className="btn btn-outline-secondary sidebarBottom side-user"

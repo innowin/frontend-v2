@@ -18,7 +18,7 @@ const ExploreMenu = (props) => {
           </div>
           <div className='explore-menu'>
 
-            <Link style={{textDecoration: 'none', color: 'black'}} to={'/exchange/exchange_explorer'} onClick={_toggle}>
+            <Link style={{textDecoration: 'none', color: 'black'}} to={'/exchanges/exchange_explorer'} onClick={_toggle}>
               <Material className='explore-menu-items' content={
                 <div>
                   <ExchangeIcon className='explore-logos'/> پنجره ها
@@ -26,7 +26,7 @@ const ExploreMenu = (props) => {
               }/>
             </Link>
 
-            <Link style={{textDecoration: 'none', color: 'black'}} to='/users/users_explorer' onClick={_toggle}>
+            <Link style={{textDecoration: 'none', color: 'black'}} to='/users/user_explorer' onClick={_toggle}>
               <Material className='explore-menu-items' content={
                 <div>
                   <Contacts svgClass='explore-logos member-logo' containerClass='explore-logos-container'/> افراد و شرکت ها
@@ -34,7 +34,7 @@ const ExploreMenu = (props) => {
               }/>
             </Link>
 
-            <Link style={{textDecoration: 'none', color: 'black'}} to={'/product/product_explorer'} onClick={_toggle}>
+            <Link style={{textDecoration: 'none', color: 'black'}} to={'/products/product_explorer'} onClick={_toggle}>
               <Material className='explore-menu-items' content={
                 <div>
                   <ContributionIcon className='explore-logos'/> محصولات و نمونه‌کار ها

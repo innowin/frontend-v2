@@ -16,7 +16,7 @@ export function* getPostByIdentity(action) {
   const result = results.COMMON.POST.GET_POST_BY_IDENTITY + postIdentity + Math.random()
   const socketChannel = yield call(api.createSocketChannel, result)
   try {
-    yield fork(api.get, urls.COMMON.POST, result, filter)
+    yield fork(api.get, urls.COMMON.POST, result, filter, true)
     const data = yield take(socketChannel)
     let tempUsersId = []
     for (let i = 0; i < data.length; i++) {

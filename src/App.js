@@ -23,6 +23,8 @@ import GetUserActions from './redux/actions/user/getUserActions'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import SocialActions from './redux/actions/commonActions/socialActions'
+import PostExtendedView from './views/common/post/PostView'
+import constants from './consts/constants'
 
 class App extends React.PureComponent {
   constructor(props) {
@@ -77,19 +79,17 @@ class App extends React.PureComponent {
 
                 <Switch>
                   <PrivateRoute exact path='/' component={Home}/>
-                  <PrivateRoute path='/user/:id' component={User}/>
-                  <PrivateRoute path='/organization/:id' component={Organization}/>
-                  <PropsRoute path='/users/users_explorer' component={User_Explorer}/>
-                  <PropsRoute path='/product/product_explorer' component={ProductExplorer}/>
-                  <PropsRoute path='/exchange/exchange_explorer' component={ExchangeExplorer}/>
-                  <PrivateRoute path='/exchange/:id' component={ExchangeView}/>
+                  <PropsRoute path='/user/:id' component={User}/>
+                  <PropsRoute path='/organization/:id' component={Organization}/>
                   <PrivateRoute path='/product/:id' component={ProductView}/>
+                  <PrivateRoute path='/exchange/:id' component={ExchangeView}/>
                   <PrivateRoute path='/notifications' component={Notifications}/>
-                  {/*<PrivateRoute path='/users/users_explorer' component={User_Explorer}/>*/}
-                  {/*<PrivateRoute path='/product/product_explorer' component={ProductExplorer}/>*/}
-                  {/*<PrivateRoute path='/exchange/exchange_explorer' component={ExchangeExplorer}/>*/}
-                  <PrivateRoute path='*' component={NotFound}/>
+                  <PropsRoute path='/users/user_explorer' component={User_Explorer}/>
+                  <PropsRoute path='/products/product_explorer' component={ProductExplorer}/>
+                  <PropsRoute path='/exchanges/exchange_explorer' component={ExchangeExplorer}/>
+                  <PropsRoute path='*' component={NotFound}/>
                 </Switch>
+
                 <ToastContainer/>
               </div>
             </React.Fragment>

@@ -132,7 +132,7 @@ class HomeSideBar extends PureComponent<PropsHomeSideBar, StateHomeSideBar> {
           <UserDetailPanel/>
           <div className='home-sidebar-cont-title'>
             <div className='home-sidebar-cont-item'>پنجره ها</div>
-            <Link to='/exchange/exchange_Explorer' className='home-sidebar-cont-item-more'>بیشتر</Link>
+            <Link to='/exchanges/exchange_Explorer' className='home-sidebar-cont-item-more'>بیشتر</Link>
           </div>
           <div className='home-sidebar-cont'>
             {

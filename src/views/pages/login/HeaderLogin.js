@@ -23,9 +23,9 @@ const HeaderLogin = ({
           {!(isRegisterPage || isLoginPage) && <div className="logo-caption">{translate['Work Social Media']}</div>}
         </div>
         <div className='links-wrapper'>
-          <Link to='/exchange/exchange_explorer'><h1 className='link-item pulse'>پنجره ها</h1></Link>
-          <Link to='/users/users_explorer'><h1 className='link-item pulse'>افراد و شرکت ها</h1></Link>
-          <Link to='/product/product_explorer'><h1 className='link-item pulse'>محصولات و خدمات</h1></Link>
+          <Link to='/exchanges/exchange_explorer'><h1 className='link-item pulse'>پنجره ها</h1></Link>
+          <Link to='/users/user_explorer'><h1 className='link-item pulse'>افراد و شرکت ها</h1></Link>
+          <Link to='/products/product_explorer'><h1 className='link-item pulse'>محصولات و خدمات</h1></Link>
           {signIn && <h1 className='link-item pulse login-button' onClick={onSignUpClick}>ثبت نام</h1>}
           {!signIn && <h1 className='link-item pulse sign-up-button' onClick={onSignInClick}>ورود</h1>}
         </div>

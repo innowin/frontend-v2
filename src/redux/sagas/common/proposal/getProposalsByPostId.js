@@ -12,7 +12,7 @@ export function* getProposalsByPostId(action) {
   const result = results.COMMON.PROPOSAL.GET_PROPOSALS_BY_POST_ID + postId + Math.random()
   const socketChannel = yield call(api.createSocketChannel, result)
   try {
-    yield fork(api.get, urls.COMMON.PROPOSAL, result, params)
+    yield fork(api.get, urls.COMMON.PROPOSAL, result, params, true)
     let data = yield take(socketChannel)
     for (let i = 0; i < data.length; i++) {
       yield put({type: types.SUCCESS.USER.GET_USER_BY_USER_ID, payload: {data: data[i].proposal_identity, userId: data[i].proposal_identity.id}})

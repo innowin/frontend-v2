@@ -26,10 +26,10 @@ class PostNewProposal extends Component {
     const {currentUser, proposals, loading} = nextProps
     const {isUpdating} = this.state
 
-    if (isUpdating !== false && loading === false && !proposals.reduce((sum, pro) => [...sum, pro.proposal_identity.id], []).includes(currentUser.id)) {
+    if (isUpdating !== false && loading === false && !proposals.reduce((sum, pro) => [...sum, pro.proposal_identity.id], []).includes(currentUser && currentUser.id)) {
       this.setState({...this.state, isUpdating: false})
     }
-    else if (isUpdating !== true && isUpdating !== true && proposals.reduce((sum, pro) => [...sum, pro.proposal_identity.id], []).includes(currentUser.id)) {
+    else if (isUpdating !== true && isUpdating !== true && proposals.reduce((sum, pro) => [...sum, pro.proposal_identity.id], []).includes(currentUser && currentUser.id)) {
       let proposal = null
       proposals.forEach(pro => pro.proposal_identity.id === currentUser.id ? proposal = {...pro} : null)
       this.setState({
@@ -82,72 +82,74 @@ class PostNewProposal extends Component {
   render() {
     const {currentUser, loading, translate} = this.props
     const {isUpdating, description, sendResume, isEdit} = this.state
-    if (isUpdating !== null) {
-      return (
-          <div className='proposal-cont'>
-            {
-              currentUser.profile_media ?
-                  <img alt='profile' src={currentUser.profile_media.file} className='comment-owner'/>
-                  :
-                  <DefaultUserIcon className='comment-owner'/>
-            }
-            <div className='proposal-send-box'>
-              <textarea value={description} className='proposal-send-textarea' placeholder='ارسال پیشنهاده ...' onChange={this.changeDescription}/>
-              <div className='proposal-send-profile'>
+    if (currentUser)
+      if (isUpdating !== null) {
+        return (
+            <div className='proposal-cont'>
+              {
+                currentUser.profile_media ?
+                    <img alt='profile' src={currentUser.profile_media.file} className='comment-owner'/>
+                    :
+                    <DefaultUserIcon className='comment-owner'/>
+              }
+              <div className='proposal-send-box'>
+                <textarea value={description} className='proposal-send-textarea' placeholder='ارسال پیشنهاده ...' onChange={this.changeDescription}/>
+                <div className='proposal-send-profile'>
+                  {
+                    currentUser.profile_media ?
+                        <img alt='profile' src={currentUser.profile_media.file} className='proposal-owner'/>
+                        :
+                        <DefaultUserIcon className='proposal-owner'/>
+                  }
+                  <div className='proposal-send-profile-content'>
+                    <div>{currentUser.first_name || currentUser.last_name ? currentUser.first_name + ' ' + currentUser.last_name : currentUser.nike_name || currentUser.official_name}</div>
+                    <div className='proposal-send-profile-content-desc'>{currentUser.description || currentUser.biography}</div>
+                  </div>
+                </div>
+
                 {
-                  currentUser.profile_media ?
-                      <img alt='profile' src={currentUser.profile_media.file} className='proposal-owner'/>
-                      :
-                      <DefaultUserIcon className='proposal-owner'/>
+                  sendResume ?
+                      currentUser.related_cv || currentUser.related_catalog ?
+                          <div className='proposal-send-profile'>
+                            <div className='proposal-resume'>
+                              <CurriculumSvg className='proposal-resume-logo'/>
+                            </div>
+                            <div className='proposal-send-profile-content'>
+                              <div className='proposal-resume-observe'>
+                                <span>مشاهده</span>
+                                <span className='resume-close' onClick={this.dontSendResume}>✕</span>
+                              </div>
+                              <div className='proposal-resume-download'>
+                                <a href={currentUser.related_cv ? currentUser.related_cv.file : currentUser.related_catalog.file}>
+                                  <AttachmentSvg/>دانلود فایل {currentUser.related_cv ? 'رزومه' : 'کاتالوگ'}
+                                </a>
+                              </div>
+                            </div>
+                          </div>
+                          :
+                          <div className='proposal-resume-cont' onClick={this._toggleEdit}>
+                            <div className='proposal-resume'>
+                              <UploadLogo className='proposal-resume-logo'/>
+                            </div>
+                            <div className='proposal-send-profile-content'>
+                              <div className='proposal-resume-not-exist'>شما فایل رزومه بارگزاری نکرده اید.</div>
+                              <div className='proposal-resume-upload'><AttachmentSvg/>بارگزاری فایل رزومه</div>
+                            </div>
+                          </div>
+                      : null
                 }
-                <div className='proposal-send-profile-content'>
-                  <div>{currentUser.first_name || currentUser.last_name ? currentUser.first_name + ' ' + currentUser.last_name : currentUser.nike_name || currentUser.official_name}</div>
-                  <div className='proposal-send-profile-content-desc'>{currentUser.description || currentUser.biography}</div>
+
+                <div onClick={this.submit}>
+                  <PostSendIcon className='proposal-send-btn'/>
                 </div>
               </div>
-
-              {
-                sendResume ?
-                    currentUser.related_cv || currentUser.related_catalog ?
-                        <div className='proposal-send-profile'>
-                          <div className='proposal-resume'>
-                            <CurriculumSvg className='proposal-resume-logo'/>
-                          </div>
-                          <div className='proposal-send-profile-content'>
-                            <div className='proposal-resume-observe'>
-                              <span>مشاهده</span>
-                              <span className='resume-close' onClick={this.dontSendResume}>✕</span>
-                            </div>
-                            <div className='proposal-resume-download'>
-                              <a href={currentUser.related_cv ? currentUser.related_cv.file : currentUser.related_catalog.file}>
-                                <AttachmentSvg/>دانلود فایل {currentUser.related_cv ? 'رزومه' : 'کاتالوگ'}
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                        :
-                        <div className='proposal-resume-cont' onClick={this._toggleEdit}>
-                          <div className='proposal-resume'>
-                            <UploadLogo className='proposal-resume-logo'/>
-                          </div>
-                          <div className='proposal-send-profile-content'>
-                            <div className='proposal-resume-not-exist'>شما فایل رزومه بارگزاری نکرده اید.</div>
-                            <div className='proposal-resume-upload'><AttachmentSvg/>بارگزاری فایل رزومه</div>
-                          </div>
-                        </div>
-                    : null
-              }
-
-              <div onClick={this.submit}>
-                <PostSendIcon className='proposal-send-btn'/>
-              </div>
+              {loading === true && <div className='proposal-loading'><BarLoader color='#d8d9dc' size={35}/></div>}
+              {isEdit && <ResumeForm toggleEdit={this._toggleEdit} translate={translate} owner={currentUser}/>}
             </div>
-            {loading === true && <div className='proposal-loading'><BarLoader color='#d8d9dc' size={35}/></div>}
-            {isEdit && <ResumeForm toggleEdit={this._toggleEdit} translate={translate} owner={currentUser}/>}
-          </div>
-      )
-    }
-    else return <div className='proposal-loading-down'><BarLoader color='#d8d9dc' size={35}/></div>
+        )
+      }
+      else return <div className='proposal-loading-down'><BarLoader color='#d8d9dc' size={35}/></div>
+    else return <div className='proposal-loading-down'>لطفا ابتدا عضو شوید!</div>
   }
 }
 

@@ -8,7 +8,7 @@ export function* getProductsByIdentity(action) {
   const {productOwnerId} = action.payload
   const socketChannel = yield call(api.createSocketChannel, results.COMMON.PRODUCT.GET_PRODUCTS_BY_IDENTITY)
   try {
-    yield fork(api.get, urls.COMMON.PRODUCT, results.COMMON.PRODUCT.GET_PRODUCTS_BY_IDENTITY, `?product_owner=${productOwnerId}`)
+    yield fork(api.get, urls.COMMON.PRODUCT, results.COMMON.PRODUCT.GET_PRODUCTS_BY_IDENTITY, `?product_owner=${productOwnerId}`, true)
     const data = yield take(socketChannel)
     for (let i = 0; i < data.length; i++) {
       yield put({type: types.SUCCESS.USER.GET_USER_BY_USER_ID, payload: {data: {...data[i].product_owner}, userId: data[i].product_owner.id}})

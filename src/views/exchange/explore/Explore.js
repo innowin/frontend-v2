@@ -102,7 +102,7 @@ class Explore extends PureComponent {
 
     return (
         <div className='all-exchanges-parent'>
-          <MobileHeader search={this._search} path='/exchange/Exchange_Explorer/search'/>
+          <MobileHeader search={this._search} path='/exchanges/Exchange_Explorer/search'/>
           <Sidebar HashTags={HashTags} tags={tags} searchByTags={this._searchByTags} search={this._search} justFollowing={this._justFollowing}/>
           <div className='all-exchanges-container'>
             <Exchanges exchanges={allExchanges} justFollowing={justFollowing} loading={loading} followed={followed}/>
