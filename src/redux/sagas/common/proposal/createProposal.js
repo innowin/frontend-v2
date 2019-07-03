@@ -7,16 +7,18 @@ import constants from 'src/consts/constants'
 import uuid from 'uuid'
 
 export function* createProposal(action) {
-  const {description, identityId, postId} = action.payload
+  const {description, identityId, postId, fileId} = action.payload
   const formValues = {
     proposal_description: description,
     proposal_identity: identityId,
     proposal_parent: postId,
+    proposal_file: fileId,
   }
   const socketChannel = yield call(api.createSocketChannel, results.COMMON.PROPOSAL.CREATE_PROPOSAL)
   try {
     yield fork(api.post, urls.COMMON.PROPOSAL, results.COMMON.PROPOSAL.CREATE_PROPOSAL, formValues)
     const data = yield take(socketChannel)
+    console.log('data after create: ', data)
     data.proposal_identity = identityId
     yield put({type: types.SUCCESS.COMMON.PROPOSAL.CREATE_PROPOSAL, payload: {data, postId}})
 

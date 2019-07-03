@@ -1,9 +1,11 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {DefaultUserIcon, PostSendIcon} from 'src/images/icons'
+import {AttachmentSvg, CurriculumSvg, DefaultUserIcon, PostSendIcon, UploadLogo} from 'src/images/icons'
 import ProposalsActions from 'src/redux/actions/commonActions/proposalActions'
 import {bindActionCreators} from 'redux'
 import {BarLoader} from 'react-spinners'
+import ResumeForm from '../../user/aboutMe/resume/ResumeForm'
+import {getMessages} from '../../../redux/selectors/translateSelector'
 
 class PostNewProposal extends Component {
   constructor(props) {
@@ -12,9 +14,12 @@ class PostNewProposal extends Component {
       description: '',
       isUpdating: null,
       id: null,
+      sendResume: true,
+      isEdit: false,
     }
     this.changeDescription = this.changeDescription.bind(this)
     this.submit = this.submit.bind(this)
+    this.dontSendResume = this.dontSendResume.bind(this)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -27,7 +32,13 @@ class PostNewProposal extends Component {
     else if (isUpdating !== true && isUpdating !== true && proposals.reduce((sum, pro) => [...sum, pro.proposal_identity.id], []).includes(currentUser.id)) {
       let proposal = null
       proposals.forEach(pro => pro.proposal_identity.id === currentUser.id ? proposal = {...pro} : null)
-      this.setState({...this.state, isUpdating: true, id: proposal.id, description: proposal ? proposal.proposal_description : ''})
+      this.setState({
+        ...this.state,
+        isUpdating: true,
+        id: proposal.id,
+        description: proposal ? proposal.proposal_description : '',
+        sendResume: proposal && proposal.proposal_file,
+      })
     }
   }
 
@@ -35,21 +46,42 @@ class PostNewProposal extends Component {
     this.setState({...this.state, description: e.target.value})
   }
 
+  dontSendResume() {
+    this.setState({...this.state, sendResume: false})
+  }
+
+  _toggleEdit = () => {
+    const {isEdit} = this.state
+    this.setState({...this.state, isEdit: !isEdit})
+  }
+
   submit() {
     const {actions, currentUser, postId, loading, showProposals} = this.props
-    const {description, isUpdating, id} = this.state
+    const {description, isUpdating, id, sendResume} = this.state
     if (loading === false && isUpdating !== null) {
       this.setState({...this.state, isUpdating: null, id: null}, () => {
-        if (isUpdating === true) actions.updateProposal({proposal_identity: currentUser.id, proposal_description: description}, id)
-        else actions.createProposal(description, currentUser.id, postId)
+        if (isUpdating === true) actions.updateProposal(
+            {
+              proposal_identity: currentUser.id, proposal_description: description,
+              proposal_file: sendResume && (currentUser.related_cv || currentUser.related_catalog) ?
+                  currentUser.related_cv ? currentUser.related_cv.id : currentUser.related_catalog.id
+                  : null,
+            }, id,
+        )
+        else actions.createProposal(
+            description, currentUser.id, postId,
+            sendResume && (currentUser.related_cv || currentUser.related_catalog) ?
+                currentUser.related_cv ? currentUser.related_cv.id : currentUser.related_catalog.id
+                : null,
+        )
         setTimeout(() => showProposals(), 1000)
       })
     }
   }
 
   render() {
-    const {currentUser, loading} = this.props
-    const {isUpdating, description} = this.state
+    const {currentUser, loading, translate} = this.props
+    const {isUpdating, description, sendResume, isEdit} = this.state
     if (isUpdating !== null) {
       return (
           <div className='proposal-cont'>
@@ -73,11 +105,45 @@ class PostNewProposal extends Component {
                   <div className='proposal-send-profile-content-desc'>{currentUser.description || currentUser.biography}</div>
                 </div>
               </div>
+
+              {
+                sendResume ?
+                    currentUser.related_cv || currentUser.related_catalog ?
+                        <div className='proposal-send-profile'>
+                          <div className='proposal-resume'>
+                            <CurriculumSvg className='proposal-resume-logo'/>
+                          </div>
+                          <div className='proposal-send-profile-content'>
+                            <div className='proposal-resume-observe'>
+                              <span>مشاهده</span>
+                              <span className='resume-close' onClick={this.dontSendResume}>✕</span>
+                            </div>
+                            <div className='proposal-resume-download'>
+                              <a href={currentUser.related_cv ? currentUser.related_cv.file : currentUser.related_catalog.file}>
+                                <AttachmentSvg/>دانلود فایل {currentUser.related_cv ? 'رزومه' : 'کاتالوگ'}
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                        :
+                        <div className='proposal-resume-cont' onClick={this._toggleEdit}>
+                          <div className='proposal-resume'>
+                            <UploadLogo className='proposal-resume-logo'/>
+                          </div>
+                          <div className='proposal-send-profile-content'>
+                            <div className='proposal-resume-not-exist'>شما فایل رزومه بارگزاری نکرده اید.</div>
+                            <div className='proposal-resume-upload'><AttachmentSvg/>بارگزاری فایل رزومه</div>
+                          </div>
+                        </div>
+                    : null
+              }
+
               <div onClick={this.submit}>
                 <PostSendIcon className='proposal-send-btn'/>
               </div>
             </div>
             {loading === true && <div className='proposal-loading'><BarLoader color='#d8d9dc' size={35}/></div>}
+            {isEdit && <ResumeForm toggleEdit={this._toggleEdit} translate={translate} owner={currentUser}/>}
           </div>
       )
     }
@@ -91,6 +157,7 @@ const mapStateToProps = (state) => {
   const currentUser = identities[identityId]
   return {
     currentUser,
+    translate: getMessages(state),
   }
 }
 

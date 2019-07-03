@@ -22,8 +22,7 @@ import makeProductSelectorById from 'src/redux/selectors/common/product/getProdu
 import ProposalsActions from 'src/redux/actions/commonActions/proposalActions'
 import PostNewProposal from './PostNewProposal'
 import {ProposalsSelector} from 'src/redux/selectors/common/proposal/proposalSelector'
-import {DefaultUserIcon} from 'src/images/icons'
-import Moment from 'react-moment'
+import Proposals from './Proposals'
 
 class PostView extends React.PureComponent {
   static propTypes = {
@@ -393,39 +392,7 @@ class PostView extends React.PureComponent {
 
             {
               proposals && clientIdentity === postIdentity.id && extendedView &&
-              <div>
-                <div className='post-proposal-title'>پیشنهاده ها</div>
-                <div className='post-proposal-container'>
-                  {
-                    proposals.map((proposal, index) =>
-                        <div key={index} className='post-proposal-content'>
-                          <Link to={`/${proposal.proposal_identity.identity_type}/${proposal.proposal_identity.id}`} className='post-proposal-profile link-post-decoration'>
-                            {
-                              proposal.proposal_identity.profile_media ?
-                                  <img alt='profile' src={proposal.proposal_identity.profile_media.file} className='comment-owner'/>
-                                  :
-                                  <DefaultUserIcon className='comment-owner'/>
-                            }
-                            <div className='post-proposal-content-profile'>
-                              {
-                                proposal.proposal_identity.first_name || proposal.proposal_identity.last_name
-                                    ? proposal.proposal_identity.first_name + ' ' + proposal.proposal_identity.last_name :
-                                    proposal.proposal_identity.nike_name || proposal.proposal_identity.official_name
-                              }
-                              <span>   </span>
-                              <span className='proposal-send-profile-content-desc'>{proposal.proposal_identity.username}</span>
-                              <span>   </span>
-                              <div className='display-inline-block proposal-send-profile-content-desc'><Moment element='span' fromNow ago>{proposal.updated_time}</Moment></div>
-                            </div>
-                          </Link>
-                          <div className='post-proposal-content-desc' style={{direction: new RegExp('^[A-Za-z]*$').test(proposal.proposal_description && proposal.proposal_description[0]) ? 'ltr' : 'rtl'}}>
-                            {proposal.proposal_description}
-                          </div>
-                        </div>,
-                    )
-                  }
-                </div>
-              </div>
+              <Proposals proposals={proposals}/>
             }
 
           </div>

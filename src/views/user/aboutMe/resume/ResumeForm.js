@@ -123,7 +123,7 @@ class ResumeForm extends React.Component<Props, States> {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
   return {
     newResume: state.temp.file[constants.TEMP_FILE_KEYS.RESUME],
   }

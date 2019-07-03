@@ -14,8 +14,10 @@ export function* createFollow(action) {
   try {
     yield fork(api.post, urls.COMMON.SOCIAL.FOLLOW, results.COMMON.SOCIAL.CREATE_FOLLOW, {follow_followed: formValues.follow_followed})
     const data = yield take(socketChannel)
-    yield put({type: types.SUCCESS.COMMON.SOCIAL.CREATE_FOLLOW, payload: {data, followOwnerId: parseInt(formValues.follow_followed, 10)}})
-    yield put({type: types.SUCCESS.COMMON.SOCIAL.CREATE_FOLLOW, payload: {data, followOwnerId: parseInt(formValues.follow_follower, 10)}})
+    data.follow_followed = parseInt(data.follow_followed, 10)
+    data.follow_follower = parseInt(data.follow_follower, 10)
+    yield put({type: types.SUCCESS.COMMON.SOCIAL.CREATE_FOLLOW, payload: {data, followOwnerId: data.follow_followed}})
+    yield put({type: types.SUCCESS.COMMON.SOCIAL.CREATE_FOLLOW, payload: {data, followOwnerId: data.follow_follower}})
     yield put({
       type: types.TOAST.ADD_TOAST,
       payload: {

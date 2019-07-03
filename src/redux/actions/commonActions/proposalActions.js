@@ -1,8 +1,8 @@
 import types from '../types'
 
-const createProposal = (description, identityId, postId) => ({
+const createProposal = (description, identityId, postId, fileId) => ({
   type: types.COMMON.PROPOSAL.CREATE_PROPOSAL,
-  payload: {description, identityId, postId},
+  payload: {description, identityId, postId, fileId},
 })
 
 const updateProposal = (formValues, proposalId) => ({
@@ -18,7 +18,7 @@ const getProposalsByPostId = (postId, limit, offset) => ({
 const ProposalsActions = {
   getProposalsByPostId,
   createProposal,
-  updateProposal
+  updateProposal,
 }
 
 export default ProposalsActions
