@@ -5,7 +5,7 @@ import ProposalsActions from 'src/redux/actions/commonActions/proposalActions'
 import {bindActionCreators} from 'redux'
 import {BarLoader} from 'react-spinners'
 import ResumeForm from '../../user/aboutMe/resume/ResumeForm'
-import {getMessages} from '../../../redux/selectors/translateSelector'
+import {getMessages} from 'src/redux/selectors/translateSelector'
 
 class PostNewProposal extends Component {
   constructor(props) {
@@ -59,25 +59,23 @@ class PostNewProposal extends Component {
     const {actions, currentUser, postId, loading, showProposals} = this.props
     const {description, isUpdating, id, sendResume} = this.state
     if (loading === false && isUpdating !== null) {
-      this.setState({...this.state, isUpdating: null, id: null}, () => {
-        if (isUpdating === true) actions.updateProposal(
-            {
-              proposal_identity: currentUser.id,
-              proposal_parent: postId,
-              proposal_description: description,
-              proposal_file: sendResume && (currentUser.related_cv || currentUser.related_catalog) ?
-                  currentUser.related_cv ? currentUser.related_cv.id : currentUser.related_catalog.id
-                  : null,
-            }, id,
-        )
-        else actions.createProposal(
-            description, currentUser.id, postId,
-            sendResume && (currentUser.related_cv || currentUser.related_catalog) ?
+      if (isUpdating === true) actions.updateProposal(
+          {
+            proposal_identity: currentUser.id,
+            proposal_parent: postId,
+            proposal_description: description,
+            proposal_file: sendResume && (currentUser.related_cv || currentUser.related_catalog) ?
                 currentUser.related_cv ? currentUser.related_cv.id : currentUser.related_catalog.id
                 : null,
-        )
-        setTimeout(() => showProposals(), 1000)
-      })
+          }, id,
+      )
+      else actions.createProposal(
+          description, currentUser.id, postId,
+          sendResume && (currentUser.related_cv || currentUser.related_catalog) ?
+              currentUser.related_cv ? currentUser.related_cv.id : currentUser.related_catalog.id
+              : null,
+      )
+      setTimeout(() => showProposals(), 1000)
     }
   }
 

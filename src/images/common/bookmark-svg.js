@@ -1,7 +1,7 @@
 import React from 'react'
 
 const BookmarkSvg = (props) => (
-    <svg className={props.className} viewBox="0 0 14.946 24">
+    <svg className={props.className} viewBox="0 0 14.946 24" onClick={props.onClick}>
       <g transform="translate(-67.842)">
         <g data-name="Group 770" transform="translate(67.842)">
           <g data-name="Group 769" transform="translate(0)">

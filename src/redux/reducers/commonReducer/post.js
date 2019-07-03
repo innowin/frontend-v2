@@ -47,6 +47,9 @@ const post = (state = initialState.common.post, action) => {
       return slices.createProposal.base(state, action)
     case types.SUCCESS.COMMON.PROPOSAL.CREATE_PROPOSAL:
       return slices.createProposal.success(state, action)
+      /** -------------------------- update proposals by parent id -------------------------> **/
+    case types.COMMON.PROPOSAL.UPDATE_PROPOSAL:
+      return slices.updateProposal.base(state, action)
       /** -------------------------- create comment -------------------------> **/
     case types.SUCCESS.COMMON.COMMENT.CREATE_COMMENT:
       return slices.createComment.success(state, action)

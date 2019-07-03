@@ -259,7 +259,7 @@ class PostView extends React.PureComponent {
   }
 
   render() {
-    if (this.props.postIdentity && this.props.post) {
+    if (this.props.postIdentity && this.props.post && this.props.post.id) {
       const {
         post, translate, postIdentity, postRelatedIdentityImage, postRelatedProduct,
         clientIdentity, extendedView, showEdit, comments, proposalLoading, proposals,

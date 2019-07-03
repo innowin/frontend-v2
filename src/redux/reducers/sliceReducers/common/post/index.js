@@ -7,6 +7,7 @@ import filterPostsByPostRelatedProduct from "./filterPostsByPostRelatedProduct"
 import getCommentsByParentId from './getCommentsByParentId'
 import getProposalsByPostId from './getProposalsByPostId'
 import createProposal from './createProposal'
+import updateProposal from './updateProposal'
 import getFileByRelatedParentId from './getFileByRelatedParentId'
 import getPost from './getPost'
 import getPostByIdentity from './getPostByIdentity'
@@ -27,6 +28,7 @@ export default {
   getCommentsByParentId,
   getProposalsByPostId,
   createProposal,
+  updateProposal,
   getFileByRelatedParentId,
   getPost,
   getPostByIdentity,

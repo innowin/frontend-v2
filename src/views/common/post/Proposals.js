@@ -2,10 +2,38 @@ import React from 'react'
 import {Link} from 'react-router-dom'
 import {AttachmentSvg, BookmarkSvg, DefaultUserIcon, Organization, UnBookmarkSvg, User as UserIcon} from '../../../images/icons'
 import Moment from 'react-moment'
+import {bindActionCreators} from 'redux'
 import constants from 'src/consts/constants'
+import ProposalsActions from 'src/redux/actions/commonActions/proposalActions'
+import {connect} from 'react-redux'
 
 const Proposals = (props) => {
   const {proposals} = props
+
+  const unBookmark = (proposal) => {
+    const {actions} = props
+    actions.updateProposal(
+        {
+          proposal_identity: proposal.proposal_identity,
+          proposal_parent: proposal.proposal_parent,
+          proposal_bookmarked: false,
+        },
+        proposal.id,
+    )
+  }
+
+  const Bookmark = (proposal) => {
+    const {actions} = props
+    actions.updateProposal(
+        {
+          proposal_identity: proposal.proposal_identity,
+          proposal_parent: proposal.proposal_parent,
+          proposal_bookmarked: true,
+        },
+        proposal.id,
+    )
+  }
+
   return (
       <div>
         <div className='post-proposal-title'>پیشنهاده ها</div>
@@ -37,7 +65,9 @@ const Proposals = (props) => {
                   </div>
                   <div className='post-proposal-footer'>
                     {
-                      proposal.bookmarked ? <BookmarkSvg className='post-proposal-bookmark'/> : <UnBookmarkSvg className='post-proposal-bookmark'/>
+                      proposal.proposal_bookmarked ?
+                          <BookmarkSvg className='post-proposal-bookmark' onClick={() => unBookmark(proposal)}/>
+                          : <UnBookmarkSvg className='post-proposal-bookmark' onClick={() => Bookmark(proposal)}/>
                     }
                     {
                       proposal.proposal_file ?
@@ -58,4 +88,12 @@ const Proposals = (props) => {
   )
 }
 
-export default Proposals
+
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators({
+    createProposal: ProposalsActions.createProposal,
+    updateProposal: ProposalsActions.updateProposal,
+  }, dispatch),
+})
+
+export default connect(null, mapDispatchToProps)(Proposals)
