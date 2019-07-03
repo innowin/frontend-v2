@@ -10,7 +10,7 @@ const PostMenu = (props) => {
   const postUrl = `/${postIdentity.identity_type}/${ownerId}/Posts/${post.id}`
 
   return (
-      <div className='items'>
+      <div className='items post-footer-menu'>
         <div className='items cursor-pointer post-menu-bottom bubble-more more-option-svg-container' onClick={openMenu}>
           <MoreOptionSvg className="more-option-svg"/>
         </div>

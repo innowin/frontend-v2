@@ -1,20 +1,7 @@
 @import "../../../../variables";
 
 @media screen and (max-width: 480px) and (min-width: 0) {
-  .more-option-svg-container {
+  .post-footer-menu {
     display: none;
-  }
-
-  .comment-svg-container {
-    .comment-svg .like-svg .liked-svg {
-      position: absolute;
-      left: -17px;
-    }
-
-    & > span {
-      position: absolute;
-      right: 35px;
-      font-size: 4mm;
-    }
   }
 }
