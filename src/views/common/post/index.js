@@ -37,7 +37,10 @@ class Posts extends React.PureComponent {
   }
 
   render() {
-    const {posts, updatePost, deletePost} = this.props
+    const {offset} = this.state
+    const {updatePost, deletePost} = this.props
+    const posts = this.props.posts.slice(0, offset)
+
     return (
         <div className="-frameCardPost user-posts">
           <div className='list-group list-group-flush'>

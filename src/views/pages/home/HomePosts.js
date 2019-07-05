@@ -126,9 +126,10 @@ class HomePosts extends PureComponent {
   }
 
   render() {
-    const {showCreatePostSmall, hideTopBar, averageColor} = this.state
-    const {actions, className, exchangeId, posts, selectedExchange, unSetExchangeId, exchangePage, isLoading, identityMemberships, exchangeMemberships} = this.props
+    const {showCreatePostSmall, hideTopBar, averageColor, offset} = this.state
+    const {actions, className, exchangeId, selectedExchange, unSetExchangeId, exchangePage, isLoading, identityMemberships, exchangeMemberships} = this.props
     const {deletePost, updatePost} = actions
+    const posts = this.props.posts.slice(0, offset)
 
     return (
         <div className={className}>
