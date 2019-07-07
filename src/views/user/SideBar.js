@@ -518,11 +518,9 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
       processingBanner, profileBannerId, profileMediaId, showModalState, editName, editLastName,
       editBirthDate, editTelegram, editInstagram, editLinkedIn, editTwitter, editStatus, editStatusTitle,
     } = this.state
-    const {sideBarType, badges, translate: tr, paramId, followees, owner, bannerIdTemp, pictureIdTemp, actions, temp, countries, clientIdentityId} = this.props
+    const {sideBarType, translate: tr, paramId, followees, owner, bannerIdTemp, pictureIdTemp, actions, temp, countries, clientIdentityId} = this.props
     const {createWorkExperience, createEducation, createCertificate, createSkill, createResearch} = actions
     const {add, education, research, certificate, skill, workExperience, catalog} = showModalState
-    const badgesImg = badges.map(badge => !badge ? '' : badge.badge_related_badge_category.badge_related_media.file)
-    const chosenBadgesImg = badgesImg.slice(0, 4)
     const showFollow = !followees.map(follower => follower.follow_followed && follower.follow_followed.id ? follower.follow_followed.id : parseInt(follower.follow_followed, 10)).includes(owner.id)
     const bannerString = selectedBanner || (owner.profile_banner && owner.profile_banner.file)
     const pictureString = selectedImage || (owner.profile_media && owner.profile_media.file)
@@ -682,16 +680,6 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
                 }
 
               </div>
-              {
-                chosenBadgesImg.length > 0 &&
-                <div className="badgesCard">
-                  {
-                    chosenBadgesImg.map((badgeImg, i) =>
-                        <span key={i + 'BadgesCard'}><img src={badgeImg} alt=""/></span>,
-                    )
-                  }
-                </div>
-              }
 
               {
                 (owner.work_status || editProfile) &&

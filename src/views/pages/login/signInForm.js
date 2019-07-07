@@ -70,6 +70,7 @@ class PureSignInForm extends React.Component {
             <span>{translator['Forgot Password']}</span>
             <span className='recovery-button pulse' onClick={recoveryPasswordClick}>{translator['Recovery']}</span>
           </div>
+          <a href="https://back.beta.innowin.ir/auth/login/google-oauth2/">Login with Google</a>
         </form>
     )
   }
@@ -113,7 +114,7 @@ class SignInForm extends Component {
         .catch(
             (errorMessage) => {
               throw new SubmissionError({_error: translator[errorMessage]})
-            }
+            },
         )
   }
 
@@ -134,14 +135,14 @@ class SignInForm extends Component {
 const mapStateToProps = state => ({
   translator: getMessages(state),
   location: state.router.location,
-  isLoggedIn: state.auth.client.isLoggedIn
+  isLoggedIn: state.auth.client.isLoggedIn,
 })
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     signIn: AuthActions.signIn,
     checkUsername: CheckUsernameAction.checkUsername,
-    push: routerActions.push
-  }, dispatch)
+    push: routerActions.push,
+  }, dispatch),
 })
 
 SignInForm = reduxForm({
@@ -149,7 +150,7 @@ SignInForm = reduxForm({
   validate: validateSignInForm,
   asyncValidate: asyncValidateSignIn,
   asyncBlurFields: ['username'],
-  destroyOnUnmount: false
+  destroyOnUnmount: false,
 })(SignInForm)
 
 SignInForm = connect(mapStateToProps, mapDispatchToProps)(SignInForm)

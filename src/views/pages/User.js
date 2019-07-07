@@ -69,34 +69,27 @@ class User extends Component<PropsUser, StatesUser> {
     this.firstGetBadges = true
   }
 
-  componentDidUpdate(prevProps) {
-    const {params} = this.props.match
-    const userId: number = +params.id
-    const {userObject, actions} = this.props
-    const {getUserByUserId, setParamUserId} = actions
-
-    if (+prevProps.match.params.id !== userId) {
-      getUserByUserId(userId)
-      setParamUserId({id: userId})
-    }
-
-    if (this.firstGetBadges && userObject.id && prevProps.userObject !== userObject) {
-      const {params} = this.props.match
-      const userId: number = +params.id
-      const {getUserBadges} = actions
-      getUserBadges(userId, userObject.id)
-      this.firstGetBadges = false
-    }
-  }
-
   componentDidMount() {
     const {params} = this.props.match
-    const {getUserByUserId, setParamUserId, getProducts} = this.props.actions
-    const userId: number = +params.id
+    const {getUserByUserId, setParamUserId, getProducts, getUserBadges} = this.props.actions
+    const userId = +params.id
     getUserByUserId(userId)
     setParamUserId({id: userId})
     getProducts({productOwnerId: userId})
+    getUserBadges(userId, userId)
     document.addEventListener('scroll', this._onScroll)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.match.params.id !== nextProps.match.params.id) {
+      const {params} = nextProps.match
+      const {getUserByUserId, setParamUserId, getProducts, getUserBadges} = nextProps.actions
+      const userId = +params.id
+      getUserByUserId(userId)
+      setParamUserId({id: userId})
+      getProducts({productOwnerId: userId})
+      getUserBadges(userId, userId)
+    }
   }
 
   componentWillUnmount() {
@@ -107,10 +100,8 @@ class User extends Component<PropsUser, StatesUser> {
 
   _onScroll = () => {
     if (window.innerWidth <= 480) {
-      if (window.scrollY > 350)
-        this.setState({...this.state, showSecondHeader: true})
-      else
-        this.setState({...this.state, showSecondHeader: false})
+      if (window.scrollY > 350) this.setState({...this.state, showSecondHeader: true})
+      else this.setState({...this.state, showSecondHeader: false})
     }
   }
 
@@ -145,7 +136,6 @@ class User extends Component<PropsUser, StatesUser> {
                   <div className={showSecondHeader ? '-main page-content has-two-header' : '-main page-content'}>
                     <SideBarContent
                         sideBarType={constants.USER_TYPES.USER}
-                        badges={badges}
                         paramId={userId}
                         owner={userObject}
                     />
@@ -215,6 +205,7 @@ class User extends Component<PropsUser, StatesUser> {
                                       component={UserAboutMe}
                                       userId={userId}
                                       user={userObject}
+                                      badges={badges}
                         />
                         <PrivateRoute path={`${path}/Exchanges`}
                                       component={Exchanges}

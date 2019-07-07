@@ -32,6 +32,7 @@ import {userCertificatesSelector} from 'src/redux/selectors/common/certificate/u
 import OrganizationActions from 'src/redux/actions/organization/organizationActions'
 import type {organizationType} from 'src/consts/flowTypes/organization/organization'
 import getSearchedOrganizationsSelector from 'src/redux/selectors/organization/getOrganizationsFilterByOfficialName'
+import Badges from './badges'
 
 
 type OrganAboutMeProps = {
@@ -75,14 +76,15 @@ type OrganAboutMeProps = {
 }
 
 const UserAboutMe = (props: OrganAboutMeProps) => {
-  const {translate, user, actions, products, certificates, educations, workExperiences, researches, skills, searchedOrganizations} = props
+  const {translate, user, actions, products, certificates, educations, workExperiences, researches, skills, searchedOrganizations, badges} = props
   const {
     getCertificatesByIdentity, createCertificate, updateCertificate,
     createEducation, updateEducation, getEducations, getWorkExperiences, createWorkExperience, updateWorkExperience,
     updateResearch, getResearches, createResearch, updateSkill, getSkills, createSkill, deleteSkill, deleteEducation,
     deleteWorkExperience, deleteResearch, deleteCertificate, deleteFile, updateUser, getOrganizationsFilterByOfficialName,
-    emptySearchedOrganization
+    emptySearchedOrganization,
   } = actions
+
   return (
       <div className="about-us">
         <Education deleteEducation={deleteEducation} updateEducation={updateEducation} translate={translate}
@@ -112,6 +114,9 @@ const UserAboutMe = (props: OrganAboutMeProps) => {
 
         <Research updateResearch={updateResearch} translate={translate} owner={user} researches={researches}
                   getResearches={getResearches} deleteResearch={deleteResearch} createResearch={createResearch}/>
+
+        <Badges badges={badges}/>
+
       </div>
   )
 }

@@ -68,6 +68,15 @@ class PostView extends React.PureComponent {
     const {extendedView, post, actions} = this.props
 
     if (extendedView) {
+      setTimeout(() => {
+        if (this.post && document.body.clientWidth < 480) {
+          const rect = this.post.getBoundingClientRect()
+          window.scroll({
+            top: window.scrollY + rect.top - 40,
+            behavior: 'smooth',
+          })
+        }
+      }, 500)
       const {getCommentsByParentId, getPost, getProposals} = actions
       const {match, ownerId} = this.props
       getCommentsByParentId({parentId: match.params.id, commentParentType: constants.COMMENT_PARENT.POST})
@@ -266,7 +275,7 @@ class PostView extends React.PureComponent {
       const postFilesArray = post.post_files_array
 
       return (
-          <div className='-itemWrapperPost'>
+          <div ref={e => this.post = e} className='-itemWrapperPost'>
             {extendedView && <CategoryTitle title={translate['Single post']}/>}
             <div className={extendedView ? 'post-view-container' : ''}>
               {
