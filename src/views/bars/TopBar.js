@@ -469,12 +469,9 @@ class TopBar extends PureComponent<PropsTopBar, StatesTopBar> {
                             }
                           </div>
                           <div className='profile-menu-profile-section-next-image'>
-                            <div
-                                className='profile-menu-profile-section-next-image-first'>{clientName}</div>
-                            <div
-                                className='profile-menu-profile-section-next-image-middle'>@{clientIdentity && clientIdentity.username}</div>
-                            <div
-                                className='profile-menu-profile-section-next-image-last'>{topBarTranslate['Edit Profile']}</div>
+                            <div className='profile-menu-profile-section-next-image-first'>{clientName}</div>
+                            <div className='profile-menu-profile-section-next-image-middle'>@{clientIdentity && (clientIdentity.nike_name || clientIdentity.username)}</div>
+                            <div className='profile-menu-profile-section-next-image-last'>{topBarTranslate['Edit Profile']}</div>
                           </div>
                         </div>
                       }/>

@@ -14,7 +14,7 @@ const Products = (props) => {
 
   if (catLevel1 !== 0) {
     if (catLevel3 !== 0) {
-      products = products.filter(cat => cat.product_category && cat.product_category.id === catLevel3)
+      products = products.filter(cat => cat.product_category && cat.product_category === catLevel3)
     }
     else if (catLevel2 !== 0) {
       let categories = {}
@@ -23,7 +23,7 @@ const Products = (props) => {
           categories[cat.id] = true
         }
       })
-      products = products.filter(cat => categories[cat.product_category && cat.product_category.id])
+      products = products.filter(cat => categories[cat.product_category])
     }
     else if (catLevel1 !== 0) {
       let categories = {}
@@ -37,7 +37,7 @@ const Products = (props) => {
           categories[cat.id] = true
         }
       })
-      products = products.filter(cat => categories[cat.product_category && cat.product_category.id])
+      products = products.filter(cat => categories[cat.product_category])
     }
   }
 

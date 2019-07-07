@@ -80,7 +80,7 @@ class PostHeader extends React.PureComponent {
               <div className="-item-titlePost">
                 <div>
                   <div style={{display: !name || name.trim().length === 0 ? 'none' : 'inline-block'}} className="post-name">{name}</div>
-                  <div className="-green2 post-username">{postIdentity && postIdentity.username}</div>
+                  <div className="-green2 post-username">{postIdentity && (postIdentity.nike_name || postIdentity.username)}</div>
                 </div>
                 <div className='post-date'>
                   <Moment className="-green2" element="span" fromNow ago>{createdTime}</Moment>

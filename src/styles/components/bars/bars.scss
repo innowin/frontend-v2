@@ -2837,11 +2837,37 @@ $sidebar-profile-media-width: 80px;
 .badgesCard {
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 
   img {
-    width: 45px;
-    height: 45px;
-    margin-left: 5px;
+    width: 30px;
   }
+}
+
+.badge-instant-logo {
+  font-size: 11px;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  vertical-align: top;
+  width: 100px;
+  height: 100px;
+  min-width: 100px;
+  background-color: $more-button-color-hover-darker;
+  border-radius: 3px;
+}
+
+.badge-instant-text {
+  padding-right: 15px;
+  flex-grow: 1;
+  vertical-align: top;
+  display: inline-flex;
+  height: 100px;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.badge-instant-text-desc {
+  color: #C7C7C7;
 }
