@@ -1,38 +1,4 @@
-@import "baisc-info";
-@import "people";
-@import "successMessage";
-@import "more-info";
-
-.exchanges-modal .create-exchange-wrapper {
-  font-size: $font-size-regular;
-
-  .steps {
-    max-width: 280px;
-  }
-
-  .act-bar {
-    .act-btn:first-child {
-      background-color: $text-lightest-color;
-      border: 2px solid $brand-inverse-color;
-      color: $brand-inverse-color;
-
-      .right-arrow {
-        transform: rotate3d(0, 0, 1, -90deg);
-        left: auto;
-        right: 10px;
-      }
-
-      .right-arrow path {
-        fill: $brand-inverse-color;
-      }
-    }
-
-    .act-btn:last-child .left-arrow {
-      transform: rotate3d(0, 0, 1, 90deg);
-    }
-  }
-
-}
+@import "../../variables";
 
 .create-exchange-modal-container::-webkit-scrollbar {
   width: 3px;
@@ -105,7 +71,7 @@
 
   .create-exchange-name-input-limit {
     color: $text-title-menu-color;
-    font-size: $font-size-boxText;
+    font-size: $font-size-regular;
     position: absolute;
     top: 25px;
     left: 10px;
@@ -114,7 +80,7 @@
 
   .create-exchange-name-input-limited {
     color: $danger-color;
-    font-size: $font-size-boxText;
+    font-size: $font-size-regular;
     position: absolute;
     top: 25px;
     left: 10px;
@@ -139,7 +105,7 @@
 
   .create-exchange-desc-input-limit {
     color: $text-title-menu-color;
-    font-size: $font-size-boxText;
+    font-size: $font-size-regular;
     position: absolute;
     top: 25px;
     left: 10px;
@@ -148,7 +114,7 @@
 
   .create-exchange-desc-input-limited{
     color: $danger-color;
-    font-size: $font-size-boxText;
+    font-size: $font-size-regular;
     position: absolute;
     top: 25px;
     left: 10px;

@@ -1,6 +1,5 @@
 @import '../variables';
 
-
 .pointer {
   cursor: pointer;
 }
@@ -8,10 +7,12 @@
 .modal-body {
   padding: 10px;
 }
+
 .modal {
   background: rgba(0, 0, 0, 0);
   transition: all 1s;
 }
+
 .modal.show {
   background: rgba(0, 0, 0, 0.5);
   transition: all 1s;
@@ -22,74 +23,10 @@
   border: 2px solid $text-title-menu-color;
   min-height: 554px;
 }
+
 .close-btn {
   color: $danger-color;
   cursor: pointer;
-}
-.adding-contribution-wrapper {
-  .close-btn {
-    float: right;
-  }
-  input, textarea {
-    font-size: $font-size-regular;
-  }
-  input {
-    height: 36px;
-    line-height: 36px;
-  }
-  .header {
-    font-size: $font-size-regular;
-  }
-  font-size: $font-size-regular;
-  .wrapper {
-    margin: 0 auto;
-  }
-}
-
-.modal-lg {
-  max-width: 1150px;
-}
-
-.adding-contribution-wrapper .wrapper {
-  .initial-info, .certificates {
-    .form, .images {
-      max-width: 750px;
-      margin: 0 auto;
-    }
-    .next-prev-btns {
-      max-width: 910px;
-      margin: 0 auto;
-    }
-  }
-  .new-contribution-wrapper {
-    max-width: 910px;
-    margin: 0 auto;
-  }
-}
-
-@media (max-width: 1170px) {
-  .modal-lg {
-    max-width: 970px;
-
-  }
-}
-
-@media (max-width: 990px) {
-  .modal-lg {
-    max-width: 770px;
-  }
-}
-
-@media (max-width: 780px) {
-  .modal-lg {
-    max-width: 550px;
-  }
-}
-
-@media (max-width: 560px) {
-  .modal-lg {
-    max-width: 96%;
-  }
 }
 
 .wrapper.entered {
@@ -126,15 +63,18 @@
   display: flex;
   justify-content: space-between;
   margin-top: 34px;
+
   .pay-svg-icon {
     height: 22px;
     width: 23px;
     position: relative;
     top: -5px
   }
+
   .circular-checkbox {
     display: flex;
     justify-content: space-between;
+
     .checkbox {
       margin-right: 40px;
     }
@@ -204,21 +144,27 @@
   .Select-control {
     @extend %none-bordered-input;
   }
+
   .Select-control .Select-clear-zone {
     display: none;
   }
+
   .Select-control:hover {
     box-shadow: none;
   }
+
   .Select.is-focused:not(.is-open) .Select-control {
     box-shadow: none;
     @extend %none-bordered-input;
   }
+
   .Select-control .Select-value {
     padding-right: 12px;
   }
+
   .Select {
     margin: 14px 0;
+
     .Select-multi-value-wrapper {
       width: 0;
       height: 0;

@@ -27,7 +27,7 @@
   background-color: white;
   height: 30px;
   font-weight: bold;
-  font-size: $font-size-post-content;
+  font-size: $font-size-regular;
   position: relative;
   padding: 0 12px;
 }
@@ -61,7 +61,7 @@
   min-height: 30px;
   padding: 3px 12px;
   line-height: 30px;
-  font-size: $font-size-post-content;
+  font-size: $font-size-regular;
   position: relative;
 }
 
@@ -174,7 +174,7 @@
 }
 
 .info-exchange-education {
-  font-size: $font-size-exchange-education;
+  font-size: $font-size-regular;
   color: $font-color-exchange-education;
 }
 
@@ -225,7 +225,7 @@
 
 .info-social-text {
   position: absolute;
-  font-size: $font-size-boxText;
+  font-size: $font-size-regular;
   font-weight: bold;
   margin-right: 15px;
   top: -3px;
@@ -236,7 +236,7 @@
   text-align: left;
   direction: ltr;
   position: absolute;
-  font-size: $font-size-boxText;
+  font-size: $font-size-regular;
   font-weight: bold;
   margin-right: 15px;
   top: -3px;
@@ -260,7 +260,7 @@
   color: $text-dark-color;
   width: 40%;
   margin: 0;
-  font-size: $font-size-boxText;
+  font-size: $font-size-regular;
   font-weight: bold;
 
   &:focus {

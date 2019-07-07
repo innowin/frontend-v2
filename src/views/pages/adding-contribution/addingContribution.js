@@ -1,12 +1,7 @@
-// @flow
-import * as React from 'react'
+import React from 'react'
 import countrySelector from 'src/redux/selectors/common/location/getCountry'
 import makeCitySelectorByProvinceId from 'src/redux/selectors/common/location/getCityByProvince'
 import makeProvinceSelectorByCountryId from 'src/redux/selectors/common/location/getProvinceByCountry'
-import nowCreatedProductIdSelector from 'src/redux/selectors/common/product/getNowCreatedProductId'
-import nowCreatedSkillIdSelector from 'src/redux/selectors/skill/getNowCreatedSkillId'
-import type {/*NewContributionDataType,*/SkillFormValsType} from './types'
-import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
 import {bindActionCreators} from 'redux'
 import {change} from 'redux-form'
 import {connect} from 'react-redux'
@@ -16,26 +11,11 @@ import {getCategories} from 'src/redux/actions/commonActions/categoryActions'
 import {getCountries, getProvinces, getCities} from 'src/redux/actions/commonActions/location'
 import {getFormValues} from 'src/redux/selectors/formValuesSelectors'
 import {getMessages} from '../../../redux/selectors/translateSelector'
-import {hashTagsListSelector} from 'src/redux/selectors/common/hashTags/hashTag'
 import {makeCategorySelector} from 'src/redux/selectors/common/category/getCategoriesByParentId'
 import {PureComponent} from 'react'
-import {skillInfoFormName} from './skill/infoForm'
-import {
-  CircularAddIcon,
-  ContributionIcon,
-  InformationIcon,
-  SearchIcon,
-  NewProductXsmall,
-  UploadIcon,
-  // MainLbarArrow,
-  // SkillIcon,
-  // TipsIcon,
-} from 'src/images/icons'
+import {SearchIcon, NewProductXsmall, UploadIcon} from 'src/images/icons'
 import InteliInput from 'src/views/common/inputs/InteliInput'
-// import Material from '../../common/components/Material'
-// import type {ImageType} from '../modal/createExchange/basicInfo'
 import {createFile} from 'src/redux/actions/commonActions/fileActions'
-import makeFileSelectorByKeyValue from 'src/redux/selectors/common/file/selectFilsByKeyValue'
 import {ClipLoader} from 'react-spinners'
 import {TransitionGroup, CSSTransition} from 'react-transition-group'
 import types from '../../../redux/actions/types'
@@ -45,73 +25,7 @@ import constants from '../../../consts/constants'
 import TempActions from 'src/redux/actions/tempActions'
 import ModalActions from '../../../redux/actions/modalActions'
 
-type catsMap = {
-  category_parent?: ?number,
-  province_related_country?: ?number,
-  category_parent?: ?number,
-  town_related_province: any
-}
-type list = { list: catsMap }
-type AddingContributionProps = {
-  _changeFormSingleFieldValue: Function,
-  _createProduct: Function,
-  _createSkillAction: Function,
-  _getCategories: Function,
-  _getCities: Function,
-  _getCountries: Function,
-  _getProvinces: Function,
-  createFile: Function,
-  categories: list,
-  cities: {},
-  city: list,
-  clientFiles: Object,
-  clientId: ?number,
-  countries: list,
-  handleModalVisibility: Function,
-  hashTags: {},
-  identity: ?number,
-  initialInfoFormState: {},
-  modalIsOpen: boolean,
-  nowCreatedProductId: number,
-  nowCreatedSkillId: number,
-  province: list,
-  provinces: {},
-  skillInfoFormValues: SkillFormValsType,
-  translator: TranslatorType,
-}
-type cats = any
-type AddingContributionState = {
-  // priceType: string,
-  abilityDescription: string,
-  abilityTitle: string,
-  catLvlOne: Array<Object>,
-  catLvlThree: Array<Object>,
-  catLvlTwo: Array<Object>,
-  cats: [],
-  cityList: [],
-  cityList: Array<number>,
-  countryList: [],
-  countryList: Array<number>,
-  currentLevel: string,
-  currentFileId: string,
-  processing: boolean,
-  productDescription: string,
-  productName: string,
-  provinceList: Array<any>,
-  selectedCatLvlOne: cats,
-  selectedCatLvlThree: cats,
-  selectedCatLvlTwo: cats,
-  selectedCity: ?number,
-  selectedCountry: ?number,
-  selectedImage: Array<any>,
-  selectedImageId: Array<any>,
-  selectedImageTemp: ?string,
-  selectedProvince: ?number,
-  selectedType: string,
-  selectedImageFile: string,
-}
-
-class AddingContribution extends PureComponent<AddingContributionProps, AddingContributionState> {
+class AddingContribution extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
@@ -123,7 +37,6 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
       countryList: [],
       currentLevel: 'one',
       currentFileId: '',
-      // priceType: 'معین',
       processing: false,
       productDescription: '',
       productName: '',
@@ -146,7 +59,6 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
     const self: any = this
     self.nextLevel = self.nextLevel.bind(self)
     self.previousLevel = self.previousLevel.bind(self)
-    self.renderProgressBar = self.renderProgressBar.bind(self)
     self.renderCurrentLevel = self.renderCurrentLevel.bind(self)
     self.renderFooter = self.renderFooter.bind(self)
     self._closeModal = self._closeModal.bind(self)
@@ -155,10 +67,7 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
   }
 
   componentWillMount() {
-    const {
-      _getCategories,
-      _getCountries,
-    } = this.props
+    const {_getCategories, _getCountries} = this.props
     _getCategories()
     _getCountries()
   }
@@ -208,89 +117,16 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
           this.setState({...this.state, cityList: citsArray.slice()})
       }
 
-      // const lastFile = clientFiles[clientFiles.length - 1] || {}
-      // const prevLastFile = prevProps.clientFiles[prevProps.clientFiles.length - 1] || {}
       if (this.state.currentFileId !== '' && temp[this.state.currentFileId] && temp[this.state.currentFileId].progress === 100 && temp['product_image']) {
         this._imageHandler(temp['product_image'])
         _removeFileFromTemp('product_image')
       }
-      // if (lastFile.id && prevLastFile.id) {
-      //   if (lastFile.id !== prevLastFile.id) {
-      //     this._imageHandler(lastFile)
-      //   }
-      // }
     }
     else {
       let doc: any = document
       doc.body.style.overflow = 'auto'
       doc.body.style.paddingRight = '0'
     }
-  }
-
-  renderProgressBar() {
-    let {currentLevel, selectedType} = this.state
-    switch (selectedType) {
-      case 'Ability':
-        return (
-            <div className={'contribution-progress-bar'}>
-              <div className={'level-container-active'}>
-                <CircularAddIcon className={'level-container-svg add'}/>
-                <div className={'level-container-text'}>
-                  آوردۀ جدید
-                </div>
-              </div>
-              <div style={{opacity: '0'}} className={currentLevel !== 'one' ? 'level-container-active' : 'level-container'}/>
-              <div className={currentLevel !== 'one' ? 'level-container-active' : 'level-container'}>
-                <InformationIcon className={'level-container-svg info ' + currentLevel}/>
-                <div className={'level-container-text'}> مشخصات</div>
-              </div>
-              <div className={'level-bar'}/>
-              <div className={'level-bar-progress ' + (currentLevel === 'one' ? 'one' : 'three')}/>
-            </div>
-        )
-      case 'Product':
-        return (
-            <div className={'contribution-progress-bar'}>
-              <div className={'level-container-active'}>
-                <CircularAddIcon className={'level-container-svg add'}/>
-                <div className={'level-container-text'}>
-                  آوردۀ جدید
-                </div>
-              </div>
-              <div className={currentLevel !== 'one' ? 'level-container-active' : 'level-container'}>
-                <InformationIcon className={'level-container-svg info ' + currentLevel}/>
-                <div className={'level-container-text'}>
-                  اطلاعات اولیه
-                </div>
-              </div>
-              {/* NOT AVAILABLE FOR NOW
-               <div className={currentLevel !== "one" && currentLevel !== "two" ? "level-container-active" : "level-container"}>
-               <ItemsAndPropertiesIcon className={"progress-step-icon level-container-svg items " + currentLevel}/>
-               <div className={"level-container-text"}>
-               مشخصات فنّی
-               </div>
-               </div>
-               <div className={currentLevel === "four" || currentLevel === "five" ? "level-container-active" : "level-container"}>
-               <Medal width="24px" height="25px" svgClass={"level-container-svg medal " + currentLevel}/>
-               <div className={"level-container-text"}>
-               گواهینامه ها
-               </div>
-               </div>
-               */}
-              <div className={currentLevel !== 'one' && currentLevel !== 'two' ? 'level-container-active' : 'level-container'}>
-                <ContributionIcon className={'level-container-svg contribution ' + currentLevel}/>
-                <div className={'level-container-text'}>
-                  مدیریت ویترین
-                </div>
-              </div>
-              <div className={'level-bar'}/>
-              <div className={'level-bar-progress ' + currentLevel}/>
-            </div>
-        )
-      default:
-        return null
-    }
-
   }
 
   renderCurrentLevel() {
@@ -1221,13 +1057,6 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
     this.setState({...this.state, selectedImage: img.slice(), selectedImageId: ids.slice()})
   }
 
-  // shouldComponentUpdate(nextProps, nextState, nextContext): boolean {
-  //   return nextProps.categories !== this.props.categories ||
-  //       nextProps.countries !== this.props.countries ||
-  //       nextProps.modalIsOpen !== this.props.modalIsOpen ||
-  //       this.state !== nextState
-  // }
-
   render() {
     const {modalIsOpen} = this.props
     return (
@@ -1257,44 +1086,34 @@ const mapStateToProps = (state) => {
   const citySelectorByProvinceId = makeCitySelectorByProvinceId()
   const provinceSelectorByProvinceId = makeProvinceSelectorByCountryId()
   const categorySelector = makeCategorySelector()
-  const fileSelectorByKeyValue = makeFileSelectorByKeyValue()
 
   // const provinces =
   return {
     categories: categorySelector(state),
     cities: citySelectorByProvinceId(state, provinceId),
     city: state.common.location.city,
-    clientFiles: fileSelectorByKeyValue(state, 'identity', identity),
     clientId,
     countries: countrySelector(state),
-    hashTags: hashTagsListSelector(state),
     identity,
-    initialInfoFormState: initialFormValues,
-    nowCreatedProductId: nowCreatedProductIdSelector(state),
-    nowCreatedSkillId: nowCreatedSkillIdSelector(state),
     province: state.common.location.province,
     provinces: provinceSelectorByProvinceId(state, countryId),
-    skillInfoFormValues: getFormValues(state, skillInfoFormName),
-    testToken: state.auth.client.token,
     translator: getMessages(state),
     temp: state.temp.file,
   }
 }
 
 const mapDispatchToProps = dispatch =>
-    bindActionCreators(
-        {
-          _getCategories: getCategories,
-          _createProduct: createProductAsContribution,
-          _getCountries: getCountries,
-          _getProvinces: getProvinces,
-          _getCities: getCities,
-          _changeFormSingleFieldValue: change,
-          _createSkillAction: SkillActions.createSkill,
-          createFile,
-          _removeFileFromTemp: TempActions.removeFileFromTemp,
-          _hideModal: ModalActions.hideModal,
-        },
-        dispatch)
+    bindActionCreators({
+      _getCategories: getCategories,
+      _createProduct: createProductAsContribution,
+      _getCountries: getCountries,
+      _getProvinces: getProvinces,
+      _getCities: getCities,
+      _changeFormSingleFieldValue: change,
+      _createSkillAction: SkillActions.createSkill,
+      createFile,
+      _removeFileFromTemp: TempActions.removeFileFromTemp,
+      _hideModal: ModalActions.hideModal,
+    }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddingContribution)

@@ -81,12 +81,10 @@ CardRowContainer.propTypes = {
   translate: PropTypes.object,
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
   return {
     translate: getMessages(state),
   }
 }
 
-const mapDispatchToProps = dispatch => ({});
-
-export default connect(mapStateToProps, mapDispatchToProps)(CardRowContainer)
+export default connect(mapStateToProps, null)(CardRowContainer)

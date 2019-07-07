@@ -55,7 +55,7 @@
 
     .create-exchange-name-input-limit {
       color: $text-title-menu-color;
-      font-size: $font-size-boxText;
+      font-size: $font-size-regular;
       position: absolute;
       top: 25px;
       left: 10px;
@@ -64,7 +64,7 @@
 
     .create-exchange-name-input-limited {
       color: $danger-color;
-      font-size: $font-size-boxText;
+      font-size: $font-size-regular;
       position: absolute;
       top: 25px;
       left: 10px;
@@ -89,7 +89,7 @@
 
     .create-exchange-desc-input-limit {
       color: $text-title-menu-color;
-      font-size: $font-size-boxText;
+      font-size: $font-size-regular;
       position: absolute;
       top: 25px;
       left: 10px;
@@ -98,7 +98,7 @@
 
     .create-exchange-desc-input-limited {
       color: $danger-color;
-      font-size: $font-size-boxText;
+      font-size: $font-size-regular;
       position: absolute;
       top: 25px;
       left: 10px;

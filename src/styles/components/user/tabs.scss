@@ -4,7 +4,7 @@
 .post-content {
   line-height: 2.1;
   overflow-y: hidden;
-  font-size: $font-size-post-content;
+  font-size: $font-size-regular;
   margin: 0 18px;
   text-align: justify;
   white-space: pre-wrap;
@@ -13,7 +13,7 @@
 }
 
 .tagCross {
-  font-size: $font-size-boxText;
+  font-size: $font-size-regular;
 }
 
 .link-post-decoration {
@@ -324,7 +324,7 @@
             cursor: pointer;
             padding-top: 7px;
             padding-bottom: 7px;
-            font-size: $font-size-boxText;
+            font-size: $font-size-regular;
             transition-duration: $animation-timing-short;
 
             &:last-child {

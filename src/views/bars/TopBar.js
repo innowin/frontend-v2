@@ -376,9 +376,6 @@ class TopBar extends PureComponent<PropsTopBar, StatesTopBar> {
                 <ExploreMenu _toggleExplore={this._toggleExplore} exploreCollapse={exploreCollapse}/>
               </div>
 
-
-              {/*<Link className="mr-5" to={"/"}><NotificationIcon className="-topBarIcons"/></Link>*/}
-              {/*<Link className="mr-5" to={"/"}><NotificationIcon className="notif-icon"/></Link>*/}
               <button ref={e => this.hamburgerButtonRef = e} onClick={this._toggleHamburger}
                       className={showHamburger ? 'hamburger hamburger--elastic is-active' : 'hamburger hamburger--elastic'}
                       type="button">
@@ -513,7 +510,6 @@ class TopBar extends PureComponent<PropsTopBar, StatesTopBar> {
           </nav>
 
           <AddingContribution modalIsOpen={productModal} handleModalVisibility={this._handleProductWizardModal}/>
-
 
           <div className={showSetting || showAbout || agentForm || productModal || createExchangeModalIsOpen ? 'makeDark' : 'makeDark-out'} onClick={this._handleHideSetting}>
             {/*dark div*/}

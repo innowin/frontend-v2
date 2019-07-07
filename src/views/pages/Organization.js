@@ -1,7 +1,6 @@
 // @flow
 import * as React from 'react'
 import BadgeActions from 'src/redux/actions/commonActions/badgeActions'
-import ChatBar from '../bars/ChatBar'
 import Posts from 'src/views/common/post/index'
 import PostExtendedView from 'src/views/common/post/PostView'
 import * as PropTypes from 'prop-types'
@@ -154,10 +153,6 @@ class Organization extends PureComponent<PropsOrganization, StatesOrganization> 
                                   content={translate['Stream']}/>
                       </NavLink>
 
-                      {/*<NavLink to={`${url}/contributions`} className='header-container-item' activeClassName='header-container-item-active'>*/}
-                      {/*<Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material-first' content={translate['Contributions']}/>*/}
-                      {/*</NavLink>*/}
-
                       <NavLink to={`${url}/basicInformation`} className='header-container-item'
                                activeClassName='header-container-item-active'>
                         <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material'
@@ -182,23 +177,9 @@ class Organization extends PureComponent<PropsOrganization, StatesOrganization> 
                                   content={translate['Exchanges']}/>
                       </NavLink>
 
-                      {/*<NavLink to={`${url}/Customers`} className='header-container-item' activeClassName='header-container-item-active'>*/}
-                      {/*<Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['Customers']}/>*/}
-                      {/*</NavLink>*/}
-
-                      {/*<NavLink to={`${url}/Certificates`} className='header-container-item' activeClassName='header-container-item-active'>*/}
-                      {/*<Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['Certificates']}/>*/}
-                      {/*</NavLink>*/}
-
                     </div>
                     <Switch>
                       <Redirect exact from={`${url}/`} to={`${url}/Posts`}/>
-                      {/*<PrivateRoute path={`${path}/contributions`}*/}
-                      {/*component={Contributions}*/}
-                      {/*ownerId={userId}*/}
-                      {/*identityType={constants.USER_TYPES.ORG}*/}
-                      {/*isUser={false}*/}
-                      {/*/>*/}
                       <PropsRoute exact={true}
                                   path={`${path}/Posts`}
                                   component={Posts}
@@ -238,18 +219,7 @@ class Organization extends PureComponent<PropsOrganization, StatesOrganization> 
                                   commentParentType={constants.COMMENT_PARENT.POST}
                                   ownerId={userId}
                       />
-                      {/*<PrivateRoute path={`${path}/Customers`} component={Customers}*/}
-                      {/*organizationId={userId}*/}
-                      {/*/>*/}
-                      {/*<PrivateRoute path={`${path}/Certificates`} component={Certificates}*/}
-                      {/*ownerId={userId}*/}
-                      {/*identityType={constants.USER_TYPES.ORG}*/}
-                      {/*user={userObject}*/}
-                      {/*/>*/}
                     </Switch>
-                  </div>
-                  <div className="col-md-2 col-sm-1 -left-sidebar-wrapper">
-                    <ChatBar/>
                   </div>
                 </div>
               </React.Fragment>

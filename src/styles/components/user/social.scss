@@ -30,7 +30,7 @@ $item-header-margin-right: 16px;
         }
         .description {
           color: $text-title-menu-color;
-          font-size: $font-size-boxText;
+          font-size: $font-size-regular;
           overflow: hidden;
           height: 50px;
           line-height: 2;
@@ -46,7 +46,7 @@ $item-header-margin-right: 16px;
       .follow-section {
         color: $success-color;
         line-height: 25px;
-        font-size: $font-size-boxText;
+        font-size: $font-size-regular;
       }
       .follow-accept-part {
         display: flex;

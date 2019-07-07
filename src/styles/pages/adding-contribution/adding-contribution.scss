@@ -1,12 +1,3 @@
-@import "./next-and-prev-btns";
-@import "product/initial-info";
-@import "product/certificates";
-@import "./new-contribution";
-@import "product/gallery-and-tags";
-@import "product/technical-properties";
-@import "product/success-message";
-@import "./progressive";
-@import "./skill/skill-info";
 @import "../../variables";
 
 .contribution-modal-container {
@@ -306,7 +297,7 @@
 }
 
 .gray-text-input-label {
-  font-size: $font-size-post-content;
+  font-size: $font-size-regular;
   text-align: right;
   margin-bottom: 10px;
   display: block;
@@ -317,7 +308,7 @@
   border: 1.2px solid #999999;
   border-radius: $border-radius-size;
   height: 35px;
-  font-size: $font-size-post-content;
+  font-size: $font-size-regular;
   transition-duration: $animation-timing;
   direction: rtl;
   text-align: right;
@@ -422,7 +413,7 @@
 }
 
 .inteli-menu-item {
-  font-size: $font-size-post-content;
+  font-size: $font-size-regular;
   text-align: center;
   padding: 5px;
   width: 100%;
@@ -440,7 +431,7 @@
   background: white;
   border: 1.2px solid #999999;
   border-radius: 3px;
-  font-size: $font-size-post-content;
+  font-size: $font-size-regular;
   height: 150px;
   resize: none;
   transition-duration: $animation-timing;
@@ -488,7 +479,7 @@
 
   .contribution-text {
     text-align: right;
-    font-size: $font-size-post-content;
+    font-size: $font-size-regular;
     font-weight: bold;
     margin: 7px 0;
   }

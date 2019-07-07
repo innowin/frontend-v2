@@ -23,47 +23,10 @@ $sidebar-profile-media-width: 80px;
   }
 }
 
-.navbar-toggler {
-  padding: 0;
-  /* margin: 0; */
-  background-size: cover;
-  width: 4rem;
-  height: 100%;
-  border-radius: 0;
-  right: 0;
-  margin-right: 0 !important;
-  outline: none;
-}
-
-.navbar-toggler:hover {
-  background-color: lighten($primary-color, 1.5%)
-}
-
-.navbar-toggler.active {
-  background-color: lighten($primary-color, 1.5%)
-}
-
 .-topBarIcons {
   width: 25px;
   height: 25px;
   fill: $background-color;
-}
-
-.-topBarIcons-cont-open {
-  cursor: pointer;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  text-align: center;
-  background-color: rgba(255, 255, 255, 0.15);
-  transition-duration: 0.5s;
-}
-
-.notif-icon {
-  fill: $background-color;
-  height: 20px;
-  vertical-align: top;
-  margin-top: 3px;
 }
 
 .centerImgTopBar {
@@ -119,68 +82,6 @@ $sidebar-profile-media-width: 80px;
   }
 }
 
-.-topBar-right-collapse {
-  position: fixed;
-  right: 0;
-  top: $topBarHeight;
-  background-color: lighten($primary-color, 1.5%);
-  z-index: 4;
-
-  img {
-    height: 150px;
-  }
-
-  ul {
-    padding: 0;
-    list-style-type: none;
-    margin-bottom: 0;
-
-    li {
-      display: flex;
-      align-items: center;
-      font-size: 12px;
-      color: $text-lightest-color;
-      cursor: pointer;
-
-      i {
-        padding: 15px;
-        font-size: 30px;
-      }
-    }
-
-    li:hover {
-      background-color: darken($primary-color, 3%);
-    }
-  }
-}
-
-.-topBar-profile-collapse {
-  position: fixed;
-  left: 0;
-  top: $topBarHeight;
-  background-color: $brand-inverse-color;
-  z-index: 4;
-  width: 22rem;
-  border: 1px solid rgba(0, 0, 0, 0.125);
-  border-bottom-right-radius: 0.25rem;
-
-  > div {
-    height: 75px;
-  }
-
-  a {
-    color: $text-lightest-color;
-    margin-left: 20px;
-    margin-right: 20px;
-    text-decoration: none;
-    display: inline-block;
-  }
-
-  a:hover {
-    color: $info-color;
-  }
-}
-
 .top-bar-left-side {
   direction: ltr;
   display: flex;
@@ -205,12 +106,6 @@ $sidebar-profile-media-width: 80px;
   border-radius: 50%;
   object-fit: cover;
 }
-
-.-outlineWhite {
-  outline-color: $text-lightest-color !important;
-}
-
-//** --------------------------      ChatBar(leftBar)   -------------------------**//
 
 .-my-icons1 {
   margin-top: 20px !important;
@@ -364,18 +259,6 @@ $sidebar-profile-media-width: 80px;
 
 .svg-rotate-neutral {
   transform: rotate(+30deg);
-}
-
-.exchange-center-background {
-  top: 0;
-  background: linear-gradient(to bottom, $image-background-color, $image-background-color,
-          $image-background-color, $image-background-color, $image-background-color, transparent);
-  height: $exchange-tabs-height;
-  width: $feed-width + 10;
-  position: fixed;
-  right: calc(5% + 340px + 10px);
-  border-radius: $border-radius-size;
-  z-index: 2;
 }
 
 .exchange-page {
@@ -673,7 +556,7 @@ $sidebar-profile-media-width: 80px;
         cursor: pointer;
         padding-top: 7px;
         padding-bottom: 7px;
-        font-size: $font-size-boxText;
+        font-size: $font-size-regular;
         transition-duration: $animation-timing-short;
 
         &:last-child {
@@ -790,7 +673,7 @@ $sidebar-profile-media-width: 80px;
     cursor: pointer !important;
     background-color: $secondary-color;
     color: $background-color;
-    font-size: $font-size-boxText;
+    font-size: $font-size-regular;
     border-radius: 25px;
     transition-duration: $animation-timing;
     border: 1.5px solid $secondary-color;
@@ -827,7 +710,7 @@ $sidebar-profile-media-width: 80px;
     background-color: $background-color;
     border: 1.5px solid $secondary-color;
     color: $secondary-color;
-    font-size: $font-size-boxText;
+    font-size: $font-size-regular;
     border-radius: 25px;
     transition: background $animation-timing ease, color $animation-timing ease, border $animation-timing ease;
     height: 33px;
@@ -848,7 +731,7 @@ $sidebar-profile-media-width: 80px;
       //padding: 7px;
       background: transparent;
       color: $background-color;
-      font-size: $font-size-boxText;
+      font-size: $font-size-regular;
     }
   }
 
@@ -2057,7 +1940,7 @@ $sidebar-profile-media-width: 80px;
     cursor: pointer !important;
     background-color: $eee-color;
     color: $background-color;
-    font-size: $font-size-boxText;
+    font-size: $font-size-regular;
     border-radius: 25px;
     transition-duration: $animation-timing;
     border: 1.5px solid $eee-color;
@@ -2085,7 +1968,7 @@ $sidebar-profile-media-width: 80px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: $font-size-boxText;
+    font-size: $font-size-regular;
     border-radius: 25px;
     transition-duration: $animation-timing;
     height: 33px;

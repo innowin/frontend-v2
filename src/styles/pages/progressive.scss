@@ -1,16 +1,16 @@
 @import '../variables';
+
 $brand-inverse: #d6d6d6;
 .steps { // the parent of steps
-    position: relative;
-    background-color: $chat-box2-color;
-    display: flex;
-    justify-content: space-between;
-    height: 10px;
-    margin: 0 auto;
-    flex-direction: row;
-    // max-width: 600px;
+  position: relative;
+  background-color: $chat-box2-color;
+  display: flex;
+  justify-content: space-between;
+  height: 10px;
+  margin: 0 auto;
+  flex-direction: row;
   .progressive-step-wrapper.active::after { // initial classes of progress.
-    content:'';
+    content: '';
     display: block;
     height: 10px;
     position: absolute;
@@ -21,73 +21,83 @@ $brand-inverse: #d6d6d6;
 }
 
 @for $i from 0 through 8 {
-    @for $j from 1 through 9 {
-        .going-next-step#{$i}.steps-lenght#{$j}::after { // that execute before going to the next step.
-            width: (100% * ($i - 2) / ($j - 1));
-            // transition: all 1s;
-        }
-        .active-step#{$i}.steps-lenght#{$j}::after {
-            width: (100% * ($i - 1) / ($j - 1));
-            transition: all 1.5s;
-        }
-        .going-prev-step#{$i}.steps-lenght#{$j}::after { // that execute before going to the preview step.
-            width: (100% * $i / ($j - 1));
-            // transition: all 1s;
-        }
+  @for $j from 1 through 9 {
+    .going-next-step#{$i}.steps-lenght#{$j}::after { // that execute before going to the next step.
+      width: (100% * ($i - 2) / ($j - 1));
+      // transition: all 1s;
     }
+    .active-step#{$i}.steps-lenght#{$j}::after {
+      width: (100% * ($i - 1) / ($j - 1));
+      transition: all 1.5s;
+    }
+    .going-prev-step#{$i}.steps-lenght#{$j}::after { // that execute before going to the preview step.
+      width: (100% * $i / ($j - 1));
+      // transition: all 1s;
+    }
+  }
 }
 
-.progressive-step-wrapper {  // each step has this parent.
-    text-align: center;
-    .progressive-step {
-        width: 30px;
-        height: 30px;
-        border-radius: 100px;
-        background-color: $chat-box2-color;
-        color: $brand-inverse;
-        position: relative;
-        z-index: 2;
-        top: -10px;
-        transition: all 1s;
-        .progress-step-icon {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 14px;
-            height: 14px;
-        }
-        .progress-step-icon path {
-            fill: $disable-color;
-        }
-        .step-title {
-            position: absolute;
-            bottom: -37px;
-            transform: translate(-50%, 0);
-            left: 50%;
-            width: 100px;
-            color: #d8d8d8;
-            font-size: 12px;
-        }
-        &.checked {
-            background-color: $brand-inverse;
-            transition: all 2s;
-        }
-        &.checked .progress-step-icon path {
-            fill: $chat-box2-color;
-            transition: all 2s;
-        }
+.progressive-step-wrapper { // each step has this parent.
+  text-align: center;
+
+  .progressive-step {
+    width: 30px;
+    height: 30px;
+    border-radius: 100px;
+    background-color: $chat-box2-color;
+    color: $brand-inverse;
+    position: relative;
+    z-index: 2;
+    top: -10px;
+    transition: all 1s;
+
+    .progress-step-icon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 14px;
+      height: 14px;
     }
-    &:first-child .progressive-step{
-        left: 2px;
+
+    .progress-step-icon path {
+      fill: $disable-color;
     }
-    &:last-child .progressive-step{
-        left: -2px;
+
+    .step-title {
+      position: absolute;
+      bottom: -37px;
+      transform: translate(-50%, 0);
+      left: 50%;
+      width: 100px;
+      color: #d8d8d8;
+      font-size: 12px;
     }
+
+    &.checked {
+      background-color: $brand-inverse;
+      transition: all 2s;
+    }
+
+    &.checked .progress-step-icon path {
+      fill: $chat-box2-color;
+      transition: all 2s;
+    }
+  }
+
+  &:first-child .progressive-step {
+    left: 2px;
+  }
+
+  &:last-child .progressive-step {
+    left: -2px;
+  }
 }
+
 .progressive-step.checked .step-title {
-        color: $text-medium-dark;
+  color: $text-medium-dark;
 }
+
 // .progressive-wrapper {
 //     padding: 0 20px;
 //     .progress {

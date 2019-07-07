@@ -13,7 +13,6 @@ import PostType from './PostType'
 import ProductInfoView from '../contributions/ProductInfoView'
 import * as PropTypes from 'prop-types'
 import {bindActionCreators} from 'redux'
-import {CategoryTitle} from 'src/views/common/cards/Frames'
 import {getMessages} from 'src/redux/selectors/translateSelector'
 import {Link} from 'react-router-dom'
 import {CommentsSelector} from 'src/redux/selectors/common/comment/CommentsSelector'
@@ -276,7 +275,6 @@ class PostView extends React.PureComponent {
 
       return (
           <div ref={e => this.post = e} className='-itemWrapperPost'>
-            {extendedView && <CategoryTitle title={translate['Single post']}/>}
             <div className={extendedView ? 'post-view-container' : ''}>
               {
                 post.post_type !== constants.POST.POST_TYPE.POST &&

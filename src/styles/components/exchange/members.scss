@@ -15,7 +15,7 @@
   background-color: white;
   height: 30px;
   font-weight: bold;
-  font-size: $font-size-post-content;
+  font-size: $font-size-regular;
   float: right;
   display: inline-block;
   vertical-align: top;
@@ -42,7 +42,7 @@
   min-height: 30px;
   //padding-right: 70px;
   line-height: 30px;
-  font-size: $font-size-post-content;
+  font-size: $font-size-regular;
   transition-duration: $animation-timing;
   display: flex;
   flex-wrap: wrap;
@@ -436,7 +436,7 @@
 }
 
 .member-name {
-  font-size: $font-size-member-name;
+  font-size: $font-size-regular;
   font-weight: bold;
   vertical-align: top;
   display: inline-block;
@@ -459,7 +459,7 @@
 .members-more {
   width: 98%;
   text-align: center;
-  font-size: $font-size-boxText;
+  font-size: $font-size-regular;
   font-weight: bold;
   margin: 8px 4.8px 0 0;
   border: 1px solid $scroll-color-hover;
