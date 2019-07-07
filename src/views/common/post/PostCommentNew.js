@@ -101,8 +101,8 @@ class PostCommentNew extends React.PureComponent {
 
   render() {
     const {commentBody, open, descriptionClass, comment} = this.state
-    const {currentUser, translate, commentOn, comments} = this.props
-    if (currentUser)
+    const {identityId, currentUser, translate, commentOn, comments} = this.props
+    if (identityId)
       return (
           <div className="comment-container">
             <div>
@@ -162,6 +162,7 @@ const mapStateToProps = (state) => {
   const identities = state.identities.list
   const currentUser = identities[identityId]
   return {
+    identityId,
     currentUser,
     translate: getMessages(state),
   }

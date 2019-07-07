@@ -10,6 +10,7 @@ import types from 'src/redux/actions/types'
 import {createFileFunc} from '../../common/Functions'
 import constants from 'src/consts/constants'
 import FileActions from 'src/redux/actions/commonActions/fileActions'
+import {Link} from 'react-router-dom'
 
 class SideBar extends PureComponent {
   constructor(props) {
@@ -478,28 +479,32 @@ class SideBar extends PureComponent {
                     </span>
                     <br/>
                     <span className='product-view-sidebar-details-grey'>فروشنده: </span>
-                    <span className='product-view-sidebar-details-blue'>
-                      {
-                        product_owner ? product_owner.official_name ? product_owner.official_name : product_owner.nike_name ? product_owner.nike_name : product_owner.first_name || product_owner.last_name ? product_owner.first_name + ' ' + product_owner.last_name
-                            : <span style={{color: 'red'}}>فاقد نام</span> : <div style={{verticalAlign: 'top', display: 'inline-block', marginTop: '3px'}}><ClipLoader size={15}/></div>
-                      }
-                    </span>
+                    <Link to={product_owner ? `/${product_owner.identity_type}/${product_owner.id}` : ''}>
+                      <span className='product-view-sidebar-details-blue'>
+                        {
+                          product_owner ? product_owner.official_name || product_owner.nike_name ? product_owner.official_name || product_owner.nike_name : product_owner.first_name || product_owner.last_name ? product_owner.first_name + ' ' + product_owner.last_name
+                              : <span style={{color: 'red'}}>فاقد نام</span> : <div style={{verticalAlign: 'top', display: 'inline-block', marginTop: '3px'}}><ClipLoader size={15}/></div>
+                        }
+                      </span>
+                    </Link>
                     <br/>
                     {
                       product_category && <span className='product-view-sidebar-details-grey'>دسته بندی: {product_category.name ? product_category.name : ''}</span>
                     }
                   </div>
                   {
-                    product_owner && current_user_identity !== product_owner.id ?
-                        <div className='product-view-sidebar-buttons'>
-                          <Material className='product-view-sidebar-buy' content='خرید'/>
-                          <Material className='product-view-sidebar-share' content='اشتراک گذاری'/>
-                        </div>
-                        :
-                        <div className='product-view-sidebar-buttons'>
-                          <Material className='product-view-sidebar-buy' content='عرضه'/>
-                          <Material className='product-view-sidebar-share' content='ویرایش' onClick={this.showEdit}/>
-                        </div>
+                    current_user_identity ?
+                        product_owner && current_user_identity !== product_owner.id ?
+                            <div className='product-view-sidebar-buttons'>
+                              <Material className='product-view-sidebar-buy' content='خرید'/>
+                              <Material className='product-view-sidebar-share' content='اشتراک گذاری'/>
+                            </div>
+                            :
+                            <div className='product-view-sidebar-buttons'>
+                              <Material className='product-view-sidebar-buy' content='عرضه'/>
+                              <Material className='product-view-sidebar-share' content='ویرایش' onClick={this.showEdit}/>
+                            </div>
+                        : null
                   }
                 </div>
           }

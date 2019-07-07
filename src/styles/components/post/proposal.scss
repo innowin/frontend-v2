@@ -5,12 +5,52 @@
   user-select: none;
 }
 
+.proposal-phone {
+  @media screen and (max-width: 480px) {
+    padding: 18px;
+    background-color: white;
+    z-index: 3;
+    position: fixed;
+    top: $smallTopBarHeight;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+}
+
 .proposal-send-box {
   vertical-align: top;
   width: calc(100% - 63px);
   display: inline-block;
   border: 1px solid #E7E7E7;
   border-radius: 5px;
+}
+
+.proposal-send-box-phone {
+  @media screen and (max-width: 480px) {
+    height: calc(100vh - 50px);
+    border: none;
+  }
+}
+
+.proposal-send-logo-phone {
+  @media screen and (max-width: 480px) {
+    position: absolute;
+    bottom: 0;
+    left: 4px
+  }
+}
+
+.proposal-remove-logo-phone {
+  display: none;
+  @media screen and (max-width: 480px) {
+    font-size: 18px;
+    color: $post-hover-border-color;
+    display: block;
+    position: absolute;
+    bottom: 5px;
+    right: 10px
+  }
 }
 
 .proposal-send-textarea {
@@ -26,6 +66,12 @@
   }
 }
 
+.proposal-send-textarea-phone {
+  @media screen and (max-width: 480px) {
+    height: calc(100vh - 385px);
+  }
+}
+
 .proposal-send-profile {
   vertical-align: top;
   margin: 10px;
@@ -34,6 +80,24 @@
   height: 96px;
   padding: 18px;
   overflow: hidden;
+}
+
+.proposal-send-phone {
+  @media screen and (max-width: 480px) {
+    position: absolute;
+    bottom: 30px;
+    right: 0;
+    left: 0;
+  }
+}
+
+.proposal-send-phone-second {
+  @media screen and (max-width: 480px) {
+    position: absolute;
+    bottom: 135px;
+    right: 0;
+    left: 0;
+  }
 }
 
 .proposal-resume-cont {
@@ -214,6 +278,7 @@
 }
 
 .post-proposal-footer {
+  margin-top: 18px;
   display: flex;
   justify-content: flex-end;
   align-items: center;

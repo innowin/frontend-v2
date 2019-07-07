@@ -183,7 +183,7 @@ class HomePosts extends PureComponent {
                   </div>
 
                   <div className={exchangePage ? '-frameCardPostEx border-top-0' : '-frameCardPost border-top-0'}>
-                    <div className={isLoading === true ? 'home-posts-loading' : 'home-posts-loading home-posts-loading-hide'}>
+                    <div className={offset === 10 && isLoading === true ? 'home-posts-loading' : 'home-posts-loading home-posts-loading-hide'}>
                       <BarLoader color={'#d8d9dc'} size={50}/>
                     </div>
                     <div className='list-group list-group-flush'>
@@ -202,6 +202,9 @@ class HomePosts extends PureComponent {
                               <DesertIcon width="100%" text="پستی بارگذاری نشده"/>
                             </div>
                       }
+                    </div>
+                    <div className={offset > 10 && isLoading === true ? 'home-posts-loading' : 'home-posts-loading home-posts-loading-almost-hide'}>
+                      <BarLoader color={'#d8d9dc'} size={50}/>
                     </div>
                   </div>
                   <div className={this.state.scrollButton ? 'go-up-logo-cont' : 'go-up-logo-cont-hide'} onClick={this.goUp}>

@@ -6,15 +6,16 @@ import {put, fork, call, take} from 'redux-saga/effects'
 import uuid from 'uuid'
 import constants from 'src/consts/constants'
 
-// update user by user id
 export function* updateProposal(action) {
   const {payload} = action
-  const {formValues, proposalId} = payload
-  const socketChannel = yield call(api.createSocketChannel, results.COMMON.PROPOSAL.UPDATE_PROPOSAL)
+  const {formValues, proposalId, updateBookmark} = payload
+  const result = `${results.COMMON.PROPOSAL.UPDATE_PROPOSAL}-${Math.random()}`
+  const socketChannel = yield call(api.createSocketChannel, result)
   try {
-    yield fork(api.patch, urls.COMMON.PROPOSAL, results.COMMON.PROPOSAL.UPDATE_PROPOSAL, formValues, `${proposalId}`)
+    if (updateBookmark === true) yield fork(api.get, urls.COMMON.PROPOSAL_BOOKMARK, result, `?id=${proposalId}`, true)
+    else yield fork(api.patch, urls.COMMON.PROPOSAL, result, formValues, `${proposalId}`)
     const data = yield take(socketChannel)
-    yield put({type: types.SUCCESS.COMMON.PROPOSAL.UPDATE_PROPOSAL, payload: {data}})
+    yield put({type: types.SUCCESS.COMMON.PROPOSAL.UPDATE_PROPOSAL, payload: {data, updateBookmark}})
     yield put({
       type: types.TOAST.ADD_TOAST,
       payload: {
@@ -22,7 +23,7 @@ export function* updateProposal(action) {
           id: uuid(),
           type: constants.TOAST_TYPE.SUCCESS,
           content: {
-            text: 'پیشنهاده شما با موفقیت بروز شد',
+            text: 'پیشنهاده با موفقیت بروز شد',
           },
         },
       },

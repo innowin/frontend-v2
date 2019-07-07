@@ -18,7 +18,7 @@ const PostFooter = (props) => {
         <div className='post-details footer-part'>
           <PostMenu postMenuId={postMenuId} translate={translate} post={post} extendedView={extendedView} deletePost={deletePost}
                     menuToggle={menuToggle} openMenu={openMenu} postIdentity={postIdentity} showEdit={showEdit} clientIdentity={clientIdentity}/>
-          <div className='items cursor-pointer post-menu-bottom bubble-more comment-svg-container' onClick={handleLike}>
+          <div className='items cursor-pointer post-menu-bottom bubble-more comment-svg-container' onClick={clientIdentity ? handleLike : null}>
             <span className='comment-count'>
               {
                 likes_count ?

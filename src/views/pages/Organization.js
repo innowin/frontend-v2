@@ -210,13 +210,13 @@ class Organization extends PureComponent<PropsOrganization, StatesOrganization> 
                       {/*isUser={false}*/}
                       {/*/>*/}
                       <PropsRoute exact={true}
-                                    path={`${path}/Posts`}
-                                    component={Posts}
-                                    updatePost={updatePost}
-                                    deletePost={deletePost}
-                                    posts={posts}
-                                    userId={userId}
-                                    getPostByIdentity={getPostByIdentity}
+                                  path={`${path}/Posts`}
+                                  component={Posts}
+                                  updatePost={updatePost}
+                                  deletePost={deletePost}
+                                  posts={posts}
+                                  userId={userId}
+                                  getPostByIdentity={getPostByIdentity}
                       />
                       <PrivateRoute exact path={`${path}/basicInformation`}
                                     component={OrganAboutUs}
@@ -242,10 +242,10 @@ class Organization extends PureComponent<PropsOrganization, StatesOrganization> 
                                     user={userObject}
                       />
                       <PropsRoute path={`${path}/Posts/:id`}
-                                    component={PostExtendedView}
-                                    extendedView={true}
-                                    commentParentType={constants.COMMENT_PARENT.POST}
-                                    ownerId={userId}
+                                  component={PostExtendedView}
+                                  extendedView={true}
+                                  commentParentType={constants.COMMENT_PARENT.POST}
+                                  ownerId={userId}
                       />
                       {/*<PrivateRoute path={`${path}/Customers`} component={Customers}*/}
                       {/*organizationId={userId}*/}

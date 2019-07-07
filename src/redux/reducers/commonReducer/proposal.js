@@ -17,8 +17,16 @@ const proposal = (state = initialState.common.proposal, action) => {
       }
     }
     case types.SUCCESS.COMMON.PROPOSAL.UPDATE_PROPOSAL: {
-      const {data} = action.payload
-      return {
+      const {data, updateBookmark} = action.payload
+      if (updateBookmark === true)
+        return {
+          ...state,
+          list: {
+            ...state.list,
+            [data.id]: {...state.list[data.id], proposal_bookmarked: data.proposal_bookmarked},
+          },
+        }
+      else return {
         ...state,
         list: {
           ...state.list,

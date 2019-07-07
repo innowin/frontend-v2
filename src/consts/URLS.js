@@ -100,6 +100,7 @@ const urls = {
     COMMENT: 'base/comments',
 
     PROPOSAL: 'base/proposals',
+    PROPOSAL_BOOKMARK: 'base/proposals/bookmark',
 
     SOCIAL: {
       FOLLOW: 'organizations/follows',

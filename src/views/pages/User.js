@@ -203,13 +203,13 @@ class User extends Component<PropsUser, StatesUser> {
                         <Redirect exact from={`${url}/`} to={`${url}/Posts`}/>
 
                         <PropsRoute exact={true}
-                                      path={`${path}/Posts`}
-                                      component={Posts}
-                                      updatePost={updatePost}
-                                      deletePost={deletePost}
-                                      posts={posts}
-                                      userId={userId}
-                                      getPostByIdentity={getPostByIdentity}
+                                    path={`${path}/Posts`}
+                                    component={Posts}
+                                    updatePost={updatePost}
+                                    deletePost={deletePost}
+                                    posts={posts}
+                                    userId={userId}
+                                    getPostByIdentity={getPostByIdentity}
                         />
                         <PrivateRoute path={`${path}/basicInformation`}
                                       component={UserAboutMe}
@@ -241,10 +241,10 @@ class User extends Component<PropsUser, StatesUser> {
                                       user={userObject}
                         />
                         <PropsRoute path={`${path}/Posts/:id`}
-                                      component={PostExtendedView}
-                                      extendedView={true}
-                                      commentParentType={constants.COMMENT_PARENT.POST}
-                                      ownerId={userId}
+                                    component={PostExtendedView}
+                                    extendedView={true}
+                                    commentParentType={constants.COMMENT_PARENT.POST}
+                                    ownerId={userId}
                         />
 
                         {/*<PrivateRoute path={`${path}/basicInformation`} component={UserBasicInformation}*/}

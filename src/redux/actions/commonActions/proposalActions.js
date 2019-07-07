@@ -5,9 +5,9 @@ const createProposal = (description, identityId, postId, fileId) => ({
   payload: {description, identityId, postId, fileId},
 })
 
-const updateProposal = (formValues, proposalId) => ({
+const updateProposal = (formValues, proposalId, updateBookmark) => ({
   type: types.COMMON.PROPOSAL.UPDATE_PROPOSAL,
-  payload: {formValues, proposalId},
+  payload: {formValues, proposalId, updateBookmark},
 })
 
 const getProposalsByPostId = (postId, limit, offset) => ({

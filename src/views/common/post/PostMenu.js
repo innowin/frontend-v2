@@ -2,7 +2,6 @@ import * as React from 'react'
 import * as PropTypes from 'prop-types'
 import {MoreOptionSvg} from 'src/images/icons'
 import {Link} from 'react-router-dom'
-import checkOwner from '../CheckOwner'
 
 const PostMenu = (props) => {
   const {postMenuId, post, extendedView, menuToggle, openMenu, postIdentity, translate, deletePost, showEdit, clientIdentity} = props
@@ -10,6 +9,7 @@ const PostMenu = (props) => {
   const postUrl = `/${postIdentity.identity_type}/${ownerId}/Posts/${post.id}`
 
   return (
+      (!extendedView || postIdentity.id === clientIdentity) &&
       <div className='items post-footer-menu'>
         <div className='items cursor-pointer post-menu-bottom bubble-more more-option-svg-container' onClick={openMenu}>
           <MoreOptionSvg className="more-option-svg"/>
@@ -25,12 +25,11 @@ const PostMenu = (props) => {
                 </Link>
               }
               {
-                postIdentity.id === clientIdentity ?
-                    <span onClick={deletePost}>{translate['Delete post']}</span> :
-                    checkOwner({id: ownerId, children: <span onClick={deletePost}>{translate['Delete post']}</span>})
+                postIdentity.id === clientIdentity &&
+                <span onClick={deletePost}>{translate['Delete post']}</span>
               }
               {
-                showEdit && checkOwner({id: ownerId, children: <span onClick={showEdit}>{translate['Edit Post']}</span>})
+                postIdentity.id === clientIdentity && showEdit && <span onClick={showEdit}>{translate['Edit Post']}</span>
               }
             </div>
           </div>
