@@ -128,7 +128,7 @@ class GeneralSetting extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.user && (
+    if (this.props.user && nextProps.user && (
         (this.props.user.email !== nextProps.user.email) ||
         (this.props.user.username !== nextProps.user.username) ||
         (this.props.user.password !== nextProps.user.password) ||
