@@ -17,16 +17,18 @@ export function* getAllExchanges(action) {
         urls.EXCHANGE_EXPLORER,
         result,
         params,
-        true
+        true,
     )
     const data = yield take(socketChannel)
     yield put({type: types.SUCCESS.EXCHANGE.GET_EXCHANGES, payload: {data, search: getAll && data.length === 0 ? null : search, hashtags: getAll && data.length === 0 ? null : hashtags, isLoading: false}})
 // Added for get membership
-    const identityId = yield select((state) => state.auth.client.identity.content)
-    yield put({
-      type: types.COMMON.EXCHANGE_MEMBERSHIP.GET_EXCHANGE_MEMBERSHIP_BY_MEMBER_IDENTITY,
-      payload: {identityId, exchangeMembershipOwnerId: identityId},
-    })
+    if (offset === 0) {
+      const identityId = yield select((state) => state.auth.client.identity.content)
+      yield put({
+        type: types.COMMON.EXCHANGE_MEMBERSHIP.GET_EXCHANGE_MEMBERSHIP_BY_MEMBER_IDENTITY,
+        payload: {identityId, exchangeMembershipOwnerId: identityId},
+      })
+    }
 //end
   }
   catch (err) {

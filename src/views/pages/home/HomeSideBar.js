@@ -138,11 +138,11 @@ class HomeSideBar extends PureComponent<PropsHomeSideBar, StateHomeSideBar> {
             {
               clientExchanges && clientExchanges.length > 0 ?
                   clientExchanges.map((exchange, i) =>
-                          <SideBarItem key={i}
-                                       exchange={exchange}
-                                       handleClick={this._handleClick}
-                                       active={exchange.id === activeExchangeId}/>,
-                      )
+                      <SideBarItem key={i}
+                                   exchange={exchange}
+                                   handleClick={this._handleClick}
+                                   active={exchange.id === activeExchangeId}/>,
+                  )
                   :
                   loading !== undefined && loading === true ?
                       <div className='text-center'><ClipLoader/></div>

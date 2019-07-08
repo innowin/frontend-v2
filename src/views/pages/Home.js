@@ -58,7 +58,6 @@ class Home extends PureComponent {
               <HomePosts unSetExchangeId={this._unSetExchangeId} exchangeId={activeExchangeId}
                          className={activeExchangeId ? 'post-wrapper active-exchange' : 'post-wrapper'}/>
               <div className={activeExchangeId ? 'user-detail-wrapper active-exchange' : 'user-detail-wrapper'}>
-                {/*{identityType === constants.USER_TYPES.ORG && <OrganizationLeadershipCard/>}*/}
                 {/*<FahadEventCard/>*/}
                 <OrganizationLeadershipCard/>
                 {isBeeDone ? null : identityType === constants.USER_TYPES.ORG ? <OrganizationBee/> : <UserBee/>}

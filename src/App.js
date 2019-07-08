@@ -99,7 +99,7 @@ class App extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  clientId: state.auth.client.identity.content,
+  clientId: state.auth.client && state.auth.client.identity.content,
 })
 
 const mapDispatchToProps = dispatch => ({

@@ -27,7 +27,6 @@ import {
   ExchangeExploreIconSelected, NotificationIcon,
 } from 'src/images/icons'
 import {Link} from 'react-router-dom'
-import {routerActions} from 'react-router-redux'
 import {SearchIcon} from 'src/images/icons'
 import {CSSTransition, TransitionGroup} from 'react-transition-group'
 import type {identityType} from 'src/consts/flowTypes/identityType'
@@ -38,8 +37,6 @@ import ModalActions from '../../redux/actions/modalActions'
 type PropsTopBar = {|
   actions: {
     signOut: Function,
-    push: Function,
-    verifyToken: Function,
     hideModal: Function,
     showModal: Function,
   },
@@ -624,8 +621,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     signOut: AuthActions.signOut,
-    verifyToken: AuthActions.verifyToken,
-    push: routerActions.push,
     showModal: ModalActions.showModal,
     hideModal: ModalActions.hideModal,
   }, dispatch),

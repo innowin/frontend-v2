@@ -16,7 +16,7 @@ class SuggestExchanges extends PureComponent {
   }
 
   componentDidMount() {
-    this.props.actions.getAllExchanges(24, 0, null, null)
+    this.props.actions.getAllExchanges(24, 1, null, null)
   }
 
   componentWillReceiveProps(nextProps, nextContext) {
