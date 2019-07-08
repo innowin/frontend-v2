@@ -12,7 +12,6 @@ type Props = {
   owner: identityType,
   translate: TranslatorType,
   deleteFile: Function,
-  updateUser: Function,
 }
 
 type States = {
@@ -25,7 +24,7 @@ class Certificate extends React.Component<Props, States> {
     owner: PropTypes.object.isRequired,
     translate: PropTypes.object.isRequired,
     deleteFile: PropTypes.func.isRequired,
-    updateUser: PropTypes.func.isRequired,
+    updateUser: PropTypes.func,
     updateProduct: PropTypes.func,
   }
 

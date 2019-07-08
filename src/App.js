@@ -79,7 +79,7 @@ class App extends React.PureComponent {
                   <PrivateRoute exact path='/' component={Home}/>
                   <PropsRoute path='/user/:id' component={User}/>
                   <PropsRoute path='/organization/:id' component={Organization}/>
-                  <PrivateRoute path='/product/:id' component={ProductView}/>
+                  <PropsRoute path='/product/:id' component={ProductView}/>
                   <PrivateRoute path='/exchange/:id' component={ExchangeView}/>
                   <PrivateRoute path='/notifications' component={Notifications}/>
                   <PropsRoute path='/users/user_explorer' component={User_Explorer}/>

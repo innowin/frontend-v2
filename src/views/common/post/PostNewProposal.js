@@ -16,10 +16,13 @@ class PostNewProposal extends Component {
       id: null,
       sendResume: true,
       isEdit: false,
+      focus: false,
     }
     this.changeDescription = this.changeDescription.bind(this)
     this.submit = this.submit.bind(this)
     this.dontSendResume = this.dontSendResume.bind(this)
+    this.focus = this.focus.bind(this)
+    this.blur = this.blur.bind(this)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -44,6 +47,14 @@ class PostNewProposal extends Component {
 
   changeDescription(e) {
     this.setState({...this.state, description: e.target.value})
+  }
+
+  focus() {
+    this.setState({...this.state, focus: true})
+  }
+
+  blur() {
+    this.setState({...this.state, focus: false})
   }
 
   dontSendResume() {
@@ -81,20 +92,25 @@ class PostNewProposal extends Component {
 
   render() {
     const {currentUser, loading, translate} = this.props
-    const {isUpdating, description, sendResume, isEdit} = this.state
+    const {isUpdating, description, sendResume, isEdit, focus} = this.state
     if (currentUser)
       if (isUpdating !== null) {
         return (
-            <div className='proposal-cont'>
+            <div className={focus ? 'proposal-phone proposal-cont' : 'proposal-cont'}>
               {
                 currentUser.profile_media ?
                     <img alt='profile' src={currentUser.profile_media.file} className='comment-owner'/>
                     :
                     <DefaultUserIcon className='comment-owner'/>
               }
-              <div className='proposal-send-box'>
-                <textarea value={description} className='proposal-send-textarea' placeholder='ارسال پیشنهاده ...' onChange={this.changeDescription}/>
-                <div className='proposal-send-profile'>
+              <div className={focus ? 'proposal-send-box proposal-send-box-phone' : 'proposal-send-box'}>
+                <textarea value={description}
+                          className={focus ? 'proposal-send-textarea proposal-send-textarea-phone' : 'proposal-send-textarea'}
+                          placeholder='ارسال پیشنهاده ...'
+                          onChange={this.changeDescription}
+                          onFocus={this.focus}
+                />
+                <div className={focus ? 'proposal-send-profile proposal-send-phone' : 'proposal-send-profile'}>
                   {
                     currentUser.profile_media ?
                         <img alt='profile' src={currentUser.profile_media.file} className='proposal-owner'/>
@@ -110,7 +126,7 @@ class PostNewProposal extends Component {
                 {
                   sendResume ?
                       currentUser.related_cv || currentUser.related_catalog ?
-                          <div className='proposal-send-profile'>
+                          <div className={focus ? 'proposal-send-profile proposal-send-phone-second' : 'proposal-send-profile'}>
                             <div className='proposal-resume'>
                               <CurriculumSvg className='proposal-resume-logo'/>
                             </div>
@@ -139,9 +155,10 @@ class PostNewProposal extends Component {
                       : null
                 }
 
-                <div onClick={this.submit}>
+                <div className={focus ? 'proposal-send-logo-phone' : ''} onClick={this.submit}>
                   <PostSendIcon className='proposal-send-btn'/>
                 </div>
+                <div className={focus ? 'proposal-remove-logo-phone' : 'display-none'} onClick={this.blur}>✕</div>
               </div>
               {loading === true && <div className='proposal-loading'><BarLoader color='#d8d9dc' size={35}/></div>}
               {isEdit && <ResumeForm toggleEdit={this._toggleEdit} translate={translate} owner={currentUser}/>}

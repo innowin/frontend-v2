@@ -7,6 +7,7 @@ export const SOCKET = io(SOCKET_URL, {secure: true, extraHeader: {'Access-Contro
 
 const urls = {
   SIGN_IN: 'api-token-auth',
+  SIGN_INN: 'auth/login',
   VERIFY_TOKEN: 'api-token-verify',
 
   USER: {
@@ -100,6 +101,7 @@ const urls = {
     COMMENT: 'base/comments',
 
     PROPOSAL: 'base/proposals',
+    PROPOSAL_BOOKMARK: 'base/proposals/bookmark',
 
     SOCIAL: {
       FOLLOW: 'organizations/follows',

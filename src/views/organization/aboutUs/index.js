@@ -20,6 +20,7 @@ import {getProductsSelector} from 'src/redux/selectors/common/product/userGetPro
 import Products from '../../user/aboutMe/product/Products'
 import FileActions from 'src/redux/actions/commonActions/fileActions'
 import getSearchedOrganizationsSelector from 'src/redux/selectors/organization/getOrganizationsFilterByOfficialName'
+import Badges from '../../user/aboutMe/badges'
 
 type OrganAboutUsProps = {
   certificates: [certificateType],
@@ -39,7 +40,7 @@ type OrganAboutUsProps = {
 }
 
 const OrganAboutUs = (props: OrganAboutUsProps) => {
-  const {translate, user, actions, products, certificates, searchedOrganizations} = props
+  const {translate, user, actions, products, certificates, searchedOrganizations, badges} = props
   const {
     getCertificatesByIdentity, updateOrganization, createCertificate, updateCertificate,
     deleteCertificate, updateUser, deleteFile, emptySearchedOrganization, getOrganizationsFilterByOfficialName,
@@ -61,6 +62,8 @@ const OrganAboutUs = (props: OrganAboutUsProps) => {
 
         <Catalog updateUser={updateUser} translate={translate} owner={user} deleteFile={deleteFile}/>
 
+        <Badges badges={badges}/>
+
         {/*<Hashtags updateUser={updateUser} translate={translate} owner={user} deleteFile={deleteFile}/>*/}
       </div>
   )
@@ -75,10 +78,10 @@ OrganAboutUs.propTypes = {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-    translate: getMessages(state),
-    certificates: userCertificatesSelector(state, ownProps),
-    products: getProductsSelector(state, {ownerId: ownProps.userId}),
-    searchedOrganizations: getSearchedOrganizationsSelector(state),
+  translate: getMessages(state),
+  certificates: userCertificatesSelector(state, ownProps),
+  products: getProductsSelector(state, {ownerId: ownProps.userId}),
+  searchedOrganizations: getSearchedOrganizationsSelector(state),
 })
 
 const mapDispatchToProps = dispatch => ({

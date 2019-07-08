@@ -139,7 +139,7 @@ export class productBasicInformation extends PureComponent {
             </div>
           </div>
 
-          <Catalog updateUser={undefined} updateProduct={updateProduct} translate={translate} owner={product} deleteFile={deleteFile}/>
+          <Catalog updateProduct={updateProduct} translate={translate} owner={product} deleteFile={deleteFile}/>
 
         </div>
     )

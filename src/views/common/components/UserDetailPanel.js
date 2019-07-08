@@ -45,7 +45,7 @@ const UserDetailPanel = (props) => {
           <div className='user-detail-body'>
             <div className='user-detail-row'>
               <p className='user-detail-label user-detail-username'>{name}</p>
-              <p className='user-detail-value user-detail-username-value'>@{identity.username}</p>
+              <p className='user-detail-value user-detail-username-value'>@{identity.nike_name || identity.username}</p>
             </div>
           </div>
         </div>

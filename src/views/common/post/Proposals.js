@@ -10,18 +10,6 @@ import {connect} from 'react-redux'
 const Proposals = (props) => {
   const {proposals} = props
 
-  const unBookmark = (proposal) => {
-    const {actions} = props
-    actions.updateProposal(
-        {
-          proposal_identity: proposal.proposal_identity,
-          proposal_parent: proposal.proposal_parent,
-          proposal_bookmarked: false,
-        },
-        proposal.id,
-    )
-  }
-
   const Bookmark = (proposal) => {
     const {actions} = props
     actions.updateProposal(
@@ -31,6 +19,7 @@ const Proposals = (props) => {
           proposal_bookmarked: true,
         },
         proposal.id,
+        true
     )
   }
 
@@ -66,7 +55,7 @@ const Proposals = (props) => {
                   <div className='post-proposal-footer'>
                     {
                       proposal.proposal_bookmarked ?
-                          <BookmarkSvg className='post-proposal-bookmark' onClick={() => unBookmark(proposal)}/>
+                          <BookmarkSvg className='post-proposal-bookmark' onClick={() => Bookmark(proposal)}/>
                           : <UnBookmarkSvg className='post-proposal-bookmark' onClick={() => Bookmark(proposal)}/>
                     }
                     {

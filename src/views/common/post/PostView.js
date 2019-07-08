@@ -68,6 +68,15 @@ class PostView extends React.PureComponent {
     const {extendedView, post, actions} = this.props
 
     if (extendedView) {
+      setTimeout(() => {
+        if (this.post && document.body.clientWidth < 480) {
+          const rect = this.post.getBoundingClientRect()
+          window.scroll({
+            top: window.scrollY + rect.top - 40,
+            behavior: 'smooth',
+          })
+        }
+      }, 500)
       const {getCommentsByParentId, getPost, getProposals} = actions
       const {match, ownerId} = this.props
       getCommentsByParentId({parentId: match.params.id, commentParentType: constants.COMMENT_PARENT.POST})
@@ -129,14 +138,10 @@ class PostView extends React.PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    const {post, extendedView, comments, actions} = nextProps
+    const {post, comments, actions} = nextProps
     if (post) {
       if (post !== this.props.post && post.is_post_liked_by_logged_in_user !== undefined) {
         this.setState({...this.state, is_liked: post.is_post_liked_by_logged_in_user})
-      }
-      if (!extendedView && post.post_description && post.post_description.length !== this.props.post.post_description.length) {
-        this.text.style.height = 'auto'
-        this.setState({...this.state, showMore: false})
       }
       if (comments && this.props.comments && this.props.comments.length > comments.length && comments.length < 3) {
         const {getCommentsByParentId} = actions
@@ -164,7 +169,7 @@ class PostView extends React.PureComponent {
     const {extendedView, comments, actions, post} = this.props
     const {getCommentsByParentId} = actions
     let {showComment} = this.state
-    this.setState({...this.state, showComment: !showComment, commentOn: null})
+    this.setState({...this.state, showProposalSend: false, showComment: !showComment, commentOn: null})
 
     if (!extendedView && (!comments || (comments && comments.length < 3))) {
       getCommentsByParentId({parentId: post.id, commentParentType: constants.COMMENT_PARENT.POST, limit: 3})
@@ -173,7 +178,7 @@ class PostView extends React.PureComponent {
 
   handleShowProposals() {
     const {showProposalSend} = this.state
-    this.setState({...this.state, showProposalSend: !showProposalSend}, () => {
+    this.setState({...this.state, showComment: false, showProposalSend: !showProposalSend}, () => {
       if (!showProposalSend) {
         const {actions, post} = this.props
         actions.getProposals(post.id)
@@ -270,7 +275,7 @@ class PostView extends React.PureComponent {
       const postFilesArray = post.post_files_array
 
       return (
-          <div className='-itemWrapperPost'>
+          <div ref={e => this.post = e} className='-itemWrapperPost'>
             {extendedView && <CategoryTitle title={translate['Single post']}/>}
             <div className={extendedView ? 'post-view-container' : ''}>
               {
