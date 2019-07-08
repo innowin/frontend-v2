@@ -23,6 +23,7 @@ const persistConfig = {
   storage,
   version: migrations.LATEST_VERSION,
   migrate: createMigrate(migrations.ROOT, {debug: false}),
+  blacklist: ['form'],
   stateReconciler: autoMerge,
 }
 

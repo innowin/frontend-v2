@@ -44,7 +44,8 @@ const proposal = (state = initialState.common.proposal, action) => {
         },
       }
     }
-
+    case types.RESET:
+      return initialState.common.proposal
     default:
       return state
   }

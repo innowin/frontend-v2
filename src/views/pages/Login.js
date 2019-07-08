@@ -108,32 +108,11 @@ class Login extends PureComponent {
                          iosLink={iosLink} androidLink={androidLink} address={address} phoneNumber={phoneNumber}/>
             <div className="content">
               <div className={`login-wrapper ${animateFormClass}`}>
-                <div
-                    className={(registerMobile || loginMobile) ? 'sign-in-card login-page-sign-in-card' : 'sign-in-card'}>
+                <div className={(registerMobile || loginMobile) ? 'sign-in-card login-page-sign-in-card' : 'sign-in-card'}>
                   <div className="login-tab">
                     <h2 className='login-part-title'>
                       {translate['Danesh Boom']}
                     </h2>
-                    {/*<div className='tabs-container'>*/}
-                    {/*  {*/}
-                    {/*    !SignIn &&*/}
-                    {/*    <div className="signup-tab">*/}
-                    {/*      <span>{translate['Register']}</span>*/}
-                    {/*      <button className="login-signup-button pulse" onClick={this._showSignIn}>*/}
-                    {/*        {translate['Login']}*/}
-                    {/*      </button>*/}
-                    {/*    </div>*/}
-                    {/*  }*/}
-                    {/*  {*/}
-                    {/*    SignIn &&*/}
-                    {/*    <div className="signin-tab">*/}
-                    {/*      <button className="login-signup-button pulse" onClick={this._showSignUp}>*/}
-                    {/*        {translate['Register']}*/}
-                    {/*      </button>*/}
-                    {/*      <span>{translate['Login']}</span>*/}
-                    {/*    </div>*/}
-                    {/*  }*/}
-                    {/*</div>*/}
                   </div>
                   <div className="login-form">
                     {
@@ -145,10 +124,6 @@ class Login extends PureComponent {
                                               onSignInClick={this._showSignIn} onRegisterClick={this._onRegisterClick}/>
                     }
                   </div>
-                  {/*<div className="card-footer social-login">*/}
-                  {/*<span>{translate['Register with other accounts']}</span>*/}
-                  {/*<SocialLogin/>*/}
-                  {/*</div>*/}
                 </div>
                 {
                   !(registerMobile || loginMobile) &&
