@@ -13,6 +13,11 @@ class FahadEventPageTwo extends PureComponent {
     }
   }
 
+  componentDidMount() {
+    if (document.body.clientWidth > 480)
+      window.scrollTo({top: 0, behavior: "smooth"})
+  }
+
   handleCatChange(data) {
     this.setState({...this.state, selectedCategory: data})
   }

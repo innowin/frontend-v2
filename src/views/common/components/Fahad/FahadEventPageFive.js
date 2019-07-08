@@ -8,6 +8,11 @@ class FahadEventPageFive extends Component {
     this.state = {}
   }
 
+  componentDidMount() {
+    if (document.body.clientWidth > 480)
+      window.scrollTo({top: 0, behavior: "smooth"})
+  }
+
   render() {
     return (
         <React.Fragment>

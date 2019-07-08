@@ -2,6 +2,12 @@ import React, {Component} from "react"
 import RightArrowSvg from "src/images/common/right_arrow_svg"
 
 class FahadEventPageThree extends Component {
+
+  componentDidMount() {
+    if (document.body.clientWidth > 480)
+      window.scrollTo({top: 0, behavior: "smooth"})
+  }
+
   render() {
     return (
         <React.Fragment>

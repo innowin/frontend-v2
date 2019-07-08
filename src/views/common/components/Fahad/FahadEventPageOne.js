@@ -11,6 +11,11 @@ class FahadEventPageOne extends PureComponent {
     }
   }
 
+  componentDidMount() {
+    if (document.body.clientWidth > 480)
+      window.scrollTo({top: 0, behavior: "smooth"})
+  }
+
   setOrgType(orgType) {
     this.setState({...this.state, orgType: orgType})
   }

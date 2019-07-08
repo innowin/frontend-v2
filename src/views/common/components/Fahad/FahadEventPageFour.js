@@ -23,6 +23,11 @@ class FahadEventPageFour extends Component {
     }
   }
 
+  componentDidMount() {
+    if (document.body.clientWidth > 480)
+      window.scrollTo({top: 0, behavior: "smooth"})
+  }
+
   addMember() {
     let {members} = this.state
     let newMembers = members
