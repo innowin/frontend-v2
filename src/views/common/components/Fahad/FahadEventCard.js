@@ -7,7 +7,7 @@ export default class FahadEventCard extends PureComponent {
   constructor() {
     super()
     this.state = {
-      modalIsOpen: true,
+      modalIsOpen: false,
     }
   }
 
