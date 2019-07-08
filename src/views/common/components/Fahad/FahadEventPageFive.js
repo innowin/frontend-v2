@@ -1,44 +1,14 @@
 import React, {Component} from "react"
 import RightArrowSvg from "src/images/common/right_arrow_svg"
-
-const memberType = {
-  fullName: "",
-  phoneNumber: null,
-  socialNumber: null,
-  rule: "",
-}
+import {CancelSvg, CheckSvg} from "src/images/icons"
 
 class FahadEventPageFive extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      members: [
-        {
-          fullName: "",
-          phoneNumber: null,
-          socialNumber: null,
-          rule: "",
-        },
-      ],
-    }
-  }
-
-  addMember() {
-    let {members} = this.state
-    let newMembers = members
-    newMembers.push(memberType)
-    this.setState({...this.state, members: newMembers})
-  }
-
-  deleteMember() {
-    let {members} = this.state
-    let newMembers = members
-    newMembers.pop()
-    this.setState({...this.state, members: newMembers})
+    this.state = {}
   }
 
   render() {
-    let {members} = this.state
     return (
         <React.Fragment>
           <div className="event-reg-modal-header">
@@ -51,6 +21,48 @@ class FahadEventPageFive extends Component {
             </b>
           </div>
           <div className="event-reg-modal-body">
+
+            <p style={{marginBottom: "25px"}}>
+              پیشنهادات می‌بایست عملیاتی و آمادۀ عقد قرارداد همکاری توسط مجموعه با ذکر جزییات (عدد، رقم و سایر پارامتر های مهم) باشد.
+            </p>
+
+            <div style={{marginBottom: "25px"}}>
+              <div className="fahad-modal-cancel-check-con">
+                <CancelSvg className="fahad-modal-cancel-svg"/>
+                <div className="fahad-modal-cancel-check-text">نمونۀ بد:</div>
+              </div>
+              <div style={{margin: "10px 25px"}}>
+                علاقه‌مند به جذب سرمایه‌گذار
+              </div>
+
+              <div className="fahad-modal-cancel-check-con">
+                <CheckSvg className="fahad-modal-check-svg"/>
+                <div className="fahad-modal-cancel-check-text">نمونۀ صحیح:</div>
+              </div>
+              <div style={{margin: "10px 25px"}}>
+                نیازمند سرمایه‌گذاری به ارزش 500 میلیون تومان تا 3 میلیارد تومان در قالب مشارکتی مدنی/تأسیس شرکت مشترک جهت راه‌اندازی خط تولید پرینتر
+                های سه بعدی
+              </div>
+            </div>
+
+
+            <div style={{marginBottom: "25px"}}>
+              <div className="fahad-modal-cancel-check-con">
+                <CancelSvg className="fahad-modal-cancel-svg"/>
+                <div className="fahad-modal-cancel-check-text">نمونۀ بد:</div>
+              </div>
+              <div style={{margin: "10px 25px"}}>
+                نیازمند جذب نیروی برق
+              </div>
+
+              <div className="fahad-modal-cancel-check-con">
+                <CheckSvg className="fahad-modal-check-svg"/>
+                <div className="fahad-modal-cancel-check-text">نمونۀ صحیح:</div>
+              </div>
+              <div style={{margin: "10px 25px"}}>
+                نیازمند به جذب دو نفر در رشتۀ برق، خانم و آقا، ساکن تهران، در مقطع تحصیلی کارشناسی، در قالب اعطای تسهیلات نظام‌وظیفه، با پرداخت ساعتی
+              </div>
+            </div>
 
             <label>
               فرصت‌های همکاری در حوزۀ سرمایه
