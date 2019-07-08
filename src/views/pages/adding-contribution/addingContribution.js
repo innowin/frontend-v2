@@ -3,9 +3,6 @@ import * as React from "react"
 import countrySelector from "src/redux/selectors/common/location/getCountry"
 import makeCitySelectorByProvinceId from "src/redux/selectors/common/location/getCityByProvince"
 import makeProvinceSelectorByCountryId from "src/redux/selectors/common/location/getProvinceByCountry"
-import nowCreatedProductIdSelector from "src/redux/selectors/common/product/getNowCreatedProductId"
-import nowCreatedSkillIdSelector from "src/redux/selectors/skill/getNowCreatedSkillId"
-import type {/*NewContributionDataType,*/SkillFormValsType} from "./types"
 import type {TranslatorType} from "src/consts/flowTypes/common/commonTypes"
 import {bindActionCreators} from "redux"
 import {change} from "redux-form"
@@ -19,7 +16,6 @@ import {getMessages} from "../../../redux/selectors/translateSelector"
 import {hashTagsListSelector} from "src/redux/selectors/common/hashTags/hashTag"
 import {makeCategorySelector} from "src/redux/selectors/common/category/getCategoriesByParentId"
 import {PureComponent} from "react"
-import {skillInfoFormName} from "./skill/infoForm"
 import {
   CircularAddIcon,
   ContributionIcon,
@@ -35,7 +31,6 @@ import InteliInput from "src/views/common/inputs/InteliInput"
 // import Material from '../../common/components/Material'
 // import type {ImageType} from '../modal/createExchange/basicInfo'
 import {createFile} from "src/redux/actions/commonActions/fileActions"
-import makeFileSelectorByKeyValue from "src/redux/selectors/common/file/selectFilsByKeyValue"
 import {ClipLoader} from "react-spinners"
 import {TransitionGroup, CSSTransition} from "react-transition-group"
 import types from "../../../redux/actions/types"
@@ -64,19 +59,14 @@ type AddingContributionProps = {
   categories: list,
   cities: {},
   city: list,
-  clientFiles: Object,
   clientId: ?number,
   countries: list,
   handleModalVisibility: Function,
   hashTags: {},
   identity: ?number,
-  initialInfoFormState: {},
   modalIsOpen: boolean,
-  nowCreatedProductId: number,
-  nowCreatedSkillId: number,
   province: list,
   provinces: {},
-  skillInfoFormValues: SkillFormValsType,
   translator: TranslatorType,
 }
 type cats = any
@@ -208,8 +198,6 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
           this.setState({...this.state, cityList: citsArray.slice()})
       }
 
-      // const lastFile = clientFiles[clientFiles.length - 1] || {}
-      // const prevLastFile = prevProps.clientFiles[prevProps.clientFiles.length - 1] || {}
       if (this.state.currentFileId !== "" && temp[this.state.currentFileId] && temp[this.state.currentFileId].progress === 100 && temp["product_image"]) {
         this._imageHandler(temp["product_image"])
         _removeFileFromTemp("product_image")
@@ -1257,25 +1245,18 @@ const mapStateToProps = (state) => {
   const citySelectorByProvinceId = makeCitySelectorByProvinceId()
   const provinceSelectorByProvinceId = makeProvinceSelectorByCountryId()
   const categorySelector = makeCategorySelector()
-  const fileSelectorByKeyValue = makeFileSelectorByKeyValue()
 
   // const provinces =
   return {
     categories: categorySelector(state),
     cities: citySelectorByProvinceId(state, provinceId),
     city: state.common.location.city,
-    clientFiles: fileSelectorByKeyValue(state, "identity", identity),
     clientId,
     countries: countrySelector(state),
     hashTags: hashTagsListSelector(state),
     identity,
-    initialInfoFormState: initialFormValues,
-    nowCreatedProductId: nowCreatedProductIdSelector(state),
-    nowCreatedSkillId: nowCreatedSkillIdSelector(state),
     province: state.common.location.province,
     provinces: provinceSelectorByProvinceId(state, countryId),
-    skillInfoFormValues: getFormValues(state, skillInfoFormName),
-    testToken: state.auth.client.token,
     translator: getMessages(state),
     temp: state.temp.file,
   }
