@@ -198,6 +198,7 @@
   display: block;
   margin: 10px 0;
   object-fit: cover;
+  fill: $primary-color;
 }
 
 .create-exchange-upload-image{
@@ -273,7 +274,7 @@
 .create-exchange-cancel-button {
   padding: 5px;
   font-size: $font-size-regular;
-  border: 1.5px solid $disable-color;
+  border: 1.5px solid white;
   background-color: $disable-color;
   color: white;
   height: 30px;

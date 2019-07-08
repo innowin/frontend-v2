@@ -1,5 +1,11 @@
 @import "../../variables";
 
+.small-event-arrow {
+  width: 5px;
+  fill: $foreground-color;
+  transform: translateY(2px) rotate(180deg);
+}
+
 .organization-leadership-container {
   display: flex;
   align-items: center;
@@ -69,10 +75,10 @@
     content: ' ';
     position: absolute;
     vertical-align: top;
-    top: 5px;
-    left: 5px;
-    width: 8px;
-    height: 8px;
+    top: 4.5px;
+    left: 4.5px;
+    width: 9px;
+    height: 9px;
     border-radius: 50%;
     background-color: $secondary-color;
   }
@@ -89,8 +95,193 @@
   cursor: pointer;
 }
 
-.small-event-arrow {
-  width: 5px;
-  fill: $foreground-color;
-  transform: translateY(2px) rotate(180deg);
+.selective-inputs-container {
+  padding-right: 30px;
+  margin-right: 10px;
+  margin-top: 15px;
+  border-right: 1px solid $disable-color;
+}
+
+.fahad-modal-card-checkboxes {
+  display: inline-block;
+  vertical-align: top;
+  margin: 5px 1px 0 0;
+  width: 100%;
+
+  .checkmark {
+    position: absolute;
+    top: 2px;
+    right: 0;
+    height: 18px;
+    width: 18px;
+    border-radius: $border-radius-size;
+    border: 1px solid #c0c0c0;
+    background-color: white;
+
+    &:after {
+      content: "";
+      position: absolute;
+      display: none;
+    }
+  }
+}
+
+.fahad-modal-card-checkbox {
+  display: flex;
+  flex-flow: row wrap;
+  position: relative;
+  padding-right: 25px;
+  padding-bottom: 15px;
+  color: black;
+  cursor: pointer;
+  font-size: 12px;
+  user-select: none;
+  margin: 8px auto;
+  transition-duration: $animation-timing;
+
+  &:first-child {
+    margin-top: 15px;
+  }
+
+  &:last-child {
+    padding-bottom: 5px;
+    border-bottom: none;
+  }
+
+  input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+
+    &:checked + .checkmark {
+      background-color: $secondary-color;
+
+      &:after {
+        display: block;
+      }
+    }
+  }
+
+  .checkmark:after {
+    left: 4px;
+    top: 0;
+    width: 6px;
+    height: 11.25px;
+    border: solid $text-lightest-color;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+  }
+}
+
+.fahad-modal-upload-svg-con {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  border: 1.25px solid $secondary-color;
+  width: 60px;
+  height: 60px;
+  margin: 10px 0 15px 0;
+}
+
+.fahad-modal-upload-svg {
+  width: 30px;
+  fill: $secondary-color;
+  cursor: pointer;
+  object-fit: cover;
+}
+
+.have-product-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 58vh;
+  font-size: $font-size-regular;
+
+  p {
+    margin-bottom: 15px;
+  }
+}
+
+.disabled-text {
+  color: $disable-color;
+}
+
+.fahad-modal-product-svg-con {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  border: 1.25px solid $primary-color;
+  width: 150px;
+  height: 150px;
+  margin: 10px 0 15px 0;
+}
+
+.fahad-modal-product-svg {
+  width: 75px;
+  fill: $secondary-color;
+  cursor: pointer;
+  object-fit: cover;
+}
+
+.add-product-button {
+  min-width: 80px;
+  cursor: pointer;
+  background-color: $primary-color;
+  border: 1.25px solid $background-color;
+  transition-duration: $animation-timing;
+  font-size: $font-size-verySmallText;
+  color: $background-color;
+  border-radius: 25px;
+  padding: 6px 12px;
+  float: left;
+  box-shadow: 0 0 0 0 $primary-color;
+  text-align: center;
+  opacity: 1;
+
+  &:hover {
+    color: $primary-color;
+    border: 1.25px solid $primary-color;
+    background-color: $background-color;
+    transition-duration: $animation-timing;
+    box-shadow: 0 0 0 0 $primary-color;
+  }
+
+  &:active {
+    background-color: $primary-color;
+    border: 1.25px solid $background-color;
+    color: $background-color;
+    transition-duration: $animation-timing-short;
+    box-shadow: 0 0 0 2px $primary-color;
+  }
+}
+
+.inteli-input-light-border {
+  margin: 10px auto 20px auto;
+  border: 1.25px solid #cdcdcd;
+}
+
+.fahad-product-gallery-container {
+  display: inline-flex;
+  position: relative;
+  width: 100%;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.fahad-product-gallery-item-container {
+  width: 125px;
+  height: 70px;
+  background-color: $background-color;
+  border-radius: $border-radius-size;
+  border: 1px dashed #cdcdcd;
+  position: relative;
+}
+
+.fahad-modal-increase-decrease-con {
+  display: flex;
+  justify-content: space-between;
 }

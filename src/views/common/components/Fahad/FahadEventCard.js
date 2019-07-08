@@ -1,13 +1,13 @@
 import * as React from "react"
 import {EventBanner} from "src/images/icons"
-import {PureComponent} from 'react'
+import {PureComponent} from "react"
 import FahadEventModal from "./FahadEventModal"
 
 export default class FahadEventCard extends PureComponent {
   constructor() {
     super()
     this.state = {
-      modalIsOpen: false
+      modalIsOpen: true,
     }
   }
 
