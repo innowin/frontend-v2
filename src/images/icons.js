@@ -11,6 +11,7 @@ import CalendarEmpty from "./common/calendar_empty"
 import CancelSvg from "./common/cancel_svg"
 import CertificateIcon from "./user/certificate_svg"
 import CertificateTick from "./common/certificate_tick_svg"
+import AppleSvg from "./common/apple_svg"
 import ChannelIcon from "./common/channel_svg"
 import ChartIcon from "./product/chart"
 import CheckSvg from "./common/check_svg"
@@ -143,6 +144,7 @@ export {
   ChannelIcon,
   ChartIcon,
   CheckSvg,
+  AppleSvg,
   CircularAddIcon,
   CircularProgress,
   CircularTickSvg,

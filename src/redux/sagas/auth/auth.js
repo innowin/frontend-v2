@@ -6,15 +6,15 @@ import urls from 'src/consts/URLS'
 import {delay} from 'redux-saga'
 import {put, take, fork, call} from 'redux-saga/effects'
 
-/**********    %% WORKERS %%    **********/
-
 export function* signIn(action) {
   const {payload} = action
-  const {username, password, rememberMe, reject, resolve} = payload
+  const {username, password, rememberMe, reject, resolve, Token} = payload
   const socketChannel = yield call(api.createSocketChannel, results.SIGN_IN)
   try {
-    yield fork(api.post, urls.SIGN_IN, results.SIGN_IN, {username: username.toLowerCase(), password})
+    if (Token) yield fork(api.post, urls.SIGN_IN_TOKEN, results.SIGN_IN, {token: Token})
+    else yield fork(api.post, urls.SIGN_IN, results.SIGN_IN, {username: username.toLowerCase(), password})
     const primaryData = yield take(socketChannel)
+    console.log('primaryData: ',primaryData)
     const {token, identity} = primaryData
     yield put({type: types.AUTH.SET_TOKEN, payload: {token}})
     yield delay(500)

@@ -3,6 +3,67 @@
 .proposal-cont {
   padding: 0 18px 18px 18px;
   user-select: none;
+  position: relative;
+}
+
+.proposal-guide {
+  position: absolute;
+  width: 310px;
+  border-radius: 5px;
+  top: -10px;
+  left: -320px;
+
+  @media screen and (max-width: 1215px) {
+    width: 250px;
+    left: -260px;
+  }
+
+  @media screen and (max-width: 980px) {
+    width: 200px;
+    left: -210px;
+  }
+
+  @media screen and (max-width: 480px) {
+    width: 100%;
+    left: 0;
+    right: 0;
+    top: unset;
+    bottom: -95px;
+  }
+}
+
+.proposal-guide-send {
+  @media screen and (max-width: 480px) {
+    width: 100%;
+    left: 0;
+    right: 0;
+    top: unset;
+    bottom: -210px;
+  }
+}
+
+.proposal-guide-logo {
+  width: 25px;
+  margin-left: 18px;
+}
+
+.proposal-guide-first {
+  margin: 10px 0;
+  border-radius: 5px;
+  padding: 18px 18px 13px 18px;
+  background-color: white;
+}
+
+.proposal-guide-first-text {
+  margin-top: -5px;
+  width: calc(100% - 43px);
+  vertical-align: top;
+  display: inline-block;
+  font-size: $font-size-description;
+  color: #BEBEBE;
+  line-height: 25px;
+  text-align: justify;
+  text-align-last: right;
 }
 
 .proposal-phone {
@@ -239,8 +300,8 @@
 .post-proposal-container {
   box-shadow: 0 3px 3px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
-  overflow: hidden;
   margin-bottom: 20px;
+  position: relative;
 }
 
 .post-proposal-title {
@@ -263,6 +324,7 @@
   padding: 18px;
   background-color: white;
   border-bottom: 1px solid #ECECEC;
+  border-radius: 5px;
 }
 
 .post-proposal-content-profile {
@@ -310,4 +372,10 @@
   width: 12px;
   margin-left: 60px;
   cursor: pointer;
+}
+
+.post-proposal-bookmark-guide {
+  vertical-align: top;
+  width: 12px;
+  margin: 0 3px;
 }

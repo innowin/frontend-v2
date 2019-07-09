@@ -5,7 +5,7 @@ import {connect} from "react-redux"
 import AbilityInfoContainer from "./AbilityInfoContainer"
 import ProductInfoContainer from './ProductInfoContainer'
 import SkillInfoContainer from './SkillInfoContainer'
-import {CategoryTitle, FrameCard, ListGroup} from "../cards/Frames"
+import {CategoryTitle} from "../cards/Frames"
 import {getMessages} from "../../../redux/selectors/translateSelector"
 import AddingContribution from "../../pages/adding-contribution/addingContribution"
 

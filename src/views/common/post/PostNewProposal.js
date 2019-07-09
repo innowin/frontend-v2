@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {AttachmentSvg, CurriculumSvg, DefaultUserIcon, PostSendIcon, UploadLogo} from 'src/images/icons'
+import {AppleSvg, AttachmentSvg, CurriculumSvg, DefaultUserIcon, PostSendIcon, UploadLogo} from 'src/images/icons'
 import ProposalsActions from 'src/redux/actions/commonActions/proposalActions'
 import {bindActionCreators} from 'redux'
 import {BarLoader} from 'react-spinners'
@@ -97,6 +97,18 @@ class PostNewProposal extends Component {
       if (isUpdating !== null) {
         return (
             <div className={focus ? 'proposal-phone proposal-cont' : 'proposal-cont'}>
+
+              <div className='proposal-guide proposal-guide-send'>
+                <div className='proposal-guide-first'>
+                  <AppleSvg className='proposal-guide-logo'/>
+                  <div className='proposal-guide-first-text'>صاحب پست می‌تواند سوابق شما را در پروفایل اینوین مشاهده کند. درصورت تمایل می‌توانید فایل رزومه خود را نیز در پاسخ ضمیمه کنید.</div>
+                </div>
+                <div className='proposal-guide-first'>
+                  <AppleSvg className='proposal-guide-logo'/>
+                  <div className='proposal-guide-first-text'>پاسخ ارسالی شما تنها برای صاحب پست قابل مشاهده خواهد بود.</div>
+                </div>
+              </div>
+
               {
                 currentUser.profile_media ?
                     <img alt='profile' src={currentUser.profile_media.file} className='comment-owner'/>

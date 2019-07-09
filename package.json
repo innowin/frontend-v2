@@ -67,6 +67,7 @@
     "redux-form": "^7.3.0",
     "redux-logger": "^3.0.6",
     "redux-persist": "^5.10.0",
+    "redux-persist-transform-encrypt": "^2.0.1",
     "redux-saga": "^0.16.0",
     "redux-undo": "^1.0.0-beta9-9-7",
     "reselect": "^3.0.1",

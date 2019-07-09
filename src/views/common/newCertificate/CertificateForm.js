@@ -284,7 +284,7 @@ class CertificateForm extends React.Component<Props, States> {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
   return {
     newCertificatePicture: state.temp.file[constants.TEMP_FILE_KEYS.CERTIFICATE.PICTURE],
   }

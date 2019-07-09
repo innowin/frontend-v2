@@ -1,6 +1,6 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
-import {AttachmentSvg, BookmarkSvg, DefaultUserIcon, Organization, UnBookmarkSvg, User as UserIcon} from '../../../images/icons'
+import {AppleSvg, AttachmentSvg, BookmarkSvg, DefaultUserIcon, Organization, UnBookmarkSvg, User as UserIcon} from '../../../images/icons'
 import Moment from 'react-moment'
 import {bindActionCreators} from 'redux'
 import constants from 'src/consts/constants'
@@ -19,7 +19,7 @@ const Proposals = (props) => {
           proposal_bookmarked: true,
         },
         proposal.id,
-        true
+        true,
     )
   }
 
@@ -27,6 +27,18 @@ const Proposals = (props) => {
       <div>
         <div className='post-proposal-title'>پیشنهاده ها</div>
         <div className='post-proposal-container'>
+
+          <div className='proposal-guide'>
+            <div className='proposal-guide-first'>
+              <AppleSvg className='proposal-guide-logo'/>
+              <div className='proposal-guide-first-text'>
+                می‌توانید گزینه‌های مورد علاقه خود را با علامت
+                <UnBookmarkSvg className='post-proposal-bookmark-guide'/>
+                نشانه‌گذاری کنید
+              </div>
+            </div>
+          </div>
+
           {
             proposals.map((proposal, index) =>
                 <div key={index} className='post-proposal-content'>
@@ -63,11 +75,13 @@ const Proposals = (props) => {
                           <a href={proposal.proposal_file.file}><AttachmentSvg className='post-proposal-resume-icon'/></a>
                           : <AttachmentSvg className='post-proposal-not-resume-icon'/>
                     }
-                    {
-                      proposal.proposal_identity.identity_type === constants.USER_TYPES.USER ?
-                          <UserIcon className='post-proposal-user-icon'/>
-                          : <Organization className='post-proposal-user-icon'/>
-                    }
+                    <Link to={`/${proposal.proposal_identity.identity_type}/${proposal.proposal_identity.id}`}>
+                      {
+                        proposal.proposal_identity.identity_type === constants.USER_TYPES.USER ?
+                            <UserIcon className='post-proposal-user-icon'/>
+                            : <Organization className='post-proposal-user-icon'/>
+                      }
+                    </Link>
                   </div>
                 </div>,
             )

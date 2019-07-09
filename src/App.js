@@ -69,7 +69,12 @@ class App extends React.PureComponent {
 
           <Switch>
 
-            <PropsRoute path='/login' _hideModalClick={this._hideModalClick} _onRegisterClick={this._onRegisterClick} setSignUpFields={this.setSignUpFields} component={Login}/>
+            <PropsRoute path='/login'
+                        _hideModalClick={this._hideModalClick}
+                        _onRegisterClick={this._onRegisterClick}
+                        setSignUpFields={this.setSignUpFields}
+                        component={Login}
+            />
 
             <React.Fragment>
               <div className='pages-wrapper global-wrapper'>

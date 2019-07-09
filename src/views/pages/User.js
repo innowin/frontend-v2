@@ -70,8 +70,8 @@ class User extends Component<PropsUser, StatesUser> {
 
   componentDidMount() {
     const {params} = this.props.match
-    const {getUserByUserId, setParamUserId, getProducts, getUserBadges} = this.props.actions
     const userId = +params.id
+    const {getUserByUserId, setParamUserId, getProducts, getUserBadges} = this.props.actions
     getUserByUserId(userId)
     setParamUserId({id: userId})
     getProducts({productOwnerId: userId})
@@ -142,7 +142,6 @@ class User extends Component<PropsUser, StatesUser> {
                     <div className="col-md-6 col-sm-10 center-column">
 
                       <div className='header-container'>
-
                         <NavLink to={`${url}/Posts`} className='header-container-item' activeClassName='header-container-item-active'>
                           <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material-first' content={translate['Stream']}/>
                         </NavLink>
@@ -162,8 +161,8 @@ class User extends Component<PropsUser, StatesUser> {
                         <NavLink to={`${url}/Followers`} className='header-container-item' activeClassName='header-container-item-active'>
                           <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content={translate['Followers']}/>
                         </NavLink>
-
                       </div>
+
                       <Switch>
                         <Redirect exact from={`${url}/`} to={`${url}/Posts`}/>
 

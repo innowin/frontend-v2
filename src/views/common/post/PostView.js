@@ -39,11 +39,11 @@ class PostView extends React.PureComponent {
     this.state = {
       menuToggleTop: false,
       showComment: false,
-      showProposalSend: false,
       commentOn: null,
-      showMore: false,
       menuToggleBottom: false,
       linkTimer: false,
+      showProposalSend: false,
+      showMore: false,
       is_liked: false,
     }
 
@@ -65,8 +65,12 @@ class PostView extends React.PureComponent {
 
   componentDidMount() {
     const {extendedView, post, actions} = this.props
-
     if (extendedView) {
+      const {getCommentsByParentId, getPost, getProposals} = actions
+      const {match, ownerId, location, clientIdentity, postIdentity} = this.props
+      getCommentsByParentId({parentId: match.params.id, commentParentType: constants.COMMENT_PARENT.POST})
+      post && getProposals(post.id)
+      !post && getPost({postId: match.params.id, postOwnerId: ownerId})
       setTimeout(() => {
         if (this.post && document.body.clientWidth < 480) {
           const rect = this.post.getBoundingClientRect()
@@ -75,51 +79,51 @@ class PostView extends React.PureComponent {
             behavior: 'smooth',
           })
         }
+        if (clientIdentity && postIdentity && (clientIdentity !== postIdentity.id) && location.pathname.includes('/Proposal')) {
+          this.handleShowProposals()
+        }
       }, 500)
-      const {getCommentsByParentId, getPost, getProposals} = actions
-      const {match, ownerId} = this.props
-      getCommentsByParentId({parentId: match.params.id, commentParentType: constants.COMMENT_PARENT.POST})
-      post && getProposals(post.id)
-      !post && getPost({postId: match.params.id, postOwnerId: ownerId})
     }
 
     if (post && this.text && post.post_description) {
       let showMore = false
       let is_liked = false
 
-      const allWords = this.text.innerText.replace(/\n/g, ' ').split(' ')
-      const mailExp = new RegExp('^(([^<>()\\[\\]\\\\.,;:\\s@"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$')
-      const urlExp = new RegExp('^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[A-Za-z0-9]+([\\-.][A-Za-z0-9]+)*\\.[A-Za-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$')
-      // Phone Reg
-      const first = new RegExp('(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{4}[)]?))')
-      const second = new RegExp('([-]?[0-9]{3})')
-      const third = new RegExp('([-]?[0-9]{3,4})')
+      setTimeout(() => {
+        const allWords = this.text.innerText.replace(/\n/g, ' ').split(' ')
+        const mailExp = new RegExp('^(([^<>()\\[\\]\\\\.,;:\\s@"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$')
+        const urlExp = new RegExp('^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[A-Za-z0-9]+([\\-.][A-Za-z0-9]+)*\\.[A-Za-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$')
+        // Phone Reg
+        const first = new RegExp('(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{4}[)]?))')
+        const second = new RegExp('([-]?[0-9]{3})')
+        const third = new RegExp('([-]?[0-9]{3,4})')
 
-      for (let i = 0; i < allWords.length; i++) {
-        const word = allWords[i].trim()
-        if (urlExp.test(word)) {
-          word.includes('http://') || word.includes('https://') ?
-              this.text.innerHTML = this.text.innerHTML.replace(new RegExp(word, 'g'), `<span style="color: blue;cursor: pointer;" title=${word} onclick="window.open('${word}', '_blank')">${word.length > 60 ? word.slice(0, 60) + '...' : word}</span>`)
-              :
-              this.text.innerHTML = this.text.innerHTML.replace(new RegExp(word, 'g'), `<span style="color: blue;cursor: pointer;" title=${word} onclick="window.open('http://${word}', '_blank')">${word.length > 60 ? word.slice(0, 60) + '...' : word}</span>`)
+        for (let i = 0; i < allWords.length; i++) {
+          const word = allWords[i].trim()
+          if (urlExp.test(word)) {
+            word.includes('http://') || word.includes('https://') ?
+                this.text.innerHTML = this.text.innerHTML.replace(new RegExp(word, 'g'), `<span style="color: blue;cursor: pointer;" title=${word} onclick="window.open('${word}', '_blank')">${word.length > 60 ? word.slice(0, 60) + '...' : word}</span>`)
+                :
+                this.text.innerHTML = this.text.innerHTML.replace(new RegExp(word, 'g'), `<span style="color: blue;cursor: pointer;" title=${word} onclick="window.open('http://${word}', '_blank')">${word.length > 60 ? word.slice(0, 60) + '...' : word}</span>`)
+          }
+          else if (word[0] === '@' && word.length >= 6 && !word.substring(1, word.length).includes('@')) {
+            this.text.innerHTML = this.text.innerHTML.replace(new RegExp(word, 'g'), `<span style="color: blue;cursor: pointer;" title=${word} onclick="window.open('${word.slice(1, word.length)}')">${word}</span>`)
+          }
+          else if (word[0] === '#' && word.length >= 3 && !word.substring(1, word.length).includes('#')) {
+            this.text.innerHTML = this.text.innerHTML.replace(new RegExp(word, 'g'), `<span style="color: blue;cursor: pointer;" title=${word} onclick="window.open('${word}')">${word}</span>`)
+          }
+          else if (mailExp.test(word)) {
+            this.text.innerHTML = this.text.innerHTML.replace(new RegExp(word, 'g'), `<span style="color: blue;cursor: pointer;" title=${word} onclick="window.open('mailto:${word}', '_blank')">${word.length > 60 ? word.slice(0, 60) + '...' : word}</span>`)
+          }
+          else if (!isNaN(word.replace(/\\+/g, '')) && word.length > 4 && (first.test(word) || second.test(word) || third.test(word))) {
+            // don't touch it !
+            word.includes('+') ?
+                this.text.innerHTML = this.text.innerHTML.replace(new RegExp(`\\${word}`, 'g'), `<span style="color: blue;cursor: pointer;" title=${word} onclick="window.open('tel:${word}', '_blank')">${word}</span>`)
+                :
+                this.text.innerHTML = this.text.innerHTML.replace(new RegExp(word, 'g'), `<span style="color: blue;cursor: pointer;" title=${word} onclick="window.open('tel:${word}', '_blank')">${word}</span>`)
+          }
         }
-        else if (word[0] === '@' && word.length >= 6 && !word.substring(1, word.length).includes('@')) {
-          this.text.innerHTML = this.text.innerHTML.replace(new RegExp(word, 'g'), `<span style="color: blue;cursor: pointer;" title=${word} onclick="window.open('${word.slice(1, word.length)}')">${word}</span>`)
-        }
-        else if (word[0] === '#' && word.length >= 3 && !word.substring(1, word.length).includes('#')) {
-          this.text.innerHTML = this.text.innerHTML.replace(new RegExp(word, 'g'), `<span style="color: blue;cursor: pointer;" title=${word} onclick="window.open('${word}')">${word}</span>`)
-        }
-        else if (mailExp.test(word)) {
-          this.text.innerHTML = this.text.innerHTML.replace(new RegExp(word, 'g'), `<span style="color: blue;cursor: pointer;" title=${word} onclick="window.open('mailto:${word}', '_blank')">${word.length > 60 ? word.slice(0, 60) + '...' : word}</span>`)
-        }
-        else if (!isNaN(word.replace(/\\+/g, '')) && word.length > 4 && (first.test(word) || second.test(word) || third.test(word))) {
-          // don't touch it !
-          word.includes('+') ?
-              this.text.innerHTML = this.text.innerHTML.replace(new RegExp(`\\${word}`, 'g'), `<span style="color: blue;cursor: pointer;" title=${word} onclick="window.open('tel:${word}', '_blank')">${word}</span>`)
-              :
-              this.text.innerHTML = this.text.innerHTML.replace(new RegExp(word, 'g'), `<span style="color: blue;cursor: pointer;" title=${word} onclick="window.open('tel:${word}', '_blank')">${word}</span>`)
-        }
-      }
+      }, 300)
 
       if (post.is_post_liked_by_logged_in_user !== undefined) {
         is_liked = post.is_post_liked_by_logged_in_user
@@ -131,6 +135,7 @@ class PostView extends React.PureComponent {
       }
       this.setState({...this.state, is_liked, showMore})
     }
+
 
     document.addEventListener('click', this._handleClickOutMenuBoxBottom)
     document.addEventListener('touchend', this._handleClickOutMenuBoxBottom)

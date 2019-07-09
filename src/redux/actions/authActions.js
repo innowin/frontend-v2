@@ -1,7 +1,7 @@
 // @flow
 import types from './types'
 
-const signIn = (username: string, password: string, rememberMe: boolean, reject: Function, resolve: Function) => ({
+const signIn = (username: string, password: string, rememberMe: boolean, reject: Function, resolve: Function, Token) => ({
   type: types.AUTH.SIGN_IN,
   payload: {
     username,
@@ -9,6 +9,7 @@ const signIn = (username: string, password: string, rememberMe: boolean, reject:
     rememberMe,
     reject,
     resolve,
+    Token,
   },
 })
 
@@ -23,14 +24,14 @@ const verifyToken = (token: string) => ({
 
 const setBeeDone = (isDone) => ({
   type: types.AUTH.SET_BEE_DONE,
-  payload: {isDone}
+  payload: {isDone},
 })
 
 const AuthActions = {
   signIn,
   signOut,
   verifyToken,
-  setBeeDone
+  setBeeDone,
 }
 
 export default AuthActions

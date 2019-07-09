@@ -11,7 +11,7 @@ const PostFooter = (props) => {
     deletePost, showComment, handleLike, is_liked, showEdit, clientIdentity, showProposals,
   } = props
   const {post_type, comments_count, likes_count, is_post_liked_by_logged_in_user, post_proposals_count} = post
-  const postUrl = `/${postIdentity.identity_type}/${postIdentity.id}/Posts/${post.id}`
+  const postUrl = `/${postIdentity.identity_type}/${postIdentity.id}/Posts/${post.id}/${postIdentity.id !== clientIdentity ? 'Proposal' : ''}`
   const suggest = post_type === constants.POST.POST_TYPE.SUPPLY || post_type === constants.POST.POST_TYPE.DEMAND
   return (
       <div className='-item-footerPost'>
@@ -39,7 +39,7 @@ const PostFooter = (props) => {
 
           {
             suggest ?
-                postIdentity.id === clientIdentity && !extendedView ?
+                !extendedView ?
                     <Link to={postUrl}>
                       <div className='items cursor-pointer post-menu-bottom bubble-more comment-svg-container'>
                         <span className='comment-count'>{post_proposals_count ? post_proposals_count : ''}</span>

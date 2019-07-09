@@ -8,6 +8,8 @@ import PasswordRecovery from './login/PasswordRecovery'
 import {getMessages} from '../../redux/selectors/translateSelector'
 import connect from 'react-redux/es/connect/connect'
 import numberCorrection from '../../helpers/numberCorrection'
+import AuthActions from '../../redux/actions/authActions'
+import {bindActionCreators} from 'redux'
 
 class Login extends PureComponent {
   constructor(props) {
@@ -32,6 +34,16 @@ class Login extends PureComponent {
       },
       loginMobile: false,
       registerMobile: false,
+    }
+  }
+
+  componentDidMount() {
+    const {location, actions} = this.props
+    const {pathname} = location
+    const token = pathname.split('/login/')[1]
+    if (token) {
+      const {signIn} = actions
+      signIn(undefined, undefined, false, () => console.log('reject'), () => console.log('resolve'), token)
     }
   }
 
@@ -152,4 +164,11 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(Login)
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators({
+    signIn: AuthActions.signIn,
+  }, dispatch),
+})
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login)
