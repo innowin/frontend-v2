@@ -1,5 +1,6 @@
 const results = {
   SIGN_IN: 'sign-in',
+  SET_DEVICE: 'SET_DEVICE',
   VERIFY_TOKEN: 'verify-token',
   USER: {
     USERNAME_CHECK: 'USERNAME_CHECK',

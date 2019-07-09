@@ -14,7 +14,6 @@ export function* signIn(action) {
     if (Token) yield fork(api.post, urls.SIGN_IN_TOKEN, results.SIGN_IN, {token: Token})
     else yield fork(api.post, urls.SIGN_IN, results.SIGN_IN, {username: username.toLowerCase(), password})
     const primaryData = yield take(socketChannel)
-    console.log('primaryData: ',primaryData)
     const {token, identity} = primaryData
     yield put({type: types.AUTH.SET_TOKEN, payload: {token}})
     yield delay(500)
@@ -28,6 +27,10 @@ export function* signIn(action) {
     }
     yield put({type: types.SUCCESS.AUTH.SIGN_IN, payload: {data: primaryData, rememberMe: rememberMe}})
     if (resolve) yield call(resolve)
+
+    //users/devices/
+    yield put({type: types.AUTH.SET_DEVICE})
+
   }
   catch (e) {
     const {message} = e

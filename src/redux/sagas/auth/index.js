@@ -1,15 +1,20 @@
-import {verifyToken} from "./verifyToken"
-import {takeEvery} from "redux-saga/effects"
-import types from "../../actions/types"
+import {verifyToken} from './verifyToken'
+import {takeEvery} from 'redux-saga/effects'
+import types from '../../actions/types'
 
 /**********    %% WORKERS %%    **********/
-import {signIn, signOut} from "./auth"
+import {signIn, signOut} from './auth'
+import {setDevice} from './setDevice'
 
 
 /**********    %% WATCHERS %%    **********/
 
 export function* watchSignIn() {
   yield takeEvery(types.AUTH.SIGN_IN, signIn)
+}
+
+export function* watchSetDevice() {
+  yield takeEvery(types.AUTH.SET_DEVICE, setDevice)
 }
 
 export function* watchSignOut() {
@@ -26,6 +31,7 @@ function* watchVerifyToken() {
 
 export default [
   watchSignIn(),
+  watchSetDevice(),
   watchSignInError(),
   watchSignOut(),
   watchVerifyToken(),

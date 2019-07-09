@@ -13,6 +13,7 @@ import renderTextField from 'src/views/common/inputs/reduxFormRenderTextField'
 import {getMessages} from 'src/redux/selectors/translateSelector'
 import FontAwesome from 'react-fontawesome'
 import numberCorrection from '../../../helpers/numberCorrection'
+import {REST_URL} from '../../../consts/URLS'
 
 class PureSignInForm extends React.Component {
   constructor(props) {
@@ -70,7 +71,7 @@ class PureSignInForm extends React.Component {
             <span>{translator['Forgot Password']}</span>
             <span className='recovery-button pulse' onClick={recoveryPasswordClick}>{translator['Recovery']}</span>
           </div>
-          <a href="https://back.beta.innowin.ir/auth/login/google-oauth2/">Login with Google</a>
+          <a href={`${REST_URL}/auth/login/google-oauth2/`}>Login with Google</a>
         </form>
     )
   }
