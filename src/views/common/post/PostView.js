@@ -65,6 +65,7 @@ class PostView extends React.PureComponent {
 
   componentDidMount() {
     const {extendedView, post, actions} = this.props
+
     if (extendedView) {
       const {getCommentsByParentId, getPost, getProposals} = actions
       const {match, ownerId, location, clientIdentity, postIdentity} = this.props
@@ -88,8 +89,19 @@ class PostView extends React.PureComponent {
     if (post && this.text && post.post_description) {
       let showMore = false
       let is_liked = false
+      if (post.is_post_liked_by_logged_in_user !== undefined) {
+        is_liked = post.is_post_liked_by_logged_in_user
+      }
+      if (!extendedView && this.text.clientHeight > 146) {
+        if (!new RegExp('^[A-Za-z]*$').test(post.post_description[0])) this.text.style.paddingLeft = '62px'
+        this.text.style.height = '139px'
+        showMore = true
+      }
+      this.setState({...this.state, is_liked, showMore})
+    }
 
-      setTimeout(() => {
+    setTimeout(() => {
+      if (post && this.text && post.post_description) {
         const allWords = this.text.innerText.replace(/\n/g, ' ').split(' ')
         const mailExp = new RegExp('^(([^<>()\\[\\]\\\\.,;:\\s@"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$')
         const urlExp = new RegExp('^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[A-Za-z0-9]+([\\-.][A-Za-z0-9]+)*\\.[A-Za-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$')
@@ -123,19 +135,8 @@ class PostView extends React.PureComponent {
                 this.text.innerHTML = this.text.innerHTML.replace(new RegExp(word, 'g'), `<span style="color: blue;cursor: pointer;" title=${word} onclick="window.open('tel:${word}', '_blank')">${word}</span>`)
           }
         }
-      }, 300)
-
-      if (post.is_post_liked_by_logged_in_user !== undefined) {
-        is_liked = post.is_post_liked_by_logged_in_user
       }
-      if (!extendedView && this.text.clientHeight > 146) {
-        if (!new RegExp('^[A-Za-z]*$').test(post.post_description[0])) this.text.style.paddingLeft = '62px'
-        this.text.style.height = '139px'
-        showMore = true
-      }
-      this.setState({...this.state, is_liked, showMore})
-    }
-
+    }, 300)
 
     document.addEventListener('click', this._handleClickOutMenuBoxBottom)
     document.addEventListener('touchend', this._handleClickOutMenuBoxBottom)
