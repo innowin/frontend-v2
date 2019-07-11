@@ -2754,3 +2754,36 @@ $sidebar-profile-media-width: 80px;
 .badge-instant-text-desc {
   color: #C7C7C7;
 }
+
+.exchange-view-bar-socials .fa-telegram {
+  padding: 3px;
+  font-size: 26px;
+  background: -webkit-linear-gradient(-30deg, cornflowerblue, #4246ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.exchange-view-bar-socials .fa-instagram {
+  font-size: 29px;
+  background: -webkit-linear-gradient(30deg, #ffd02a, #dc3b26, #8500ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 500;
+}
+
+.exchange-view-bar-socials .fa-linkedin-square {
+  font-size: 28px;
+  color: royalblue;
+}
+
+.exchange-view-bar-socials .fa-twitter {
+  font-size: 28px;
+  color: #38A1F3;
+}
+
+.exchange-view-bar-socials .disable-logo {
+  color: #959595;
+  background: -webkit-linear-gradient(-30deg, #959595, #959595);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
