@@ -2755,6 +2755,11 @@ $sidebar-profile-media-width: 80px;
   color: #C7C7C7;
 }
 
+.exchange-view-bar-socials {
+  display: flex;
+  justify-content: space-around;
+}
+
 .exchange-view-bar-socials .fa-telegram {
   padding: 3px;
   font-size: 26px;
