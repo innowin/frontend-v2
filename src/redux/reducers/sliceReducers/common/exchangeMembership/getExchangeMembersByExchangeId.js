@@ -3,21 +3,13 @@ const base = (state, action) => {
 
 const success = (state, action) => {
   const {data, exchangeId} = action.payload
-
   let object = {}
   let members = []
-
-  data.forEach(p => {
-    members.push({
-      type: p.exchange_identity_related_identity.identity_type === 'user' ? 'USER' : 'ORGANIZATION',
-      id: p.exchange_identity_related_identity.id
-    })
-    // console.log(p.exchange_identity_related_identity.identity_organization ? p.exchange_identity_related_identity.identity_organization.id : "")
-  })
+  data.forEach(p => members.push({id: p.exchange_identity_related_identity}))
   object[exchangeId] = members
   return {
     ...state,
-    members: {...state.members, ...object}
+    members: {...state.members, ...object},
   }
 }
 

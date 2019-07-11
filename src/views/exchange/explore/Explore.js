@@ -29,17 +29,21 @@ class Explore extends PureComponent {
   }
 
   componentDidMount() {
+    const {clientExchangeMemberships, exchangeMemberships, actions} = this.props
+
     setTimeout(() => {
-      this.props.actions.getAllExchanges(24, 0, null, null)
-      this.props.actions.getHashTags()
+      actions.getAllExchanges(24, 0, null, null)
+      actions.getHashTags()
     }, 500)
-    const {clientExchangeMemberships, exchangeMemberships} = this.props
+
     if (clientExchangeMemberships.length > 0) {
       const followed = clientExchangeMemberships.reduce((sum, exId) =>
-          exchangeMemberships[exId] && {...sum, [exchangeMemberships[exId].exchange_identity_related_exchange.id]: exchangeMemberships[exId].id}, {},
+          exchangeMemberships[exId] && {...sum, [exchangeMemberships[exId].exchange_identity_related_exchange]: exchangeMemberships[exId].id}, {},
       )
       this.setState({...this.state, followed: {...followed}})
     }
+    else this.setState({...this.state, followed: []})
+
     document.addEventListener('scroll', this._onScroll)
   }
 
@@ -48,7 +52,7 @@ class Explore extends PureComponent {
     if (clientExchangeMemberships !== this.props.clientExchangeMemberships || exchangeMemberships !== this.props.exchangeMemberships) {
       if (clientExchangeMemberships.length > 0) {
         const followed = clientExchangeMemberships.reduce((sum, exId) =>
-            exchangeMemberships[exId] && {...sum, [exchangeMemberships[exId].exchange_identity_related_exchange.id]: exchangeMemberships[exId].id}, {},
+            exchangeMemberships[exId] && {...sum, [exchangeMemberships[exId].exchange_identity_related_exchange]: exchangeMemberships[exId].id}, {},
         )
         this.setState({...this.state, followed: {...followed}})
       }
@@ -109,7 +113,7 @@ class Explore extends PureComponent {
             <div className='exchange-model-hide'/>
             <div className='exchange-model-hide'/>
             <div className='exchange-model-hide'/>
-            <div className={loading ? 'exchanges-explore-search-loading' : 'exchanges-explore-search-loading-hide'}><ClipLoader/></div>
+            <div className={loading ? 'exchanges-explore-search-loading' : 'exchanges-explore-search-loading exchanges-explore-search-loading-hide'}><ClipLoader/></div>
           </div>
           <div className={scrollButton ? 'go-up-logo-cont' : 'go-up-logo-cont-hide'} onClick={this._goUp}>
             <RightArrowSvg className='go-up-logo'/>

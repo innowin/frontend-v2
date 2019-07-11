@@ -8,7 +8,6 @@ import ExchangeMembershipActions from 'src/redux/actions/commonActions/exchangeM
 import {BeatLoader, ClipLoader} from 'react-spinners'
 import {REST_URL} from 'src/consts/URLS'
 import {Link} from 'react-router-dom'
-import makeFileSelectorByKeyValue from 'src/redux/selectors/common/file/selectFilsByKeyValue'
 import {createFile} from 'src/redux/actions/commonActions/fileActions'
 import TempActions from 'src/redux/actions/tempActions'
 import types from '../../redux/actions/types'
@@ -17,7 +16,6 @@ import {createFileFunc} from '../common/Functions'
 import constants from '../../consts/constants'
 import {clientMemberships} from '../../redux/selectors/common/exchanges/ClientMemberships'
 import {exchangeMemberships} from '../../redux/selectors/common/exchanges/ExchangeMemberships'
-
 
 class ExchangeViewBar extends Component {
   static propTypes = {
@@ -68,10 +66,10 @@ class ExchangeViewBar extends Component {
   }
 
   componentDidMount() {
-    const {/*exchangeId, exchanges,*/ exchangesIdentities, clientExchangeMemberships} = this.props
+    const {exchangesIdentities, clientExchangeMemberships} = this.props
 
     let followed = clientExchangeMemberships.reduce((all, followIds) =>
-            exchangesIdentities[followIds] ? [...all, exchangesIdentities[followIds].exchange_identity_related_exchange.id] : all
+            exchangesIdentities[followIds] ? [...all, exchangesIdentities[followIds].exchange_identity_related_exchange] : all
         , [])
     this.setState({...this.state, followedExchanges: followed})
 
@@ -84,7 +82,7 @@ class ExchangeViewBar extends Component {
 
     if (this.state.followLoading && clientExchangeMemberships !== prevProps.clientExchangeMemberships) {
       let followed = clientExchangeMemberships.reduce((all, followIds) =>
-              exchangesIdentities[followIds] ? [...all, exchangesIdentities[followIds].exchange_identity_related_exchange.id] : all
+              exchangesIdentities[followIds] ? [...all, exchangesIdentities[followIds].exchange_identity_related_exchange] : all
           , [])
       this.setState({...this.state, followedExchanges: followed})
     }
@@ -247,7 +245,7 @@ class ExchangeViewBar extends Component {
       })
       let exchangeMembershipIdTemp = Object.values(exchangesIdentities).filter(memberships => {
         if (memberships.exchange_identity_related_exchange)
-          return memberships.exchange_identity_related_exchange.id === exchangeId
+          return memberships.exchange_identity_related_exchange === exchangeId
         else return null
       })
       if (exchangeMembershipIdTemp !== null && exchangeMembershipIdTemp[0] !== undefined)
@@ -501,10 +499,9 @@ class ExchangeViewBar extends Component {
   }
 }
 
-const StateToProps = (state, ownProps) => {
+const StateToProps = (state) => {
   const client = state.auth.client
   const userId = state.auth.client.identity.content
-  const fileSelectorByKeyValue = makeFileSelectorByKeyValue()
   return ({
     translate: state.intl.messages,
     router: state.router,
@@ -514,13 +511,11 @@ const StateToProps = (state, ownProps) => {
     currentUserType: client.user_type,
     exchangesIdentities: exchangeMemberships(state),
     clientExchangeMemberships: clientMemberships(state),
-    clientFiles: fileSelectorByKeyValue(state, 'identity', client.identity.content),
     temp: state.temp.file,
   })
 }
 const DispatchToProps = dispatch => ({
   actions: bindActionCreators({
-    getExchangeMembershipByExchangeId: ExchangeMembershipActions.getExchangeMembershipByExchangeId,
     editExchange: exchangeActions.editExchange,
     deleteExchange: exchangeActions.deleteExchange,
     follow: ExchangeMembershipActions.createExchangeMembership,

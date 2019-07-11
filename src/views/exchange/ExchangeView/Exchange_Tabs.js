@@ -11,6 +11,7 @@ import {bindActionCreators} from 'redux'
 import {Component} from 'react'
 import {connect} from 'react-redux'
 import {getMessages} from 'src/redux/selectors/translateSelector'
+import {getAllOfExchanges} from '../../../redux/selectors/common/exchanges/GetAllExchanges'
 
 // import { Stream, Info, Statistic, Contacts, Medal, Ticket } from 'src/images/icons'
 // import { NavLink } from 'react-router-dom'
@@ -59,7 +60,7 @@ class Exchange_Tabs extends Component<props, states> {
     if (exchangeId) {
       let {getExchangeMembers, getFollowingAction, getEducationsByUserId} = actions
       getFollowingAction({followOwnerIdentity: clientIdentityId, followOwnerId: clientId, notProfile: true})
-      getExchangeMembers({exchangeId: exchangeId})
+      getExchangeMembers({exchangeId})
       getEducationsByUserId({
         userId: exchanges[exchangeId] && exchanges[exchangeId].owner ? exchanges[exchangeId].owner.id : null,
       })
@@ -170,7 +171,7 @@ class Exchange_Tabs extends Component<props, states> {
 const mapStateToProps = (state) => {
   return {
     translate: getMessages(state),
-    exchanges: state.exchanges.list,
+    exchanges: getAllOfExchanges(state),
     clientIdentityId: state.auth.client.identity.content,
     clientType: state.auth.client.user_type,
     clientId: state.auth.client.user.id,

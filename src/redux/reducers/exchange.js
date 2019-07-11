@@ -6,7 +6,7 @@ import createAnObj from "./sliceReducers/utilsSlices/createAnObj"
 
 const exchanges = (state = initialState.exchanges, action) => {
   const {postParentType} = action.payload || {}
-  const {getExchangeByExId, postsExchange, getExchangeMembershipByMemberIdentity, getAllExchanges, searchExchangesByWord,
+  const {getExchangeByExId, postsExchange, getAllExchanges, searchExchangesByWord,
     removeExchangesSearchMode, editExchange, deleteExchange} = exchangeSlice
   const {POST_PARENT} = constants
   switch (action.type) {
@@ -26,9 +26,6 @@ const exchanges = (state = initialState.exchanges, action) => {
       /** --------------------  get all --------------------- **/
     case types.SUCCESS.EXCHANGE.GET_EXCHANGES:
       return getAllExchanges.success(state, action)
-      /** --------------------  get exchange membership by member identity --------------------- **/
-    case types.SUCCESS.COMMON.EXCHANGE_MEMBERSHIP.GET_EXCHANGE_MEMBERSHIP_BY_MEMBER_IDENTITY:
-      return getExchangeMembershipByMemberIdentity.success(state, action)
       /** ---------------------  get exchange posts ---------------------------**/
     case types.COMMON.POST.FILTER_POSTS_BY_POST_PARENT_LIMIT_OFFSET:
       if (postParentType === POST_PARENT.EXCHANGE) {

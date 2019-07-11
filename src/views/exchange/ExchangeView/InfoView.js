@@ -8,6 +8,7 @@ import {Link} from 'react-router-dom'
 import checkOwner from '../../common/CheckOwner'
 import exchangeActions from '../../../redux/actions/exchangeActions'
 import {PureComponent} from 'react'
+import {getAllOfExchanges} from '../../../redux/selectors/common/exchanges/GetAllExchanges'
 
 type props = {
   actions: {
@@ -94,15 +95,12 @@ class InfoView extends PureComponent<props, state> {
   }
 
   render() {
-    const {/*educations,*/ translate, exchanges, exchangeId} = this.props
+    const {/*educations,*/ translate, exchanges, exchangeId, identities} = this.props
     const {editBio, exchangeBio, editSocial} = this.state
     if (exchanges[exchangeId] && exchanges[exchangeId].owner) {
       const currentExchange = exchanges[exchangeId]
-      console.log('currentExchange', currentExchange)
-      const ownerId = parseInt(currentExchange.owner.id, 10)
-      const owner = exchanges[exchangeId].owner
-      // const ownerEducations = Object.values(educations).filter(p => p.education_related_identity === ownerId)
-      // console.log("ownerEducations", ownerEducations)
+      const owner = identities[exchanges[exchangeId].owner]
+
       if (owner) {
         return (
             <div className="info-frame">
@@ -115,7 +113,7 @@ class InfoView extends PureComponent<props, state> {
                 <span>معرفی</span>
                 {
                   checkOwner({
-                    id: ownerId,
+                    id: owner.id,
                     children: <a className={editBio ? 'info-header-edit-bio-text-hide' : 'info-header-edit-bio-text'}
                                  onClick={() => this._handleEditBioView()}> ویرایش </a>,
                   })
@@ -155,7 +153,7 @@ class InfoView extends PureComponent<props, state> {
                   <span>مشخصات</span>
                   {
                     checkOwner({
-                      id: ownerId,
+                      id: owner.id,
                       children: <a className={editSocial ? 'info-header-edit-bio-text-hide' : 'info-header-edit-bio-text'}
                                    onClick={() => console.log('Handle Edit This One')}> ویرایش </a>,
                     })
@@ -258,7 +256,7 @@ class InfoView extends PureComponent<props, state> {
                   <span>زمینۀ فعالیت پنجره</span>
                   {
                     checkOwner({
-                      id: ownerId,
+                      id: owner.id,
                       children: <a className={editSocial ? 'info-header-edit-bio-text-hide' : 'info-header-edit-bio-text'}
                                    onClick={() => console.log('Handle Edit This Too')}> ویرایش </a>,
                     })
@@ -401,7 +399,7 @@ class InfoView extends PureComponent<props, state> {
 
 const mapStateToProps = (state) => ({
   educations: state.education.list,
-  exchanges: state.exchanges.list,
+  exchanges: getAllOfExchanges(state),
   identities: state.identities.list,
   translate: getMessages(state),
 })

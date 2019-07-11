@@ -51,16 +51,6 @@ const auth = (state = initialState.auth, action) => {
       /** -------------------------- delete follow  -------------------------> **/
     case types.SUCCESS.COMMON.SOCIAL.CREATE_FOLLOW:
       return slices.createFollow.success(state, action)
-      /** -------------------------- get exchange membership by member identity -------------------------> **/
-
-    case types.SUCCESS.COMMON.EXCHANGE_MEMBERSHIP.GET_EXCHANGE_MEMBERSHIP_BY_MEMBER_IDENTITY: {
-      if (state.client.identity.content === action.payload.identityId)
-        return slices.getExchangeMembershipByMemberIdentity.success(state, action)
-      else return state
-    }
-      /** -------------------------- delete exchange membership  -------------------------> **/
-    case types.SUCCESS.COMMON.EXCHANGE_MEMBERSHIP.DELETE_EXCHANGE_MEMBERSHIP:
-      return slices.deleteExchangeMembership.success(state, action)
       /** -------------------------- get work experience by user id  -------------------------> **/
     case types.SUCCESS.WORK_EXPERIENCE.GET_USER_WORK_EXPERIENCES_BY_USER_ID:
       return slices.getWorkExperienceByUserId.success(state, action)

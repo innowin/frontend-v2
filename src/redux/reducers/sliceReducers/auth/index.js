@@ -9,7 +9,6 @@ import deleteAbility from './deleteAbility'
 import deleteCertificate from './deleteCertificate'
 import deleteCustomer from './deleteCustomer'
 import deleteEducationByUserId from './deleteEducationByUserId'
-import deleteExchangeMembership from './deleteExchangeMembership'
 import deleteFollow from './deleteFollow'
 import deletePost from './deletePost'
 import deleteProduct from './deleteProduct'
@@ -18,7 +17,6 @@ import deleteWorkExperienceByUserId from './deleteWorkExperienceByUserId'
 import deleteSkillByUserId from './deleteSkillByUserId'
 import getAbilitiesByOrganizationId from './getAbilitiesByOrganizationId'
 import getEducationByUserId from './getEducationByUserId'
-import getExchangeMembershipByMemberIdentity from './getExchangeMembershipByMemberIdentity'
 import getCertificatesByIdentity from './getCertificatesByIdentity'
 import getCustomersByOrganizationId from './getCustomersByOrganizationId'
 import getFollowees from './getFollowees'
@@ -50,7 +48,6 @@ export default {
   deleteCertificate,
   deleteCustomer,
   deleteEducationByUserId,
-  deleteExchangeMembership,
   deleteFollow,
   deletePost,
   deleteProduct,
@@ -60,7 +57,6 @@ export default {
   getAbilitiesByOrganizationId,
   getCertificatesByIdentity,
   getEducationByUserId,
-  getExchangeMembershipByMemberIdentity,
   getCustomersByOrganizationId,
   getFollowees,
   getFollowers,

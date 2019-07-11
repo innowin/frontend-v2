@@ -27,3 +27,12 @@ export const getExchanges = createSelector(
     getAllExchanges,
     exchange => exchange,
 )
+
+const getAllTheExchanges = (state) => {
+  return state.exchanges.list
+}
+
+export const getAllOfExchanges = createSelector(
+    getAllTheExchanges,
+    exchange => exchange,
+)

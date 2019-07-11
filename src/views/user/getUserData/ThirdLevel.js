@@ -13,7 +13,7 @@ class ThirdLevel extends PureComponent {
     const {clientExchangeMemberships, exchangeMemberships} = nextProps
     if (clientExchangeMemberships.length > 0) {
       const followed = clientExchangeMemberships.reduce((sum, exId) =>
-          exchangeMemberships[exId] && {...sum, [exchangeMemberships[exId].exchange_identity_related_exchange.id]: exchangeMemberships[exId].id}, {},
+          exchangeMemberships[exId] && {...sum, [exchangeMemberships[exId].exchange_identity_related_exchange]: exchangeMemberships[exId].id}, {},
       )
       this.setState({...this.state, followed: {...followed}})
     }

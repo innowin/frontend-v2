@@ -70,16 +70,15 @@ class Comment extends React.PureComponent {
 
     return (
         <div className='comment-item-wrapper'>
-          <div className='comment-sender-container'>
-            <Link to={url}>
-              {profileMediaUrl ?
+          <Link to={url}>
+            {
+              profileMediaUrl ?
                   <img src={profileMediaUrl.file} alt='comment sender' className='comment-sender-image'/>
                   : isUser ?
-                      <DefaultUserIcon className='comment-sender-image'/>
-                      : <DefaultOrganIcon className='comment-sender-image organ-image'/>
-              }
-            </Link>
-          </div>
+                  <DefaultUserIcon className='comment-sender-image'/>
+                  : <DefaultOrganIcon className='comment-sender-image organ-image'/>
+            }
+          </Link>
           <div className='comment-container-extended-view'>
             <div className='header'>
               <h5 className='sender-name'>{name}</h5>

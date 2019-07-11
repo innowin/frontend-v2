@@ -223,18 +223,21 @@ const identities = (state = initialState.identities, action) => {
       }
 
       /** -------------------------- get user -------------------------> **/
-    case types.SUCCESS.USER.GET_USER_BY_USER_ID:
-      return {
-        ...state,
-        list: {
-          ...state.list,
-          [userId]: {
-            ...state.list[userId],
-            ...previousUser,
-            ...data,
+    case types.SUCCESS.USER.GET_USER_BY_USER_ID: {
+      if (userId)
+        return {
+          ...state,
+          list: {
+            ...state.list,
+            [userId]: {
+              ...state.list[userId],
+              ...previousUser,
+              ...data,
+            },
           },
-        },
-      }
+        }
+      else return state
+    }
     case types.ERRORS.USER.GET_USER_BY_USER_ID:
       return {
         ...state,

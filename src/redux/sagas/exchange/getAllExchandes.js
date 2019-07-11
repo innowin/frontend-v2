@@ -19,7 +19,10 @@ export function* getAllExchanges(action) {
         params,
         true,
     )
-    const data = yield take(socketChannel)
+    let data = yield take(socketChannel)
+    for (let i = 0; i < data.length; i++) {
+      data[i].owner = data[i].owner.id
+    }
     yield put({type: types.SUCCESS.EXCHANGE.GET_EXCHANGES, payload: {data, search: getAll && data.length === 0 ? null : search, hashtags: getAll && data.length === 0 ? null : hashtags, isLoading: false}})
 // Added for get membership
     if (offset === 0) {

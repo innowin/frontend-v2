@@ -804,7 +804,10 @@
   }
 
   @media screen and (max-width: 480px) {
+    position: absolute !important;
     width: 90px;
+    left: 20px;
+    top: 23px;
   }
 }
 

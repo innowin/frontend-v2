@@ -143,7 +143,7 @@ class Explore extends PureComponent {
             <div className='product-model-hide'/>
             <div className='product-model-hide'/>
             <div className='product-model-hide'/>
-            <div className={loading ? 'exchanges-explore-search-loading' : 'exchanges-explore-search-loading-hide'}><ClipLoader/></div>
+            <div className={loading ? 'exchanges-explore-search-loading' : 'exchanges-explore-search-loading exchanges-explore-search-loading-hide'}><ClipLoader/></div>
           </div>
           <div className={scrollButton ? 'go-up-logo-cont' : 'go-up-logo-cont-hide'} onClick={this._goUp}>
             <RightArrowSvg className='go-up-logo'/>

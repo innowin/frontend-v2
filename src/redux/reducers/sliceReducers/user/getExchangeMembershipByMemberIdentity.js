@@ -19,7 +19,7 @@ const base = (state, action) => {
 }
 
 const success = (state, action) => {
-  const {exchangeMembershipOwnerId, data} = action.payload || {}
+  const {exchangeMembershipOwnerId, data} = action.payload
   const defaultObject2 = {content: [], isLoading: false, error: null}
   const previousMembership = (state.list[exchangeMembershipOwnerId] && state.list[exchangeMembershipOwnerId].exchangeMemberships) || defaultObject2
   const arrayOfMembershipId = data.map(exchangeMembership => exchangeMembership.id)

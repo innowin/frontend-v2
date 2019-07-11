@@ -35,13 +35,13 @@ const maxAllowedHeaderWordCounts = 70
 class CreatePost extends PureComponent {
   static defaultProps = {
     className: '',
-    postsCountInThisPage: 0,
+    lastPostId: 0,
   }
 
   static propTypes = {
     postParentId: PropTypes.number,
     postParentType: PropTypes.string,
-    postsCountInThisPage: PropTypes.number,
+    lastPostId: PropTypes.number,
     className: PropTypes.string,
     isUpdate: PropTypes.bool,
     hideEdit: PropTypes.func,
@@ -174,13 +174,13 @@ class CreatePost extends PureComponent {
 
   componentDidUpdate(prevProps, prevState) {
     const {link, postImg1, postImg2, postImg3, postFile, postMedia} = this.state
-    const {postsCountInThisPage, postImg1Id, postImg2Id, postImg3Id, postFileId, postMediaId} = this.props
+    const {lastPostId, postImg1Id, postImg2Id, postImg3Id, postFileId, postMediaId} = this.props
 
     if (link !== prevState.link) {
       this._showLink(link)
     }
 
-    if (prevProps.postsCountInThisPage < postsCountInThisPage) {
+    if (prevProps.lastPostId !== lastPostId) {
       this._resetPost()
     }
 
