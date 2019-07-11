@@ -139,7 +139,7 @@ class HomePosts extends PureComponent {
                 ? <CreatePostNew
                     postParentId={exchangeId}
                     postParentType={constant.POST_PARENT.EXCHANGE}
-                    lastPostId={posts[0].id}
+                    lastPostId={posts[0] && posts[0].id}
                     className='create-post-small'
                     hideCreatePost={this._hideCreatePostSmall}
                 />
@@ -151,7 +151,7 @@ class HomePosts extends PureComponent {
                               <CreatePostNew
                                   postParentId={exchangeId}
                                   postParentType={constant.POST_PARENT.EXCHANGE}
-                                  lastPostId={posts[0].id}
+                                  lastPostId={posts[0] && posts[0].id}
                               />
                             </div>
                             :
@@ -159,7 +159,7 @@ class HomePosts extends PureComponent {
                         : <CreatePostNew
                             postParentId={exchangeId}
                             postParentType={constant.POST_PARENT.EXCHANGE}
-                            lastPostId={posts[0].id}
+                            lastPostId={posts[0] && posts[0].id}
                         />
                   }
                   <div style={{background: `rgba(${averageColor[0]}, ${averageColor[1]}, ${averageColor[2]})`}}
