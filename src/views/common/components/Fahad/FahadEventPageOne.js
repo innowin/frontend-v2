@@ -7,7 +7,29 @@ class FahadEventPageOne extends PureComponent {
     super(props)
     this.state = {
       orgType: "public",
+      orgJob: [],
       isKnowledgeBase: false,
+
+      organization_name: "",
+      organization_brand_name: "",
+      organization_title: "",
+      organization_description: "",
+      organization_registration_number: null,
+      organization_registration_date: "",
+      organization_registration_description: "",
+      organization_knowledge_base_date: "",
+      organization_phone_number: "",
+      organization_website: "",
+      organization_telegram: "",
+      organization_instagram: "",
+      organization_email: "",
+      organization_address: "",
+      organization_activities_category: "",
+      organization_abilities: "",
+      organization_colleagues: "",
+      organization_experiences: "",
+      organization_certificates: "",
+      organization_honors: "",
     }
   }
 
@@ -16,12 +38,30 @@ class FahadEventPageOne extends PureComponent {
       window.scrollTo({top: 0, behavior: "smooth"})
   }
 
+  componentWillReceiveProps(nextProps: Readonly<P>, nextContext: any): void {
+    let {verification} = nextProps
+    if (verification === 0) {
+      this.checkValidations()
+    }
+  }
+
+  checkValidations() {
+    // let {_nextLevel} = this.props
+  }
+
   setOrgType(orgType) {
     this.setState({...this.state, orgType: orgType})
   }
 
   setKnowledgeBase(e) {
     this.setState({...this.state, isKnowledgeBase: e.target.checked})
+  }
+
+  setOrgJob(job) {
+    let {orgJob} = this.state
+    let jobs = [...orgJob]
+    orgJob.indexOf(job) >= 0 ? jobs.splice(orgJob.indexOf(job), 1) : jobs.push(job)
+    this.setState({...this.state, orgJob: jobs})
   }
 
   render() {
@@ -44,23 +84,27 @@ class FahadEventPageOne extends PureComponent {
               نام مجموعه
               <span className={"secondary-color"}> * </span>
             </label>
-            <input type={"text"} className="organization-leadership-job-input" placeholder={"نام ثبتی کامل مجموعه"}/>
+            <input type={"text"} className="organization-leadership-job-input" placeholder={"نام ثبتی کامل مجموعه"}
+                   onChange={(e) => this.setState({...this.state, organization_name: e.target.value})}/>
 
             <label>
               نام برند
             </label>
-            <input type={"text"} className="organization-leadership-job-input" placeholder={"نام برند مجموعه"}/>
+            <input type={"text"} className="organization-leadership-job-input" placeholder={"نام برند مجموعه"}
+                   onChange={(e) => this.setState({...this.state, organization_brand_name: e.target.value})}/>
 
             <label>
               شعار مجموعه
             </label>
-            <input type={"text"} className="organization-leadership-job-input" placeholder={"شعار مجموعه"}/>
+            <input type={"text"} className="organization-leadership-job-input" placeholder={"شعار مجموعه"}
+                   onChange={(e) => this.setState({...this.state, organization_title: e.target.value})}/>
 
             <label>
               معرفی مختصر مجموعه
             </label>
             <textarea className="organization-leadership-expertise-input"
-                      placeholder={"شرکت پایاپژوهان علم و صنعت، ارائۀ خدمات مانیتورینگ و ابزاردقیق"}/>
+                      placeholder={"شرکت پایاپژوهان علم و صنعت، ارائۀ خدمات مانیتورینگ و ابزاردقیق"}
+                      onChange={(e) => this.setState({...this.state, organization_description: e.target.value})}/>
 
             <label>
               نوع ثبتی مجموعه
@@ -97,11 +141,13 @@ class FahadEventPageOne extends PureComponent {
                       شمارۀ ثبت
                     </label>
                     <input type={"text"} className="organization-leadership-job-input"
-                           placeholder={"شمارۀ ثبت در اداره ثبت شرکت ها و موسسات تجاری و غیر تجاری"}/>
+                           placeholder={"شمارۀ ثبت در اداره ثبت شرکت ها و موسسات تجاری و غیر تجاری"}
+                           onChange={(e) => this.setState({...this.state, organization_registration_number: e.target.value})}/>
                     <label>
                       تاریخ ثبت
                     </label>
-                    <input type={"date"} className="organization-leadership-job-input"/>
+                    <input type={"date"} className="organization-leadership-job-input"
+                           onChange={(e) => this.setState({...this.state, organization_registration_date: e.target.value})}/>
                   </div> : null
             }
             {
@@ -110,7 +156,8 @@ class FahadEventPageOne extends PureComponent {
                     <label>
                       توضیح
                     </label>
-                    <input type={"text"} className="organization-leadership-job-input"/>
+                    <input type={"text"} className="organization-leadership-job-input"
+                           onChange={(e) => this.setState({...this.state, organization_registration_description: e.target.value})}/>
                   </div> : null
             }
 
@@ -132,7 +179,8 @@ class FahadEventPageOne extends PureComponent {
                     <label>
                       تاریخ اعتبار گواهی دانش‌بنیان
                     </label>
-                    <input type={"date"} className="organization-leadership-job-input"/>
+                    <input type={"date"} className="organization-leadership-job-input"
+                           onChange={(e) => this.setState({...this.state, organization_knowledge_base_date: e.target.value})}/>
                   </div> : null
             }
 
@@ -149,32 +197,38 @@ class FahadEventPageOne extends PureComponent {
             <label>
               شمارۀ تماس
             </label>
-            <input type={"text"} className="organization-leadership-job-input" placeholder={"شمارۀ تماس مجموعه"}/>
+            <input type={"text"} className="organization-leadership-job-input" placeholder={"شمارۀ تماس مجموعه"}
+                   onChange={(e) => this.setState({...this.state, organization_phone_number: e.target.value})}/>
 
             <label>
               وبسایت
             </label>
-            <input type={"text"} className="organization-leadership-job-input" placeholder={"وبسایت"}/>
+            <input type={"text"} className="organization-leadership-job-input" placeholder={"وبسایت"}
+                   onChange={(e) => this.setState({...this.state, organization_website: e.target.value})}/>
 
             <label>
               تلگرام
             </label>
-            <input type={"text"} className="organization-leadership-job-input" placeholder={"تلگرام"}/>
+            <input type={"text"} className="organization-leadership-job-input" placeholder={"تلگرام"}
+                   onChange={(e) => this.setState({...this.state, organization_telegram: e.target.value})}/>
 
             <label>
               اینستاگرام
             </label>
-            <input type={"text"} className="organization-leadership-job-input" placeholder={"اینستاگرام"}/>
+            <input type={"text"} className="organization-leadership-job-input" placeholder={"اینستاگرام"}
+                   onChange={(e) => this.setState({...this.state, organization_instagram: e.target.value})}/>
 
             <label>
               ایمیل
             </label>
-            <input type={"email"} className="organization-leadership-job-input" placeholder={"ایمیل"}/>
+            <input type={"email"} className="organization-leadership-job-input" placeholder={"ایمیل"}
+                   onChange={(e) => this.setState({...this.state, organization_email: e.target.value})}/>
 
             <label>
               آدرس
             </label>
-            <input type={"email"} className="organization-leadership-job-input" placeholder={"آدرس دفتر مرکزی"}/>
+            <input type={"email"} className="organization-leadership-job-input" placeholder={"آدرس دفتر مرکزی"}
+                   onChange={(e) => this.setState({...this.state, organization_address: e.target.value})}/>
 
             <div className='fahad-modal-card-checkboxes'>
               <label>
@@ -183,49 +237,49 @@ class FahadEventPageOne extends PureComponent {
               <form>
                 <label className='fahad-modal-card-checkbox'>
                   <div className="organization-leadership-card-checkbox-title">
-                    <input type="checkbox" name="kind" onChange={(e) => this.setKnowledgeBase(e)}/>
+                    <input type="checkbox" name="kind" onChange={() => this.setOrgJob("تولیدی، خدمات صنعتی و آزمایشگاهی")}/>
                     <span className='checkmark'/>
                     <span>تولیدی، خدمات صنعتی و آزمایشگاهی</span>
                   </div>
                 </label>
                 <label className='fahad-modal-card-checkbox'>
                   <div className="organization-leadership-card-checkbox-title">
-                    <input type="checkbox" name="kind" onChange={(e) => this.setKnowledgeBase(e)}/>
+                    <input type="checkbox" name="kind" onChange={() => this.setOrgJob("خدمات بازار و بازرگانی")}/>
                     <span className='checkmark'/>
                     <span>خدمات بازار و بازرگانی</span>
                   </div>
                 </label>
                 <label className='fahad-modal-card-checkbox'>
                   <div className="organization-leadership-card-checkbox-title">
-                    <input type="checkbox" name="kind" onChange={(e) => this.setKnowledgeBase(e)}/>
+                    <input type="checkbox" name="kind" onChange={() => this.setOrgJob("خدمات رسانه‌ای و تولید محتوا")}/>
                     <span className='checkmark'/>
                     <span>خدمات رسانه‌ای و تولید محتوا</span>
                   </div>
                 </label>
                 <label className='fahad-modal-card-checkbox'>
                   <div className="organization-leadership-card-checkbox-title">
-                    <input type="checkbox" name="kind" onChange={(e) => this.setKnowledgeBase(e)}/>
+                    <input type="checkbox" name="kind" onChange={() => this.setOrgJob("خدمات منابع انسانی")}/>
                     <span className='checkmark'/>
                     <span>خدمات منابع انسانی</span>
                   </div>
                 </label>
                 <label className='fahad-modal-card-checkbox'>
                   <div className="organization-leadership-card-checkbox-title">
-                    <input type="checkbox" name="kind" onChange={(e) => this.setKnowledgeBase(e)}/>
+                    <input type="checkbox" name="kind" onChange={() => this.setOrgJob("خدمات شتاب‌دهی، مالی و سرمایه‌گذاری")}/>
                     <span className='checkmark'/>
                     <span>خدمات شتاب‌دهی، مالی و سرمایه‌گذاری</span>
                   </div>
                 </label>
                 <label className='fahad-modal-card-checkbox'>
                   <div className="organization-leadership-card-checkbox-title">
-                    <input type="checkbox" name="kind" onChange={(e) => this.setKnowledgeBase(e)}/>
+                    <input type="checkbox" name="kind" onChange={() => this.setOrgJob("خدمات حقوقی")}/>
                     <span className='checkmark'/>
                     <span>خدمات حقوقی</span>
                   </div>
                 </label>
                 <label className='fahad-modal-card-checkbox'>
                   <div className="organization-leadership-card-checkbox-title">
-                    <input type="checkbox" name="kind" onChange={(e) => this.setKnowledgeBase(e)}/>
+                    <input type="checkbox" name="kind" onChange={() => this.setOrgJob("سامانه‌های نوآوری بازار")}/>
                     <span className='checkmark'/>
                     <span>سامانه‌های نوآوری بازار</span>
                   </div>
@@ -236,31 +290,32 @@ class FahadEventPageOne extends PureComponent {
             <label>
               دستۀ فعالیت
             </label>
-            <input type={"email"} className="organization-leadership-job-input" placeholder={"دستۀ فعالیت"}/>
+            <input type={"email"} className="organization-leadership-job-input" placeholder={"دستۀ فعالیت"}
+                   onChange={(e) => this.setState({...this.state, organization_activities_category: e.target.value})}/>
 
             <label>
               توانمندی‌ها و خدمات مجموعه
             </label>
-            <textarea className="organization-leadership-expertise-input"
-                      placeholder={"توانمندی‌ها و خدمات اصلی قابل ارائه توسط مجموعه بیان شود"}/>
+            <textarea className="organization-leadership-expertise-input" placeholder={"توانمندی‌ها و خدمات اصلی قابل ارائه توسط مجموعه بیان شود"}
+                      onChange={(e) => this.setState({...this.state, organization_abilities: e.target.value})}/>
 
             <label>
               همکاران و شرکای بین‌المللی
             </label>
-            <textarea className="organization-leadership-expertise-input"
-                      placeholder={"همکاران و شرکای بین‌المللی"}/>
+            <textarea className="organization-leadership-expertise-input" placeholder={"همکاران و شرکای بین‌المللی"}
+                      onChange={(e) => this.setState({...this.state, organization_colleagues: e.target.value})}/>
 
             <label>
               سوابق و تجارب بین‌المللی
             </label>
-            <textarea className="organization-leadership-expertise-input"
-                      placeholder={"سوابق و تجارب بین‌المللی"}/>
+            <textarea className="organization-leadership-expertise-input" placeholder={"سوابق و تجارب بین‌المللی"}
+                      onChange={(e) => this.setState({...this.state, organization_experiences: e.target.value})}/>
 
             <label>
               مجوزها و تأییدیه‌ها
             </label>
-            <textarea className="organization-leadership-expertise-input"
-                      placeholder={"مجوزها و تأییدیه‌ها"}/>
+            <textarea className="organization-leadership-expertise-input" placeholder={"مجوزها و تأییدیه‌ها"}
+                      onChange={(e) => this.setState({...this.state, organization_certificates: e.target.value})}/>
 
             <label>
               مستندات مجوزها و تأییدیه‌ها
@@ -270,8 +325,8 @@ class FahadEventPageOne extends PureComponent {
             <label>
               افتخارات
             </label>
-            <textarea className="organization-leadership-expertise-input"
-                      placeholder={"افتخارات"}/>
+            <textarea className="organization-leadership-expertise-input" placeholder={"افتخارات"}
+                      onChange={(e) => this.setState({...this.state, organization_honors: e.target.value})}/>
 
           </div>
         </React.Fragment>

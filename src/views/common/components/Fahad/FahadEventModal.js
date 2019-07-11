@@ -13,6 +13,7 @@ class FahadEventModal extends Component {
     this.state = {
       level: 1,
       catsArray: [],
+      verification: -1,
     }
   }
 
@@ -32,29 +33,38 @@ class FahadEventModal extends Component {
     }
   }
 
+  nextLevel() {
+    let {level} = this.state
+    this.setState({...this.state, level: ++level})
+  }
+
+  checkValidation() {
+    this.setState({...this.state, verification: 0})
+  }
+
 
   currentLevel() {
-    let {level, catsArray} = this.state
+    let {level, catsArray, verification} = this.state
     switch (level) {
       case 1:
         return (
-            <FahadEventPageOne/>
+            <FahadEventPageOne verification={verification} _nextLevel={this.nextLevel}/>
         )
       case 2:
         return (
-            <FahadEventPageTwo category={catsArray}/>
+            <FahadEventPageTwo category={catsArray} _nextLevel={this.nextLevel}/>
         )
       case 3:
         return (
-            <FahadEventPageThree/>
+            <FahadEventPageThree _nextLevel={this.nextLevel}/>
         )
       case 4:
         return (
-            <FahadEventPageFour/>
+            <FahadEventPageFour _nextLevel={this.nextLevel}/>
         )
       case 5:
         return (
-            <FahadEventPageFive/>
+            <FahadEventPageFive _nextLevel={this.nextLevel}/>
         )
       default:
         return null
@@ -69,7 +79,7 @@ class FahadEventModal extends Component {
         return (
             <React.Fragment>
               <div className={true ? "org-leadership-next-button" : "org-leadership-hidden-button"}
-                   onClick={() => true && this.setState({...this.state, level: ++level})}>
+                   onClick={() => this.checkValidation()}>
                 ذخیره و ادامه
               </div>
               <div className="org-leadership-previous-button" onClick={() => toggle()}>
