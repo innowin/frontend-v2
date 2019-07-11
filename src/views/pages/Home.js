@@ -55,8 +55,7 @@ class Home extends PureComponent {
                            identityType={identityType}
                            activeExchangeId={activeExchangeId}
               />
-              <HomePosts unSetExchangeId={this._unSetExchangeId} exchangeId={activeExchangeId}
-                         className={activeExchangeId ? 'post-wrapper active-exchange' : 'post-wrapper'}/>
+              <HomePosts unSetExchangeId={this._unSetExchangeId} exchangeId={activeExchangeId} className={activeExchangeId ? 'post-wrapper active-exchange' : 'post-wrapper'}/>
               <div className={activeExchangeId ? 'user-detail-wrapper active-exchange' : 'user-detail-wrapper'}>
                 {/*<FahadEventCard/>*/}
                 <OrganizationLeadershipCard/>
