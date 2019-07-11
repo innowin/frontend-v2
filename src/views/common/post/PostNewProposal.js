@@ -155,7 +155,7 @@ class PostNewProposal extends Component {
                             </div>
                           </div>
                           :
-                          <div className='proposal-resume-cont' onClick={this._toggleEdit}>
+                          <div className={focus ? 'proposal-resume-cont proposal-send-phone-second' : 'proposal-resume-cont'} onClick={this._toggleEdit}>
                             <div className='proposal-resume'>
                               <UploadLogo className='proposal-resume-logo'/>
                             </div>

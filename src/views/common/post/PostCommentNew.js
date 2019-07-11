@@ -110,7 +110,7 @@ class PostCommentNew extends React.PureComponent {
                 currentUser.profile_media ?
                     <img alt='profile' src={currentUser.profile_media.file} className='comment-owner'/>
                     :
-                    <DefaultUserIcon width='45px' height='45px'/>
+                    <DefaultUserIcon className='comment-owner'/>
               }
             </div>
             <div className={commentBody}>
