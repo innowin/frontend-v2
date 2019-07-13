@@ -302,3 +302,23 @@
   display: flex;
   align-items: center;
 }
+
+.validation-error-fahad {
+  height: 30px;
+  overflow: hidden;
+  font-weight: bold;
+  text-align: center;
+  color: $danger-color;
+  font-size: $font-size-regular;
+  transition-duration: $animation-timing-long;
+}
+
+.validation-error-fahad-hide {
+  height: 0;
+  overflow: hidden;
+  font-weight: bold;
+  text-align: center;
+  color: $danger-color;
+  font-size: $font-size-regular;
+  transition-duration: $animation-timing-long;
+}

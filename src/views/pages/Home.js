@@ -12,7 +12,7 @@ import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import {getMessages} from 'src/redux/selectors/translateSelector'
 import {PureComponent} from 'react'
-// import FahadEventCard from 'src/views/common/components/Fahad/FahadEventCard'
+import FahadEventCard from 'src/views/common/components/Fahad/FahadEventCard'
 
 class Home extends PureComponent {
   static propTypes = {
