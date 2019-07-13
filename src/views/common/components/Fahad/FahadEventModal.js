@@ -61,7 +61,8 @@ class FahadEventModal extends Component {
         )
       case 2:
         return (
-            <FahadEventPageTwo verification={verification} category={catsArray} _nextLevel={this.nextLevel}/>
+            <FahadEventPageTwo verification={verification} category={catsArray} clientIdentityId={clientIdentityId} token={token}
+                               _nextLevel={this.nextLevel} _changeIsLoading={this.changeIsLoading}/>
         )
       case 3:
         return (
@@ -99,8 +100,8 @@ class FahadEventModal extends Component {
       case 2:
         return (
             <React.Fragment>
-              <div className={true ? "org-leadership-next-button" : "org-leadership-hidden-button"}
-                   onClick={() => true && this.setState({...this.state, level: ++level})}>
+              <div className={!isLoading ? "org-leadership-next-button" : "org-leadership-hidden-button"}
+                   onClick={() => !isLoading ? this.checkValidation() : null}>
                 ذخیره و ادامه
               </div>
               <div className="org-leadership-previous-button" onClick={() => toggle()}>
