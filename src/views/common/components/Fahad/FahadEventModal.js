@@ -38,7 +38,7 @@ class FahadEventModal extends Component {
 
   nextLevel() {
     const {level} = this.state
-    this.setState({...this.state, verification: -1, level: level + 1}, this.changeIsLoading())
+    this.setState({...this.state, verification: -1, level: level + 1, isLoading: false})
   }
 
   checkValidation() {
@@ -66,15 +66,18 @@ class FahadEventModal extends Component {
         )
       case 3:
         return (
-            <FahadEventPageThree verification={verification} _nextLevel={this.nextLevel}/>
+            <FahadEventPageThree verification={verification} clientIdentityId={clientIdentityId} token={token}
+                                 _nextLevel={this.nextLevel} _changeIsLoading={this.changeIsLoading}/>
         )
       case 4:
         return (
-            <FahadEventPageFour verification={verification} _nextLevel={this.nextLevel}/>
+            <FahadEventPageFour verification={verification} clientIdentityId={clientIdentityId} token={token}
+                                _nextLevel={this.nextLevel} _changeIsLoading={this.changeIsLoading}/>
         )
       case 5:
         return (
-            <FahadEventPageFive verification={verification} _nextLevel={this.nextLevel}/>
+            <FahadEventPageFive verification={verification} clientIdentityId={clientIdentityId} token={token}
+                                _nextLevel={this.nextLevel} _changeIsLoading={this.changeIsLoading}/>
         )
       default:
         return null
@@ -112,8 +115,8 @@ class FahadEventModal extends Component {
       case 3:
         return (
             <React.Fragment>
-              <div className={true ? "org-leadership-next-button" : "org-leadership-hidden-button"}
-                   onClick={() => true && this.setState({...this.state, level: ++level})}>
+              <div className={!isLoading ? "org-leadership-next-button" : "org-leadership-hidden-button"}
+                   onClick={() => !isLoading ? this.checkValidation() : null}>
                 ذخیره و ادامه
               </div>
               <div className="org-leadership-previous-button" onClick={() => toggle()}>
@@ -124,8 +127,8 @@ class FahadEventModal extends Component {
       case 4:
         return (
             <React.Fragment>
-              <div className={true ? "org-leadership-next-button" : "org-leadership-hidden-button"}
-                   onClick={() => true && this.setState({...this.state, level: ++level})}>
+              <div className={!isLoading ? "org-leadership-next-button" : "org-leadership-hidden-button"}
+                   onClick={() => !isLoading ? this.checkValidation() : null}>
                 ذخیره و ادامه
               </div>
               <div className="org-leadership-previous-button" onClick={() => toggle()}>
@@ -136,8 +139,8 @@ class FahadEventModal extends Component {
       case 5:
         return (
             <React.Fragment>
-              <div className={true ? "org-leadership-next-button" : "org-leadership-hidden-button"}
-                   onClick={() => toggle()}>
+              <div className={!isLoading ? "org-leadership-next-button" : "org-leadership-hidden-button"}
+                   onClick={() => !isLoading ? this.checkValidation() : null}>
                 ذخیره
               </div>
               <div className="org-leadership-previous-button" onClick={() => toggle()}>
@@ -145,6 +148,11 @@ class FahadEventModal extends Component {
               </div>
             </React.Fragment>
         )
+      case 6:
+        setTimeout(() => {
+          toggle()
+        }, 50)
+        break
       default:
         return null
     }

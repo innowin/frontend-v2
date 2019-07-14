@@ -96,6 +96,7 @@ class FahadEventPageOne extends PureComponent {
         organization_abilities.length >= 2
     ) {
       successes = 0
+      errors = 0
       this.sendData(2, organization_name)
       this.sendData(7, organization_brand_name)
       this.sendData(8, organization_title)

@@ -1,9 +1,9 @@
 import React, {PureComponent} from "react"
 import RightArrowSvg from "src/images/common/right_arrow_svg"
 import {Product as ProductSvg, UploadIcon} from "src/images/icons"
-import InteliInput from "../../inputs/InteliInput"
+import InteliInput from "src/views/common/inputs/InteliInput"
 import axios from "axios"
-import urls, {REST_URL} from "../../../../consts/URLS"
+import urls, {REST_URL} from "src/consts/URLS"
 
 let successes = 0
 let errors = 0
@@ -30,8 +30,10 @@ class FahadEventPageTwo extends PureComponent {
   }
 
   componentDidMount() {
-    if (document.body.clientWidth > 480)
-      window.scrollTo({top: 0, behavior: "smooth"})
+    if (document.body.clientWidth > 480) {
+      let modalCon = document.getElementById("fahadModalContainerDiv")
+      modalCon.scrollTo({top: 0, behavior: "smooth"})
+    }
   }
 
   componentWillReceiveProps(nextProps: Readonly<P>, nextContext: any): void {
@@ -59,6 +61,7 @@ class FahadEventPageTwo extends PureComponent {
         product_name.length >= 2
     ) {
       successes = 0
+      errors = 0
       this.sendData(34, product_name)
       this.sendData(44, product_certificates)
       this.sendData(45, product_features)
@@ -104,6 +107,14 @@ class FahadEventPageTwo extends PureComponent {
           console.log(fieldData)
           errors++
         })
+  }
+
+  serverError() {
+    let modalCon = document.getElementById("fahadModalContainerDiv")
+    modalCon.scrollTo({top: 0, behavior: "smooth"})
+    this.setState({...this.state, serverError: true})
+    const {_changeIsLoading} = this.props
+    _changeIsLoading()
   }
 
   handleCatChange(data) {
