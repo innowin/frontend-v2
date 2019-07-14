@@ -79,8 +79,8 @@ class TopBar extends PureComponent {
     document.addEventListener('touchend', this._handleCloseOutside)
   }
 
-  componentWillReceiveProps(nextProps) {
-    const {path} = nextProps
+  componentDidUpdate(prevProps) {
+    const {path} = this.props
     if (this.props.path !== path) {
       if (path === constants.TOP_BAR_PAGES.HOME)
         this.setState({...this.state, currentPage: constants.TOP_BAR_PAGES.HOME})
@@ -258,7 +258,7 @@ class TopBar extends PureComponent {
         : ''
 
     return (
-        <div>
+        <React.Fragment>
 
           <nav className={hideTopBar ? 'page-content topBar topBar-hide' : 'page-content topBar'}>
             <div className="d-flex align-items-end" ref={e => this.exploreRef = e}>
@@ -440,9 +440,7 @@ class TopBar extends PureComponent {
 
           {displayProductModal && <AddingContribution modalIsOpen={productModal} handleModalVisibility={this._handleProductWizardModal}/>}
 
-          <div className={showSetting || showAbout || agentForm || productModal || createExchangeModalIsOpen ? 'makeDark' : 'makeDark-out'} onClick={this._handleHideSetting}>
-            {/*dark div*/}
-          </div>
+          <div className={showSetting || showAbout || agentForm || productModal || createExchangeModalIsOpen ? 'makeDark' : 'makeDark-out'} onClick={this._handleHideSetting}/>
 
           {/*Settings Modal*/}
           {
@@ -496,7 +494,7 @@ class TopBar extends PureComponent {
           }
           {/*End About Modal*/}
 
-        </div>
+        </React.Fragment>
     )
   }
 

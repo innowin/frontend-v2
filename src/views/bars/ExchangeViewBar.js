@@ -99,10 +99,10 @@ class ExchangeViewBar extends Component {
   }
 
   _handleClickOutside(event) {
-    const {exchanges, exchangeId, currentUserId} = this.props
+    const {exchanges, exchangeId, currentUserIdentity} = this.props
     if (exchanges.list[exchangeId]) {
       const currentExchange = exchanges.list[exchangeId]
-      if (currentExchange && currentExchange.owner && currentExchange.owner.id === currentUserId) {
+      if (currentExchange && currentExchange.owner === currentUserIdentity) {
         if (this.exchangeAdminMenu && !this.exchangeAdminMenu.contains(event.target)) {
           this.exchangeAdminMenu.className = 'exchange-admin-menu-disable'
         }
@@ -117,7 +117,7 @@ class ExchangeViewBar extends Component {
 
   renderFollowBtn(currentExchange) {
     if (this.state.followedExchanges.indexOf(currentExchange.id) >= 0 && !this.state.unFollowed) {
-      if (this.props.currentUserId === (currentExchange.owner && currentExchange.owner.id)) {
+      if (this.props.currentUserIdentity === currentExchange.owner) {
         return (
             <button
                 type="button"
@@ -235,13 +235,13 @@ class ExchangeViewBar extends Component {
   }
 
   _handleUnfollowExchange() {
-    const {exchanges, exchangeId, currentUserId, currentUserIdentity, exchangesIdentities, actions} = this.props
+    const {exchanges, exchangeId, currentUserIdentity, exchangesIdentities, actions} = this.props
     const currentExchange = exchanges.list[exchangeId]
     if (this.state.followedExchanges.indexOf(currentExchange.id) >= 0) {
       const {unFollow, getExchangeMembershipByMemberIdentity} = actions
       getExchangeMembershipByMemberIdentity({
         identityId: currentUserIdentity,
-        exchangeMembershipOwnerId: currentUserId,
+        exchangeMembershipOwnerId: currentUserIdentity,
       })
       let exchangeMembershipIdTemp = Object.values(exchangesIdentities).filter(memberships => {
         if (memberships.exchange_identity_related_exchange)
@@ -251,7 +251,7 @@ class ExchangeViewBar extends Component {
       if (exchangeMembershipIdTemp !== null && exchangeMembershipIdTemp[0] !== undefined)
         unFollow({
           exchangeMembershipId: exchangeMembershipIdTemp[0].id,
-          exchangeMembershipOwnerId: currentUserId,
+          exchangeMembershipOwnerId: currentUserIdentity,
         })
       else console.log('exchangeMembershipIdTemp: ', exchangeMembershipIdTemp)
 
@@ -264,13 +264,13 @@ class ExchangeViewBar extends Component {
     const {
       unFollowed, editView, loadingEdit, processing, selectedImage,
     } = this.state
-    const {translate, exchanges, exchangeId, currentUserId} = this.props
+    const {translate, exchanges, exchangeId, currentUserIdentity} = this.props
     if (exchanges.list[exchangeId]) {
       const currentExchange = exchanges.list[exchangeId] && exchanges.list[exchangeId]
       return (
           <div className="-sidebar-child-wrapper col">
             <div className="align-items-center flex-column">
-              {currentUserId !== (currentExchange.owner && currentExchange.owner.id) && !editView ?
+              {currentUserIdentity !== currentExchange.owner && !editView ?
                   this.state.followedExchanges.indexOf(currentExchange.id) >= 0 && !unFollowed ?
                       <div>
                         <div className="fa fa-ellipsis-v menuBottom bubble-more" onClick={(e) => this._handleMenu(e)}/>
@@ -501,13 +501,11 @@ class ExchangeViewBar extends Component {
 
 const StateToProps = (state) => {
   const client = state.auth.client
-  const userId = state.auth.client.identity.content
   return ({
     translate: state.intl.messages,
     router: state.router,
     exchanges: state.exchanges,
-    currentUserIdentity: state.auth.client.identity.content,
-    currentUserId: userId,
+    currentUserIdentity: client.identity.content,
     currentUserType: client.user_type,
     exchangesIdentities: exchangeMemberships(state),
     clientExchangeMemberships: clientMemberships(state),

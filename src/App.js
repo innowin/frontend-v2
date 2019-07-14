@@ -65,7 +65,7 @@ class App extends React.PureComponent {
     const path = this.props.location.pathname
     const {showRegisterModal, displayShowRegister, signUpFields} = this.state
     return (
-        <div>
+        <React.Fragment>
 
           {
             displayShowRegister &&
@@ -108,7 +108,7 @@ class App extends React.PureComponent {
             </React.Fragment>
 
           </Switch>
-        </div>
+        </React.Fragment>
     )
   }
 }
