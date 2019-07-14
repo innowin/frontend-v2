@@ -14,7 +14,7 @@ const Badges = (props) => {
         <div className="content">
           {
             badges.map((badge, i) =>
-                <div className="badgesCard">
+                <div key={'badge' + i} className="badgesCard">
                   <div className='badge-instant-logo'>
                     <img src={badge.badge_related_badge_category.badge_related_media && badge.badge_related_badge_category.badge_related_media.file} alt=''/>
                     <div>{badge.badge_related_badge_category.badge_title}</div>

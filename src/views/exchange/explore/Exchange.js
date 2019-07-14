@@ -43,19 +43,9 @@ class Exchange extends PureComponent {
     )
   }
 
-  _renderFollowButton() {
-    if (this.props.followed[this.props.data.id])
-      return <Material className='exchange-follow' content=' ' onClick={this.unFollow}/>
-    else if (this.state.followLoading) {
-      return <div className='exchange-model-following'><ClipLoader color='#008057' size={19}/></div>
-    }
-    else {
-      return <Material className='exchange-followed' content={this.props.translate['Follow']} onClick={this.follow}/>
-    }
-  }
-
   render() {
-    const {data, translate, currentUserIdentity} = this.props
+    const {data, translate, currentUserIdentity, followed} = this.props
+    const {followLoading} = this.state
 
     return (
         <div className='exchange-model'>
@@ -96,9 +86,15 @@ class Exchange extends PureComponent {
               <Link to={`/exchange/${data.id}`} className='link-post-decoration-delete-on-small'>
                 <Material className='exchange-link' content='مشاهده'/>
               </Link>
+
               {
-                this._renderFollowButton()
+                followed[data.id] ? <Material className='exchange-follow' content=' ' onClick={this.unFollow}/>
+                    :
+                    followLoading ? <div className='exchange-model-following'><ClipLoader color='#008057' size={19}/></div>
+                        :
+                        <Material className='exchange-followed' content={this.props.translate['Follow']} onClick={this.follow}/>
               }
+
             </div>
           }
 

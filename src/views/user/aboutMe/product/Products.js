@@ -11,9 +11,11 @@ const Products = (props) => {
             {translate['Products']}
           </div>
         </div>
-        {products && Object.values(products).map(pro =>
-            <ProductInfoView product={pro}/>,
-        )}
+        {
+          products && Object.values(products).map((pro, i) =>
+              <ProductInfoView key={'pro' + i} product={pro}/>,
+          )
+        }
       </CardContainer>
   )
 }

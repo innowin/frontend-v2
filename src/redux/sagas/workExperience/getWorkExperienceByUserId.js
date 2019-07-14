@@ -9,7 +9,7 @@ export function* getWorkExperienceByUserId(action) {
   const {userId} = payload
   const socketChannel = yield call(api.createSocketChannel, results.WORK_EXPERIENCE.GET_USER_WORK_EXPERIENCES_BY_USER_ID)
   try {
-    yield fork(api.get, urls.WORK_EXPERIENCE, results.WORK_EXPERIENCE.GET_USER_WORK_EXPERIENCES_BY_USER_ID, `?work_experience_related_identity=${userId}`)
+    yield fork(api.get, urls.WORK_EXPERIENCE, results.WORK_EXPERIENCE.GET_USER_WORK_EXPERIENCES_BY_USER_ID, `?work_experience_related_identity=${userId}`, true)
     const data = yield take(socketChannel)
     yield put({type: types.SUCCESS.WORK_EXPERIENCE.GET_USER_WORK_EXPERIENCES_BY_USER_ID, payload: {data, userId}})
     for (let i = 0; i < data.length; i++) {
@@ -17,14 +17,16 @@ export function* getWorkExperienceByUserId(action) {
       if (workExperience.work_experience_organization) {
         yield put({
           type: types.USER.GET_USER_BY_USER_ID,
-          payload: {userId: workExperience.work_experience_organization}
+          payload: {userId: workExperience.work_experience_organization},
         })
       }
     }
-  } catch (e) {
+  }
+  catch (e) {
     const {message} = e
     yield put({type: types.ERRORS.WORK_EXPERIENCE.GET_USER_WORK_EXPERIENCES_BY_USER_ID, payload: {message, userId}})
-  } finally {
+  }
+  finally {
     socketChannel.close()
   }
 }

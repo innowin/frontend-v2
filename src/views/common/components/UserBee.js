@@ -120,10 +120,11 @@ class UserBee extends PureComponent {
       }
 
       this.setState({...this.state, image, name, graduate, job, bio, resume: setResume}, () => {
-        if (image === 30) this.setState({...this.state, imageLoading: false, profileMediaId: null})
-        if (image === 30 && name === 20 && bio === 20 && graduate === 15 && job === 15) {
-          this.setState({...this.state, done: true}, () => setTimeout(() => actions.setBeeDone(true), 30000))
-        }
+        if (image === 30) this.setState({...this.state, imageLoading: false, profileMediaId: null}, () => {
+          if (image === 30 && name === 20 && bio === 20 && graduate === 15 && job === 15) {
+            this.setState({...this.state, done: true}, () => setTimeout(() => actions.setBeeDone(true), 30000))
+          }
+        })
       })
     }
   }

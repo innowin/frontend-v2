@@ -189,7 +189,7 @@ class Organization extends PureComponent<PropsOrganization, StatesOrganization> 
                                   userId={userId}
                                   getPostByIdentity={getPostByIdentity}
                       />
-                      <PrivateRoute exact path={`${path}/basicInformation`}
+                      <PropsRoute exact path={`${path}/basicInformation`}
                                     component={OrganAboutUs}
                                     user={userObject}
                                     userId={userId}

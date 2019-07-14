@@ -34,7 +34,6 @@ import type {organizationType} from 'src/consts/flowTypes/organization/organizat
 import getSearchedOrganizationsSelector from 'src/redux/selectors/organization/getOrganizationsFilterByOfficialName'
 import Badges from './badges'
 
-
 type OrganAboutMeProps = {
   certificates: [certificateType],
   products: [Object],

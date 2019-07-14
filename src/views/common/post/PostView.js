@@ -46,19 +46,20 @@ class PostView extends React.PureComponent {
       showMore: false,
       is_liked: false,
     }
-
-    this._delete = this._delete.bind(this)
+    this._readMore = this._readMore.bind(this)
     this._handleClickOutMenuBoxBottom = this._handleClickOutMenuBoxBottom.bind(this)
     this._handleShowComment = this._handleShowComment.bind(this)
-    this.handleShowProposals = this.handleShowProposals.bind(this)
     this._handleLike = this._handleLike.bind(this)
+    this._delete = this._delete.bind(this)
+    this.handleShowProposals = this.handleShowProposals.bind(this)
     this._openMenuTop = this._openMenuTop.bind(this)
     this._openMenuBottom = this._openMenuBottom.bind(this)
-    this._readMore = this._readMore.bind(this)
     this.showMoreComment = this.showMoreComment.bind(this)
     this._delete = this._delete.bind(this)
     this.onLinkClick = this.onLinkClick.bind(this)
     this.onLinkDown = this.onLinkDown.bind(this)
+    this._setCommentOn = this._setCommentOn.bind(this)
+    this._removeCommentOn = this._removeCommentOn.bind(this)
   }
 
   postMenuId = 'sidebar-post-menu-box-'
@@ -70,8 +71,8 @@ class PostView extends React.PureComponent {
       const {getCommentsByParentId, getPost, getProposals} = actions
       const {match, ownerId, location, clientIdentity, postIdentity} = this.props
       getCommentsByParentId({parentId: match.params.id, commentParentType: constants.COMMENT_PARENT.POST})
-      post && getProposals(post.id)
-      !post && getPost({postId: match.params.id, postOwnerId: ownerId})
+      getProposals(match.params.id)
+      getPost({postId: match.params.id, postOwnerId: ownerId})
       setTimeout(() => {
         if (this.post && document.body.clientWidth < 480) {
           const rect = this.post.getBoundingClientRect()
@@ -209,11 +210,11 @@ class PostView extends React.PureComponent {
     }
   }
 
-  _setCommentOn = (comment) => {
+  _setCommentOn(comment) {
     this.setState({...this.state, commentOn: comment, showComment: true})
   }
 
-  _removeCommentOn = () => {
+  _removeCommentOn() {
     this.setState({...this.state, commentOn: null})
   }
 
@@ -392,7 +393,7 @@ class PostView extends React.PureComponent {
                   }
                   <PostComments comments={comments}
                                 translate={translate}
-                                replyComment={(comment) => this._setCommentOn(comment)}
+                                replyComment={this._setCommentOn}
                                 deleteComment={this.deleteComment}
                   />
                 </React.Fragment>

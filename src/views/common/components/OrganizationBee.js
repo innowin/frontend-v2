@@ -51,37 +51,6 @@ class OrganizationBee extends PureComponent {
     }
   }
 
-  componentDidMount(): void {
-    const {currentUser} = this.props
-    const {nike_name, description, telegram_account, web_site, profile_media} = currentUser
-
-    let image = 0
-    let name = 0
-    let graduate = 0
-    let bio = 0
-
-    if (profile_media) {
-      image = 30
-    }
-
-    if (nike_name && nike_name.trim().length > 0) {
-      name = 25
-    }
-    if (description && description.trim().length > 0) {
-      bio = 25
-    }
-    if ((telegram_account && telegram_account.length > 0) && (web_site && web_site.length > 0)) {
-      graduate = 20
-    }
-    else if ((telegram_account && telegram_account.length > 0) || (web_site && web_site.length > 0)) {
-      graduate = 10
-    }
-
-    this.setState({...this.state, image, name, graduate, bio}, () => {
-      if (image === 30) this.setState({...this.state, imageLoading: false})
-    })
-  }
-
   componentWillReceiveProps(nextProps, nextContext) {
     if (!this.state.done) {
       const {currentUser, profileIdTemp, resumeIdTemp, temp, actions} = nextProps
@@ -126,10 +95,11 @@ class OrganizationBee extends PureComponent {
       }
 
       this.setState({...this.state, image, name, graduate, bio, resume: setResume}, () => {
-        if (image === 30) this.setState({...this.state, imageLoading: false, profileMediaId: null})
-        if (image === 30 && name === 25 && bio === 25 && graduate === 20) {
-          this.setState({...this.state, done: true}, () => setTimeout(() => actions.setBeeDone(true), 30000))
-        }
+        if (image === 30) this.setState({...this.state, imageLoading: false, profileMediaId: null}, () => {
+          if (image === 30 && name === 25 && bio === 25 && graduate === 20) {
+            this.setState({...this.state, done: true}, () => setTimeout(() => actions.setBeeDone(true), 30000))
+          }
+        })
       })
     }
   }

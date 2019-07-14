@@ -14,6 +14,7 @@ export function* getPost(action) {
     data.post_related_identity = data.post_related_identity.id
     if (data.post_related_product) {
       yield put({type: types.SUCCESS.COMMON.GET_PRODUCT_INFO, payload: {data: data.post_related_product}})
+      yield put({type: types.USER.GET_USER_BY_USER_ID, payload: {userId: data.post_related_product.product_owner}})
       data.post_related_product = data.post_related_product.id
     }
     yield put({type: types.SUCCESS.COMMON.POST.GET_POST, payload: {data, postOwnerId}})

@@ -1,6 +1,6 @@
 const base = (state, action) => {
   const {postOwnerId} = action.payload || {}
-  const defaultObject2 = {content: [], isLoading: false, error: null}
+  const defaultObject2 = {content: {}, isLoading: false, error: null}
   const previousPost = (state.list[postOwnerId] && state.list[postOwnerId].posts) || defaultObject2
 
   return {
@@ -12,19 +12,18 @@ const base = (state, action) => {
         posts: {
           ...previousPost,
           isLoading: true,
-          error: null
-        }
-      }
-    }
+          error: null,
+        },
+      },
+    },
   }
 }
 
 const success = (state, action) => {
   const {postOwnerId, data} = action.payload || {}
-  const defaultObject2 = {content: [], isLoading: false, error: null}
+  const defaultObject2 = {content: {}, isLoading: false, error: null}
   const previousPost = (state.list[postOwnerId] && state.list[postOwnerId].posts) || defaultObject2
 
-  const arrayOfPostId = [data.id]
   return {
     ...state,
     list: {
@@ -33,19 +32,18 @@ const success = (state, action) => {
         ...state.list[postOwnerId],
         posts: {
           ...previousPost,
-          // content: [...new Set([...previousPost.content, ...arrayOfPostId])],
-          content: arrayOfPostId,
+          content: {...previousPost.content, [data.id]: data.id},
           isLoading: false,
-          error: null
-        }
-      }
-    }
+          error: null,
+        },
+      },
+    },
   }
 }
 
 const error = (state, action) => {
   const {postOwnerId, message} = action.payload || {}
-  const defaultObject2 = {content: [], isLoading: false, error: null}
+  const defaultObject2 = {content: {}, isLoading: false, error: null}
   const previousPost = (state.list[postOwnerId] && state.list[postOwnerId].posts) || defaultObject2
 
   return {
@@ -57,10 +55,10 @@ const error = (state, action) => {
         posts: {
           ...previousPost,
           isLoading: false,
-          error: message
-        }
-      }
-    }
+          error: message,
+        },
+      },
+    },
   }
 }
 

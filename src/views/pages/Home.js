@@ -63,7 +63,6 @@ class Home extends PureComponent {
                 <SuggestExchanges/>
               </div>
             </div>
-            {/*<ChatBar className="-left-sidebar-wrapper"/>*/}
           </main>
         </div>
     )

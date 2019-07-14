@@ -59,7 +59,7 @@ const Proposals = (props) => {
                           <span>   </span>
                           <span className='proposal-send-profile-content-desc'>{proposal.proposal_identity.username}</span>
                           <span>   </span>
-                          <div className='display-inline-block proposal-send-profile-content-desc'><Moment element='span' fromNow ago>{proposal.updated_time}</Moment><span> پیش</span></div>
+                          <div className='display-inline-block proposal-send-profile-content-desc'><Moment element='span' fromNow ago>{proposal.created_time || proposal.updated_time}</Moment><span> پیش</span></div>
                         </div>
                       </Link>
                       <div className='post-proposal-content-desc' style={{direction: new RegExp('^[A-Za-z]*$').test(proposal.proposal_description && proposal.proposal_description[0]) ? 'ltr' : 'rtl'}}>
