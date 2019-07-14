@@ -1,5 +1,4 @@
-// @flow
-import * as React from 'react'
+import React from 'react'
 import {PureComponent} from 'react'
 import AboutInnowin from './TopBarComponents/AboutInnowin'
 import AboutUs from './TopBarComponents/AboutUs'
@@ -24,136 +23,78 @@ import {
   ExchangeExploreIcon,
   HomeSvg,
   HomeSvgSelected,
-  ExchangeExploreIconSelected, NotificationIcon,
+  ExchangeExploreIconSelected,
+  NotificationIcon,
 } from 'src/images/icons'
 import {Link} from 'react-router-dom'
 import {SearchIcon} from 'src/images/icons'
 import {CSSTransition, TransitionGroup} from 'react-transition-group'
-import type {identityType} from 'src/consts/flowTypes/identityType'
 import ModalActions from '../../redux/actions/modalActions'
-// import makeFileSelectorByKeyValue from '../../redux/selectors/common/file/selectFilsByKeyValue'
-// import client from 'src/consts/client'
 
-type PropsTopBar = {|
-  actions: {
-    signOut: Function,
-    hideModal: Function,
-    showModal: Function,
-  },
-  clientName: ?string,
-  path: string,
-  translate: { topBar: { [string]: string }, [string]: string },
-  clientIdentity: identityType,
-  imgLink: string,
-  bannerLink: string,
-  modal: {
-    productModal: boolean,
-  },
-|}
-
-type StatesTopBar = {|
-  agentForm: boolean,
-  collapse: boolean,
-  collapseProfile: boolean,
-  createExchangeModalIsOpen: boolean,
-  currentPage: string,
-  exploreCollapse: boolean,
-  getMediaFile: boolean,
-  isSignedOut: boolean,
-  selectedAbout: string,
-  selectedSetting: string,
-  showAbout: boolean,
-  showHamburger: boolean,
-  showSetting: boolean,
-|}
-
-class TopBar extends PureComponent<PropsTopBar, StatesTopBar> {
+class TopBar extends PureComponent {
 
   static propTypes = {
     actions: PropTypes.object.isRequired,
     translate: PropTypes.object.isRequired,
   }
 
-  //types
-  searchInput: ? HTMLInputElement
-  hamburgerButtonRef: HTMLInputElement
-  hamburgerRef: HTMLInputElement
-  profileRef: HTMLInputElement
-  exploreRef: HTMLInputElement
-
   constructor(props) {
     super(props)
     this.state = {
+      displayAgentForm: false,
       agentForm: false,
-      collapse: false,
       collapseProfile: false,
+      displayCreateExchange: false,
       createExchangeModalIsOpen: false,
       currentPage: constants.TOP_BAR_PAGES.HOME,
       exploreCollapse: false,
-      getMediaFile: false,
-      isSignedOut: false,
       selectedAbout: 'FAQ',
       selectedSetting: 'General Settings',
-      showAbout: false,
       showHamburger: false,
-      showSetting: false,
       hideTopBar: false,
       scrollY: 0,
+      showAbout: false,
+      showSetting: false,
+      displayAbout: false,
+      displaySetting: false,
     }
     this._onScroll = this._onScroll.bind(this)
     this._handleCloseOutside = this._handleCloseOutside.bind(this)
   }
 
-  componentWillMount(): void {
-    const {path} = this.props
-
-    if (path === constants.TOP_BAR_PAGES.HOME) {
-      this.setState({...this.state, currentPage: constants.TOP_BAR_PAGES.HOME})
-    }
-    else if (path === constants.TOP_BAR_PAGES.USER_EXPLORER) {
-      this.setState({...this.state, currentPage: constants.TOP_BAR_PAGES.USER_EXPLORER})
-    }
-    else if (path === constants.TOP_BAR_PAGES.EXCHANGE_EXPLORER) {
-      this.setState({...this.state, currentPage: constants.TOP_BAR_PAGES.EXCHANGE_EXPLORER})
-    }
-    else if (path.includes(constants.TOP_BAR_PAGES.PRODUCT)) {
-      this.setState({...this.state, currentPage: constants.TOP_BAR_PAGES.PRODUCT})
-    }
-    else {
-      this.setState({...this.state, currentPage: constants.TOP_BAR_PAGES.OTHER})
-    }
-  }
-
   componentDidMount() {
+    const {path} = this.props
+    if (path === constants.TOP_BAR_PAGES.HOME)
+      this.setState({...this.state, currentPage: constants.TOP_BAR_PAGES.HOME})
+    else if (path === constants.TOP_BAR_PAGES.USER_EXPLORER)
+      this.setState({...this.state, currentPage: constants.TOP_BAR_PAGES.USER_EXPLORER})
+    else if (path === constants.TOP_BAR_PAGES.EXCHANGE_EXPLORER)
+      this.setState({...this.state, currentPage: constants.TOP_BAR_PAGES.EXCHANGE_EXPLORER})
+    else if (path.includes(constants.TOP_BAR_PAGES.PRODUCT))
+      this.setState({...this.state, currentPage: constants.TOP_BAR_PAGES.PRODUCT})
+    else this.setState({...this.state, currentPage: constants.TOP_BAR_PAGES.OTHER})
+
     document.addEventListener('scroll', this._onScroll)
     document.addEventListener('mousedown', this._handleCloseOutside)
     document.addEventListener('touchend', this._handleCloseOutside)
   }
 
-  componentDidUpdate(prevProps) {
-    const {path} = this.props
-    const {currentPage} = this.state
-
-    if (currentPage !== path && prevProps.path !== path) {
-      if (path === constants.TOP_BAR_PAGES.HOME) {
+  componentWillReceiveProps(nextProps) {
+    const {path} = nextProps
+    if (this.props.path !== path) {
+      if (path === constants.TOP_BAR_PAGES.HOME)
         this.setState({...this.state, currentPage: constants.TOP_BAR_PAGES.HOME})
-      }
-      else if (path === constants.TOP_BAR_PAGES.USER_EXPLORER) {
+      else if (path === constants.TOP_BAR_PAGES.USER_EXPLORER)
         this.setState({...this.state, currentPage: constants.TOP_BAR_PAGES.USER_EXPLORER})
-      }
-      else if (path === constants.TOP_BAR_PAGES.EXCHANGE_EXPLORER) {
+      else if (path === constants.TOP_BAR_PAGES.EXCHANGE_EXPLORER)
         this.setState({...this.state, currentPage: constants.TOP_BAR_PAGES.EXCHANGE_EXPLORER})
-      }
-      else if (path.includes(constants.TOP_BAR_PAGES.PRODUCT)) {
+      else if (path.includes(constants.TOP_BAR_PAGES.PRODUCT))
         this.setState({...this.state, currentPage: constants.TOP_BAR_PAGES.PRODUCT})
-      }
-      else {
-        this.setState({...this.state, currentPage: constants.TOP_BAR_PAGES.OTHER})
-      }
+      else this.setState({...this.state, currentPage: constants.TOP_BAR_PAGES.OTHER})
     }
   }
 
-  componentWillUnmount(): void {
+  componentWillUnmount() {
     document.removeEventListener('mousedown', this._handleCloseOutside)
     document.removeEventListener('touchend', this._handleCloseOutside)
     document.removeEventListener('scroll', this._onScroll)
@@ -167,16 +108,11 @@ class TopBar extends PureComponent<PropsTopBar, StatesTopBar> {
             (this.state.currentPage === constants.TOP_BAR_PAGES.HOME && this.props.selectedExchange && this.props.selectedExchange !== '')
         )
     ) {
-      if (window.scrollY > this.state.scrollY) {
+      if (window.scrollY > this.state.scrollY)
         this.setState({...this.state, hideTopBar: true, scrollY: window.scrollY})
-      }
-      else {
-        this.setState({...this.state, hideTopBar: false, scrollY: window.scrollY})
-      }
+      else this.setState({...this.state, hideTopBar: false, scrollY: window.scrollY})
     }
-    else {
-      this.setState({...this.state, hideTopBar: false, scrollY: window.scrollY})
-    }
+    else this.setState({...this.state, hideTopBar: false, scrollY: window.scrollY})
   }
 
   _handleCloseOutside(e) {
@@ -193,77 +129,65 @@ class TopBar extends PureComponent<PropsTopBar, StatesTopBar> {
     }
   }
 
-  //
-  // _toggle = (e: SyntheticEvent<HTMLButtonElement>): void => {
-  //   e.preventDefault()
-  //   this.setState({...this.state, collapse: !this.state.collapse, exploreCollapse: false})
-  // }
-
-  _toggleExplore = (changePage) => {
-    if (changePage === true) {
-      this.setState({
-        ...this.state,
-        exploreCollapse: !this.state.exploreCollapse,
-        collapseProfile: false, showHamburger: false,
-      })
-    }
-    else {
-      this.setState({
-        ...this.state,
-        exploreCollapse: !this.state.exploreCollapse,
-        collapseProfile: false, showHamburger: false,
-      })
-    }
+  _toggleExplore = () => {
+    this.setState({
+      ...this.state,
+      exploreCollapse: !this.state.exploreCollapse,
+      collapseProfile: false,
+      showHamburger: false,
+    })
   }
 
-  _toggleProfile = () => {
-    if (this.props.clientIdentityId)
-      this.setState({...this.state, collapseProfile: !this.state.collapseProfile, exploreCollapse: false})
-  }
+  _toggleProfile = () => this.props.clientIdentityId && this.setState({...this.state, collapseProfile: !this.state.collapseProfile, exploreCollapse: false})
 
   _handleExchangeUpgrade = () => {
-    this.setState({...this.state, agentForm: true})
-    setTimeout(() =>
-            this.setState({...this.state, collapseProfile: false, showHamburger: false})
-        , 350)
+    this.setState({...this.state, collapseProfile: false, showHamburger: false, displayAgentForm: true})
+    setTimeout(() => this.setState({...this.state, agentForm: true}), 100)
   }
 
   _handleHideAgent = () => {
     this.setState({...this.state, agentForm: false})
+    setTimeout(() => this.setState({...this.state, displayAgentForm: false}), 100)
   }
+
   _createExchangeModalVisibilityHandler = () => {
-    this.setState({...this.state, createExchangeModalIsOpen: !this.state.createExchangeModalIsOpen})
-    setTimeout(() =>
-            this.setState({...this.state, collapseProfile: false, showHamburger: false})
-        , 350)
+    if (!this.state.createExchangeModalIsOpen) {
+      this.setState({...this.state, collapseProfile: false, showHamburger: false, displayCreateExchange: !this.state.createExchangeModalIsOpen})
+      setTimeout(() => this.setState({...this.state, createExchangeModalIsOpen: !this.state.createExchangeModalIsOpen}), 100)
+    }
+    else {
+      this.setState({...this.state, collapseProfile: false, showHamburger: false, createExchangeModalIsOpen: !this.state.createExchangeModalIsOpen})
+      setTimeout(() => this.setState({...this.state, displayCreateExchange: !this.state.createExchangeModalIsOpen}), 100)
+    }
   }
 
   _handleProductWizardModal = () => {
-    const {actions} = this.props
-    const {showModal} = actions
-    showModal({modalKey: 'productModal'})
-    setTimeout(() =>
-            this.setState({...this.state, collapseProfile: false, showHamburger: false})
-        , 350)
+    const {modal} = this.props
+    const {productModal} = modal
+    if (!productModal) {
+      this.setState({...this.state, displayProductModal: true, collapseProfile: false, showHamburger: false})
+      setTimeout(() => {
+        const {actions} = this.props
+        const {showModal} = actions
+        showModal({modalKey: 'productModal'})
+      }, 100)
+    }
+    else {
+      const {actions} = this.props
+      const {hideModal} = actions
+      hideModal({modalKey: 'productModal'})
+      setTimeout(() => this.setState({...this.state, displayProductModal: false, collapseProfile: false, showHamburger: false}), 100)
+    }
   }
 
   _handleSignOut = () => {
     this.setState({
       ...this.state,
-      showSetting: false,
-      exploreCollapse: false,
       collapseProfile: false,
       showHamburger: false,
     })
     this.props.actions.signOut()
     setTimeout(() => window.location.reload(), 500)
-  }
-
-  _handleShowSetting = () => {
-    setTimeout(() => {
-      this.setState({...this.state, collapseProfile: false, showHamburger: false})
-    }, 350)
-    this.setState({...this.state, showSetting: true, exploreCollapse: false, showAbout: false})
   }
 
   _handleHideSetting = () => {
@@ -275,51 +199,58 @@ class TopBar extends PureComponent<PropsTopBar, StatesTopBar> {
       showAbout: false,
       createExchangeModalIsOpen: false,
     })
-    setTimeout(() => {
-      this.setState({...this.state, selectedSetting: 'Privacy', selectedAbout: 'FAQ'})
-      setTimeout(() => {
-        this.setState({...this.state, selectedSetting: 'General Settings'})
-      }, 10)
-    }, 500)
-
     hideModal({modalKey: 'productModal'})
+    setTimeout(() => {
+      this.setState({
+        ...this.state,
+        selectedSetting: 'General Settings',
+        selectedAbout: 'FAQ',
+        displaySetting: false,
+        displayAbout: false,
+        displayCreateExchange: false,
+        displayProductModal: false,
+      })
+    }, 150)
   }
 
-  _homeClick = () => {
-    this.setState({...this.state})
+  _handleShowSetting = () => {
+    this.setState({
+      ...this.state,
+      collapseProfile: false,
+      showHamburger: false,
+      displaySetting: true,
+    })
+    setTimeout(() => this.setState({...this.state, showSetting: true}), 100)
   }
 
   _handleShowAbout = () => {
-    this.setState({...this.state, showSetting: false, exploreCollapse: false, showAbout: true})
-    setTimeout(() => this.setState({...this.state, collapseProfile: false, showHamburger: false}), 350)
+    this.setState({
+      ...this.state,
+      collapseProfile: false,
+      showHamburger: false,
+      displayAbout: true,
+    })
+    setTimeout(() => this.setState({...this.state, showAbout: true}), 100)
   }
 
-  _handleCloseProfile = () => {
-    setTimeout(() => this.setState({...this.state, collapseProfile: false, showHamburger: false}), 350)
-  }
+  _handleCloseProfile = () => this.setState({...this.state, collapseProfile: false, showHamburger: false})
 
-  _handleSettingSelected = (target) => {
-    this.setState({...this.state, selectedSetting: target})
-  }
+  _handleSettingSelected = (target) => this.setState({...this.state, selectedSetting: target})
 
-  _handleAboutSelected = (target) => {
-    this.setState({...this.state, selectedAbout: target})
-  }
+  _handleAboutSelected = (target) => this.setState({...this.state, selectedAbout: target})
 
-  _toggleHamburger = () => {
-    const {showHamburger} = this.state
-    this.setState({...this.state, showHamburger: !showHamburger})
-  }
+  _toggleHamburger = () => this.setState({...this.state, showHamburger: !this.state.showHamburger})
 
-  _hamburgerOff = () => {
-    setTimeout(() => this.setState({...this.state, showHamburger: false}), 350)
-  }
+  _hamburgerOff = () => this.setState({...this.state, showHamburger: false})
 
   render() {
     const {translate, clientName, clientIdentity, imgLink, bannerLink, modal} = this.props
     const {productModal} = modal
     const topBarTranslate = translate.topBar
-    const {hideTopBar, showHamburger, currentPage, collapseProfile, exploreCollapse, selectedSetting, selectedAbout, showSetting, showAbout, createExchangeModalIsOpen, agentForm} = this.state
+    const {
+      hideTopBar, showHamburger, currentPage, collapseProfile, exploreCollapse, displaySetting, displayAbout, displayAgentForm,
+      selectedSetting, selectedAbout, showSetting, showAbout, createExchangeModalIsOpen, displayCreateExchange, agentForm, displayProductModal,
+    } = this.state
     const linkEditProfile = clientIdentity ?
         clientIdentity.identity_type === constants.USER_TYPES.USER
             ? `/user/${clientIdentity.id}`
@@ -328,22 +259,10 @@ class TopBar extends PureComponent<PropsTopBar, StatesTopBar> {
 
     return (
         <div>
-          <AgentForm active={agentForm} hide={this._handleHideAgent}/>
-
-          <CreateExchange handleModalVisibility={this._createExchangeModalVisibilityHandler} modalIsOpen={createExchangeModalIsOpen}/>
-
-          <TransitionGroup>
-            {
-              showHamburger &&
-              <CSSTransition key={1} timeout={250} classNames='fade'>
-                <div className='hamburger-overlay open'/>
-              </CSSTransition>
-            }
-          </TransitionGroup>
 
           <nav className={hideTopBar ? 'page-content topBar topBar-hide' : 'page-content topBar'}>
             <div className="d-flex align-items-end" ref={e => this.exploreRef = e}>
-              <Link to={'/'} onClick={this._homeClick}>
+              <Link to='/'>
                 <Material backgroundColor='rgba(238, 238, 238,0.8)'
                           className={currentPage === constants.TOP_BAR_PAGES.HOME ? 'selected-bar top-bar-home' : 'top-bar-home'}
                           content={
@@ -429,7 +348,7 @@ class TopBar extends PureComponent<PropsTopBar, StatesTopBar> {
               </div>
             </div>
 
-            <Link to={'/'}><InnoWinLogo svgClass={'centerImgTopBar'}/></Link>
+            <Link to='/'><InnoWinLogo svgClass={'centerImgTopBar'}/></Link>
 
             <div className="top-bar-left-side">
               <div ref={e => this.profileRef = e} className="-ProfTopBarImg">
@@ -506,53 +425,77 @@ class TopBar extends PureComponent<PropsTopBar, StatesTopBar> {
             </div>
           </nav>
 
-          <AddingContribution modalIsOpen={productModal} handleModalVisibility={this._handleProductWizardModal}/>
+          {displayAgentForm && <AgentForm active={agentForm} hide={this._handleHideAgent}/>}
+
+          {displayCreateExchange && <CreateExchange handleModalVisibility={this._createExchangeModalVisibilityHandler} modalIsOpen={createExchangeModalIsOpen}/>}
+
+          <TransitionGroup>
+            {
+              showHamburger &&
+              <CSSTransition key={1} timeout={250} classNames='fade'>
+                <div className='hamburger-overlay open'/>
+              </CSSTransition>
+            }
+          </TransitionGroup>
+
+          {displayProductModal && <AddingContribution modalIsOpen={productModal} handleModalVisibility={this._handleProductWizardModal}/>}
 
           <div className={showSetting || showAbout || agentForm || productModal || createExchangeModalIsOpen ? 'makeDark' : 'makeDark-out'} onClick={this._handleHideSetting}>
             {/*dark div*/}
           </div>
-          {/*Settings Modal*/}
-          <div className={showSetting ? 'settingModal-sidebar' : 'settingModal-sidebar-out'}>
-            <Material onClick={() => this._handleSettingSelected('General Settings')}
-                      className={selectedSetting === 'General Settings' ? 'settingModal-sidebar-item-selected' : 'settingModal-sidebar-item'}
-                      content={topBarTranslate['General Settings']}/>
-            <Material onClick={() => this._handleSettingSelected('Manage Linked Accounts')}
-                      className={selectedSetting === 'Manage Linked Accounts' ? 'settingModal-sidebar-item-selected' : 'settingModal-sidebar-item'}
-                      content={topBarTranslate['Manage Linked Accounts']}/>
-            <Material onClick={() => this._handleSettingSelected('Privacy')}
-                      className={selectedSetting === 'Privacy' ? 'settingModal-sidebar-item-selected' : 'settingModal-sidebar-item'}
-                      content={topBarTranslate['Privacy']}/>
-          </div>
 
-          <div className={showSetting ? 'settingModal-menu' : 'settingModal-menu-out'}>
-            <div className='settingModal-menu-header'>{topBarTranslate[selectedSetting]}</div>
-            {this.renderSetting()}
-          </div>
+          {/*Settings Modal*/}
+          {
+            displaySetting &&
+            <div>
+              <div className={showSetting ? 'settingModal-sidebar' : 'settingModal-sidebar-out'}>
+                <Material onClick={() => this._handleSettingSelected('General Settings')}
+                          className={selectedSetting === 'General Settings' ? 'settingModal-sidebar-item-selected' : 'settingModal-sidebar-item'}
+                          content={topBarTranslate['General Settings']}/>
+                <Material onClick={() => this._handleSettingSelected('Manage Linked Accounts')}
+                          className={selectedSetting === 'Manage Linked Accounts' ? 'settingModal-sidebar-item-selected' : 'settingModal-sidebar-item'}
+                          content={topBarTranslate['Manage Linked Accounts']}/>
+                <Material onClick={() => this._handleSettingSelected('Privacy')}
+                          className={selectedSetting === 'Privacy' ? 'settingModal-sidebar-item-selected' : 'settingModal-sidebar-item'}
+                          content={topBarTranslate['Privacy']}/>
+              </div>
+              <div className={showSetting ? 'settingModal-menu' : 'settingModal-menu-out'}>
+                <div className='settingModal-menu-header'>{topBarTranslate[selectedSetting]}</div>
+                {this.renderSetting()}
+              </div>
+            </div>
+          }
           {/*End Settings Modal*/}
 
           {/*About Modal*/}
-          <div className={showAbout ? 'settingModal-sidebar' : 'settingModal-sidebar-out'}>
-            <Material onClick={() => this._handleAboutSelected('FAQ')}
-                      className={selectedAbout === 'FAQ' ? 'settingModal-sidebar-item-selected' : 'settingModal-sidebar-item'}
-                      content={topBarTranslate['FAQ']}/>
-            <Material onClick={() => this._handleAboutSelected('Introduce Badges')}
-                      className={selectedAbout === 'Introduce Badges' ? 'settingModal-sidebar-item-selected' : 'settingModal-sidebar-item'}
-                      content={topBarTranslate['Introduce Badges']}/>
-            <Material onClick={() => this._handleAboutSelected('Terms & Conditions')}
-                      className={selectedAbout === 'Terms & Conditions' ? 'settingModal-sidebar-item-selected' : 'settingModal-sidebar-item'}
-                      content={topBarTranslate['Terms & Conditions']}/>
-            <Material onClick={() => this._handleAboutSelected('About Innowin')}
-                      className={selectedAbout === 'About Innowin' ? 'settingModal-sidebar-item-selected' : 'settingModal-sidebar-item'}
-                      content={topBarTranslate['About Innowin']}/>
-            <Material onClick={() => this._handleAboutSelected('About Us')}
-                      className={selectedAbout === 'About Us' ? 'settingModal-sidebar-item-selected' : 'settingModal-sidebar-item'}
-                      content={topBarTranslate['About Us']}/>
-          </div>
-          <div className={showAbout ? 'settingModal-menu' : 'settingModal-menu-out'}>
-            <div className='settingModal-menu-header'>{topBarTranslate[selectedAbout]}</div>
-            {this.renderAbout()}
-          </div>
+          {
+            displayAbout &&
+            <div>
+              <div className={showAbout ? 'settingModal-sidebar' : 'settingModal-sidebar-out'}>
+                <Material onClick={() => this._handleAboutSelected('FAQ')}
+                          className={selectedAbout === 'FAQ' ? 'settingModal-sidebar-item-selected' : 'settingModal-sidebar-item'}
+                          content={topBarTranslate['FAQ']}/>
+                <Material onClick={() => this._handleAboutSelected('Introduce Badges')}
+                          className={selectedAbout === 'Introduce Badges' ? 'settingModal-sidebar-item-selected' : 'settingModal-sidebar-item'}
+                          content={topBarTranslate['Introduce Badges']}/>
+                <Material onClick={() => this._handleAboutSelected('Terms & Conditions')}
+                          className={selectedAbout === 'Terms & Conditions' ? 'settingModal-sidebar-item-selected' : 'settingModal-sidebar-item'}
+                          content={topBarTranslate['Terms & Conditions']}/>
+                <Material onClick={() => this._handleAboutSelected('About Innowin')}
+                          className={selectedAbout === 'About Innowin' ? 'settingModal-sidebar-item-selected' : 'settingModal-sidebar-item'}
+                          content={topBarTranslate['About Innowin']}/>
+                <Material onClick={() => this._handleAboutSelected('About Us')}
+                          className={selectedAbout === 'About Us' ? 'settingModal-sidebar-item-selected' : 'settingModal-sidebar-item'}
+                          content={topBarTranslate['About Us']}/>
+              </div>
+              <div className={showAbout ? 'settingModal-menu' : 'settingModal-menu-out'}>
+                <div className='settingModal-menu-header'>{topBarTranslate[selectedAbout]}</div>
+                {this.renderAbout()}
+              </div>
+            </div>
+          }
           {/*End About Modal*/}
+
         </div>
     )
   }

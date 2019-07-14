@@ -28,6 +28,7 @@ class App extends React.PureComponent {
   constructor(props) {
     super(props)
     this.state = {
+      displayShowRegister: false,
       showRegisterModal: false,
       signUpFields: {
         password: '',
@@ -36,7 +37,10 @@ class App extends React.PureComponent {
     }
   }
 
-  _hideModalClick = () => this.setState({...this.state, showRegisterModal: false})
+  _hideModalClick = () => {
+    this.setState({...this.state, showRegisterModal: false})
+    setTimeout(() => this.setState({...this.state, displayShowRegister: false}), 100)
+  }
 
   componentDidMount() {
     const {clientId, actions} = this.props
@@ -49,23 +53,29 @@ class App extends React.PureComponent {
 
   _onRegisterClick = () => {
     const {email, password} = this.state.signUpFields
-    if (email && password && password !== '' && email !== '')
-      this.setState({...this.state, showRegisterModal: true})
+    if (email && password && password !== '' && email !== '') {
+      this.setState({...this.state, displayShowRegister: true})
+      setTimeout(() => this.setState({...this.state, showRegisterModal: true}), 100)
+    }
   }
 
   setSignUpFields = (value) => this.setState({...this.state, signUpFields: value})
 
   render() {
     const path = this.props.location.pathname
-    const {showRegisterModal, signUpFields} = this.state
+    const {showRegisterModal, displayShowRegister, signUpFields} = this.state
     return (
         <div>
 
-          <GetUserData showRegisterModal={showRegisterModal}
-                       hideRegisterModal={this._hideModalClick}
-                       password={signUpFields.password}
-                       email={signUpFields.email}
-          />
+          {
+            displayShowRegister &&
+            <GetUserData showRegisterModal={showRegisterModal}
+                         displayShowRegister={displayShowRegister}
+                         hideRegisterModal={this._hideModalClick}
+                         password={signUpFields.password}
+                         email={signUpFields.email}
+            />
+          }
 
           <Switch>
 
