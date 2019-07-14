@@ -11,7 +11,7 @@ const filterPostsByPostParentLimitOffset = ({postParentId, postType, postParentT
   },
 })
 
-const filterPostsByPostRelatedProduct = ({postRelatedProductId, postType, postParentType, limit, offset}) => ({
+const filterPostsByPostRelatedProduct = ({postRelatedProductId, postType, postParentType, limit, offset, token}) => ({
   type: types.COMMON.POST.FILTER_POSTS_BY_POST_RELATED_PRODUCT,
   payload: {
     postRelatedProductId,
@@ -19,10 +19,11 @@ const filterPostsByPostRelatedProduct = ({postRelatedProductId, postType, postPa
     limit,
     offset,
     postParentType,
+    token,
   },
 })
 
-const getPostByIdentity = ({postIdentity, postOwnerId, limit, offset}) => {
+const getPostByIdentity = ({postIdentity, postOwnerId, limit, offset, token}) => {
   return {
     type: types.COMMON.POST.GET_POST_BY_IDENTITY,
     payload: {
@@ -30,6 +31,7 @@ const getPostByIdentity = ({postIdentity, postOwnerId, limit, offset}) => {
       postOwnerId,
       limit,
       offset,
+      token,
     },
   }
 }

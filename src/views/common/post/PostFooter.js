@@ -8,7 +8,7 @@ import constants from 'src/consts/constants'
 const PostFooter = (props) => {
   const {
     post, postMenuId, extendedView, menuToggle, openMenu, postIdentity, translate,
-    deletePost, showComment, handleLike, is_liked, showEdit, clientIdentity, showProposals,
+    deletePost, showComment, handleLike, showEdit, clientIdentity, showProposals,
   } = props
   const {post_type, comments_count, likes_count, is_post_liked_by_logged_in_user, post_proposals_count} = post
   const postUrl = `/${postIdentity.identity_type}/${postIdentity.id}/Posts/${post.id}/${postIdentity.id !== clientIdentity ? 'Proposal' : ''}`
@@ -21,16 +21,10 @@ const PostFooter = (props) => {
           <div className='items cursor-pointer post-menu-bottom bubble-more comment-svg-container' onClick={clientIdentity ? handleLike : null}>
             <span className='comment-count'>
               {
-                likes_count ?
-                    is_liked && is_post_liked_by_logged_in_user ?
-                        likes_count :
-                        is_liked && !is_post_liked_by_logged_in_user ?
-                            likes_count + 1 :
-                            !is_liked && is_post_liked_by_logged_in_user ? likes_count - 1 : likes_count :
-                    is_liked ? 1 : 0
+                likes_count ? likes_count : '0'
               }
             </span>
-            <LikeSvg className={is_liked ? 'liked-svg' : 'like-svg'}/>
+            <LikeSvg className={is_post_liked_by_logged_in_user === true ? 'liked-svg' : 'like-svg'}/>
           </div>
           <div className='items cursor-pointer post-menu-bottom bubble-more comment-svg-container' onClick={showComment}>
             <span className='comment-count'>{comments_count ? comments_count : ''}</span>

@@ -5,7 +5,7 @@ import types from 'src/redux/actions/types'
 import {put, take, fork, call} from 'redux-saga/effects'
 
 export function* getPostByIdentity(action) {
-  const {postIdentity, postOwnerId, limit = 100, offset = 0} = action.payload
+  const {postIdentity, postOwnerId, limit = 100, offset = 0, token = true} = action.payload
   let filter = `?post_related_identity=${postIdentity}`
   if (offset) {
     filter = filter + `&offset=${offset}`
@@ -16,7 +16,7 @@ export function* getPostByIdentity(action) {
   const result = results.COMMON.POST.GET_POST_BY_IDENTITY + postIdentity + Math.random()
   const socketChannel = yield call(api.createSocketChannel, result)
   try {
-    yield fork(api.get, urls.COMMON.POST, result, filter, true)
+    yield fork(api.get, urls.COMMON.POST, result, filter, token)
     const data = yield take(socketChannel)
     let tempUsersId = []
     for (let i = 0; i < data.length; i++) {

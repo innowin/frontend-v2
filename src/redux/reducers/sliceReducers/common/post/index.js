@@ -1,5 +1,6 @@
 import createComment from './createComment'
 import createPost from './createPost'
+import createLike from './createLike'
 import deleteComment from './deleteComment'
 import deletePost from './deletePost'
 import filterPostsByParentLimitOffset from "./filterPostsByParentLimitOffset"
@@ -20,7 +21,7 @@ import getCommentById from './getCommentById'
 export default {
   createComment,
   createPost,
-  // createLike,
+  createLike,
   deleteComment,
   deletePost,
   filterPostsByParentLimitOffset,

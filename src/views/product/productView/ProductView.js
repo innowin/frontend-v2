@@ -36,12 +36,12 @@ class ProductView extends PureComponent {
 
   componentDidMount() {
     window.scrollTo({top: 0, behavior: 'smooth'})
-    const {match, actions} = this.props
+    const {match, actions, isLogin} = this.props
     const {params} = match
     const productId = params.id
     actions.getProductInfo(productId)
     actions.getPrice(productId)
-    actions.getPosts({postRelatedProductId: productId})
+    actions.getPosts({postRelatedProductId: productId, token: !isLogin})
     actions.getCountries()
     actions.getCategories()
     document.addEventListener('scroll', this._onScroll)
@@ -129,6 +129,7 @@ const mapStateToProps = (state, props) => {
   const product = makeProductSelectorById()(state, productId)
   const {product_related_country, product_related_province} = product
   return {
+    isLogin: state.auth.client.identity.content,
     product_price: priceListSelector(state, productId),
     product,
     country: makeCountrySelectorById()(state, product_related_country),
