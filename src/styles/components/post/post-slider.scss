@@ -6,40 +6,58 @@
   right: 0;
   top: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.35);
+  background-color: rgba(0, 0, 0, 0.4);
   z-index: 3;
-  transition-duration: $animation-timing-short;
-  opacity: 1;
+  animation: black-back-in $animation-timing-short ease;
+}
+
+@keyframes black-back-in {
+  from {
+    background-color: rgba(0, 0, 0, 0);
+  }
+  to {
+    background-color: rgba(0, 0, 0, 0.4);
+  }
 }
 
 .post-slider-black-back-close {
-  position: fixed;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  background-color: #F8F9FC;
-  z-index: -1;
-  opacity: 1;
+  display: none;
 }
 
 .post-slider-container {
   position: fixed;
   z-index: 3;
-  background-color: $primary-color;
+  background-color: transparent;
   text-align: center;
   border-radius: $border-radius-size;
   overflow: hidden;
   opacity: 1;
-  transition-duration: $animation-timing;
-  top: 6vh;
-  bottom: 5vh;
-  //left: 20vw;
-  //right: 20vw;
-  transform: scale(1) translate(20%, 0);
+  top: 5vh;
+  bottom: 4vh;
+  left: 120px;
+  right: 120px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  animation: slider-in .35s ease;
+}
+
+@keyframes slider-in {
+  from {
+    transform: translateY(-100px);
+    opacity: .3;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.post-slider-container-inactive {
+  display: none;
+  transform: translateY(-100px);
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -47,21 +65,10 @@
   user-select: none;
 }
 
-.post-slider-container-inactive {
-  position: fixed;
-  z-index: -1;
-  background-color: $primary-color;
-  text-align: center;
-  border-radius: $border-radius-size;
-  overflow: hidden;
-  opacity: 0;
-  transform: scale(.2) translate(50%, 0);
-}
-
 .post-slider-image {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .slider-left-arrow-container {
@@ -74,9 +81,9 @@
   bottom: 0;
   width: 120px;
   z-index: 3;
-  transition-duration: $animation-timing-short;
   background-image: linear-gradient(to right, rgba(0, 0, 0, 0.1), transparent);
   opacity: .7;
+  animation: arrows-in $animation-timing ease;
 
   &:hover {
     background-image: linear-gradient(to right, rgba(0, 0, 0, 0.25), transparent);
@@ -103,9 +110,9 @@
   bottom: 0;
   width: 120px;
   z-index: 3;
-  transition-duration: $animation-timing-short;
   background-image: linear-gradient(to left, rgba(0, 0, 0, 0.1), transparent);
   opacity: .7;
+  animation: arrows-in $animation-timing ease;
 
   &:hover {
     background-image: linear-gradient(to left, rgba(0, 0, 0, 0.25), transparent);
@@ -122,11 +129,21 @@
   transition-duration: $animation-timing-short;
 }
 
+@keyframes arrows-in {
+  from {
+    top: -100px;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: .7;
+  }
+}
+
 .slider-arrow-hide {
   position: fixed;
-  opacity: 0;
-  z-index: -1;
-  top: -20vh;
+  top: -100px;
+  display: none;
 }
 
 .post-slider-close-button {
@@ -137,14 +154,14 @@
   font-size: 45px;
   font-weight: bold;
   color: $background-color;
-  top: -5px;
+  top: 0;
   left: -5px;
   width: 120px;
   height: 120px;
-  transition-duration: $animation-timing-short;
   opacity: .85;
   z-index: 4;
   cursor: pointer;
+  animation: arrows-in $animation-timing ease;
 
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -161,18 +178,5 @@
 }
 
 .post-slider-close-button-hide {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: fixed;
-  font-size: 45px;
-  font-weight: bold;
-  color: $background-color;
-  top: -150px;
-  left: -5px;
-  width: 120px;
-  height: 120px;
-  opacity: 0;
-  z-index: -1;
-  cursor: pointer;
+  display: none;
 }

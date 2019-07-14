@@ -1,5 +1,5 @@
-import React, {PureComponent} from 'react'
-import * as PropTypes from 'prop-types'
+import React, {PureComponent} from "react"
+import * as PropTypes from "prop-types"
 // import {CSSTransition, TransitionGroup} from "react-transition-group"
 import {MainLbarArrow} from "src/images/icons"
 
@@ -9,13 +9,13 @@ class PostSlider extends PureComponent {
     closeModal: PropTypes.func.isRequired,
     modalIsOpen: PropTypes.bool.isRequired,
     imageIndex: PropTypes.number.isRequired,
-    rect: PropTypes.object
+    rect: PropTypes.object,
   }
 
   constructor(props) {
     super(props)
     this.state = {
-      selectedImage: 0
+      selectedImage: 0,
     }
   }
 
@@ -48,21 +48,16 @@ class PostSlider extends PureComponent {
   }
 
   renderSlider() {
-    let {images, rect, modalIsOpen} = this.props
+    let {
+      images,
+      modalIsOpen,
+    } = this.props
     let {selectedImage} = this.state
-    if (rect)
-      return (
-          <div className={modalIsOpen ? "post-slider-container" : "post-slider-container-inactive"}
-               style={!modalIsOpen ?
-                   rect && {
-                     width: rect.width + "px",
-                     height: rect.height + "px",
-                     top: rect.top + "px",
-                     left: rect.left + "px"
-                   } : null}>
-            <img src={images[selectedImage] && images[selectedImage].file} alt="" className={images[selectedImage] && "post-slider-image"}/>
-          </div>
-      )
+    return (
+        <div className={modalIsOpen ? "post-slider-container" : "post-slider-container-inactive"}>
+          <img src={images[selectedImage] && images[selectedImage].file} alt="" className={images[selectedImage] && "post-slider-image"}/>
+        </div>
+    )
   }
 
   render() {

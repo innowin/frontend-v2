@@ -1,11 +1,11 @@
 // @flow
-import * as React from 'react'
-import * as PropTypes from 'prop-types'
+import * as React from "react"
+import * as PropTypes from "prop-types"
 
-import {DefaultImage} from 'src/images/icons'
-import type {postType} from 'src/consts/flowTypes/common/post'
-import constants from 'src/consts/constants'
-import PostSlider from './PostSlider'
+import {DefaultImage} from "src/images/icons"
+import type {postType} from "src/consts/flowTypes/common/post"
+import constants from "src/consts/constants"
+import PostSlider from "./PostSlider"
 
 type postImageProps = {
   translate: { [string]: string },
@@ -32,7 +32,6 @@ class PostImage extends React.Component<postImageProps, postImageState> {
       pictureLoaded: null,
       pictureArrayLoaded: [null, null, null],
       postPicturesSlider: false,
-      rect: null,
       imageIndex: 0,
     }
     const self: any = this
@@ -147,49 +146,48 @@ class PostImage extends React.Component<postImageProps, postImageState> {
   }
 
   closeImageSlider() {
+    document.body.style.overflowY = "auto"
     const {postPicturesSlider} = this.state
-    postPicturesSlider && this.setState({...this.state, postPicturesSlider: false, rect: null})
+    postPicturesSlider && this.setState({
+      ...this.state,
+      postPicturesSlider: false,
+    })
   }
 
   openImageSlider(imageIndex) {
-    let target = this.container
-    let rect = target.getBoundingClientRect()
-
+    document.body.style.overflowY = "hidden"
     const {postPicturesSlider} = this.state
-    !postPicturesSlider && this.setState({...this.state, postPicturesSlider: true, imageIndex, rect})
-  }
-
-  setRect() {
-    let target = this.container
-    let rect = target.getBoundingClientRect()
-
-    this.setState({...this.state, rect})
+    !postPicturesSlider && this.setState({
+      ...this.state,
+      postPicturesSlider: true,
+      imageIndex,
+    })
   }
 
   render() {
     const {post, extendedView} = this.props
-    const {pictureArrayLoaded, postPicturesSlider, rect, imageIndex} = this.state
-    let postFilesArray = [], picturesClass = '', postPicturesLength = 0
+    const {pictureArrayLoaded, postPicturesSlider, imageIndex} = this.state
+    let postFilesArray = [], picturesClass = "", postPicturesLength = 0
 
     if (post) {
       postFilesArray = post.post_media && post.post_media.slice(0, 3).filter(picture => picture.type === null || picture.type === constants.CREATE_FILE_TYPES.IMAGE)
       if (postFilesArray) {
         postPicturesLength = postFilesArray.length
-        picturesClass = 'onePicture'
-        if (postPicturesLength === 2) picturesClass = 'twoPictures'
-        if (postPicturesLength === 3) picturesClass = 'threePictures'
+        picturesClass = "onePicture"
+        if (postPicturesLength === 2) picturesClass = "twoPictures"
+        if (postPicturesLength === 3) picturesClass = "threePictures"
       }
     }
 
     return (
         <React.Fragment>
           {postFilesArray && postPicturesLength > 0
-              ? <div className={extendedView && postPicturesLength === 1 ? 'post-image-container' : ('pictures-section ' + picturesClass)}>
+              ? <div className={extendedView && postPicturesLength === 1 ? "post-image-container" : ("pictures-section " + picturesClass)}>
                 {postFilesArray.map((postPictureElement, i) => (
-                    <div className='image-container' key={i + 'pictures-section'}>
+                    <div className='image-container' key={i + "pictures-section"}>
                       <div className='post-image-container'>
                         <div
-                            className={pictureArrayLoaded[i] === true ? 'post-image-loading-effect' : 'post-image-loading'}>
+                            className={pictureArrayLoaded[i] === true ? "post-image-loading-effect" : "post-image-loading"}>
                           <DefaultImage className='default-image'/>
                           {
                             pictureArrayLoaded[i] === false ?
@@ -203,19 +201,17 @@ class PostImage extends React.Component<postImageProps, postImageState> {
                           }
                         </div>
                         <img src={postPictureElement.file} alt='عکس پست'
-                             onMouseEnter={() => this.setRect()}
                              onClick={() => this.openImageSlider(i)}
                              ref={e => this.container = e}
-                             className={pictureArrayLoaded[i] === true ? 'post-image-effect' : 'post-image'}/>
+                             className={pictureArrayLoaded[i] === true ? "post-image-effect" : "post-image"}/>
                       </div>
-
-                      {/*<img src={postPictureElement.file} alt={"عکس پست" + i}/>*/}
                     </div>
                 ))}
               </div>
               : null
           }
-          <PostSlider images={postFilesArray} modalIsOpen={postPicturesSlider} imageIndex={imageIndex} closeModal={() => this.closeImageSlider()} rect={rect}/>
+          {postFilesArray.length > 0 && <PostSlider images={postFilesArray} modalIsOpen={postPicturesSlider} imageIndex={imageIndex}
+                                                    closeModal={() => this.closeImageSlider()}/>}
         </React.Fragment>
     )
   }

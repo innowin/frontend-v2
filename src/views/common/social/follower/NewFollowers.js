@@ -1,11 +1,11 @@
-import React from 'react'
-import SocialActions from 'src/redux/actions/commonActions/socialActions'
-import {bindActionCreators} from 'redux'
-import {connect} from 'react-redux'
-import {DefaultUserIcon, Contacts, QuestionMark, Stream} from 'src/images/icons'
-import {Link} from 'react-router-dom'
-import {getMessages} from 'src/redux/selectors/translateSelector'
-import {Component} from 'react'
+import React from "react"
+import SocialActions from "src/redux/actions/commonActions/socialActions"
+import {bindActionCreators} from "redux"
+import {connect} from "react-redux"
+import {DefaultUserIcon, Contacts, QuestionMark, Stream} from "src/images/icons"
+import {Link} from "react-router-dom"
+import {getMessages} from "src/redux/selectors/translateSelector"
+import {Component} from "react"
 
 class NewFollowers extends Component {
   constructor(props) {
@@ -13,7 +13,7 @@ class NewFollowers extends Component {
     this.state = {
       moreMembers: false,
       requested: false,
-      viewType: 'member-square-user',
+      viewType: "member-square-user",
     }
     const self: any = this
     self.changeViewType = self.changeViewType.bind(self)
@@ -52,21 +52,21 @@ class NewFollowers extends Component {
         <div className='members-frame'>
           <div className='members-header-right'>
             <Contacts width="22px" height="22px" containerClass='svg-container-info-view' svgClass='svg-info-view'/>
-            <span>{translate['Followers']}</span>
+            <span>{translate["Followers"]}</span>
           </div>
-          <div className='members-header-left' style={{cursor: 'default'}} onClick={this.changeViewType}>
+          <div className='members-header-left' style={{cursor: "default"}} onClick={this.changeViewType}>
             {
-              viewType === 'member-square-user' ?
-                  <Stream width="16px" height="16px" svgClass={'svg-info-view'}/> :
-                  <QuestionMark width="20px" height="20px" svgClass={'svg-info-view'}/>
+              viewType === "member-square-user" ?
+                  <Stream width="16px" height="16px" svgClass={"svg-info-view"}/> :
+                  <QuestionMark width="20px" height="20px" svgClass={"svg-info-view"}/>
             }
           </div>
           <div className='members-body'>
             {
               followers.length > 0 && followers.map((user, index) =>
                   <div key={index} className={this.state.viewType}>
-                    <Link to={`/${user.identity_type === 'user' ? 'user' : 'organization'}/${user.id}`}>
-                      <div className={'member-picture-container'}>
+                    <Link to={`/${user.identity_type === "user" ? "user" : "organization"}/${user.id}`}>
+                      <div className={"member-picture-container"}>
                         {
                           user.profile_media ?
                               <img alt="" src={user.profile_media.file} width='55px' height='55px' className='member-picture'/>
@@ -74,8 +74,10 @@ class NewFollowers extends Component {
                         }
                       </div>
                       <div className='member-info-container'>
-                        <div className='member-name'>{user.first_name || user.last_name ? user.first_name + ' ' + user.last_name : user.username}</div>
+                        <div
+                            className='member-name'>{user.first_name || user.last_name ? user.first_name + " " + user.last_name : user.username}</div>
                         <div className='member-description'>{user.description}</div>
+                        {console.log(user)}
                       </div>
                     </Link>
                     {
