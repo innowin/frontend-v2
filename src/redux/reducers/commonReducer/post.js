@@ -57,8 +57,10 @@ const post = (state = initialState.common.post, action) => {
     case types.SUCCESS.COMMON.COMMENT.DELETE_COMMENT:
       return slices.deleteComment.success(state, action)
       /** -------------------------- create like -------------------------> **/
-      // case types.SUCCESS.COMMON.LIKE.CREATE_LIKE:
-      //   return slices.createLike.success(state, action)
+    case types.COMMON.LIKE.CREATE_LIKE:
+      return slices.createLike.base(state, action)
+    case types.ERRORS.COMMON.LIKE.CREATE_LIKE:
+      return slices.createLike.error(state, action)
       /** -------------------------- dislike delete like -------------------------> **/
       // case types.SUCCESS.COMMON.LIKE.DELETE_LIKE:
       //   return slices.deleteLike.success(state, action)

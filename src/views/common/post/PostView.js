@@ -44,7 +44,6 @@ class PostView extends React.PureComponent {
       linkTimer: false,
       showProposalSend: false,
       showMore: false,
-      is_liked: false,
     }
     this._readMore = this._readMore.bind(this)
     this._handleClickOutMenuBoxBottom = this._handleClickOutMenuBoxBottom.bind(this)
@@ -86,19 +85,10 @@ class PostView extends React.PureComponent {
         }
       }, 500)
     }
-
-    if (post && this.text && post.post_description) {
-      let showMore = false
-      let is_liked = false
-      if (post.is_post_liked_by_logged_in_user !== undefined) {
-        is_liked = post.is_post_liked_by_logged_in_user
-      }
-      if (!extendedView && this.text.clientHeight > 146) {
-        if (!new RegExp('^[A-Za-z]*$').test(post.post_description[0])) this.text.style.paddingLeft = '62px'
-        this.text.style.height = '139px'
-        showMore = true
-      }
-      this.setState({...this.state, is_liked, showMore})
+    else if (post && post.post_description && this.text && this.text.clientHeight > 146) {
+      if (!new RegExp('^[A-Za-z]*$').test(post.post_description[0])) this.text.style.paddingLeft = '62px'
+      this.text.style.height = '139px'
+      this.setState({...this.state, showMore: true})
     }
 
     setTimeout(() => {
@@ -145,14 +135,9 @@ class PostView extends React.PureComponent {
 
   componentWillReceiveProps(nextProps) {
     const {post, comments, actions} = nextProps
-    if (post) {
-      if (post !== this.props.post && post.is_post_liked_by_logged_in_user !== undefined) {
-        this.setState({...this.state, is_liked: post.is_post_liked_by_logged_in_user})
-      }
-      if (comments && this.props.comments && this.props.comments.length > comments.length && comments.length < 3) {
-        const {getCommentsByParentId} = actions
-        getCommentsByParentId({parentId: post.id, commentParentType: constants.COMMENT_PARENT.POST, limit: 3})
-      }
+    if (post && comments && this.props.comments && this.props.comments.length > comments.length && comments.length < 3) {
+      const {getCommentsByParentId} = actions
+      getCommentsByParentId({parentId: post.id, commentParentType: constants.COMMENT_PARENT.POST, limit: 3})
     }
   }
 
@@ -194,11 +179,8 @@ class PostView extends React.PureComponent {
 
   _handleLike() {
     const {actions, clientIdentity, post} = this.props
-    const {is_liked} = this.state
     const {createLike} = actions
-
-    createLike({like_parent: post && post.id, like_sender: clientIdentity})
-    this.setState({...this.state, is_liked: !is_liked})
+    post && clientIdentity && createLike({like_parent: post.id, like_sender: clientIdentity})
   }
 
   _handleClickOutMenuBoxBottom(e) {
@@ -275,7 +257,7 @@ class PostView extends React.PureComponent {
         post, translate, postIdentity, postRelatedIdentityImage, postRelatedProduct,
         clientIdentity, extendedView, showEdit, comments, proposalLoading, proposals,
       } = this.props
-      const {menuToggleBottom, menuToggleTop, showComment, commentOn, is_liked, showProposalSend} = this.state
+      const {menuToggleBottom, menuToggleTop, showComment, commentOn, showProposalSend} = this.state
       const postDescription = post.post_description && post.post_description.trim()
       const postOwnerId = postIdentity && postIdentity.id
       const postFilesArray = post.post_files_array
@@ -361,7 +343,6 @@ class PostView extends React.PureComponent {
                           showComment={this._handleShowComment}
                           showProposals={this.handleShowProposals}
                           handleLike={this._handleLike}
-                          is_liked={is_liked}
                           showEdit={showEdit}
                           postMenuId={this.postMenuId + 'bottom'}
               />
