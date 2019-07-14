@@ -11,8 +11,8 @@ class Posts extends React.PureComponent {
   }
 
   componentDidMount() {
-    const {getPostByIdentity, userId} = this.props
-    getPostByIdentity({postIdentity: userId, postOwnerId: userId, limit: 10, offset: 0})
+    const {getPostByIdentity, userId, isLogin} = this.props
+    getPostByIdentity({postIdentity: userId, postOwnerId: userId, limit: 10, offset: 0, token: !isLogin})
     document.addEventListener('scroll', this.onScroll)
   }
 

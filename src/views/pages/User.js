@@ -110,7 +110,7 @@ class User extends Component<PropsUser, StatesUser> {
 
   render() {
     const {showSecondHeader} = this.state
-    const {match, userObject, badges, translate, actions, posts} = this.props
+    const {match, userObject, badges, translate, actions, posts, isLogin} = this.props
     const {updatePost, deletePost, getPostByIdentity} = actions
     const {path, url, params} = match
     const userId: number = +params.id
@@ -174,12 +174,13 @@ class User extends Component<PropsUser, StatesUser> {
                                     posts={posts}
                                     userId={userId}
                                     getPostByIdentity={getPostByIdentity}
+                                    isLogin={isLogin}
                         />
                         <PropsRoute path={`${path}/basicInformation`}
-                                      component={UserAboutMe}
-                                      userId={userId}
-                                      user={userObject}
-                                      badges={badges}
+                                    component={UserAboutMe}
+                                    userId={userId}
+                                    user={userObject}
+                                    badges={badges}
                         />
                         <PrivateRoute path={`${path}/Exchanges`}
                                       component={Exchanges}
@@ -231,6 +232,7 @@ const mapStateToProps = (state, ownProps) => {
   const allBadges = state.common.badges.badge.list
   const badges = badgesObjectInUser.content.map(badgeId => allBadges[badgeId])
   return {
+    isLogin: state.auth.client.identity.content,
     userObject: user,
     badgesObject: badgesObjectInUser,
     translate: getMessages(state),

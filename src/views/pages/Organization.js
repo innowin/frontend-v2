@@ -113,7 +113,7 @@ class Organization extends PureComponent<PropsOrganization, StatesOrganization> 
 
   render() {
     const {showSecondHeader} = this.state
-    const {match, userObject, badges, translate, actions, posts} = this.props
+    const {match, userObject, badges, translate, actions, posts, isLogin} = this.props
     const {updatePost, deletePost, getPostByIdentity} = actions
     const {path, url, params} = match
     const userId: number = +params.id
@@ -188,12 +188,13 @@ class Organization extends PureComponent<PropsOrganization, StatesOrganization> 
                                   posts={posts}
                                   userId={userId}
                                   getPostByIdentity={getPostByIdentity}
+                                  isLogin={isLogin}
                       />
                       <PropsRoute exact path={`${path}/basicInformation`}
-                                    component={OrganAboutUs}
-                                    user={userObject}
-                                    userId={userId}
-                                    badges={badges}
+                                  component={OrganAboutUs}
+                                  user={userObject}
+                                  userId={userId}
+                                  badges={badges}
                       />
                       <PrivateRoute path={`${path}/Followers`}
                                     component={Followers}
@@ -238,6 +239,7 @@ const mapStateToProps = (state, ownProps) => {
   const allBadges = state.common.badges.badge.list
   const badges = badgesObjectInUser.content.map(badgeId => allBadges[badgeId])
   return {
+    isLogin: state.auth.client.identity.content,
     userObject: user,
     badgesObject: badgesObjectInUser,
     translate: getMessages(state),

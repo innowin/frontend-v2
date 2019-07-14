@@ -6,7 +6,7 @@ import {put, take, fork, call} from 'redux-saga/effects'
 
 
 export function* filterPostByPostRelatedProduct(action) {
-  const {postRelatedProductId, postType, limit = 100, offset = 0, postParentType} = action.payload
+  const {postRelatedProductId, postType, limit = 100, offset = 0, postParentType, token = true} = action.payload
   let filter = `?`
   if (postRelatedProductId) {
     filter += `post_related_product=${postRelatedProductId}`
@@ -28,6 +28,7 @@ export function* filterPostByPostRelatedProduct(action) {
         urls.COMMON.POST,
         resultName,
         filter,
+        token,
     )
     const data = yield take(socketChannel)
     for (let i = 0; i < data.length; i++) {
