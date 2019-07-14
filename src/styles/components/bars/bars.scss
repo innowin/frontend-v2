@@ -2735,10 +2735,14 @@ $sidebar-profile-media-width: 80px;
   align-items: center;
   vertical-align: top;
   width: 100px;
-  height: 100px;
+  min-height: 100px;
   min-width: 100px;
   background-color: $more-button-color-hover-darker;
   border-radius: 3px;
+  padding: 10px;
+  text-align: center;
+  line-height: 20px;
+  margin-bottom: 10px;
 }
 
 .badge-instant-text {

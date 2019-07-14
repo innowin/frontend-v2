@@ -106,6 +106,7 @@ class CreateExchange extends Component {
         private: isPrivate,
         description: description,
         exchange_image: tempFiles.exchange_image ? tempFiles.exchange_image : null,
+        show_me_on_explore: true,
       }
       createExchange(formValues)
       removeFileFromTemp('exchange_image')
