@@ -18,8 +18,7 @@ export const getExchangeMembershipsSelector = createSelector(
     [exchanges, getExchangeMemberships, getUserMemberships],
     (exchanges, memberships, userMemberships) => {
       if (memberships && Object.keys(memberships).length !== 0 && userMemberships) {
-        const arrayMemberships = helpers.getObjectOfArrayKeys(userMemberships, memberships)
-        return arrayMemberships
+        return helpers.getObjectOfArrayKeys(userMemberships, memberships)
             .map(membership => exchanges[membership.exchange_identity_related_exchange])
             .sort((a, b) => new Date(b.updated_time) - new Date(a.updated_time))
       }

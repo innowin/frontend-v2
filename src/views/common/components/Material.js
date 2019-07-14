@@ -1,7 +1,6 @@
 import React from 'react'
 import * as PropTypes from 'prop-types'
 
-
 class Material extends React.PureComponent {
 
   static propTypes = {
@@ -82,6 +81,7 @@ class Material extends React.PureComponent {
     clearTimeout(this.buttonPressTimer)
     if (this.ripple) {
       this.ripple.style.opacity = '0'
+      this.ripple.style.transform = 'scale(0)'
       setTimeout(() => {
         if (this.ripple && this.container) {
           try {
