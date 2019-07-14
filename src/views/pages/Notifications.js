@@ -1,13 +1,14 @@
-import React, {PureComponent} from 'react'
-import {REST_URL} from 'src/consts/URLS'
-import urls from 'src/consts/URLS'
-import {connect} from 'react-redux'
-import Moment from 'react-moment'
-import {ClipLoader} from 'react-spinners'
-import UserDetailPanel from '../common/components/UserDetailPanel'
-import constants from '../../consts/constants'
-import {DefaultOrganIcon, DefaultUserIcon} from '../../images/icons'
-import Material from '../common/components/Material'
+import React, {PureComponent} from "react"
+import {REST_URL} from "src/consts/URLS"
+import urls from "src/consts/URLS"
+import {connect} from "react-redux"
+import Moment from "react-moment"
+import {ClipLoader} from "react-spinners"
+import UserDetailPanel from "../common/components/UserDetailPanel"
+import constants from "../../consts/constants"
+import {DefaultOrganIcon, DefaultUserIcon} from "../../images/icons"
+import Material from "../common/components/Material"
+import axios from "axios"
 
 class Notifications extends PureComponent {
 
@@ -28,15 +29,16 @@ class Notifications extends PureComponent {
 
   getData() {
     const {token} = this.props
-    fetch(REST_URL + '/' + urls.COMMON.NOTIFICATIONS, {
-      headers: {
-        'Authorization': `JWT ${token}`,
-      },
-    })
-        .then(res => res.json())
-        .then(resJson => {
+
+    axios.get(REST_URL + "/" + urls.COMMON.NOTIFICATIONS,
+        {
+          headers: {
+            "Authorization": `JWT ${token}`,
+          },
+        })
+        .then((resJson) => {
           console.log(resJson)
-          const result = resJson.results.filter(notif => notif.notification_from_identity && notif.notification_html_payload)
+          const result = resJson.data.results.filter(notif => notif.notification_from_identity && notif.notification_html_payload)
           this.setState({
             ...this.state,
             notifications: result.filter(notif => !notif.notification_seen),
@@ -44,17 +46,22 @@ class Notifications extends PureComponent {
             loading: false,
           })
         })
-        .catch((err) => console.log(err))
+        .catch((error) => {
+          console.log(error)
+        })
+        .finally(() => {
+          console.log("Get Notifications Prompt")
+        })
   }
 
   seenNotif() {
     if (this.state.notifications.length > 0) {
       const {token} = this.props
-      fetch(REST_URL + '/' + urls.COMMON.NOTIFICATIONS_SEEN + '/', {
-        method: 'post',
+      fetch(REST_URL + "/" + urls.COMMON.NOTIFICATIONS_SEEN + "/", {
+        method: "post",
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `JWT ${token}`,
+          "Content-Type": "application/json",
+          "Authorization": `JWT ${token}`,
         },
         body: JSON.stringify({
           last_notif: this.state.notifications[0].id,
@@ -105,12 +112,14 @@ class Notifications extends PureComponent {
                                   }
                                   <div className='notifications-item-text' dangerouslySetInnerHTML={{
                                     __html: notif.notification_html_payload
-                                        .replace(new RegExp('http://innowin.ir', 'g'), '')
-                                        .replace(new RegExp('https://innowin.ir', 'g'), '')
-                                        .replace(new RegExp('<a ', 'g'), '<a target=_blank '),
+                                        .replace(new RegExp("http://innowin.ir", "g"), "")
+                                        .replace(new RegExp("https://innowin.ir", "g"), "")
+                                        .replace(new RegExp("<a ", "g"), "<a target=_blank "),
                                   }}/>
 
-                                  <div className='notifications-item-time'><Moment element='span' fromNow ago>{notif.created_time || notif.updated_time}</Moment><span> پیش</span></div>
+                                  <div className='notifications-item-time'><Moment element='span' fromNow
+                                                                                   ago>{notif.created_time || notif.updated_time}</Moment><span> پیش</span>
+                                  </div>
                                 </div>,
                             )
                             :
@@ -145,12 +154,14 @@ class Notifications extends PureComponent {
                             }
                             <div className='notifications-item-text' dangerouslySetInnerHTML={{
                               __html: notif.notification_html_payload
-                                  .replace(new RegExp('http://innowin.ir', 'g'), '')
-                                  .replace(new RegExp('https://innowin.ir', 'g'), '')
-                                  .replace(new RegExp('<a ', 'g'), '<a target=_blank '),
+                                  .replace(new RegExp("http://innowin.ir", "g"), "")
+                                  .replace(new RegExp("https://innowin.ir", "g"), "")
+                                  .replace(new RegExp("<a ", "g"), "<a target=_blank "),
                             }}/>
 
-                            <div className='notifications-item-time'><Moment element='span' fromNow ago>{notif.created_time || notif.updated_time}</Moment><span> پیش</span></div>
+                            <div className='notifications-item-time'><Moment element='span' fromNow
+                                                                             ago>{notif.created_time || notif.updated_time}</Moment><span> پیش</span>
+                            </div>
                           </div>,
                       )
                     }

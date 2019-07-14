@@ -13,7 +13,11 @@ class FahadEventModal extends Component {
     this.state = {
       level: 1,
       catsArray: [],
+      verification: -1,
+      isLoading: false,
     }
+    this.nextLevel = this.nextLevel.bind(this)
+    this.changeIsLoading = this.changeIsLoading.bind(this)
   }
 
   componentDidMount(): void {
@@ -32,29 +36,45 @@ class FahadEventModal extends Component {
     }
   }
 
+  nextLevel() {
+    const {level} = this.state
+    this.setState({...this.state, verification: -1, level: level + 1}, this.changeIsLoading())
+  }
+
+  checkValidation() {
+    this.setState({...this.state, verification: 0, isLoading: true})
+  }
+
+  changeIsLoading() {
+    this.setState({...this.state, isLoading: !this.state.isLoading, verification: -1})
+  }
+
 
   currentLevel() {
-    let {level, catsArray} = this.state
+    let {level, catsArray, verification} = this.state
+    let {clientIdentityId, token} = this.props
     switch (level) {
       case 1:
         return (
-            <FahadEventPageOne/>
+            <FahadEventPageOne verification={verification} clientIdentityId={clientIdentityId} token={token}
+                               _nextLevel={this.nextLevel} _changeIsLoading={this.changeIsLoading}/>
         )
       case 2:
         return (
-            <FahadEventPageTwo category={catsArray}/>
+            <FahadEventPageTwo verification={verification} category={catsArray} clientIdentityId={clientIdentityId} token={token}
+                               _nextLevel={this.nextLevel} _changeIsLoading={this.changeIsLoading}/>
         )
       case 3:
         return (
-            <FahadEventPageThree/>
+            <FahadEventPageThree verification={verification} _nextLevel={this.nextLevel}/>
         )
       case 4:
         return (
-            <FahadEventPageFour/>
+            <FahadEventPageFour verification={verification} _nextLevel={this.nextLevel}/>
         )
       case 5:
         return (
-            <FahadEventPageFive/>
+            <FahadEventPageFive verification={verification} _nextLevel={this.nextLevel}/>
         )
       default:
         return null
@@ -62,14 +82,14 @@ class FahadEventModal extends Component {
   }
 
   currentFooter() {
-    let {level} = this.state
+    let {level, isLoading} = this.state
     let {toggle} = this.props
     switch (level) {
       case 1:
         return (
             <React.Fragment>
-              <div className={true ? "org-leadership-next-button" : "org-leadership-hidden-button"}
-                   onClick={() => true && this.setState({...this.state, level: ++level})}>
+              <div className={!isLoading ? "org-leadership-next-button" : "org-leadership-hidden-button"}
+                   onClick={() => !isLoading ? this.checkValidation() : null}>
                 ذخیره و ادامه
               </div>
               <div className="org-leadership-previous-button" onClick={() => toggle()}>
@@ -80,8 +100,8 @@ class FahadEventModal extends Component {
       case 2:
         return (
             <React.Fragment>
-              <div className={true ? "org-leadership-next-button" : "org-leadership-hidden-button"}
-                   onClick={() => true && this.setState({...this.state, level: ++level})}>
+              <div className={!isLoading ? "org-leadership-next-button" : "org-leadership-hidden-button"}
+                   onClick={() => !isLoading ? this.checkValidation() : null}>
                 ذخیره و ادامه
               </div>
               <div className="org-leadership-previous-button" onClick={() => toggle()}>
@@ -133,7 +153,7 @@ class FahadEventModal extends Component {
   render() {
     let {modalIsOpen} = this.props
     return (
-        <div className={modalIsOpen ? "organization-leadership-bg" : "organization-leadership-bg-out"}>
+        <div className={modalIsOpen ? "organization-leadership-bg" : "organization-leadership-bg-out"} id={"fahadModalContainerDiv"}>
           {modalIsOpen ?
               <React.Fragment>
                 <div className="organization-leadership-container">
@@ -156,6 +176,7 @@ const mapStateToProps = (state) => {
   return {
     categories: categorySelector(state),
     clientIdentityId: state.auth.client.identity.content,
+    token: state.auth.client.token,
   }
 }
 
