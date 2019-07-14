@@ -81,7 +81,7 @@ class TopBar extends PureComponent {
 
   componentDidUpdate(prevProps) {
     const {path} = this.props
-    if (this.props.path !== path) {
+    if (prevProps.path !== path) {
       if (path === constants.TOP_BAR_PAGES.HOME)
         this.setState({...this.state, currentPage: constants.TOP_BAR_PAGES.HOME})
       else if (path === constants.TOP_BAR_PAGES.USER_EXPLORER)
