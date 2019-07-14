@@ -52,7 +52,7 @@ class NewFollowers extends Component {
         <div className='members-frame'>
           <div className='members-header-right'>
             <Contacts width="22px" height="22px" containerClass='svg-container-info-view' svgClass='svg-info-view'/>
-            <span>{translate['Followings']}</span>
+            <span>{translate['Followers']}</span>
           </div>
           <div className='members-header-left' style={{cursor: 'default'}} onClick={this.changeViewType}>
             {
