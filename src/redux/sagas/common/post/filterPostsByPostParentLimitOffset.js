@@ -38,6 +38,7 @@ export function* filterPostsByPostParentPostTypeLimitOffset(action) {
       }
       if (data[i].post_related_product) {
         yield put({type: types.SUCCESS.COMMON.GET_PRODUCT_INFO, payload: {data: data[i].post_related_product}})
+        yield put({type: types.USER.GET_USER_BY_USER_ID, payload: {userId: data[i].post_related_product.product_owner}})
         data[i].post_related_product = data[i].post_related_product.id
       }
       data[i].post_related_identity = data[i].post_related_identity.id

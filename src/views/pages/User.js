@@ -175,7 +175,7 @@ class User extends Component<PropsUser, StatesUser> {
                                     userId={userId}
                                     getPostByIdentity={getPostByIdentity}
                         />
-                        <PrivateRoute path={`${path}/basicInformation`}
+                        <PropsRoute path={`${path}/basicInformation`}
                                       component={UserAboutMe}
                                       userId={userId}
                                       user={userObject}

@@ -837,20 +837,19 @@
   margin: 3px;
   cursor: pointer;
   user-select: none;
-  transition-duration: $animation-timing-short;
+  transition-duration: 0.2s;
 
   &:hover {
     background-color: $primary-color-light3;
-    border: 1.25px solid $background-color;
+    border: 1.25px solid $primary-color-light3;
     color: $background-color;
-    box-shadow: 0 0 0 2px $primary-color-light3;
-    transition-duration: $animation-timing-short;
+    transition-duration: 0.2s;
   }
 
   &:active {
-    border: 1.25px solid $primary-color-light3;
-    box-shadow: none;
-    transition-duration: $animation-timing;
+    border: 1.25px solid $background-color;
+    box-shadow: 0 0 0 2px $primary-color-light3;
+    transition-duration: 0.2s;
   }
 }
 

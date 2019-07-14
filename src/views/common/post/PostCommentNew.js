@@ -37,7 +37,7 @@ class PostCommentNew extends React.PureComponent {
     if (commentOn && this.text) {
       this.text.focus()
     }
-    if (commentOn !== this.props.commentOn && commentOn) {
+    if (commentOn && commentOn !== this.props.commentOn) {
       const replySender = commentOn.comment_sender.username + '@ '
       this.text.value = replySender
       this.setState({...this.state, replySender})

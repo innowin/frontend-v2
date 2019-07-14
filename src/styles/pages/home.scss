@@ -371,7 +371,6 @@ $heightOfContentBox: 140px;
   border-radius: 30px;
   cursor: pointer;
   color: #FFF;
-  //margin-bottom: 15px;
   transition-duration: 0.3s;
   text-decoration: none;
   position: relative;
@@ -379,6 +378,8 @@ $heightOfContentBox: 140px;
   justify-content: center;
   align-items: center;
   background-color: $bee-color;
+  vertical-align: top;
+  margin-top: 2px;
 
   &:hover {
     font-weight: bold;

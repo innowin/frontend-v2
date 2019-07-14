@@ -3,7 +3,7 @@ import React from 'react'
 
 export default {
   TOP_BAR_PAGES: {
-    EXCHANGE_EXPLORER: '/exchanges/Exchange_Explorer',
+    EXCHANGE_EXPLORER: '/exchanges/exchange_explorer',
     USER_EXPLORER: '/users/user_explorer',
     PRODUCT: '/product/',
     HOME: '/',
