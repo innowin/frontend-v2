@@ -32,6 +32,8 @@ const persistAuth = {
   key: 'auth',
   transforms: [createEncryptor({secretKey: 'root-secret-key-is:podifohgr903485kljdsjf88923.,sdf985rnhsdfh9823834;jjfddd'})],
   storage,
+  version: migrations.LATEST_VERSION,
+  migrate: createMigrate(migrations.ROOT, {debug: false}),
   stateReconciler: autoMerge,
 }
 
