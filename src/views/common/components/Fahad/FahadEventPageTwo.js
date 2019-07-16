@@ -198,11 +198,11 @@ class FahadEventPageTwo extends PureComponent {
                                list={category} placeholder="انتخاب دسته بندی" className="inteli-input-light-border"/>
 
                   <label>
-                    امکانات و تسحیلات خرید
+                    امکانات و تسهیلات خرید
                   </label>
                   <textarea className="organization-leadership-expertise-input" maxLength="700" title="حداکثر 700 کاراکتر"
                             onChange={(e) => this.setState({...this.state, product_abilities: e.target.value})}
-                            placeholder={"امکانات و تسحیلات خرید"}/>
+                            placeholder={"امکانات و تسهیلات خرید"}/>
 
                   <div className='fahad-modal-card-checkboxes'>
                     <form>

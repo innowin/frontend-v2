@@ -30,13 +30,13 @@
     font-weight: bold;
     color: $background-color;
     top: 0;
-    right: 5px;
+    right: 0;
     width: 12.5vh;
     height: 12.5vh;
     opacity: 1;
     z-index: 3;
     cursor: pointer;
-    animation: close-btn-in $animation-timing ease;
+    animation: close-btn-in $animation-timing-long ease;
     background-color: rgba(0, 0, 0, 0.1);
 
     -webkit-touch-callout: none;
@@ -51,15 +51,17 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    left: -5px;
-    top: 87.5vh;
+    left: 0;
     bottom: 0;
+    height: 12.5vh;
+    top: auto;
     width: 49vw;
     z-index: 1000000000;
     background-color: rgba(0, 0, 0, 0.1);
     background-image: none;
     opacity: 1;
-    animation: arrows-in $animation-timing ease;
+    animation: arrows-in $animation-timing-long ease;
+
     &:hover {
       background-image: none;
     }
@@ -77,15 +79,16 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    right: 5px;
-    top: 87.5vh;
+    right: 0;
     bottom: 0;
+    height: 12.5vh;
+    top: auto;
     width: 49vw;
     z-index: 1000000000;
     background-color: rgba(0, 0, 0, 0.1);
     background-image: none;
     opacity: 1;
-    animation: arrows-in $animation-timing ease;
+    animation: arrows-in $animation-timing-long ease;
 
     &:hover {
       background-image: none;
@@ -101,12 +104,16 @@
 
   @keyframes arrows-in {
     from {
-      top: 60vh;
+      bottom: -20vh;
+      top: auto;
       opacity: 0;
+      background-color: rgba(0, 0, 0, 0);
     }
     to {
-      top: 87.5vh;
+      bottom: 0;
+      top: auto;
       opacity: 1;
+      background-color: rgba(0, 0, 0, 0.1);
     }
   }
 
@@ -114,10 +121,12 @@
     from {
       top: -100px;
       opacity: 0;
+      background-color: rgba(0, 0, 0, 0);
     }
     to {
       top: 0;
       opacity: 1;
+      background-color: rgba(0, 0, 0, 0.1);
     }
   }
 }
