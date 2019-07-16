@@ -12,7 +12,7 @@ class FahadEventPageTwo extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      haveProduct: true,
+      haveProduct: false,
       selectedCategory: null,
       selectedImage: [],
 
