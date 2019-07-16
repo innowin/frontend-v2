@@ -19,6 +19,21 @@ class PostSlider extends PureComponent {
     }
   }
 
+  componentDidMount(): void {
+    document.addEventListener("keyup", (e) => {
+      switch (e.code) {
+        case "ArrowRight":
+          this.handleNext()
+          break
+        case "ArrowLeft":
+          this.handlePrevious()
+          break
+        default:
+          this.props.closeModal()
+      }
+    })
+  }
+
   componentDidUpdate(prevProps, prevState, snapshot): void {
     if (prevProps.imageIndex !== this.props.imageIndex) {
       this.setState({...this.state, selectedImage: this.props.imageIndex})

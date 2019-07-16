@@ -80,7 +80,7 @@
   top: 0;
   bottom: 0;
   width: 120px;
-  z-index: 3;
+  z-index: 4;
   background-image: linear-gradient(to right, rgba(0, 0, 0, 0.1), transparent);
   opacity: .7;
   animation: arrows-in $animation-timing ease;
@@ -109,7 +109,7 @@
   top: 0;
   bottom: 0;
   width: 120px;
-  z-index: 3;
+  z-index: 4;
   background-image: linear-gradient(to left, rgba(0, 0, 0, 0.1), transparent);
   opacity: .7;
   animation: arrows-in $animation-timing ease;
@@ -159,7 +159,7 @@
   width: 120px;
   height: 120px;
   opacity: .85;
-  z-index: 4;
+  z-index: 5;
   cursor: pointer;
   animation: arrows-in $animation-timing ease;
 
