@@ -686,9 +686,7 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
                 <section className='user-sidebar-status'>
                   <Material className={`user-sidebar-status-content ${
                       editStatusTitle || owner.work_status ?
-                          sideBarType === constants.USER_TYPES.ORG ? constants.PROFILE_STATUS.ORG[editStatusTitle || owner.work_status].buttonClass
-                              :
-                              constants.PROFILE_STATUS.USER[editStatusTitle || owner.work_status].buttonClass
+                          constants.PROFILE_STATUS.ORG[editStatusTitle || owner.work_status] && constants.PROFILE_STATUS.ORG[editStatusTitle || owner.work_status].buttonClass
                           :
                           'user-sidebar-status-default'
                       }`}
@@ -698,9 +696,7 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
                                     <div>{tr[editStatusTitle || owner.work_status]}</div>
                                     {
                                       editStatusTitle || owner.work_status ?
-                                          sideBarType === constants.USER_TYPES.ORG ? constants.PROFILE_STATUS.ORG[editStatusTitle || owner.work_status].icon
-                                              :
-                                              constants.PROFILE_STATUS.USER[editStatusTitle || owner.work_status].icon
+                                          constants.PROFILE_STATUS.ORG[editStatusTitle || owner.work_status] && constants.PROFILE_STATUS.ORG[editStatusTitle || owner.work_status].icon
                                           :
                                           null
                                     }
@@ -714,24 +710,14 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
 
                   <div className={`user-sidebar-status-change ${editProfile && editStatus ? 'show' : 'hide'}`}>
                     {
-                      sideBarType === constants.USER_TYPES.ORG ?
-                          Object.values(constants.PROFILE_STATUS.ORG).map((status, index) =>
-                              <Material key={index} className='user-sidebar-status-change-material' content={
-                                <div>
-                                  <div>{tr[status.name]}</div>
-                                  {status.icon}
-                                </div>
-                              } onClick={() => this.changeStatus(status)}/>,
-                          )
-                          :
-                          Object.values(constants.PROFILE_STATUS.USER).map((status, index) =>
-                              <Material key={index} className='user-sidebar-status-change-material' content={
-                                <div>
-                                  <div>{tr[status.name]}</div>
-                                  {status.icon}
-                                </div>
-                              } onClick={() => this.changeStatus(status)}/>,
-                          )
+                      Object.values(constants.PROFILE_STATUS.ORG).map((status, index) =>
+                          <Material key={index} className='user-sidebar-status-change-material' content={
+                            <div>
+                              <div>{tr[status.name]}</div>
+                              {status.icon}
+                            </div>
+                          } onClick={() => this.changeStatus(status)}/>,
+                      )
                     }
                   </div>
                 </section>

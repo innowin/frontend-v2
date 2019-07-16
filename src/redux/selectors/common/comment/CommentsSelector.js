@@ -20,3 +20,16 @@ export const CommentsSelector = createSelector(
     },
 )
 
+export const GetAllComments = createSelector(
+    [getComments, getParentComments],
+    (comments, parentComments) => {
+      if (comments && Object.keys(comments).length !== 0 && comments.constructor === Object && parentComments) {
+        let data = {}
+        parentComments.forEach(comment => {
+          data[comment] = comments[comment]
+        })
+        return data
+      }
+      else return {}
+    },
+)

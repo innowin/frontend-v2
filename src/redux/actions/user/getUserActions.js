@@ -11,9 +11,9 @@ const getUsers = () => ({
   payload: {},
 })
 
-const getAllUsers = (limit: number, offset: number, search: ?string, justOrgan: ?boolean) => ({
+const getAllUsers = (limit: number, offset: number, search: ?string, justOrgan: ?boolean, token) => ({
   type: types.USER.GET_ALL_USERS,
-  payload: {limit, offset, search, justOrgan},
+  payload: {limit, offset, search, justOrgan, token},
 })
 
 const resetSearchUser = () => ({

@@ -1,15 +1,10 @@
-import autoMerge from 'redux-persist/lib/stateReconciler/hardSet'
-import createEncryptor from 'redux-persist-transform-encrypt'
 import createHistory from 'history/createBrowserHistory'
 import createSagaMiddleware from 'redux-saga'
 import gaMiddleware from './gaMiddleware'
-import migrations from 'src/redux/migrations'
 import rootReducer from '../reducers'
 import rootSaga from '../sagas/rootSaga'
-import storage from 'redux-persist/lib/storage'
 import {createLogger} from 'redux-logger'
 import {createStore, applyMiddleware} from 'redux'
-import {persistReducer, createMigrate} from 'redux-persist'
 import {routerMiddleware} from 'react-router-redux'
 
 //Creating history
@@ -18,24 +13,6 @@ export const history = createHistory()
 const sagaMiddleware = createSagaMiddleware()
 //Creating middleware to dispatch navigation actions
 const navMiddleware = routerMiddleware(history)
-
-const encryptor = createEncryptor({
-  secretKey: 'root-secret-key-is:podifohgr903485kljdsjf88923.,sdf985rnhsdfh9823834;jjfddd', onError: (error) => {
-    throw new Error(error)
-  },
-})
-
-const persistConfig = {
-  key: 'root',
-  transforms: [encryptor],
-  storage,
-  version: migrations.LATEST_VERSION,
-  migrate: createMigrate(migrations.ROOT, {debug: false}),
-  blacklist: ['form'],
-  stateReconciler: autoMerge,
-}
-
-const persistedReducer = persistReducer(persistConfig, rootReducer)
 
 const applyMiddle = process.env.NODE_ENV !== 'production' ?
     applyMiddleware(navMiddleware, sagaMiddleware, gaMiddleware, createLogger({diff: true, collapsed: (getState, action, logEntry) => !logEntry.error}))
@@ -46,7 +23,7 @@ const extension = process.env.NODE_ENV !== 'production' && window.__REDUX_DEVTOO
 
 const configureStore = () =>
     createStore(
-        persistedReducer,
+        rootReducer,
         extension,
         applyMiddle,
     )

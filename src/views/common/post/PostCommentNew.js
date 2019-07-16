@@ -21,13 +21,13 @@ class PostCommentNew extends React.PureComponent {
   }
 
   componentDidMount() {
-    const {commentOn} = this.props
+    const {commentOn, identities} = this.props
     if (this.text) {
       this.text.focus()
     }
     if (commentOn && this.text) {
       this.text.focus()
-      const replySender = commentOn.comment_sender.username + '@ '
+      const replySender = identities[commentOn.comment_sender].username + '@ '
       this.text.value = replySender
       this.setState({...this.state, replySender})
     }
@@ -39,7 +39,8 @@ class PostCommentNew extends React.PureComponent {
       this.text.focus()
     }
     if (commentOn && commentOn !== this.props.commentOn) {
-      const replySender = commentOn.comment_sender.username + '@ '
+      const {identities} = this.props
+      const replySender = identities[commentOn.comment_sender].username + '@ '
       this.text.value = replySender
       this.setState({...this.state, replySender})
     }
@@ -161,6 +162,7 @@ class PostCommentNew extends React.PureComponent {
 const mapStateToProps = (state) => ({
   identityId: getClientIdentity(state),
   currentUser: getClientObject(state),
+  identities: state.identities.list,
   translate: getMessages(state),
 })
 

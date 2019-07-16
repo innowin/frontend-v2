@@ -1,4 +1,4 @@
-import constants from "src/consts/constants"
+import constants from 'src/consts/constants'
 
 const base = (state, action) => {
 }
@@ -18,8 +18,8 @@ const success = (state, action) => {
           ...state.list[parentId],
           comments_count: newCommentsCount,
           comments: [...previousComment, data.id],
-        }
-      }
+        },
+      },
     }
   }
   else {

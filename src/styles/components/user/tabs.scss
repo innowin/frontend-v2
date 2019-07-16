@@ -483,6 +483,12 @@
             direction: ltr;
             color: $success-color;
             margin-left: 15px;
+            white-space: nowrap;
+
+            &.delete {
+              direction: rtl;
+              user-select: none;
+            }
           }
 
           .post-text-comment {

@@ -28,6 +28,7 @@ import {userPostsSelector} from 'src/redux/selectors/common/post/userPostsSelect
 import PrivateRoute from '../../consts/PrivateRoute'
 import {DefaultUserIcon, NewRightArrow} from '../../images/icons'
 import PropsRoute from '../../consts/PropsRoute'
+import {getClientIdentity} from '../../redux/selectors/common/client/getClient'
 
 type PropsUser = {
   match: {
@@ -232,7 +233,7 @@ const mapStateToProps = (state, ownProps) => {
   const allBadges = state.common.badges.badge.list
   const badges = badgesObjectInUser.content.map(badgeId => allBadges[badgeId])
   return {
-    isLogin: state.auth.client.identity.content,
+    isLogin: getClientIdentity(state),
     userObject: user,
     badgesObject: badgesObjectInUser,
     translate: getMessages(state),

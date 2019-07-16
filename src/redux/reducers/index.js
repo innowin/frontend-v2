@@ -16,34 +16,67 @@ import temp from './temp'
 import toast from './toast'
 import workExperience from './workExperience'
 import {combineReducers} from 'redux'
-import {intlReducer} from './intl'
-import {reducer as formReducer} from 'redux-form'
-import {routerReducer} from 'react-router-redux'
+import {intlReducer as intl} from './intl'
+import {reducer as form} from 'redux-form'
+import {routerReducer as router} from 'react-router-redux'
 import modal from './modal'
+
+// persist things
+import migrations from 'src/redux/migrations'
+import storage from 'redux-persist/lib/storage'
+import autoMerge from 'redux-persist/lib/stateReconciler/hardSet'
+import createEncryptor from 'redux-persist-transform-encrypt'
+import {persistReducer, createMigrate} from 'redux-persist'
+
+const persistAuth = {
+  key: 'auth',
+  transforms: [createEncryptor({secretKey: 'root-secret-key-is:podifohgr903485kljdsjf88923.,sdf985rnhsdfh9823834;jjfddd'})],
+  storage,
+  stateReconciler: autoMerge,
+}
+
+const persistIdentities = {
+  key: 'identities',
+  transforms: [createEncryptor({secretKey: 'root-secret-key-is:podifohgr903485kljdsjf88923.,sdf985rnhsdfh9823834;jjfddd'})],
+  storage,
+  version: migrations.LATEST_VERSION,
+  migrate: createMigrate(migrations.ROOT, {debug: false}),
+  stateReconciler: autoMerge,
+}
+
+const persistIntl = {
+  key: 'intl',
+  transforms: [createEncryptor({secretKey: 'root-secret-key-is:podifohgr903485kljdsjf88923.,sdf985rnhsdfh9823834;jjfddd'})],
+  storage,
+  version: migrations.LATEST_VERSION,
+  migrate: createMigrate(migrations.ROOT, {debug: false}),
+  stateReconciler: autoMerge,
+}
 
 //Don't change below code ,  Put your reducer on the upper object.
 const rootReducer = combineReducers({
-  ability,
-  auth,
-  common,
-  customer,
-  education,
-  event,
-  eventAssignment,
-  exchanges,
-  favorite,
-  identities,
-  organization,
+  auth: persistReducer(persistAuth, auth),
+  identities: persistReducer(persistIdentities, identities),
+  intl: persistReducer(persistIntl, intl),
+
+  form,
+  router,
   param,
+  common,
+  favorite,
   research,
   skill,
+  ability,
+  organization,
   temp,
-  toast,
+  exchanges,
+  event,
+  eventAssignment,
+  customer,
+  education,
   workExperience,
   modal,
-  intl: intlReducer,
-  router: routerReducer,
-  form: formReducer,
+  toast,
 })
 
 export default rootReducer

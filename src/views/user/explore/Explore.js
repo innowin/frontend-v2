@@ -33,7 +33,7 @@ class Explore extends PureComponent {
   componentDidMount() {
     setTimeout(() => {
       const {currentUser, actions} = this.props
-      actions.getUsers(24, 0, null, null)
+      actions.getUsers(24, 0, null, null, !currentUser)
       if (currentUser) {
         actions.getFollowees({followOwnerIdentity: currentUser, followOwnerId: currentUser, notProfile: true})
         actions.getFollowers({followOwnerIdentity: currentUser, followOwnerId: currentUser, notProfile: true})
@@ -54,7 +54,8 @@ class Explore extends PureComponent {
       if (((window.innerHeight + window.scrollY) >= (scrollHeight - 250)) && (scrollHeight > activeScrollHeight)) {
         this.setState({...this.state, activeScrollHeight: scrollHeight, offset: offset + 24},
             () => this.props.actions.getUsers(24, offset, this.state.search,
-                this.state.justOrgans && !this.state.justUsers ? true : !this.state.justOrgans && this.state.justUsers ? false : null),
+                this.state.justOrgans && !this.state.justUsers ? true : !this.state.justOrgans && this.state.justUsers ? false : null,
+                !this.props.currentUser),
         )
       }
 
@@ -66,7 +67,7 @@ class Explore extends PureComponent {
 
   _search = (search) =>
       this.setState({...this.state, search: search, activeScrollHeight: 0}, () => {
-        this.props.actions.getUsers(24, 0, search, this.state.justOrgans && !this.state.justUsers ? true : !this.state.justOrgans && this.state.justUsers ? false : null)
+        this.props.actions.getUsers(24, 0, search, this.state.justOrgans && !this.state.justUsers ? true : !this.state.justOrgans && this.state.justUsers ? false : null, !this.props.currentUser)
       })
 
   //   window.history.pushState('page2', 'Title', '/user/5')
@@ -77,13 +78,13 @@ class Explore extends PureComponent {
 
   _justUsers = (checked) => this.setState({...this.state, justUsers: checked}, () => {
     if (!this.state.justOrgans && checked) {
-      this.props.actions.getUsers(24, 0, this.state.search, false)
+      this.props.actions.getUsers(24, 0, this.state.search, false, !this.props.currentUser)
     }
   })
 
   _justOrgans = (checked) => this.setState({...this.state, justOrgans: checked}, () => {
     if (!this.state.justUsers && checked) {
-      this.props.actions.getUsers(24, 0, this.state.search, true)
+      this.props.actions.getUsers(24, 0, this.state.search, true, !this.props.currentUser)
     }
   })
 

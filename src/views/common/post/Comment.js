@@ -54,19 +54,18 @@ class Comment extends React.PureComponent {
   }
 
   render() {
-    const {comment, translate, replyComment, deleteComment, comments} = this.props
+    const {identities, comment, translate, replyComment, deleteComment, comments} = this.props
     const {menuToggle} = this.state
-
-    const commentSender = comment.comment_sender
-    const commentRepliedToId = comment.comment_replied_to && comment.comment_replied_to.id
-    const commentRepliedSender = commentRepliedToId && comments[commentRepliedToId] && comments[commentRepliedToId].comment_sender
+    const commentSender = identities[comment.comment_sender]
+    const commentRepliedSender = comment.comment_replied_to && comments[comment.comment_replied_to] && identities[comments[comment.comment_replied_to].comment_sender]
     const name = (commentSender.first_name || commentSender.last_name)
         ? commentSender.first_name + ' ' + commentSender.last_name
         : commentSender.username
+
     const profileMediaUrl = commentSender.profile_media
     const identityType = commentSender.identity_type
     const isUser = identityType === constants.USER_TYPES.USER
-    const url = isUser ? `/user/${commentSender.id}` : `/organization/${commentSender.id}`
+    const url = `/${commentSender.identity_type}/${commentSender.id}`
 
     return (
         <div className='comment-item-wrapper'>
@@ -82,7 +81,7 @@ class Comment extends React.PureComponent {
           <div className='comment-container-extended-view'>
             <div className='header'>
               <h5 className='sender-name'>{name}</h5>
-              <h5 className='sender-username'>{'@' + comment.comment_sender.username}</h5>
+              <h5 className='sender-username'>{'@' + (commentSender && commentSender.username)}</h5>
               <button className='svg-post-container pulse' onClick={() => replyComment(comment)}>
                 <ReplyArrow/>
               </button>
@@ -106,7 +105,14 @@ class Comment extends React.PureComponent {
 
             </div>
             <div className='content'>
-              {commentRepliedSender && <p className='replied-username'>{'@' + commentRepliedSender.username}</p>}
+              {
+                comment.comment_replied_to ?
+                    commentRepliedSender ?
+                        <Link to={`/${commentRepliedSender.identity_type}/${commentRepliedSender.id}`}><p className='replied-username'>{'@' + commentRepliedSender.username}</p></Link>
+                        :
+                        <p className='replied-username delete'>@کامنت حذف شده</p>
+                    : null
+              }
               <p className='post-text-comment'>{comment.text}</p>
             </div>
           </div>

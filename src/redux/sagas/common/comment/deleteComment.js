@@ -2,22 +2,23 @@ import api from 'src/consts/api'
 import urls from 'src/consts/URLS'
 import results from 'src/consts/resultName'
 import types from 'src/redux/actions/types'
-import {put, take, fork, call, select} from "redux-saga/effects"
+import {put, take, fork, call, select} from 'redux-saga/effects'
 import constants from 'src/consts/constants'
-import uuid from "uuid"
+import uuid from 'uuid'
 
 export function* deleteComment(action) {
   const {commentId, parentId, commentParentType} = action.payload
-  const socketChannel = yield call(api.createSocketChannel, results.COMMON.COMMENT.DELETE_COMMENT)
+  const result = `${results.COMMON.COMMENT.DELETE_COMMENT}-${Math.random()}`
+  const socketChannel = yield call(api.createSocketChannel, result)
   const state = yield select()
   const translate = state.intl.messages
 
   try {
-    yield fork(api.del, urls.COMMON.COMMENT, results.COMMON.COMMENT.DELETE_COMMENT, '', `${commentId}`)
+    yield fork(api.del, urls.COMMON.COMMENT, result, '', `${commentId}`)
     yield take(socketChannel)
     yield put({
       type: types.SUCCESS.COMMON.COMMENT.DELETE_COMMENT,
-      payload: {commentId, parentId, commentParentType}
+      payload: {commentId, parentId, commentParentType},
     })
     yield put({
       type: types.TOAST.ADD_TOAST,
@@ -26,18 +27,20 @@ export function* deleteComment(action) {
           id: uuid(),
           type: constants.TOAST_TYPE.WARNING,
           content: {
-            text: translate['Delete Comment Done']
-          }
-        }
-      }
+            text: translate['Delete Comment Done'],
+          },
+        },
+      },
     })
-  } catch (error) {
+  }
+  catch (error) {
     const {message} = error
     yield put({
       type: types.ERRORS.COMMON.COMMENT.DELETE_COMMENT,
-      payload: {message, commentId}
+      payload: {message, commentId},
     })
-  } finally {
+  }
+  finally {
     socketChannel.close()
   }
 }

@@ -2,7 +2,7 @@ import api from 'src/consts/api'
 import urls from 'src/consts/URLS'
 import results from 'src/consts/resultName'
 import types from 'src/redux/actions/types'
-import {put, take, fork, call} from "redux-saga/effects"
+import {put, take, fork, call} from 'redux-saga/effects'
 
 export function* getCommentById(action) {
   const {commentId} = action.payload
@@ -11,13 +11,15 @@ export function* getCommentById(action) {
     yield fork(api.get, urls.COMMON.COMMENT, results.COMMON.COMMENT.GET_COMMENT_BY_ID + commentId, `${commentId}`)
     const data = yield take(socketChannel)
     yield put({type: types.SUCCESS.COMMON.COMMENT.GET_COMMENT_BY_ID, payload: {data}})
-  } catch (error) {
+  }
+  catch (error) {
     const {message} = error
     yield put({
       type: types.ERRORS.COMMON.COMMENT.GET_COMMENT_BY_ID,
-      payload: {message, commentId}
+      payload: {message, commentId},
     })
-  } finally {
+  }
+  finally {
     socketChannel.close()
   }
 }

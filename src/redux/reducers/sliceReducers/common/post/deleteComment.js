@@ -9,7 +9,7 @@ const success = (state, action) => {
   const previousCommentCount = (state.list[parentId] && state.list[parentId].comments_count)
 
   if (commentParentType === constants.COMMENT_PARENT.POST) {
-    const newDeletedComments = previousComment.filter(id => id !== commentId)
+    const newDeletedComments = previousComment && previousComment.filter(id => id !== commentId)
     const newCommentsCount = previousCommentCount - 1
     return {
       ...state,

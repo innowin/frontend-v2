@@ -55,7 +55,7 @@ class HomeSideBar extends PureComponent {
                       <SideBarItem key={i}
                                    exchange={exchange}
                                    handleClick={this._handleClick}
-                                   active={exchange.id === activeExchangeId}/>,
+                                   active={exchange && exchange.id === activeExchangeId}/>,
                   )
                   :
                   loading !== undefined && loading === true ?

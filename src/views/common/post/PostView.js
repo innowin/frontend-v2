@@ -72,7 +72,7 @@ class PostView extends React.PureComponent {
       const {match, ownerId, location, clientIdentity, postIdentity} = this.props
       getCommentsByParentId({parentId: match.params.id, commentParentType: constants.COMMENT_PARENT.POST})
       getProposals(match.params.id)
-      getPost({postId: match.params.id, postOwnerId: ownerId})
+      getPost({postId: match.params.id, postOwnerId: ownerId, token: !clientIdentity})
       setTimeout(() => {
         if (this.post && document.body.clientWidth < 480) {
           const rect = this.post.getBoundingClientRect()
@@ -377,6 +377,7 @@ class PostView extends React.PureComponent {
                                 translate={translate}
                                 replyComment={this._setCommentOn}
                                 deleteComment={this.deleteComment}
+                                post={post}
                   />
                 </React.Fragment>
               }
@@ -407,9 +408,9 @@ const mapStateToProps = (state, ownProps) => {
     postRelatedProduct,
     postRelatedIdentityImage,
     comments: CommentsSelector(state, ownProps),
+    translate: getMessages(state),
     proposals: ProposalsSelector(state, ownProps),
     proposalLoading: post && state.common.post.list[post.id] && state.common.post.list[post.id].proposals && state.common.post.list[post.id].proposals.loading,
-    translate: getMessages(state),
   }
 }
 

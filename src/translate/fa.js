@@ -570,6 +570,7 @@ module.exports = {
   "part_time_hiring": "به دنبال کار پاره وقت",
   "internship_hiring": "به دنبال فرصت کارآموزی",
   "not_interested_to_job": "علاقه‌مند به فرصت ‌های شغلی نیستم",
+  
   "hire": "علاقه‌مند به جذب نیرو",
   "part_time_hire": "کار پاره وقت",
   "full_time_hire": "کارت تمام وقت",

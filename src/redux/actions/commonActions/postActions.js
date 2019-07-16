@@ -56,10 +56,10 @@ const setPostViewer = (postId, getPostViewerCount) => {
   }
 }
 
-const getPost = ({postId, postOwnerId}) => {
+const getPost = ({postId, postOwnerId, token}) => {
   return {
     type: types.COMMON.POST.GET_POST,
-    payload: {postId, postOwnerId},
+    payload: {postId, postOwnerId, token},
   }
 }
 

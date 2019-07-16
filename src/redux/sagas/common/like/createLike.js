@@ -8,11 +8,12 @@ import uuid from 'uuid'
 
 export function* createLike(action) {
   const {like_sender, like_parent} = action.payload
-  const socketChannel = yield call(api.createSocketChannel, results.COMMON.LIKE.CREATE_LIKE)
+  const result = `${results.COMMON.LIKE.CREATE_LIKE}-${Math.random()}`
+  const socketChannel = yield call(api.createSocketChannel, result)
   const state = yield select()
   const translate = state.intl.messages
   try {
-    yield fork(api.post, urls.COMMON.LIKE, results.COMMON.LIKE.CREATE_LIKE, {like_sender, like_parent})
+    yield fork(api.post, urls.COMMON.LIKE, result, {like_sender, like_parent})
     const data = yield take(socketChannel)
     yield put({
       type: types.SUCCESS.COMMON.LIKE.CREATE_LIKE,
