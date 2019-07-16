@@ -3,6 +3,7 @@ import {NotFoundSvg} from 'src/images/icons'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import Material from '../common/components/Material'
+import {getClientIdentity, getClientObject} from '../../redux/selectors/common/client/getClient'
 
 class NotFound extends PureComponent {
   render() {
@@ -37,9 +38,9 @@ class NotFound extends PureComponent {
 }
 
 const mapStateToProps = state => {
-  const id = state.auth.client.identity.content
-  const allIdentities = state.identities.list
-  const userType = id && allIdentities[id] && allIdentities[id].identity_type
+  const id = getClientIdentity(state)
+  const user = getClientObject(state)
+  const userType = user && user.identity_type
   return {
     id,
     userType,

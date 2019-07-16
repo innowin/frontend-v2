@@ -12,6 +12,7 @@ import {Component} from 'react'
 import {connect} from 'react-redux'
 import {getMessages} from 'src/redux/selectors/translateSelector'
 import {getAllOfExchanges} from '../../../redux/selectors/common/exchanges/GetAllExchanges'
+import {getClientIdentity} from '../../../redux/selectors/common/client/getClient'
 
 // import { Stream, Info, Statistic, Contacts, Medal, Ticket } from 'src/images/icons'
 // import { NavLink } from 'react-router-dom'
@@ -172,7 +173,7 @@ const mapStateToProps = (state) => {
   return {
     translate: getMessages(state),
     exchanges: getAllOfExchanges(state),
-    clientIdentityId: state.auth.client.identity.content,
+    clientIdentityId: getClientIdentity(state),
     clientType: state.auth.client.user_type,
     clientId: state.auth.client.user.id,
   }

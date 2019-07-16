@@ -6,6 +6,7 @@ import FahadEventPageFour from "./FahadEventPageFour"
 import {connect} from "react-redux"
 import {makeCategorySelector} from "src/redux/selectors/common/category/getCategoriesByParentId"
 import FahadEventPageFive from "./FahadEventPageFive"
+import {getClientIdentity} from '../../../../redux/selectors/common/client/getClient'
 
 class FahadEventModal extends Component {
   constructor(props) {
@@ -183,7 +184,7 @@ const mapStateToProps = (state) => {
   const categorySelector = makeCategorySelector()
   return {
     categories: categorySelector(state),
-    clientIdentityId: state.auth.client.identity.content,
+    clientIdentityId: getClientIdentity(state),
     token: state.auth.client.token,
   }
 }

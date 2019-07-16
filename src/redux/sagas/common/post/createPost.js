@@ -5,6 +5,7 @@ import types from 'src/redux/actions/types'
 import {select, put, take, fork, call, all} from 'redux-saga/effects'
 import constants from 'src/consts/constants'
 import uuid from 'uuid'
+import {delay} from 'redux-saga'
 
 export function* createPost(action) {
   const {formValues, postParentId, postParentType, postFileIds} = action.payload
@@ -27,6 +28,13 @@ export function* createPost(action) {
           },
         },
       },
+    })
+
+    yield delay(1000)
+    const identity = yield select(state => state.auth.client.identity.content)
+    yield put({
+      type: types.COMMON.EXCHANGE_MEMBERSHIP.GET_EXCHANGE_MEMBERSHIP_BY_MEMBER_IDENTITY,
+      payload: {identityId: identity, exchangeMembershipOwnerId: identity},
     })
   }
   catch (error) {

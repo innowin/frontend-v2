@@ -20,6 +20,7 @@ import ProductInfoView from '../../contributions/ProductInfoView'
 import constants from 'src/consts/constants'
 import uuid from 'uuid'
 import ProductActions from '../../../../redux/actions/commonActions/productActions'
+import {getClientIdentity, getClientObject} from '../../../../redux/selectors/common/client/getClient'
 
 const POST_MEDIA_TEMP_KEY = 'POST_MEDIA'
 const POST_FILE_TEMP_KEY = 'POST_FILE'
@@ -991,9 +992,8 @@ class CreatePost extends PureComponent {
 }
 
 const mapStateToProps = state => {
-  const client = state.auth.client
-  const identityId = client.identity.content
-  const identity = state.identities.list[identityId]
+  const identityId = getClientIdentity(state)
+  const identity = getClientObject(state)
   const postImg1Id = state.temp.file[POST_IMG1_TEMP_KEY] || null
   const postImg2Id = state.temp.file[POST_IMG2_TEMP_KEY] || null
   const postImg3Id = state.temp.file[POST_IMG3_TEMP_KEY] || null

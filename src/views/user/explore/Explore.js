@@ -13,6 +13,7 @@ import {PureComponent} from 'react'
 import {getFollowersSelector} from 'src/redux/selectors/common/social/getFollowers'
 import {getFolloweesSelector} from 'src/redux/selectors/common/social/getFollowees'
 import MobileHeader from './MobileHeader'
+import {getClientIdentity} from '../../../redux/selectors/common/client/getClient'
 
 class Explore extends PureComponent {
   constructor(props) {
@@ -145,7 +146,7 @@ class Explore extends PureComponent {
 }
 
 const mapStateToProps = (state) => {
-  const id = state.auth.client.identity.content
+  const id = getClientIdentity(state)
 
   return {
     currentUser: id,

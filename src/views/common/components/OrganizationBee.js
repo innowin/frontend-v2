@@ -14,6 +14,7 @@ import TempActions from 'src/redux/actions/tempActions'
 import uuid from 'uuid'
 import constants from 'src/consts/constants'
 import AuthActions from 'src/redux/actions/authActions'
+import {getClientObject} from '../../../redux/selectors/common/client/getClient'
 
 class OrganizationBee extends PureComponent {
   constructor(props) {
@@ -419,18 +420,13 @@ class OrganizationBee extends PureComponent {
   }
 }
 
-const mapStateToProps = (state) => {
-  const id = state.auth.client.identity.content
-  const user = state.identities.list[id]
-
-  return ({
-    currentUser: user,
-    translate: getMessages(state),
-    profileIdTemp: state.temp.file['profile_media'],
-    resumeIdTemp: state.temp.file['resume'],
-    temp: state.temp.file,
-  })
-}
+const mapStateToProps = (state) => ({
+  currentUser: getClientObject(state),
+  translate: getMessages(state),
+  profileIdTemp: state.temp.file['profile_media'],
+  resumeIdTemp: state.temp.file['resume'],
+  temp: state.temp.file,
+})
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({

@@ -10,6 +10,7 @@ import {connect} from 'react-redux'
 import {getMessages} from 'src/redux/selectors/translateSelector'
 import {Link} from 'react-router-dom'
 import {REST_URL} from 'src/consts/URLS'
+import {getClientIdentity} from '../../../redux/selectors/common/client/getClient'
 
 
 class Exchange extends PureComponent {
@@ -105,7 +106,7 @@ class Exchange extends PureComponent {
 
 
 const mapStateToProps = (state) => ({
-  currentUserIdentity: state.auth.client.identity.content,
+  currentUserIdentity: getClientIdentity(state),
   translate: getMessages(state),
 })
 

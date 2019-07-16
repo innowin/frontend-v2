@@ -28,6 +28,7 @@ import PrivateRoute from '../../consts/PrivateRoute'
 import {NewRightArrow} from '../../images/icons'
 import Exchanges from 'src/views/common/social/exchanges/index'
 import PropsRoute from '../../consts/PropsRoute'
+import {getClientIdentity} from '../../redux/selectors/common/client/getClient'
 
 type PropsOrganization = {
   userObject: organStateObject,
@@ -239,7 +240,7 @@ const mapStateToProps = (state, ownProps) => {
   const allBadges = state.common.badges.badge.list
   const badges = badgesObjectInUser.content.map(badgeId => allBadges[badgeId])
   return {
-    isLogin: state.auth.client.identity.content,
+    isLogin: getClientIdentity(state),
     userObject: user,
     badgesObject: badgesObjectInUser,
     translate: getMessages(state),

@@ -22,6 +22,7 @@ import ProposalsActions from 'src/redux/actions/commonActions/proposalActions'
 import PostNewProposal from './PostNewProposal'
 import {ProposalsSelector} from 'src/redux/selectors/common/proposal/proposalSelector'
 import Proposals from './Proposals'
+import {getClientIdentity} from '../../../redux/selectors/common/client/getClient'
 
 class PostView extends React.PureComponent {
   static propTypes = {
@@ -394,7 +395,7 @@ class PostView extends React.PureComponent {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const clientIdentity = state.auth.client.identity.content
+  const clientIdentity = getClientIdentity(state)
   const post = ownProps.post || state.common.post.list[ownProps.match.params.id]
   const postIdentity = post && state.identities.list[post.post_related_identity]
   const postRelatedIdentityImage = postIdentity && postIdentity.profile_media && postIdentity.profile_media.file

@@ -5,6 +5,7 @@ import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import {getMessages} from 'src/redux/selectors/translateSelector'
 import constants from 'src/consts/constants'
+import {getClientIdentity, getClientObject} from '../../../redux/selectors/common/client/getClient'
 
 class PostCommentNew extends React.PureComponent {
   constructor(props) {
@@ -157,16 +158,11 @@ class PostCommentNew extends React.PureComponent {
   }
 }
 
-const mapStateToProps = (state) => {
-  const identityId = state.auth.client.identity.content
-  const identities = state.identities.list
-  const currentUser = identities[identityId]
-  return {
-    identityId,
-    currentUser,
-    translate: getMessages(state),
-  }
-}
+const mapStateToProps = (state) => ({
+  identityId: getClientIdentity(state),
+  currentUser: getClientObject(state),
+  translate: getMessages(state),
+})
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({

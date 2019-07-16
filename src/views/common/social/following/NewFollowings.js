@@ -6,6 +6,7 @@ import {DefaultUserIcon, Contacts, QuestionMark, Stream} from "src/images/icons"
 import {Link} from "react-router-dom"
 import {getMessages} from "src/redux/selectors/translateSelector"
 import {Component} from "react"
+import {getClientIdentity} from '../../../../redux/selectors/common/client/getClient'
 
 class NewFollowings extends Component {
   constructor(props) {
@@ -110,7 +111,7 @@ class NewFollowings extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  clientId: state.auth.client.identity.content,
+  clientId: getClientIdentity(state),
   translate: getMessages(state),
 })
 

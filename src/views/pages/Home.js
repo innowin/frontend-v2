@@ -13,6 +13,7 @@ import {connect} from 'react-redux'
 import {getMessages} from 'src/redux/selectors/translateSelector'
 import {PureComponent} from 'react'
 import FahadEventCard from 'src/views/common/components/Fahad/FahadEventCard'
+import {getClientIdentity, getClientObject} from '../../redux/selectors/common/client/getClient'
 
 class Home extends PureComponent {
   static propTypes = {
@@ -70,11 +71,9 @@ class Home extends PureComponent {
 }
 
 const mapStateToProps = state => {
-  const client = state.auth.client
-  const selectedExchange = client.selectedExchange
-  const allIdentities = state.identities.list
-  const clientIdentityId = client.identity.content
-  const clientIdentity = allIdentities[clientIdentityId]
+  const selectedExchange = state.auth.client.selectedExchange
+  const clientIdentityId = getClientIdentity(state)
+  const clientIdentity = getClientObject(state)
   const identityType = clientIdentity ? clientIdentity.identity_type : undefined
 
   return {
