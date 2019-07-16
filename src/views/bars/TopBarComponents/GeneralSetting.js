@@ -3,6 +3,8 @@ import React, {Component} from 'react'
 import updateUserByUserIdAction from 'src/redux/actions/user/updateUserByUserIdAction'
 import {bindActionCreators} from 'redux'
 import numberCorrection from '../../../helpers/numberCorrection'
+import {getClientObject} from '../../../redux/selectors/common/client/getClient'
+import {getMessages} from '../../../redux/selectors/translateSelector'
 
 class GeneralSetting extends Component {
   constructor(props) {
@@ -255,13 +257,10 @@ class GeneralSetting extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  const id = state.auth.client.identity.content
-  return {
-    user: state.identities.list[id],
-    translate: state.intl.messages,
-  }
-}
+const mapStateToProps = state => ({
+  user: getClientObject(state),
+  translate: getMessages(state),
+})
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({

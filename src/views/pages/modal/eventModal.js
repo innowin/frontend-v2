@@ -20,6 +20,7 @@ import {getProvinces, getCities} from 'src/redux/actions/commonActions/location'
 import EventAssignmentActions from 'src/redux/actions/eventAssignmentActions'
 import EducationActions from 'src/redux/actions/user/educationActions'
 import SkillActions from 'src/redux/actions/user/skillActions'
+import {getClientIdentity} from '../../../redux/selectors/common/client/getClient'
 
 type Event = {|
   id: number,
@@ -167,7 +168,7 @@ const mapStateToProps = (state) => {
     organization: state.auth.client.organization,
     profile: state.auth.client.profile,
     provinces: state.common.location.province,
-    identityId: state.auth.client.identity.content,
+    identityId: getClientIdentity(state),
     uploadedCatalog: state.temp.file[constants.TEMP_FILE_KEYS.CATALOG],
     user: state.auth.client.user,
     uploadedResume: state.temp.file[constants.TEMP_FILE_KEYS.RESUME],

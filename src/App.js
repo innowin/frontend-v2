@@ -23,6 +23,7 @@ import GetUserActions from './redux/actions/user/getUserActions'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import SocialActions from './redux/actions/commonActions/socialActions'
+import {getClientIdentity} from './redux/selectors/common/client/getClient'
 
 class App extends React.PureComponent {
   constructor(props) {
@@ -114,7 +115,7 @@ class App extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  clientId: state.auth.client && state.auth.client.identity.content,
+  clientId: getClientIdentity(state),
 })
 
 const mapDispatchToProps = dispatch => ({

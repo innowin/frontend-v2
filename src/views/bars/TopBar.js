@@ -30,6 +30,7 @@ import {Link} from 'react-router-dom'
 import {SearchIcon} from 'src/images/icons'
 import {CSSTransition, TransitionGroup} from 'react-transition-group'
 import ModalActions from '../../redux/actions/modalActions'
+import {getClientIdentity, getClientObject} from '../../redux/selectors/common/client/getClient'
 
 class TopBar extends PureComponent {
 
@@ -535,8 +536,7 @@ class TopBar extends PureComponent {
 }
 
 const mapStateToProps = (state) => {
-  const clientIdentityId = state.auth.client.identity.content
-  const clientIdentity = state.identities.list[clientIdentityId]
+  const clientIdentity = getClientObject(state)
 
   const clientName = clientIdentity
       ? (clientIdentity.identity_type === constants.USER_TYPES.USER
@@ -551,7 +551,7 @@ const mapStateToProps = (state) => {
   return {
     selectedExchange: state.auth.client.selectedExchange,
     clientName,
-    clientIdentityId,
+    clientIdentityId: getClientIdentity(state),
     clientIdentity,
     imgLink: profileImg,
     bannerLink: bannerImg,

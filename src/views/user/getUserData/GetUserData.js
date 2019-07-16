@@ -15,6 +15,7 @@ import exchangeActions from 'src/redux/actions/exchangeActions'
 import ThirdLevel from './ThirdLevel'
 import {clientMemberships} from '../../../redux/selectors/common/exchanges/ClientMemberships'
 import {exchangeMemberships} from '../../../redux/selectors/common/exchanges/ExchangeMemberships'
+import {getClientIdentity} from '../../../redux/selectors/common/client/getClient'
 
 class GetUserData extends PureComponent {
   constructor(props) {
@@ -107,7 +108,7 @@ class GetUserData extends PureComponent {
 
 const mapStateToProps = (state) => ({
   HashTags: hashTagsListSelector(state),
-  current_user_identity: state.auth.client.identity.content,
+  current_user_identity: getClientIdentity(state),
   allExchanges: getExchanges(state),
   clientExchangeMemberships: clientMemberships(state),
   exchangeMemberships: exchangeMemberships(state),

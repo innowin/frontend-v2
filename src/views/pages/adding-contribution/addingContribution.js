@@ -1,21 +1,21 @@
 // @flow
-import * as React from "react"
-import countrySelector from "src/redux/selectors/common/location/getCountry"
-import makeCitySelectorByProvinceId from "src/redux/selectors/common/location/getCityByProvince"
-import makeProvinceSelectorByCountryId from "src/redux/selectors/common/location/getProvinceByCountry"
-import type {TranslatorType} from "src/consts/flowTypes/common/commonTypes"
-import {bindActionCreators} from "redux"
-import {change} from "redux-form"
-import {connect} from "react-redux"
-import {createProductAsContribution} from "src/redux/actions/commonActions/productActions"
-import SkillActions from "src/redux/actions/user/skillActions"
-import {getCategories} from "src/redux/actions/commonActions/categoryActions"
-import {getCountries, getProvinces, getCities} from "src/redux/actions/commonActions/location"
-import {getFormValues} from "src/redux/selectors/formValuesSelectors"
-import {getMessages} from "../../../redux/selectors/translateSelector"
-import {hashTagsListSelector} from "src/redux/selectors/common/hashTags/hashTag"
-import {makeCategorySelector} from "src/redux/selectors/common/category/getCategoriesByParentId"
-import {PureComponent} from "react"
+import * as React from 'react'
+import countrySelector from 'src/redux/selectors/common/location/getCountry'
+import makeCitySelectorByProvinceId from 'src/redux/selectors/common/location/getCityByProvince'
+import makeProvinceSelectorByCountryId from 'src/redux/selectors/common/location/getProvinceByCountry'
+import type {TranslatorType} from 'src/consts/flowTypes/common/commonTypes'
+import {bindActionCreators} from 'redux'
+import {change} from 'redux-form'
+import {connect} from 'react-redux'
+import {createProductAsContribution} from 'src/redux/actions/commonActions/productActions'
+import SkillActions from 'src/redux/actions/user/skillActions'
+import {getCategories} from 'src/redux/actions/commonActions/categoryActions'
+import {getCountries, getProvinces, getCities} from 'src/redux/actions/commonActions/location'
+import {getFormValues} from 'src/redux/selectors/formValuesSelectors'
+import {getMessages} from '../../../redux/selectors/translateSelector'
+import {hashTagsListSelector} from 'src/redux/selectors/common/hashTags/hashTag'
+import {makeCategorySelector} from 'src/redux/selectors/common/category/getCategoriesByParentId'
+import {PureComponent} from 'react'
 import {
   CircularAddIcon,
   ContributionIcon,
@@ -26,19 +26,20 @@ import {
   // MainLbarArrow,
   // SkillIcon,
   // TipsIcon,
-} from "src/images/icons"
-import InteliInput from "src/views/common/inputs/InteliInput"
+} from 'src/images/icons'
+import InteliInput from 'src/views/common/inputs/InteliInput'
 // import Material from '../../common/components/Material'
 // import type {ImageType} from '../modal/createExchange/basicInfo'
-import {createFile} from "src/redux/actions/commonActions/fileActions"
-import {ClipLoader} from "react-spinners"
-import {TransitionGroup, CSSTransition} from "react-transition-group"
-import types from "../../../redux/actions/types"
-import uuid from "uuid"
-import {createFileFunc} from "../../common/Functions"
-import constants from "../../../consts/constants"
-import TempActions from "src/redux/actions/tempActions"
-import ModalActions from "../../../redux/actions/modalActions"
+import {createFile} from 'src/redux/actions/commonActions/fileActions'
+import {ClipLoader} from 'react-spinners'
+import {TransitionGroup, CSSTransition} from 'react-transition-group'
+import types from '../../../redux/actions/types'
+import uuid from 'uuid'
+import {createFileFunc} from '../../common/Functions'
+import constants from '../../../consts/constants'
+import TempActions from 'src/redux/actions/tempActions'
+import ModalActions from '../../../redux/actions/modalActions'
+import {getClientIdentity} from '../../../redux/selectors/common/client/getClient'
 
 type catsMap = {
   category_parent?: ?number,
@@ -63,7 +64,6 @@ type AddingContributionProps = {
   countries: list,
   handleModalVisibility: Function,
   hashTags: {},
-  identity: ?number,
   modalIsOpen: boolean,
   province: list,
   provinces: {},
@@ -111,12 +111,12 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
       cats: [],
       cityList: [],
       countryList: [],
-      currentLevel: "one",
-      currentFileId: "",
+      currentLevel: 'one',
+      currentFileId: '',
       // priceType: 'معین',
       processing: false,
-      productDescription: "",
-      productName: "",
+      productDescription: '',
+      productName: '',
       provinceList: [],
       selectedCatLvlOne: null,
       selectedCatLvlThree: null,
@@ -125,12 +125,12 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
       selectedCountry: null,
       selectedImage: [],
       selectedImageId: [],
-      selectedImageTemp: "",
-      selectedImageFile: "",
+      selectedImageTemp: '',
+      selectedImageFile: '',
       selectedProvince: null,
-      selectedType: "Product",
-      abilityTitle: "",
-      abilityDescription: "",
+      selectedType: 'Product',
+      abilityTitle: '',
+      abilityDescription: '',
     }
 
     const self: any = this
@@ -157,8 +157,8 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
     const {modalIsOpen} = this.props
     if (modalIsOpen) {
       let doc: any = document // for flow
-      doc.body.style.overflow = "hidden"
-      doc.body.style.paddingRight = "7px"
+      doc.body.style.overflow = 'hidden'
+      doc.body.style.paddingRight = '7px'
       const {
         categories,
         countries,
@@ -198,9 +198,9 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
           this.setState({...this.state, cityList: citsArray.slice()})
       }
 
-      if (this.state.currentFileId !== "" && temp[this.state.currentFileId] && temp[this.state.currentFileId].progress === 100 && temp["product_image"]) {
-        this._imageHandler(temp["product_image"])
-        _removeFileFromTemp("product_image")
+      if (this.state.currentFileId !== '' && temp[this.state.currentFileId] && temp[this.state.currentFileId].progress === 100 && temp['product_image']) {
+        this._imageHandler(temp['product_image'])
+        _removeFileFromTemp('product_image')
       }
       // if (lastFile.id && prevLastFile.id) {
       //   if (lastFile.id !== prevLastFile.id) {
@@ -210,44 +210,44 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
     }
     else {
       let doc: any = document
-      doc.body.style.overflow = "auto"
-      doc.body.style.paddingRight = "0"
+      doc.body.style.overflow = 'auto'
+      doc.body.style.paddingRight = '0'
     }
   }
 
   renderProgressBar() {
     let {currentLevel, selectedType} = this.state
     switch (selectedType) {
-      case "Ability":
+      case 'Ability':
         return (
-            <div className={"contribution-progress-bar"}>
-              <div className={"level-container-active"}>
-                <CircularAddIcon className={"level-container-svg add"}/>
-                <div className={"level-container-text"}>
+            <div className={'contribution-progress-bar'}>
+              <div className={'level-container-active'}>
+                <CircularAddIcon className={'level-container-svg add'}/>
+                <div className={'level-container-text'}>
                   آوردۀ جدید
                 </div>
               </div>
-              <div style={{opacity: "0"}} className={currentLevel !== "one" ? "level-container-active" : "level-container"}/>
-              <div className={currentLevel !== "one" ? "level-container-active" : "level-container"}>
-                <InformationIcon className={"level-container-svg info " + currentLevel}/>
-                <div className={"level-container-text"}> مشخصات</div>
+              <div style={{opacity: '0'}} className={currentLevel !== 'one' ? 'level-container-active' : 'level-container'}/>
+              <div className={currentLevel !== 'one' ? 'level-container-active' : 'level-container'}>
+                <InformationIcon className={'level-container-svg info ' + currentLevel}/>
+                <div className={'level-container-text'}> مشخصات</div>
               </div>
-              <div className={"level-bar"}/>
-              <div className={"level-bar-progress " + (currentLevel === "one" ? "one" : "three")}/>
+              <div className={'level-bar'}/>
+              <div className={'level-bar-progress ' + (currentLevel === 'one' ? 'one' : 'three')}/>
             </div>
         )
-      case "Product":
+      case 'Product':
         return (
-            <div className={"contribution-progress-bar"}>
-              <div className={"level-container-active"}>
-                <CircularAddIcon className={"level-container-svg add"}/>
-                <div className={"level-container-text"}>
+            <div className={'contribution-progress-bar'}>
+              <div className={'level-container-active'}>
+                <CircularAddIcon className={'level-container-svg add'}/>
+                <div className={'level-container-text'}>
                   آوردۀ جدید
                 </div>
               </div>
-              <div className={currentLevel !== "one" ? "level-container-active" : "level-container"}>
-                <InformationIcon className={"level-container-svg info " + currentLevel}/>
-                <div className={"level-container-text"}>
+              <div className={currentLevel !== 'one' ? 'level-container-active' : 'level-container'}>
+                <InformationIcon className={'level-container-svg info ' + currentLevel}/>
+                <div className={'level-container-text'}>
                   اطلاعات اولیه
                 </div>
               </div>
@@ -265,14 +265,14 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
                </div>
                </div>
                */}
-              <div className={currentLevel !== "one" && currentLevel !== "two" ? "level-container-active" : "level-container"}>
-                <ContributionIcon className={"level-container-svg contribution " + currentLevel}/>
-                <div className={"level-container-text"}>
+              <div className={currentLevel !== 'one' && currentLevel !== 'two' ? 'level-container-active' : 'level-container'}>
+                <ContributionIcon className={'level-container-svg contribution ' + currentLevel}/>
+                <div className={'level-container-text'}>
                   مدیریت ویترین
                 </div>
               </div>
-              <div className={"level-bar"}/>
-              <div className={"level-bar-progress " + currentLevel}/>
+              <div className={'level-bar'}/>
+              <div className={'level-bar-progress ' + currentLevel}/>
             </div>
         )
       default:
@@ -297,12 +297,12 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
     const {translator} = this.props
     let self: any = this
     switch (currentLevel) {
-      case "one":
+      case 'one':
         if (window.innerWidth <= 480 && window.innerWidth >= 320)
           return (
               <div>
-                <div className={"contribution-description-options-area"}>
-                  <div className="create-exchange-close-icon" onClick={() => this.props._hideModal({modalKey: "productModal"})}>✕</div>
+                <div className={'contribution-description-options-area'}>
+                  <div className="create-exchange-close-icon" onClick={() => this.props._hideModal({modalKey: 'productModal'})}>✕</div>
 
                   <NewProductXsmall className="new-product-xsmall-svg"/>
 
@@ -334,88 +334,88 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
                 </p>
               </div>
             </div>*/}
-              <div className={"contribution-description-options-area"}>
-                <div className="create-exchange-close-icon" onClick={() => this.props._hideModal({modalKey: "productModal"})}>✕</div>
+              <div className={'contribution-description-options-area'}>
+                <div className="create-exchange-close-icon" onClick={() => this.props._hideModal({modalKey: 'productModal'})}>✕</div>
                 <div className="contribution-text">ایجاد محصول</div>
                 <div className="contribution-text-description">
                   محصول خود را در اینوین تعریف کنید. معرفی، مشخصات فنی و تصاویر آن را بارگذاری کنید. پروفایل محصول را در پنجره های مرتبط عرضه کنید.
                 </div>
 
-                <div className={"create-product-inputs"}>
-                  <div style={{marginBottom: "15px"}}>
+                <div className={'create-product-inputs'}>
+                  <div style={{marginBottom: '15px'}}>
                     <label>
-                      {"عنوان محصول"} <span className={"secondary-color"}>*</span>
+                      {'عنوان محصول'} <span className={'secondary-color'}>*</span>
                     </label>
-                    <input type={"text"} className={"create-product-name-input"} placeholder={"عنوان محصول"}
+                    <input type={'text'} className={'create-product-name-input'} placeholder={'عنوان محصول'}
                            onChange={(e) => this.setState({...this.state, productName: e.target.value})}/>
-                    <div ref={e => self.nameError = e} className={"product-name-error-hide"}>طول نام غیر مجاز است</div>
+                    <div ref={e => self.nameError = e} className={'product-name-error-hide'}>طول نام غیر مجاز است</div>
                   </div>
 
-                  <div className={"inteli-input-label-container"}>
+                  <div className={'inteli-input-label-container'}>
                     <label className="gray-text-input-label">انتخاب دسته‌بندی</label>
-                    <div style={{display: "inline-flex", width: "100%", justifyContent: "space-between"}}>
-                      <div style={{flexGrow: "1", marginLeft: "10px"}}>
-                        <InteliInput handleChange={(data) => this._handleCatLvlChange(data, "one")}
+                    <div style={{display: 'inline-flex', width: '100%', justifyContent: 'space-between'}}>
+                      <div style={{flexGrow: '1', marginLeft: '10px'}}>
+                        <InteliInput handleChange={(data) => this._handleCatLvlChange(data, 'one')}
                                      list={catLvlOne} placeholder="طبقۀ اول دسته‌بندی"/>
                       </div>
-                      <div style={{flexGrow: "1", marginLeft: "10px"}}>
-                        <InteliInput handleChange={(data) => this._handleCatLvlChange(data, "two")}
+                      <div style={{flexGrow: '1', marginLeft: '10px'}}>
+                        <InteliInput handleChange={(data) => this._handleCatLvlChange(data, 'two')}
                                      list={catLvlTwo} placeholder="طبقۀ دوم دسته‌بندی"/>
                       </div>
-                      <div style={{flexGrow: "1"}}>
-                        <InteliInput handleChange={(data) => this._handleCatLvlChange(data, "three")}
+                      <div style={{flexGrow: '1'}}>
+                        <InteliInput handleChange={(data) => this._handleCatLvlChange(data, 'three')}
                                      list={catLvlThree} placeholder="طبقۀ سوم دسته‌بندی"/>
                       </div>
                     </div>
                   </div>
 
-                  <div className={"inteli-input-label-container"}>
+                  <div className={'inteli-input-label-container'}>
                     <label className="gray-text-input-label">محدودۀ جغرافیایی</label>
-                    <div style={{display: "inline-flex", width: "100%", justifyContent: "space-between"}}>
-                      <div style={{flexGrow: "1", marginLeft: "10px"}}>
+                    <div style={{display: 'inline-flex', width: '100%', justifyContent: 'space-between'}}>
+                      <div style={{flexGrow: '1', marginLeft: '10px'}}>
                         <InteliInput list={countryList} handleChange={(data) => this._handleCountry(data)} placeholder="کشور"/>
                       </div>
-                      <div style={{flexGrow: "1", marginLeft: "10px"}}>
+                      <div style={{flexGrow: '1', marginLeft: '10px'}}>
                         <InteliInput list={provinceList} handleChange={(data) => this._handleProvince(data)} placeholder="استان"/>
                       </div>
-                      <div style={{flexGrow: "1"}}>
+                      <div style={{flexGrow: '1'}}>
                         <InteliInput list={cityList} handleChange={(data) => this._handleCity(data)} placeholder="شهر"/>
                       </div>
                     </div>
                   </div>
 
-                  <div className={"inteli-input-label-container"}>
+                  <div className={'inteli-input-label-container'}>
                     <label className="gray-text-input-label">معرفی محصول:</label>
                     <textarea name="description" className="form-control gray-textarea-input"
                               placeholder="شرحی از ویژگی ها، مزایا و شرایط فروش و قرارداد فروش محصول بنویسید"
                               onChange={(e) => this.setState({...this.state, productDescription: e.target.value})}/>
-                    <div ref={e => self.descriptionError = e} className={"product-name-error-hide"}>طول توضیحات غیر مجاز است</div>
+                    <div ref={e => self.descriptionError = e} className={'product-name-error-hide'}>طول توضیحات غیر مجاز است</div>
                   </div>
 
                 </div>
               </div>
             </div>
         )
-      case "two":
+      case 'two':
         return (
             <div>
-              <div className={"contribution-description-options-area"}>
-                <div className="create-exchange-close-icon" onClick={() => this.props._hideModal({modalKey: "productModal"})}>✕</div>
-                <div className={"create-product-inputs"}>
-                  <div style={{marginBottom: "15px"}}>
+              <div className={'contribution-description-options-area'}>
+                <div className="create-exchange-close-icon" onClick={() => this.props._hideModal({modalKey: 'productModal'})}>✕</div>
+                <div className={'create-product-inputs'}>
+                  <div style={{marginBottom: '15px'}}>
                     <label>
-                      {"عنوان محصول"} <span className={"secondary-color"}>*</span>
+                      {'عنوان محصول'} <span className={'secondary-color'}>*</span>
                     </label>
-                    <input type={"text"} className={"create-product-name-input"} placeholder={"عنوان محصول"}
+                    <input type={'text'} className={'create-product-name-input'} placeholder={'عنوان محصول'}
                            onChange={(e) => this.setState({...this.state, productName: e.target.value})}/>
-                    <div ref={e => self.nameError = e} className={"product-name-error-hide"}>طول نام غیر مجاز است</div>
+                    <div ref={e => self.nameError = e} className={'product-name-error-hide'}>طول نام غیر مجاز است</div>
                   </div>
 
-                  <div className={"inteli-input-label-container"}>
+                  <div className={'inteli-input-label-container'}>
                     <label className="gray-text-input-label">انتخاب دسته‌بندی</label>
-                    <div style={{display: "inline-flex", width: "100%", justifyContent: "space-between"}}>
-                      <div style={{flexGrow: "1", position: "relative"}} onClick={() => this.xsCatModal.className = "xs-cat-modal"}>
-                        <div className={`form-control gray-text-input`} style={{color: "#808080"}}>
+                    <div style={{display: 'inline-flex', width: '100%', justifyContent: 'space-between'}}>
+                      <div style={{flexGrow: '1', position: 'relative'}} onClick={() => this.xsCatModal.className = 'xs-cat-modal'}>
+                        <div className={`form-control gray-text-input`} style={{color: '#808080'}}>
                           دسته‌بندی
                         </div>
                         <SearchIcon className='inteli-search-svg'/>
@@ -424,41 +424,41 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
                   </div>
 
                   <div ref={e => self.xsCatModal = e} className='xs-cat-modal-hide'>
-                    <div className={"inteli-input-label-container"}>
-                      <label className="gray-text-input-label" style={{margin: "20px", fontSize: "14px"}}>انتخاب دسته‌بندی</label>
-                      <div style={{display: "flex", flexDirection: "column"}}>
-                        <div style={{flexGrow: "1", margin: "18px 20px"}}>
+                    <div className={'inteli-input-label-container'}>
+                      <label className="gray-text-input-label" style={{margin: '20px', fontSize: '14px'}}>انتخاب دسته‌بندی</label>
+                      <div style={{display: 'flex', flexDirection: 'column'}}>
+                        <div style={{flexGrow: '1', margin: '18px 20px'}}>
                           <label className="gray-text-input-label">طبقۀ اول دسته‌بندی</label>
-                          <InteliInput handleChange={(data) => this._handleCatLvlChange(data, "one")}
+                          <InteliInput handleChange={(data) => this._handleCatLvlChange(data, 'one')}
                                        list={catLvlOne} placeholder="انتخاب"/>
                         </div>
-                        <div style={{flexGrow: "1", margin: "18px 20px"}}>
+                        <div style={{flexGrow: '1', margin: '18px 20px'}}>
                           <label className="gray-text-input-label">طبقۀ دوم دسته‌بندی</label>
-                          <InteliInput handleChange={(data) => this._handleCatLvlChange(data, "two")}
+                          <InteliInput handleChange={(data) => this._handleCatLvlChange(data, 'two')}
                                        list={catLvlTwo} placeholder="انتخاب"/>
                         </div>
-                        <div style={{flexGrow: "1", margin: "18px 20px"}}>
+                        <div style={{flexGrow: '1', margin: '18px 20px'}}>
                           <label className="gray-text-input-label">طبقۀ سوم دسته‌بندی</label>
-                          <InteliInput handleChange={(data) => this._handleCatLvlChange(data, "three")}
+                          <InteliInput handleChange={(data) => this._handleCatLvlChange(data, 'three')}
                                        list={catLvlThree} placeholder="انتخاب"/>
                         </div>
                       </div>
                     </div>
-                    <div className={"contribution-footer"}>
-                      <button className={"next-button"} onClick={() => this.xsCatModal.className = "xs-cat-modal-hide"}>
+                    <div className={'contribution-footer'}>
+                      <button className={'next-button'} onClick={() => this.xsCatModal.className = 'xs-cat-modal-hide'}>
                         ثبت
                       </button>
-                      <button className="previous-button" onClick={() => this.xsCatModal.className = "xs-cat-modal-hide"}>
+                      <button className="previous-button" onClick={() => this.xsCatModal.className = 'xs-cat-modal-hide'}>
                         لغو
                       </button>
                     </div>
                   </div>
 
-                  <div className={"inteli-input-label-container"}>
+                  <div className={'inteli-input-label-container'}>
                     <label className="gray-text-input-label">محدودۀ جغرافیایی</label>
-                    <div style={{display: "inline-flex", width: "100%", justifyContent: "space-between"}}>
-                      <div style={{flexGrow: "1", position: "relative"}} onClick={() => this.xsLocationModal.className = "xs-cat-modal"}>
-                        <div className={`form-control gray-text-input`} style={{color: "#808080"}}>
+                    <div style={{display: 'inline-flex', width: '100%', justifyContent: 'space-between'}}>
+                      <div style={{flexGrow: '1', position: 'relative'}} onClick={() => this.xsLocationModal.className = 'xs-cat-modal'}>
+                        <div className={`form-control gray-text-input`} style={{color: '#808080'}}>
                           محدودۀ جغرافیایی
                         </div>
                         <SearchIcon className='inteli-search-svg'/>
@@ -467,107 +467,107 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
                   </div>
 
                   <div ref={e => self.xsLocationModal = e} className='xs-cat-modal-hide'>
-                    <div className={"inteli-input-label-container"}>
-                      <label className="gray-text-input-label" style={{margin: "20px", fontSize: "14px"}}>محدودۀ جغرافیایی</label>
-                      <div style={{display: "flex", flexDirection: "column"}}>
-                        <div style={{flexGrow: "1", margin: "19px 20px"}}>
+                    <div className={'inteli-input-label-container'}>
+                      <label className="gray-text-input-label" style={{margin: '20px', fontSize: '14px'}}>محدودۀ جغرافیایی</label>
+                      <div style={{display: 'flex', flexDirection: 'column'}}>
+                        <div style={{flexGrow: '1', margin: '19px 20px'}}>
                           <label className="gray-text-input-label">کشور</label>
                           <InteliInput list={countryList} handleChange={(data) => this._handleCountry(data)} placeholder="انتخاب"/>
                         </div>
-                        <div style={{flexGrow: "1", margin: "19px 20px"}}>
+                        <div style={{flexGrow: '1', margin: '19px 20px'}}>
                           <label className="gray-text-input-label">استان</label>
                           <InteliInput list={provinceList} handleChange={(data) => this._handleProvince(data)} placeholder="انتخاب"/>
                         </div>
-                        <div style={{flexGrow: "1", margin: "19px 20px"}}>
+                        <div style={{flexGrow: '1', margin: '19px 20px'}}>
                           <label className="gray-text-input-label">شهر</label>
                           <InteliInput list={cityList} handleChange={(data) => this._handleCity(data)} placeholder="انتخاب"/>
                         </div>
                       </div>
                     </div>
-                    <div className={"contribution-footer"}>
-                      <button className={"next-button"} onClick={() => this.xsLocationModal.className = "xs-cat-modal-hide"}>
+                    <div className={'contribution-footer'}>
+                      <button className={'next-button'} onClick={() => this.xsLocationModal.className = 'xs-cat-modal-hide'}>
                         ثبت
                       </button>
-                      <button className="previous-button" onClick={() => this.xsLocationModal.className = "xs-cat-modal-hide"}>
+                      <button className="previous-button" onClick={() => this.xsLocationModal.className = 'xs-cat-modal-hide'}>
                         لغو
                       </button>
                     </div>
                   </div>
 
-                  <div className={"inteli-input-label-container"}>
+                  <div className={'inteli-input-label-container'}>
                     <label className="gray-text-input-label">معرفی محصول:</label>
                     <textarea name="description" className="form-control gray-textarea-input"
                               placeholder="شرحی از ویژگی ها، مزایا و شرایط فروش و قرارداد فروش محصول بنویسید"
                               onChange={(e) => this.setState({...this.state, productDescription: e.target.value})}/>
-                    <div ref={e => self.descriptionError = e} className={"product-name-error-hide"}>طول توضیحات غیر مجاز است</div>
+                    <div ref={e => self.descriptionError = e} className={'product-name-error-hide'}>طول توضیحات غیر مجاز است</div>
                   </div>
                 </div>
               </div>
             </div>
         )
-      case "three":
+      case 'three':
         if (window.innerWidth <= 480 && window.innerWidth >= 320)
           return (
               <div className="contribution-product-three">
                 <div className="create-product-title-container">
-                  <label className="gray-text-input-label">{translator["Product Gallery"]}:</label>
+                  <label className="gray-text-input-label">{translator['Product Gallery']}:</label>
                 </div>
-                <div className={"product-gallery-container"}>
-                  <div className={"product-gallery-item-container"}>
+                <div className={'product-gallery-container'}>
+                  <div className={'product-gallery-item-container'}>
                     {selectedImage[0] ?
                         <div>
-                          <img src={selectedImage[0]} alt={"در حال بارگذاری تصویر محصول"} className={"product-gallery-item"}/>
-                          <div className={"product-gallery-cancel-item"} onClick={() => this._deleteImage(0)}>✕</div>
+                          <img src={selectedImage[0]} alt={'در حال بارگذاری تصویر محصول'} className={'product-gallery-item'}/>
+                          <div className={'product-gallery-cancel-item'} onClick={() => this._deleteImage(0)}>✕</div>
                         </div>
                         :
                         null
                     }
                   </div>
-                  <div className={"product-gallery-item-container"}>
+                  <div className={'product-gallery-item-container'}>
                     {selectedImage[1] ?
                         <div>
-                          <img src={selectedImage[1]} alt={"در حال بارگذاری تصویر محصول"} className={"product-gallery-item"}/>
-                          <div className={"product-gallery-cancel-item"} onClick={() => this._deleteImage(1)}>✕</div>
+                          <img src={selectedImage[1]} alt={'در حال بارگذاری تصویر محصول'} className={'product-gallery-item'}/>
+                          <div className={'product-gallery-cancel-item'} onClick={() => this._deleteImage(1)}>✕</div>
                         </div>
                         :
                         null
                     }
                   </div>
-                  <div className={"product-gallery-item-container"}>
+                  <div className={'product-gallery-item-container'}>
                     {selectedImage[2] ?
                         <div>
-                          <img src={selectedImage[2]} alt={"در حال بارگذاری تصویر محصول"} className={"product-gallery-item"}/>
-                          <div className={"product-gallery-cancel-item"} onClick={() => this._deleteImage(2)}>✕</div>
+                          <img src={selectedImage[2]} alt={'در حال بارگذاری تصویر محصول'} className={'product-gallery-item'}/>
+                          <div className={'product-gallery-cancel-item'} onClick={() => this._deleteImage(2)}>✕</div>
                         </div>
                         :
                         null
                     }
                   </div>
-                  <div className={"product-gallery-item-container"}>
+                  <div className={'product-gallery-item-container'}>
                     {selectedImage[3] ?
                         <div>
-                          <img src={selectedImage[3]} alt={"در حال بارگذاری تصویر محصول"} className={"product-gallery-item"}/>
-                          <div className={"product-gallery-cancel-item"} onClick={() => this._deleteImage(3)}>✕</div>
+                          <img src={selectedImage[3]} alt={'در حال بارگذاری تصویر محصول'} className={'product-gallery-item'}/>
+                          <div className={'product-gallery-cancel-item'} onClick={() => this._deleteImage(3)}>✕</div>
                         </div>
                         :
                         null
                     }
                   </div>
-                  <div className={"product-gallery-item-container"}>
+                  <div className={'product-gallery-item-container'}>
                     {selectedImage[4] ?
                         <div>
-                          <img src={selectedImage[4]} alt={"در حال بارگذاری تصویر محصول"} className={"product-gallery-item"}/>
-                          <div className={"product-gallery-cancel-item"} onClick={() => this._deleteImage(4)}>✕</div>
+                          <img src={selectedImage[4]} alt={'در حال بارگذاری تصویر محصول'} className={'product-gallery-item'}/>
+                          <div className={'product-gallery-cancel-item'} onClick={() => this._deleteImage(4)}>✕</div>
                         </div>
                         :
                         null
                     }
                   </div>
-                  <div className={"product-gallery-item-container"}>
+                  <div className={'product-gallery-item-container'}>
                     {selectedImage[5] ?
                         <div>
-                          <img src={selectedImage[5]} alt={"در حال بارگذاری تصویر محصول"} className={"product-gallery-item"}/>
-                          <div className={"product-gallery-cancel-item"} onClick={() => this._deleteImage(5)}>✕</div>
+                          <img src={selectedImage[5]} alt={'در حال بارگذاری تصویر محصول'} className={'product-gallery-item'}/>
+                          <div className={'product-gallery-cancel-item'} onClick={() => this._deleteImage(5)}>✕</div>
                         </div>
                         :
                         null
@@ -590,74 +590,74 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
         else return (
             <div className="contribution-product-three">
               <div className="create-product-title-container">
-                <label className="gray-text-input-label">{translator["Product Gallery"]}:</label>
+                <label className="gray-text-input-label">{translator['Product Gallery']}:</label>
               </div>
-              <div className={"create-product-upload-container"}>
+              <div className={'create-product-upload-container'}>
                 {processing ?
                     <ClipLoader color="#253545" size={20} loading={true}/>
                     :
-                    <UploadIcon className={"create-product-upload-svg"}/>
+                    <UploadIcon className={'create-product-upload-svg'}/>
                 }
                 {!processing && selectedImageId.length <= 5 ?
                     <input type="file" accept="image/*" onChange={e => this._uploadHandler(e.currentTarget.files[0])}/>
                     : null}
               </div>
-              <div className={"product-gallery-container"}>
-                <div className={"product-gallery-item-container"}>
+              <div className={'product-gallery-container'}>
+                <div className={'product-gallery-item-container'}>
                   {selectedImage[0] ?
                       <div>
-                        <img src={selectedImage[0]} alt={"در حال بارگذاری تصویر محصول"} className={"product-gallery-item"}/>
-                        <div className={"product-gallery-cancel-item"} onClick={() => this._deleteImage(0)}>✕</div>
+                        <img src={selectedImage[0]} alt={'در حال بارگذاری تصویر محصول'} className={'product-gallery-item'}/>
+                        <div className={'product-gallery-cancel-item'} onClick={() => this._deleteImage(0)}>✕</div>
                       </div>
                       :
                       null
                   }
                 </div>
-                <div className={"product-gallery-item-container"}>
+                <div className={'product-gallery-item-container'}>
                   {selectedImage[1] ?
                       <div>
-                        <img src={selectedImage[1]} alt={"در حال بارگذاری تصویر محصول"} className={"product-gallery-item"}/>
-                        <div className={"product-gallery-cancel-item"} onClick={() => this._deleteImage(1)}>✕</div>
+                        <img src={selectedImage[1]} alt={'در حال بارگذاری تصویر محصول'} className={'product-gallery-item'}/>
+                        <div className={'product-gallery-cancel-item'} onClick={() => this._deleteImage(1)}>✕</div>
                       </div>
                       :
                       null
                   }
                 </div>
-                <div className={"product-gallery-item-container"}>
+                <div className={'product-gallery-item-container'}>
                   {selectedImage[2] ?
                       <div>
-                        <img src={selectedImage[2]} alt={"در حال بارگذاری تصویر محصول"} className={"product-gallery-item"}/>
-                        <div className={"product-gallery-cancel-item"} onClick={() => this._deleteImage(2)}>✕</div>
+                        <img src={selectedImage[2]} alt={'در حال بارگذاری تصویر محصول'} className={'product-gallery-item'}/>
+                        <div className={'product-gallery-cancel-item'} onClick={() => this._deleteImage(2)}>✕</div>
                       </div>
                       :
                       null
                   }
                 </div>
-                <div className={"product-gallery-item-container"}>
+                <div className={'product-gallery-item-container'}>
                   {selectedImage[3] ?
                       <div>
-                        <img src={selectedImage[3]} alt={"در حال بارگذاری تصویر محصول"} className={"product-gallery-item"}/>
-                        <div className={"product-gallery-cancel-item"} onClick={() => this._deleteImage(3)}>✕</div>
+                        <img src={selectedImage[3]} alt={'در حال بارگذاری تصویر محصول'} className={'product-gallery-item'}/>
+                        <div className={'product-gallery-cancel-item'} onClick={() => this._deleteImage(3)}>✕</div>
                       </div>
                       :
                       null
                   }
                 </div>
-                <div className={"product-gallery-item-container"}>
+                <div className={'product-gallery-item-container'}>
                   {selectedImage[4] ?
                       <div>
-                        <img src={selectedImage[4]} alt={"در حال بارگذاری تصویر محصول"} className={"product-gallery-item"}/>
-                        <div className={"product-gallery-cancel-item"} onClick={() => this._deleteImage(4)}>✕</div>
+                        <img src={selectedImage[4]} alt={'در حال بارگذاری تصویر محصول'} className={'product-gallery-item'}/>
+                        <div className={'product-gallery-cancel-item'} onClick={() => this._deleteImage(4)}>✕</div>
                       </div>
                       :
                       null
                   }
                 </div>
-                <div className={"product-gallery-item-container"}>
+                <div className={'product-gallery-item-container'}>
                   {selectedImage[5] ?
                       <div>
-                        <img src={selectedImage[5]} alt={"در حال بارگذاری تصویر محصول"} className={"product-gallery-item"}/>
-                        <div className={"product-gallery-cancel-item"} onClick={() => this._deleteImage(5)}>✕</div>
+                        <img src={selectedImage[5]} alt={'در حال بارگذاری تصویر محصول'} className={'product-gallery-item'}/>
+                        <div className={'product-gallery-cancel-item'} onClick={() => this._deleteImage(5)}>✕</div>
                       </div>
                       :
                       null
@@ -783,43 +783,43 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
   renderFooter() {
     let {currentLevel, processing, selectedType} = this.state
     switch (selectedType) {
-      case "Product":
+      case 'Product':
         return (
-            <div className={"contribution-footer"}>
-              <button className={"next-button"}
-                      onClick={() => currentLevel === "three" ?
+            <div className={'contribution-footer'}>
+              <button className={'next-button'}
+                      onClick={() => currentLevel === 'three' ?
                           processing ?
                               null : this._handleCreateProduct()
                           : this.nextLevel()}>
-                <div style={processing ? {marginTop: "4.5px"} : null}>
-                  {currentLevel === "three" ?
+                <div style={processing ? {marginTop: '4.5px'} : null}>
+                  {currentLevel === 'three' ?
                       processing ?
-                          <ClipLoader color="#5ee0c6" size={13} loading={true}/> : "ثبت"
-                      : "ادامه"}
+                          <ClipLoader color="#5ee0c6" size={13} loading={true}/> : 'ثبت'
+                      : 'ادامه'}
                 </div>
               </button>
 
               <button className="previous-button" onClick={() => this.previousLevel()}>
-                {currentLevel === "one" ? "لغو" : "بازگشت"}
+                {currentLevel === 'one' ? 'لغو' : 'بازگشت'}
               </button>
 
             </div>
         )
-      case "Ability":
+      case 'Ability':
         return (
-            <div className={"contribution-footer"}>
-              <button className={"next-button"}
-                      onClick={() => currentLevel === "two" ?
+            <div className={'contribution-footer'}>
+              <button className={'next-button'}
+                      onClick={() => currentLevel === 'two' ?
                           this._handleCreateAbility() :
                           this.nextLevel()}>
                 <div>
-                  {currentLevel === "two" ?
-                      "ثبت" :
-                      "بعدی"}
+                  {currentLevel === 'two' ?
+                      'ثبت' :
+                      'بعدی'}
                 </div>
               </button>
 
-              <button className={currentLevel === "one" ? "previous-button-hidden" : "previous-button"} onClick={() => this.previousLevel()}>
+              <button className={currentLevel === 'one' ? 'previous-button-hidden' : 'previous-button'} onClick={() => this.previousLevel()}>
                 قبلی
               </button>
 
@@ -827,21 +827,21 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
         )
       default:
         return (
-            <div className={"contribution-footer"}>
-              <button className={"next-button"}
-                      onClick={() => currentLevel === "three" ?
+            <div className={'contribution-footer'}>
+              <button className={'next-button'}
+                      onClick={() => currentLevel === 'three' ?
                           processing ?
                               null : this._handleCreateProduct()
                           : this.nextLevel()}>
                 <div>
-                  {currentLevel === "three" ?
+                  {currentLevel === 'three' ?
                       processing ?
-                          <ClipLoader color="#35495c" size={20} loading={true}/> : "ثبت"
-                      : "بعدی"}
+                          <ClipLoader color="#35495c" size={20} loading={true}/> : 'ثبت'
+                      : 'بعدی'}
                 </div>
               </button>
 
-              <button className={currentLevel === "one" ? "previous-button-hidden" : "previous-button"} onClick={() => this.previousLevel()}>
+              <button className={currentLevel === 'one' ? 'previous-button-hidden' : 'previous-button'} onClick={() => this.previousLevel()}>
                 قبلی
               </button>
 
@@ -859,16 +859,16 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
       // selectedCity,
       selectedType,
     } = this.state
-    if (selectedType === "Product") {
+    if (selectedType === 'Product') {
       let self: any = this
       switch (currentLevel) {
-        case "one":
+        case 'one':
           if (window.innerWidth <= 480 && window.innerWidth >= 320)
             this.setState({
               ...this.state,
-              currentLevel: "two",
-              productName: "",
-              productDescription: "",
+              currentLevel: 'two',
+              productName: '',
+              productDescription: '',
               selectedImage: [],
               selectedImageId: [],
               selectedCountry: null,
@@ -877,39 +877,39 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
             })
           else {
             if (productName.length < 1 || productName.length > 99) {
-              self.nameError.className = "product-name-error"
-              self.descriptionError.className = "product-name-error-hide"
+              self.nameError.className = 'product-name-error'
+              self.descriptionError.className = 'product-name-error-hide'
               // self.locationError.className = "product-name-error-hide"
             }
             else if (productDescription.length > 999) {
-              self.nameError.className = "product-name-error-hide"
-              self.descriptionError.className = "product-name-error"
+              self.nameError.className = 'product-name-error-hide'
+              self.descriptionError.className = 'product-name-error'
               // self.locationError.className = "product-name-error-hide"
             }
             else {
-              self.nameError.className = "product-name-error-hide"
-              self.descriptionError.className = "product-name-error-hide"
+              self.nameError.className = 'product-name-error-hide'
+              self.descriptionError.className = 'product-name-error-hide'
               // self.locationError.className = "product-name-error-hide"
-              this.setState({...this.state, currentLevel: "three"})
+              this.setState({...this.state, currentLevel: 'three'})
             }
           }
           break
-        case "two":
+        case 'two':
           if (productName.length < 1 || productName.length > 99) {
-            self.nameError.className = "product-name-error"
-            self.descriptionError.className = "product-name-error-hide"
+            self.nameError.className = 'product-name-error'
+            self.descriptionError.className = 'product-name-error-hide'
             // self.locationError.className = "product-name-error-hide"
           }
           else if (productDescription.length > 999) {
-            self.nameError.className = "product-name-error-hide"
-            self.descriptionError.className = "product-name-error"
+            self.nameError.className = 'product-name-error-hide'
+            self.descriptionError.className = 'product-name-error'
             // self.locationError.className = "product-name-error-hide"
           }
           else {
-            self.nameError.className = "product-name-error-hide"
-            self.descriptionError.className = "product-name-error-hide"
+            self.nameError.className = 'product-name-error-hide'
+            self.descriptionError.className = 'product-name-error-hide'
             // self.locationError.className = "product-name-error-hide"
-            this.setState({...this.state, currentLevel: "three"})
+            this.setState({...this.state, currentLevel: 'three'})
           }
           // else if (selectedCity === null) {
           //   self.nameError.className = 'product-name-error-hide'
@@ -924,19 +924,19 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
           //   this.setState({...this.state, currentLevel: "five"})
           //   break
         default :
-          this.setState({...this.state, currentLevel: "one"})
+          this.setState({...this.state, currentLevel: 'one'})
           break
       }
     }
-    else if (selectedType === "Ability") {
+    else if (selectedType === 'Ability') {
       switch (currentLevel) {
-        case "one":
+        case 'one':
           this.setState({
             ...this.state,
-            currentLevel: "two",
+            currentLevel: 'two',
             // productName: '',
-            abilityDescription: "",
-            AbilityTitle: "",
+            abilityDescription: '',
+            AbilityTitle: '',
           })
           break
           // case "two":
@@ -966,7 +966,7 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
           //   this.setState({...this.state, currentLevel: "five"})
           //   break
         default :
-          this.setState({...this.state, currentLevel: "one"})
+          this.setState({...this.state, currentLevel: 'one'})
           break
       }
     }
@@ -975,15 +975,15 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
   previousLevel() {
     let {currentLevel} = this.state
     switch (currentLevel) {
-      case "one":
+      case 'one':
         this._closeModal()
-        this.props._hideModal({modalKey: "productModal"})
+        this.props._hideModal({modalKey: 'productModal'})
         break
-      case "two":
+      case 'two':
         this.setState({
           ...this.state,
-          currentLevel: "one",
-          productDescription: "",
+          currentLevel: 'one',
+          productDescription: '',
           selectedImage: [],
           selectedImageId: [],
           selectedCountry: null,
@@ -991,12 +991,12 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
           selectedCity: null,
         })
         break
-      case "three":
+      case 'three':
         this.setState({
           ...this.state,
           // currentLevel: "two",
-          currentLevel: "one",
-          productDescription: "",
+          currentLevel: 'one',
+          productDescription: '',
           selectedImage: [],
           selectedImageId: [],
           selectedCountry: null,
@@ -1011,7 +1011,7 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
         //   this.setState({...this.state, currentLevel: "four"})
         //   break
       default :
-        this.setState({...this.state, currentLevel: "one"})
+        this.setState({...this.state, currentLevel: 'one'})
         break
     }
   }
@@ -1022,7 +1022,7 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
 
   _handleCatLvlChange(cat, level) {
     let {categories} = this.props
-    if (level === "one") {
+    if (level === 'one') {
       let selected: any = Object.values(categories.list).filter(p => p.id === cat.id)
       let childes: any = Object.values(categories.list).filter(p => p.category_parent === cat.id)
       console.log(selected[0])
@@ -1034,7 +1034,7 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
         selectedCatLvlThree: null,
       })
     }
-    else if (level === "two") {
+    else if (level === 'two') {
       let selected: any = Object.values(categories.list).filter(p => p.id === cat.id)
       let childes: any = Object.values(categories.list).filter(p => p.category_parent === cat.id)
       console.log(selected[0])
@@ -1045,7 +1045,7 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
         selectedCatLvlThree: null,
       })
     }
-    else if (level === "three") {
+    else if (level === 'three') {
       let selected: any = Object.values(categories.list).filter(p => p.id === cat.id)
       console.log(selected[0])
       this.setState({...this.state, selectedCatLvlThree: selected[0].id})
@@ -1073,11 +1073,11 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
   _closeModal() {
     this.setState({
       ...this.state,
-      currentLevel: "one",
-      productName: "",
-      productDescription: "",
-      abilityTitle: "",
-      abilityDescription: "",
+      currentLevel: 'one',
+      productName: '',
+      productDescription: '',
+      abilityTitle: '',
+      abilityDescription: '',
       selectedImage: [],
       selectedImageId: [],
       selectedCountry: null,
@@ -1087,7 +1087,7 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
   }
 
   _handleCreateProduct() {
-    let {_createProduct, identity} = this.props
+    let {_createProduct, clientId} = this.props
     let {
       selectedImage,
       selectedImageId,
@@ -1105,7 +1105,7 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
       // attrs: undefined,
       description: productDescription,
       name: productName,
-      product_owner: identity,
+      product_owner: clientId,
       files_count: selectedImage.length,
       product_related_country: selectedCountry,
       product_related_province: selectedProvince,
@@ -1130,7 +1130,7 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
     }
     _createProduct(formData)
     this._closeModal()
-    this.props._hideModal({modalKey: "productModal"})
+    this.props._hideModal({modalKey: 'productModal'})
   }
 
   _handleCreateAbility() {
@@ -1138,12 +1138,12 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
     let {clientId} = this.props
     let self: any = this
     if (abilityTitle.length < 4 || abilityTitle.length >= 250) {
-      self._titleError.className = "product-name-error"
-      self._descriptionError.className = "product-name-error-hide"
+      self._titleError.className = 'product-name-error'
+      self._descriptionError.className = 'product-name-error-hide'
     }
     else if (abilityDescription.length >= 127000) {
-      self._descriptionError.className = "product-name-error"
-      self._titleError.className = "product-name-error-hide"
+      self._descriptionError.className = 'product-name-error'
+      self._titleError.className = 'product-name-error-hide'
     }
     else {
       let formValues = {
@@ -1174,9 +1174,9 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
     const {createFile} = this.props
 
     const nextActionType = types.COMMON.FILE.SET_FILE_IDS_IN_TEMP_FILE
-    const nextActionData = "product_image"
+    const nextActionData = 'product_image'
     const createArguments = {
-      fileIdKey: "fileId",
+      fileIdKey: 'fileId',
       nextActionType,
       nextActionData: {tempFileKeyName: nextActionData},
     }
@@ -1186,7 +1186,7 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
     createFileFunc(createFile, fileString, createArguments, constants.CREATE_FILE_TYPES.IMAGE, constants.CREATE_FILE_CATEGORIES.PRODUCT.IMAGE, file)
 
     this.setState({...this.state, processing: true, currentFileId: fileId})
-    console.log("PROCESS....")
+    console.log('PROCESS....')
   }
   _imageHandler = (id: number) => {
     let imgs = this.state.selectedImage
@@ -1219,7 +1219,7 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
   render() {
     const {modalIsOpen} = this.props
     return (
-        <div className={modalIsOpen ? "contribution-modal-container" : "contribution-modal-container-out"}>
+        <div className={modalIsOpen ? 'contribution-modal-container' : 'contribution-modal-container-out'}>
           <TransitionGroup>
             {/*{modalIsOpen ?*/}
             {/*<CSSTransition key={1} timeout={250} classNames='fade'>{this.renderProgressBar()}</CSSTransition>*/}
@@ -1237,11 +1237,9 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
 }
 
 const mapStateToProps = (state) => {
-  const identity = state.auth.client.identity.content
-  const clientId = state.auth.client.user.id
-  const initialFormValues = getFormValues(state, "addingContributionInitialInfoForm")
-  const provinceId = initialFormValues.product_related_province ? initialFormValues.product_related_province.value : ""
-  const countryId = initialFormValues.product_related_country ? initialFormValues.product_related_country.value : ""
+  const initialFormValues = getFormValues(state, 'addingContributionInitialInfoForm')
+  const provinceId = initialFormValues.product_related_province ? initialFormValues.product_related_province.value : ''
+  const countryId = initialFormValues.product_related_country ? initialFormValues.product_related_country.value : ''
   const citySelectorByProvinceId = makeCitySelectorByProvinceId()
   const provinceSelectorByProvinceId = makeProvinceSelectorByCountryId()
   const categorySelector = makeCategorySelector()
@@ -1251,10 +1249,9 @@ const mapStateToProps = (state) => {
     categories: categorySelector(state),
     cities: citySelectorByProvinceId(state, provinceId),
     city: state.common.location.city,
-    clientId,
+    clientId: getClientIdentity(state),
     countries: countrySelector(state),
     hashTags: hashTagsListSelector(state),
-    identity,
     province: state.common.location.province,
     provinces: provinceSelectorByProvinceId(state, countryId),
     translator: getMessages(state),

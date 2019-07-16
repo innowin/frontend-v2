@@ -13,6 +13,8 @@ import types from 'src/redux/actions/types'
 import TempActions from 'src/redux/actions/tempActions'
 import {CSSTransition, TransitionGroup} from 'react-transition-group'
 import {getAllOfExchanges} from '../../../../redux/selectors/common/exchanges/GetAllExchanges'
+import {getMessages} from '../../../../redux/selectors/translateSelector'
+import {getClientIdentity} from '../../../../redux/selectors/common/client/getClient'
 
 class CreateExchange extends Component {
   constructor(props) {
@@ -228,10 +230,9 @@ class CreateExchange extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  identity: state.auth.client.identity.content,
+  identity: getClientIdentity(state),
   createdExchange: getAllOfExchanges(state)[state.exchanges.nowCreatedId] || {},
-  auth: state.auth,
-  translate: state.intl.messages,
+  translate: getMessages(state),
   tempFiles: state.temp.file,
 })
 

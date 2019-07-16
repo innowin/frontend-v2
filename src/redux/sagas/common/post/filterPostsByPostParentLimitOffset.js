@@ -2,8 +2,7 @@ import api from 'src/consts/api'
 import urls from 'src/consts/URLS'
 import results from 'src/consts/resultName'
 import types from 'src/redux/actions/types'
-import {put, take, fork, call, select} from 'redux-saga/effects'
-import {delay} from 'redux-saga'
+import {put, take, fork, call} from 'redux-saga/effects'
 
 export function* filterPostsByPostParentPostTypeLimitOffset(action) {
   const {postParentId, postType, limit = 100, offset = 0, postParentType} = action.payload
@@ -44,13 +43,6 @@ export function* filterPostsByPostParentPostTypeLimitOffset(action) {
       data[i].post_related_identity = data[i].post_related_identity.id
     }
     yield put({type: types.SUCCESS.COMMON.POST.FILTER_POSTS_BY_POST_PARENT_LIMIT_OFFSET, payload: {data, postParentId, postParentType}})
-
-    yield delay(1000)
-    const identity = yield select(state => state.auth.client.identity.content)
-    yield put({
-      type: types.COMMON.EXCHANGE_MEMBERSHIP.GET_EXCHANGE_MEMBERSHIP_BY_MEMBER_IDENTITY,
-      payload: {identityId: identity, exchangeMembershipOwnerId: identity},
-    })
   }
   catch (err) {
     const {message} = err

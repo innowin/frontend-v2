@@ -37,19 +37,19 @@ class HomePosts extends PureComponent {
   }
 
   componentDidMount() {
-    // setTimeout(() => {
-    const {actions, exchangeId} = this.props
-    const {filterPostsByPostParentLimitOffset} = actions
-    if (exchangeId) {
-      filterPostsByPostParentLimitOffset({
-        postParentId: exchangeId,
-        postType: null,
-        limit: 10,
-        offset: 0,
-        postParentType: constant.POST_PARENT.EXCHANGE,
-      })
-    }
-    // }, 500)
+    setTimeout(() => {
+      const {actions, exchangeId} = this.props
+      const {filterPostsByPostParentLimitOffset} = actions
+      if (exchangeId) {
+        filterPostsByPostParentLimitOffset({
+          postParentId: exchangeId,
+          postType: null,
+          limit: 10,
+          offset: 0,
+          postParentType: constant.POST_PARENT.EXCHANGE,
+        })
+      }
+    }, 500)
     document.addEventListener('scroll', this.onScroll)
   }
 
