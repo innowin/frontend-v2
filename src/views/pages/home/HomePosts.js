@@ -143,7 +143,7 @@ class HomePosts extends PureComponent {
                     className='create-post-small'
                     hideCreatePost={this._hideCreatePostSmall}
                 />
-                : <div>
+                : <React.Fragment>
                   {
                     exchangePage ?
                         isExchangeMember({exchangeId, identityMemberships, exchangeMemberships}) ?
@@ -218,7 +218,7 @@ class HomePosts extends PureComponent {
                       <EditIcon className='write-post-logo'/>
                     </div>
                   }
-                </div>
+                </React.Fragment>
             }
           </React.Fragment>
           }
