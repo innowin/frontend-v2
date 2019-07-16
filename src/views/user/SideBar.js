@@ -684,21 +684,17 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
               {
                 (owner.work_status || editProfile) &&
                 <section className='user-sidebar-status'>
-                  <Material className={`user-sidebar-status-content ${
-                      editStatusTitle || owner.work_status ?
-                          constants.PROFILE_STATUS.ORG[editStatusTitle || owner.work_status] && constants.PROFILE_STATUS.ORG[editStatusTitle || owner.work_status].buttonClass
-                          :
-                          'user-sidebar-status-default'
-                      }`}
+                  <Material className={`user-sidebar-status-content ${editStatusTitle || owner.work_status ? constants.PROFILE_STATUS.ORG[editStatusTitle || owner.work_status].buttonClass : 'user-sidebar-status-default'}`}
                             content={editStatusTitle || owner.work_status ?
                                 <div className='user-sidebar-status-changed-show'>
                                   <div>
-                                    <div>{tr[editStatusTitle || owner.work_status]}</div>
+                                    <div>
+                                      {
+                                        tr[sideBarType === constants.USER_TYPES.ORG ? `${editStatusTitle || owner.work_status}_org` : editStatusTitle || owner.work_status]
+                                      }
+                                    </div>
                                     {
-                                      editStatusTitle || owner.work_status ?
-                                          constants.PROFILE_STATUS.ORG[editStatusTitle || owner.work_status] && constants.PROFILE_STATUS.ORG[editStatusTitle || owner.work_status].icon
-                                          :
-                                          null
+                                      editStatusTitle || owner.work_status ? constants.PROFILE_STATUS.ORG[editStatusTitle || owner.work_status].icon : null
                                     }
                                   </div>
                                 </div>
@@ -713,7 +709,7 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
                       Object.values(constants.PROFILE_STATUS.ORG).map((status, index) =>
                           <Material key={index} className='user-sidebar-status-change-material' content={
                             <div>
-                              <div>{tr[status.name]}</div>
+                              <div>{tr[sideBarType === constants.USER_TYPES.ORG ? `${status.name}_org` : status.name]}</div>
                               {status.icon}
                             </div>
                           } onClick={() => this.changeStatus(status)}/>,

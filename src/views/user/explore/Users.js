@@ -6,33 +6,28 @@ import constants from 'src/consts/constants'
 const loadingArr = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
 const Users = (props) => {
-  let {users, followees, followers, justFollowing, justFollowed, justUsers, justOrgans, files, translate, currentUser} = props
+  let {users, followees, followers, justFollowing, justFollowed, justUsers, justOrgans, files, translate, currentUser, workStatus} = props
 
   let usersArr = Object.values(users).filter(user => user.id)
 
   let usersObj = {}
 
-  if (justFollowing || justFollowed || justUsers || justOrgans) {
+  if (justFollowing || justFollowed || justUsers || justOrgans || (workStatus && workStatus.length > 0)) {
     usersArr.forEach(user => {
-      if (justFollowed) {
-        if (followers[user.id]) {
-          usersObj = {...usersObj, [user.id]: {...user}}
-        }
+      if (justFollowed && followers[user.id]) {
+        usersObj = {...usersObj, [user.id]: {...user}}
       }
-      if (justFollowing) {
-        if (followees[user.id]) {
-          usersObj = {...usersObj, [user.id]: {...user}}
-        }
+      if (justFollowing && followees[user.id]) {
+        usersObj = {...usersObj, [user.id]: {...user}}
       }
-      if (justUsers) {
-        if (user.identity_type === constants.USER_TYPES.USER) {
-          usersObj = {...usersObj, [user.id]: {...user}}
-        }
+      if (justUsers && user.identity_type === constants.USER_TYPES.USER) {
+        usersObj = {...usersObj, [user.id]: {...user}}
       }
-      if (justOrgans) {
-        if (user.identity_type === constants.USER_TYPES.ORG) {
-          usersObj = {...usersObj, [user.id]: {...user}}
-        }
+      if (justOrgans && user.identity_type === constants.USER_TYPES.ORG) {
+        usersObj = {...usersObj, [user.id]: {...user}}
+      }
+      if (workStatus && user.work_status && workStatus.includes(user.work_status)) {
+        usersObj = {...usersObj, [user.id]: {...user}}
       }
     })
     usersArr = Object.values(usersObj)

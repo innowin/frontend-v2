@@ -3,10 +3,10 @@ const base = (state, action) => {
 
 const success = (state, action) => {
   const {postOwnerId, postId} = action.payload || {}
-  const defaultObject2 = {content: [], isLoading: false, error: null}
+  const defaultObject2 = {content: {}, isLoading: false, error: null}
   const previousPost = (state.list[postOwnerId] && state.list[postOwnerId].posts) || defaultObject2
-
-  const newDeletedPosts = previousPost.content.filter(id => id !== postId);
+  const newDeletedPosts = previousPost && previousPost.content
+  delete newDeletedPosts[postId]
   return {
     ...state,
     list: {
@@ -17,10 +17,10 @@ const success = (state, action) => {
           ...previousPost,
           content: [...newDeletedPosts],
           isLoading: false,
-          error: null
-        }
-      }
-    }
+          error: null,
+        },
+      },
+    },
   }
 }
 

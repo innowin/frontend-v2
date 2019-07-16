@@ -46,15 +46,12 @@ export function* getUsers() {
 }
 
 export function* getAllUsers(action) {
-  const {limit, offset, search, justOrgan, token = true} = action.payload
+  const {limit, offset, search, justOrgan, work_status, token = true} = action.payload
   yield put({type: types.SUCCESS.USER.GET_ALL_USERS, payload: {data: [], search, isLoading: true}})
   let params = search !== null ? `?username=${search}` : `?limit=${limit}&offset=${offset}`
-  if (justOrgan === true) {
-    params += '&identity_type=organization'
-  }
-  else if (justOrgan === false) {
-    params += '&identity_type=user'
-  }
+  if (justOrgan === true) params += '&identity_type=organization'
+  else if (justOrgan === false) params += '&identity_type=user'
+  if (work_status && work_status.length > 0) work_status.forEach(work => params += `&work_status=${work}`)
   const socketChannel = yield call(api.createSocketChannel, results.USER.GET_ALL_USERS)
   try {
     yield fork(

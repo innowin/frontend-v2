@@ -171,13 +171,6 @@ export default {
     PERMANENT_EXEMPTION: 'معافیت دائم',
   },
   PROFILE_STATUS: {
-    USER: {
-      'to_get_hired': {name: 'to_get_hired', icon: <StatusHire className='user-profile-status status-hire'/>, buttonClass: 'status-hire-class'},
-      'full_time_hiring': {name: 'full_time_hiring', icon: <StatusPartTime className='user-profile-status status-full-time'/>, buttonClass: 'status-full-time-class'},
-      'part_time_hiring': {name: 'part_time_hiring', icon: <StatusPartTime className='user-profile-status status-part-time'/>, buttonClass: 'status-part-time-class'},
-      'internship_hiring': {name: 'internship_hiring', icon: <StatusIntern className='user-profile-status status-intern'/>, buttonClass: 'status-intern-class'},
-      'not_interested_to_job': {name: 'not_interested_to_job', icon: <StatusClose className='user-profile-status status-close'/>, buttonClass: 'status-close-class'},
-    },
     ORG: {
       'hire': {name: 'hire', icon: <StatusHire className='user-profile-status status-hire'/>, buttonClass: 'status-hire-class'},
       'full_time_hire': {name: 'full_time_hire', icon: <StatusPartTime className='user-profile-status status-full-time'/>, buttonClass: 'status-full-time-class'},

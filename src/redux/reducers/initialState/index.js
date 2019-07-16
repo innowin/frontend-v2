@@ -57,8 +57,6 @@ export default {
 
 export const clearCache = {
   identities: identitiesState,
-  intl: intlState,
-
   // ability: abilityState,
   // customer: customerState,
   // education: educationState,

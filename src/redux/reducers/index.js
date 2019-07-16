@@ -44,21 +44,11 @@ const persistIdentities = {
   stateReconciler: autoMerge,
 }
 
-const persistIntl = {
-  key: 'intl',
-  transforms: [createEncryptor({secretKey: 'root-secret-key-is:podifohgr903485kljdsjf88923.,sdf985rnhsdfh9823834;jjfddd'})],
-  storage,
-  version: migrations.LATEST_VERSION,
-  migrate: createMigrate(migrations.ROOT, {debug: false}),
-  stateReconciler: autoMerge,
-}
-
 //Don't change below code ,  Put your reducer on the upper object.
 const rootReducer = combineReducers({
   auth: persistReducer(persistAuth, auth),
   identities: persistReducer(persistIdentities, identities),
-  intl: persistReducer(persistIntl, intl),
-
+  intl,
   form,
   router,
   param,

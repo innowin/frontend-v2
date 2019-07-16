@@ -27,13 +27,14 @@ class Explore extends PureComponent {
       scrollButton: false,
       justUsers: false,
       justOrgans: false,
+      workStatus: null,
     }
   }
 
   componentDidMount() {
     setTimeout(() => {
       const {currentUser, actions} = this.props
-      actions.getUsers(24, 0, null, null, !currentUser)
+      actions.getUsers(24, 0, null, null, null, !currentUser)
       if (currentUser) {
         actions.getFollowees({followOwnerIdentity: currentUser, followOwnerId: currentUser, notProfile: true})
         actions.getFollowers({followOwnerIdentity: currentUser, followOwnerId: currentUser, notProfile: true})
@@ -53,9 +54,14 @@ class Explore extends PureComponent {
       let scrollHeight = document.body ? document.body.scrollHeight : 0
       if (((window.innerHeight + window.scrollY) >= (scrollHeight - 250)) && (scrollHeight > activeScrollHeight)) {
         this.setState({...this.state, activeScrollHeight: scrollHeight, offset: offset + 24},
-            () => this.props.actions.getUsers(24, offset, this.state.search,
+            () => this.props.actions.getUsers(
+                24,
+                offset,
+                this.state.search,
                 this.state.justOrgans && !this.state.justUsers ? true : !this.state.justOrgans && this.state.justUsers ? false : null,
-                !this.props.currentUser),
+                this.state.workStatus,
+                !this.props.currentUser,
+            ),
         )
       }
 
@@ -65,28 +71,65 @@ class Explore extends PureComponent {
     }
   }
 
-  _search = (search) =>
-      this.setState({...this.state, search: search, activeScrollHeight: 0}, () => {
-        this.props.actions.getUsers(24, 0, search, this.state.justOrgans && !this.state.justUsers ? true : !this.state.justOrgans && this.state.justUsers ? false : null, !this.props.currentUser)
-      })
-
-  //   window.history.pushState('page2', 'Title', '/user/5')
+  _search = (search) => {
+    this.setState({...this.state, search, activeScrollHeight: 0}, () => {
+      this.props.actions.getUsers(
+          24,
+          0,
+          search,
+          this.state.justOrgans && !this.state.justUsers ? true : !this.state.justOrgans && this.state.justUsers ? false : null,
+          this.state.workStatus,
+          !this.props.currentUser,
+      )
+    })
+  }
 
   _justFollowing = (checked) => this.setState({...this.state, justFollowing: checked})
 
   _justFollowed = (checked) => this.setState({...this.state, justFollowed: checked})
 
-  _justUsers = (checked) => this.setState({...this.state, justUsers: checked}, () => {
-    if (!this.state.justOrgans && checked) {
-      this.props.actions.getUsers(24, 0, this.state.search, false, !this.props.currentUser)
-    }
-  })
+  _justUsers = (checked) => {
+    this.setState({...this.state, justUsers: checked, activeScrollHeight: 0}, () => {
+      if (!this.state.justOrgans && checked) {
+        this.props.actions.getUsers(
+            24,
+            0,
+            this.state.search,
+            false,
+            this.state.workStatus,
+            !this.props.currentUser,
+        )
+      }
+    })
+  }
 
-  _justOrgans = (checked) => this.setState({...this.state, justOrgans: checked}, () => {
-    if (!this.state.justUsers && checked) {
-      this.props.actions.getUsers(24, 0, this.state.search, true, !this.props.currentUser)
-    }
-  })
+  _justOrgans = (checked) => {
+    this.setState({...this.state, justOrgans: checked, activeScrollHeight: 0}, () => {
+      if (!this.state.justUsers && checked) {
+        this.props.actions.getUsers(
+            24,
+            0,
+            this.state.search,
+            true,
+            this.state.workStatus,
+            !this.props.currentUser,
+        )
+      }
+    })
+  }
+
+  _searchWorkStatus = (workStatus) => {
+    this.setState({...this.state, workStatus, activeScrollHeight: 0}, () => {
+      this.props.actions.getUsers(
+          24,
+          0,
+          this.state.search,
+          this.state.justOrgans && !this.state.justUsers ? true : !this.state.justOrgans && this.state.justUsers ? false : null,
+          workStatus,
+          !this.props.currentUser,
+      )
+    })
+  }
 
   _goUp = () => {
     window.scroll({
@@ -97,7 +140,7 @@ class Explore extends PureComponent {
 
   render() {
     const {loading, allUsers, currentUser, translate, followees, followers, path} = this.props
-    const {justFollowing, justFollowed, scrollButton, justOrgans, justUsers} = this.state
+    const {justFollowing, justFollowed, scrollButton, justOrgans, justUsers, workStatus} = this.state
 
     const followeesArr = Object.values(followees).reduce((all, follow) => {
       const id = follow.follow_followed.id ? follow.follow_followed.id : follow.follow_followed
@@ -119,6 +162,7 @@ class Explore extends PureComponent {
                    justFollowed={this._justFollowed}
                    justUsers={this._justUsers}
                    justOrgans={this._justOrgans}
+                   searchWorkStatus={this._searchWorkStatus}
                    path={path}
           />
           <div className='all-exchanges-container'>
@@ -129,6 +173,7 @@ class Explore extends PureComponent {
                    justFollowed={justFollowed}
                    justOrgans={justOrgans}
                    justUsers={justUsers}
+                   workStatus={workStatus}
                    loading={loading}
                    translate={translate}
                    currentUser={currentUser}
@@ -160,9 +205,9 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
+    getUsers: userActions.getAllUsers,
     getFollowees: socialActions.getFollowees,
     getFollowers: socialActions.getFollowers,
-    getUsers: userActions.getAllUsers,
   }, dispatch),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Explore)

@@ -12,7 +12,18 @@ class Sidebar extends Component {
       collapseJob: true,
       collapseBadge: true,
       searchLength: 0,
+      workStatus: [],
     }
+  }
+
+  _searchWorkStatus = (e, item) => {
+    let workStatus = [...this.state.workStatus]
+    if (e.target.checked)
+      workStatus.push(item)
+    else workStatus.splice(workStatus.indexOf(item), 1)
+    this.setState({...this.state, workStatus}, () =>
+        this.props.searchWorkStatus(workStatus),
+    )
   }
 
   _handleChangeUser = (e) => this.props.justUsers(e.target.checked)
@@ -99,27 +110,27 @@ class Sidebar extends Component {
             <div className={collapseJob ? 'users-explore-sidebar-job-filter' : 'collapseId'}>
               <div className="product-explorer">
                 <label className="label-wrapper">
-                  <input type="checkbox" onChange={this._handleChangeUser}/>
+                  <input type="checkbox" onChange={(e) => this._searchWorkStatus(e, 'hire')}/>
                   <span className="checkmark"/>
                   علاقه مند به فرصت های همکاری
                 </label>
                 <label className="label-wrapper">
-                  <input type="checkbox" onChange={this._handleChangeOrgan}/>
+                  <input type="checkbox" onChange={(e) => this._searchWorkStatus(e, 'full_time_hire')}/>
                   <span className="checkmark"/>
                   علاقه مند به همکاری تمام وقت
                 </label>
                 <label className="label-wrapper">
-                  <input type="checkbox"/>
+                  <input type="checkbox" onChange={(e) => this._searchWorkStatus(e, 'part_time_hire')}/>
                   <span className="checkmark"/>
                   علاقه مند به همکاری پاره وقت
                 </label>
                 <label className="label-wrapper">
-                  <input type="checkbox"/>
+                  <input type="checkbox" onChange={(e) => this._searchWorkStatus(e, 'internship_hire')}/>
                   <span className="checkmark"/>
                   علاقه مند به فرصت کارآموزی
                 </label>
                 <label className="label-wrapper">
-                  <input type="checkbox"/>
+                  <input type="checkbox" onChange={(e) => this._searchWorkStatus(e, 'not_hiring')}/>
                   <span className="checkmark"/>
                   بدون فرصت شغلی
                 </label>
