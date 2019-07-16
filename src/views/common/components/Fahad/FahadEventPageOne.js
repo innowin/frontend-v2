@@ -1,6 +1,6 @@
 import React, {PureComponent} from "react"
 import RightArrowSvg from "src/images/common/right_arrow_svg"
-import {UploadIcon} from "src/images/icons"
+import {CheckSvg, UploadIcon} from "src/images/icons"
 import {REST_URL} from "src/consts/URLS"
 import urls from "src/consts/URLS"
 import axios from "axios"
@@ -38,6 +38,10 @@ class FahadEventPageOne extends PureComponent {
       organization_certificates: "",
       organization_honors: "",
 
+      selectedLogo: "",
+      selectedCatalog: "",
+      selectedCertificate: "",
+
       error: false,
       validationError: false,
       serverError: false,
@@ -53,6 +57,20 @@ class FahadEventPageOne extends PureComponent {
     let {verification} = nextProps
     if (verification === 0) {
       this.checkValidations()
+    }
+  }
+
+  componentDidUpdate(prevProps: Readonly<P>, prevState: Readonly<S>, snapshot: SS): void {
+    let {selectedLogo, selectedCatalog, selectedCertificate} = this.state
+    if (!this.props.uploading) {
+      if (selectedLogo === -1 || selectedCatalog === -1 || selectedCertificate === -1) {
+        this.props._changeUploading(true)
+      }
+    }
+    else if (this.props.uploading) {
+      if (selectedLogo !== -1 && selectedCatalog !== -1 && selectedCertificate !== -1) {
+        this.props._changeUploading(false)
+      }
     }
   }
 
@@ -82,6 +100,9 @@ class FahadEventPageOne extends PureComponent {
       organization_experiences,
       organization_certificates,
       organization_honors,
+      selectedLogo,
+      selectedCatalog,
+      selectedCertificate,
     } = this.state
 
     if (
@@ -93,7 +114,8 @@ class FahadEventPageOne extends PureComponent {
         organization_address.length > 2 &&
         orgJob.length >= 1 &&
         organization_activities_category.length >= 2 &&
-        organization_abilities.length >= 2
+        organization_abilities.length >= 2 &&
+        selectedLogo !== ""
     ) {
       successes = 0
       errors = 0
@@ -120,6 +142,10 @@ class FahadEventPageOne extends PureComponent {
       this.sendData(29, organization_experiences)
       this.sendData(30, organization_certificates)
       this.sendData(31, organization_honors)
+
+      this.sendData(15, selectedLogo)
+      this.sendData(16, organization_honors)
+      this.sendData(25, organization_honors)
     }
     else {
       let modalCon = document.getElementById("fahadModalContainerDiv")
@@ -150,7 +176,7 @@ class FahadEventPageOne extends PureComponent {
           console.log(response)
           response.statusText === "Created" && successes++
           // eslint-disable-next-line no-unused-expressions
-          successes === 23 ? _nextLevel() : errors > 0 && this.serverError()
+          successes === 26 ? _nextLevel() : errors > 0 && this.serverError()
         })
         .catch((err) => {
           console.log(fieldId, err)
@@ -158,7 +184,6 @@ class FahadEventPageOne extends PureComponent {
           errors++
         })
   }
-
 
   setOrgType(orgType) {
     this.setState({...this.state, orgType: orgType})
@@ -191,8 +216,39 @@ class FahadEventPageOne extends PureComponent {
     _changeIsLoading()
   }
 
+  uploadHandler(file, variable) {
+    const {token, clientIdentityId} = this.props
+    this.setState({...this.state, [variable]: -1}
+        , () => {
+          if (file) {
+            let form = new FormData()
+            form.append("file", file)
+            form.append("uploader", clientIdentityId)
+            axios.post(
+                REST_URL + "/" + urls.COMMON.FILE + "/",
+                form,
+                {
+                  headers: {
+                    "Authorization": `JWT ${token}`,
+                  },
+                })
+                .then((response) => {
+                  if (response.statusText === "Created") {
+                    this.setState({...this.state, [variable]: response.data.file})
+                  }
+                })
+                .catch((err) => {
+                  console.log(err)
+                })
+          }
+        })
+  }
+
   render() {
-    let {orgType, isKnowledgeBase, organization_registration_date, organization_knowledge_base_date, validationError, serverError} = this.state
+    let {
+      orgType, isKnowledgeBase, organization_registration_date, organization_knowledge_base_date, validationError, serverError,
+      selectedLogo, selectedCatalog, selectedCertificate,
+    } = this.state
     return (
         <React.Fragment>
           <div className="event-reg-modal-header">
@@ -288,8 +344,6 @@ class FahadEventPageOne extends PureComponent {
                     </label>
                     <MyDatePicker className='organization-leadership-job-input' defaultValue={organization_registration_date}
                                   getValue={e => this.setOrgPrivateDate(e)} placeHolder={"تاریخ ثبت"}/>
-                    {/*<input type={"date"} className="organization-leadership-job-input"*/}
-                    {/*       onChange={(e) => this.setState({...this.state, organization_registration_date: e.target.value})}/>*/}
                   </div> : null
             }
             {
@@ -323,8 +377,6 @@ class FahadEventPageOne extends PureComponent {
                     </label>
                     <MyDatePicker className='organization-leadership-job-input' defaultValue={organization_knowledge_base_date}
                                   getValue={e => this.setOrgKnowledgeBaseDate(e)} placeHolder={"تاریخ اعتبار گواهی دانش‌بنیان"}/>
-                    {/*<input type={"date"} className="organization-leadership-job-input"*/}
-                    {/*       onChange={(e) => this.setState({...this.state, organization_knowledge_base_date: e.target.value})}/>*/}
                   </div> : null
             }
 
@@ -332,12 +384,30 @@ class FahadEventPageOne extends PureComponent {
               تصویر لوگو
               <span className={"secondary-color"}> * </span>
             </label>
-            <div className="fahad-modal-upload-svg-con"><UploadIcon className="fahad-modal-upload-svg"/></div>
+            <div className="fahad-modal-upload-svg-con">
+              {selectedLogo && selectedLogo !== "" ?
+                  <div style={{paddingTop: "5px"}}>
+                    <CheckSvg className="fahad-modal-check-svg"/>
+                  </div>
+                  :
+                  <UploadIcon className="fahad-modal-upload-svg"/>
+              }
+              <input type="file" accept=".png,.jpg,.jpeg" onChange={(e => this.uploadHandler(e.currentTarget.files[0], "selectedLogo"))}/>
+            </div>
 
             <label>
               بارگزاری کاتالوگ مجموعه
             </label>
-            <div className="fahad-modal-upload-svg-con"><UploadIcon className="fahad-modal-upload-svg"/></div>
+            <div className="fahad-modal-upload-svg-con">
+              {selectedCatalog && selectedCatalog !== "" ?
+                  <div style={{paddingTop: "5px"}}>
+                    <CheckSvg className="fahad-modal-check-svg"/>
+                  </div>
+                  :
+                  <UploadIcon className="fahad-modal-upload-svg"/>
+              }
+              <input type="file" onChange={(e => this.uploadHandler(e.currentTarget.files[0], "selectedCatalog"))}/>
+            </div>
 
             <label>
               شمارۀ تماس
@@ -473,7 +543,16 @@ class FahadEventPageOne extends PureComponent {
             <label>
               مستندات مجوزها و تأییدیه‌ها
             </label>
-            <div className="fahad-modal-upload-svg-con"><UploadIcon className="fahad-modal-upload-svg"/></div>
+            <div className="fahad-modal-upload-svg-con">
+              {selectedCertificate && selectedCertificate !== "" ?
+                  <div style={{paddingTop: "5px"}}>
+                    <CheckSvg className="fahad-modal-check-svg"/>
+                  </div>
+                  :
+                  <UploadIcon className="fahad-modal-upload-svg"/>
+              }
+              <input type="file" onChange={(e => this.uploadHandler(e.currentTarget.files[0], "selectedCertificate"))}/>
+            </div>
 
             <label>
               افتخارات
