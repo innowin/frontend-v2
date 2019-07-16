@@ -28,7 +28,8 @@ class PostHeader extends React.PureComponent {
   mouseMove(e) {
     if (this.container && !this.state.instantView) {
       const rect = this.container.getBoundingClientRect()
-      this.setState({...this.state, x: e.clientX - rect.left, y: e.clientY - rect.top})
+      if (e.clientX - rect.left <= 250 && e.clientY - rect.top <= 50)
+        this.setState({...this.state, x: e.clientX - rect.left, y: e.clientY - rect.top})
     }
   }
 

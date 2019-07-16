@@ -1,8 +1,8 @@
 import clearCache from './clearCache'
 
 export default {
-  LATEST_VERSION: 25,
+  LATEST_VERSION: 26,
   ROOT: {
-    25: clearCache,
+    26: clearCache,
   },
 }
