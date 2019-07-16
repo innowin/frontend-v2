@@ -101,8 +101,8 @@ class FahadEventPageOne extends PureComponent {
       organization_certificates,
       organization_honors,
       selectedLogo,
-      selectedCatalog,
-      selectedCertificate,
+      // selectedCatalog,
+      // selectedCertificate,
     } = this.state
 
     if (
