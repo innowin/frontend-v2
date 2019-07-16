@@ -2,13 +2,21 @@ import * as React from "react"
 import {EventBanner} from "src/images/icons"
 import {PureComponent} from "react"
 import FahadEventModal from "./FahadEventModal"
+import {getCategories} from "src/redux/actions/commonActions/categoryActions"
+import {bindActionCreators} from "redux"
+import {connect} from "react-redux"
 
-export default class FahadEventCard extends PureComponent {
+
+class FahadEventCard extends PureComponent {
   constructor() {
     super()
     this.state = {
       modalIsOpen: false,
     }
+  }
+
+  componentDidMount(): void {
+    this.props._getCategories()
   }
 
   toggle = (e) => {
@@ -32,3 +40,11 @@ export default class FahadEventCard extends PureComponent {
       </div>
   )
 }
+
+const mapDispatchToProps = dispatch =>
+    bindActionCreators(
+        {
+          _getCategories: getCategories,
+        }, dispatch)
+
+export default connect(null, mapDispatchToProps)(FahadEventCard)

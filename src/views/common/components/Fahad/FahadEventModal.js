@@ -7,6 +7,7 @@ import {connect} from "react-redux"
 import {makeCategorySelector} from "src/redux/selectors/common/category/getCategoriesByParentId"
 import FahadEventPageFive from "./FahadEventPageFive"
 
+
 class FahadEventModal extends Component {
   constructor(props) {
     super(props)
@@ -27,13 +28,14 @@ class FahadEventModal extends Component {
       this.setState({...this.state, catsArray: catsArray.slice()})
   }
 
-  componentDidUpdate(prevProps: Readonly<P>, prevState: Readonly<S>, snapshot): void {
-    const {categories} = prevProps
+  componentWillReceiveProps(nextProps: Readonly<P>, nextContext: any): void {
+    const {categories} = nextProps
     if (categories && categories !== this.props.categories) {
       let catsArray: any = Object.values(categories.list).filter(p => p.category_parent === null)
       if (catsArray.length >= 1)
         this.setState({...this.state, catsArray: catsArray.slice()})
     }
+
   }
 
   nextLevel() {
