@@ -6,7 +6,7 @@ import FahadEventPageFour from "./FahadEventPageFour"
 import {connect} from "react-redux"
 import {makeCategorySelector} from "src/redux/selectors/common/category/getCategoriesByParentId"
 import FahadEventPageFive from "./FahadEventPageFive"
-import {getClientIdentity} from '../../../../redux/selectors/common/client/getClient'
+import {getClientIdentity} from "src/redux/selectors/common/client/getClient"
 
 
 class FahadEventModal extends Component {
@@ -17,6 +17,7 @@ class FahadEventModal extends Component {
       catsArray: [],
       verification: -1,
       isLoading: false,
+      uploading: false,
     }
     this.nextLevel = this.nextLevel.bind(this)
     this.changeIsLoading = this.changeIsLoading.bind(this)
@@ -52,15 +53,19 @@ class FahadEventModal extends Component {
     this.setState({...this.state, isLoading: !this.state.isLoading, verification: -1})
   }
 
+  changeUploading(data) {
+    this.setState({...this.state, uploading: data})
+  }
 
   currentLevel() {
-    let {level, catsArray, verification} = this.state
+    let {level, catsArray, verification, uploading} = this.state
     let {clientIdentityId, token} = this.props
     switch (level) {
       case 1:
         return (
-            <FahadEventPageOne verification={verification} clientIdentityId={clientIdentityId} token={token}
-                               _nextLevel={this.nextLevel} _changeIsLoading={this.changeIsLoading}/>
+            <FahadEventPageOne verification={verification} clientIdentityId={clientIdentityId} token={token} uploading={uploading}
+                               _nextLevel={this.nextLevel} _changeIsLoading={this.changeIsLoading}
+                               _changeUploading={(data) => this.changeUploading(data)}/>
         )
       case 2:
         return (
@@ -88,14 +93,14 @@ class FahadEventModal extends Component {
   }
 
   currentFooter() {
-    let {level, isLoading} = this.state
+    let {level, isLoading, uploading} = this.state
     let {toggle} = this.props
     switch (level) {
       case 1:
         return (
             <React.Fragment>
-              <div className={!isLoading ? "org-leadership-next-button" : "org-leadership-hidden-button"}
-                   onClick={() => !isLoading ? this.checkValidation() : null}>
+              <div className={!isLoading && !uploading ? "org-leadership-next-button" : "org-leadership-hidden-button"}
+                   onClick={() => !isLoading && !uploading ? this.checkValidation() : null}>
                 ذخیره و ادامه
               </div>
               <div className="org-leadership-previous-button" onClick={() => toggle()}>
@@ -188,6 +193,7 @@ const mapStateToProps = (state) => {
     categories: categorySelector(state),
     clientIdentityId: getClientIdentity(state),
     token: state.auth.client.token,
+    tempFiles: state.temp.file,
   }
 }
 

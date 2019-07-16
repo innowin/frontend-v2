@@ -111,6 +111,7 @@ export default {
     VIDEO: 'video',
   },
   CREATE_FILE_CATEGORIES: {
+    EVENT: 'event',
     ORGAN_PROFILE: {
       CATALOG: 'catalog',
     },
@@ -173,9 +174,21 @@ export default {
   PROFILE_STATUS: {
     ORG: {
       'hire': {name: 'hire', icon: <StatusHire className='user-profile-status status-hire'/>, buttonClass: 'status-hire-class'},
-      'full_time_hire': {name: 'full_time_hire', icon: <StatusPartTime className='user-profile-status status-full-time'/>, buttonClass: 'status-full-time-class'},
-      'part_time_hire': {name: 'part_time_hire', icon: <StatusPartTime className='user-profile-status status-part-time'/>, buttonClass: 'status-part-time-class'},
-      'internship_hire': {name: 'internship_hire', icon: <StatusIntern className='user-profile-status status-intern'/>, buttonClass: 'status-intern-class'},
+      'full_time_hire': {
+        name: 'full_time_hire',
+        icon: <StatusPartTime className='user-profile-status status-full-time'/>,
+        buttonClass: 'status-full-time-class',
+      },
+      'part_time_hire': {
+        name: 'part_time_hire',
+        icon: <StatusPartTime className='user-profile-status status-part-time'/>,
+        buttonClass: 'status-part-time-class',
+      },
+      'internship_hire': {
+        name: 'internship_hire',
+        icon: <StatusIntern className='user-profile-status status-intern'/>,
+        buttonClass: 'status-intern-class',
+      },
       'not_hiring': {name: 'not_hiring', icon: <StatusClose className='user-profile-status status-close'/>, buttonClass: 'status-close-class'},
     },
   },

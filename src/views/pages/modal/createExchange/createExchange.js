@@ -1,20 +1,20 @@
-import React from 'react'
-import {Component} from 'react'
-import uuid from 'uuid'
-import {UploadIcon} from 'src/images/icons'
-import constants from 'src/consts/constants'
-import {createFileFunc} from 'src/views/common/Functions'
-import exchangeActions from 'src/redux/actions/exchangeActions'
-import {bindActionCreators} from 'redux'
-import {ClipLoader} from 'react-spinners'
-import {connect} from 'react-redux'
-import {createFile} from 'src/redux/actions/commonActions/fileActions'
-import types from 'src/redux/actions/types'
-import TempActions from 'src/redux/actions/tempActions'
-import {CSSTransition, TransitionGroup} from 'react-transition-group'
-import {getAllOfExchanges} from '../../../../redux/selectors/common/exchanges/GetAllExchanges'
-import {getMessages} from '../../../../redux/selectors/translateSelector'
-import {getClientIdentity} from '../../../../redux/selectors/common/client/getClient'
+import React from "react"
+import {Component} from "react"
+import uuid from "uuid"
+import {UploadIcon} from "src/images/icons"
+import constants from "src/consts/constants"
+import {createFileFunc} from "src/views/common/Functions"
+import exchangeActions from "src/redux/actions/exchangeActions"
+import {bindActionCreators} from "redux"
+import {ClipLoader} from "react-spinners"
+import {connect} from "react-redux"
+import {createFile} from "src/redux/actions/commonActions/fileActions"
+import types from "src/redux/actions/types"
+import TempActions from "src/redux/actions/tempActions"
+import {CSSTransition, TransitionGroup} from "react-transition-group"
+import {getAllOfExchanges} from "src/redux/selectors/common/exchanges/GetAllExchanges"
+import {getMessages} from "src/redux/selectors/translateSelector"
+import {getClientIdentity} from "src/redux/selectors/common/client/getClient"
 
 class CreateExchange extends Component {
   constructor(props) {
@@ -25,9 +25,9 @@ class CreateExchange extends Component {
       selectedTags: [],
       inActPeopleIds: [], // ids of people that doing some action (like adding to exchange members) on theme in this time.
       processing: false,
-      name: '',
+      name: "",
       isPrivate: false,
-      description: '',
+      description: "",
       exchangeImage: null,
       exchangeImageFlag: false,
     }
@@ -48,16 +48,16 @@ class CreateExchange extends Component {
 
     if (prevState.exchangeImage !== this.state.exchangeImage && this.state.exchangeImage !== null) {
       this.setState({...this.state, processing: false})
-      console.log('NO PROCESS')
+      console.log("NO PROCESS")
     }
 
     if (this.props.modalIsOpen) {
-      doc.body.style.overflow = 'hidden'
-      doc.body.style.paddingRight = '7px'
+      doc.body.style.overflow = "hidden"
+      doc.body.style.paddingRight = "7px"
     }
     else {
-      doc.body.style.overflow = 'auto'
-      doc.body.style.paddingRight = '0'
+      doc.body.style.overflow = "auto"
+      doc.body.style.paddingRight = "0"
     }
   }
 
@@ -79,12 +79,12 @@ class CreateExchange extends Component {
   _createFile = () => {
     const {createFile} = this.props
     this.setState({...this.state, processing: true})
-    console.log('PROCESS...')
+    console.log("PROCESS...")
 
     const nextActionType = types.COMMON.FILE.SET_FILE_IDS_IN_TEMP_FILE
-    const nextActionData = 'exchange_image'
+    const nextActionData = "exchange_image"
     const createArguments = {
-      fileIdKey: 'fileId',
+      fileIdKey: "fileId",
       nextActionType,
       nextActionData: {tempFileKeyName: nextActionData},
     }
@@ -111,15 +111,15 @@ class CreateExchange extends Component {
         show_me_on_explore: true,
       }
       createExchange(formValues)
-      removeFileFromTemp('exchange_image')
+      removeFileFromTemp("exchange_image")
       handleModalVisibility()
-      this.exName.value = ''
-      this.exDes.value = ''
+      this.exName.value = ""
+      this.exDes.value = ""
       this.exPic.value = null
       this.setState({
         ...this.state,
-        name: '',
-        description: '',
+        name: "",
+        description: "",
         exchangeImage: null,
         selectedImage: null,
         selectedImageFile: null,
@@ -129,13 +129,13 @@ class CreateExchange extends Component {
     }
     else {
       if (description.length >= 700) {
-        this.descError.className = 'product-name-error'
+        this.descError.className = "product-name-error"
       }
-      else this.descError.className = 'product-name-error-hide'
+      else this.descError.className = "product-name-error-hide"
       if (name.length < 2 || name.length > 32) {
-        this.nameError.className = 'product-name-error'
+        this.nameError.className = "product-name-error"
       }
-      else this.nameError.className = 'product-name-error-hide'
+      else this.nameError.className = "product-name-error-hide"
     }
   }
 
@@ -144,7 +144,7 @@ class CreateExchange extends Component {
     const {modalIsOpen, translate} = this.props
 
     return (
-        <div className={modalIsOpen ? 'create-exchange-modal-container' : 'create-exchange-modal-container-out'}>
+        <div className={modalIsOpen ? "create-exchange-modal-container" : "create-exchange-modal-container-out"}>
           <TransitionGroup>
             {modalIsOpen ?
                 <CSSTransition key={10} timeout={250} classNames='fade'>
@@ -154,53 +154,53 @@ class CreateExchange extends Component {
                 </CSSTransition> : null}
             {modalIsOpen ?
                 <CSSTransition key={11} timeout={250} classNames='fade'>
-                  <div className={'create-exchange-header'}>
-                    {translate['Create New Exchange']}
+                  <div className={"create-exchange-header"}>
+                    {translate["Create New Exchange"]}
                   </div>
                 </CSSTransition> : null}
             {modalIsOpen ?
                 <CSSTransition key={12} timeout={250} classNames='fade'>
-                  <div className={'create-exchange-header-desc'}>
+                  <div className={"create-exchange-header-desc"}>
                     پنجره، گروهی متشکل از ارائه‌دهندگان و متقاضیان محصولات، خدمات و مهارت هاست.
                   </div>
                 </CSSTransition> : null}
             {modalIsOpen ?
                 <CSSTransition key={13} timeout={250} classNames='fade'>
-                  <div className={'create-exchange-inputs'}>
+                  <div className={"create-exchange-inputs"}>
                     <div>
                       <label>
-                        {translate['Exchange Name']} <span className={'secondary-color'}>*</span>
+                        {translate["Exchange Name"]} <span className={"secondary-color"}>*</span>
                       </label>
-                      <input type={'text'} className={'create-exchange-name-input'} placeholder={translate['Exchange Name']}
+                      <input type={"text"} className={"create-exchange-name-input"} placeholder={translate["Exchange Name"]}
                              ref={e => this.exName = e} onChange={(e) => this.setState({...this.state, name: e.target.value})}/>
-                      <div className={name.length < 32 ? 'create-exchange-name-input-limit' : 'create-exchange-name-input-limited'}>
+                      <div className={name.length < 32 ? "create-exchange-name-input-limit" : "create-exchange-name-input-limited"}>
                         {name.length} / 32
                       </div>
-                      <div ref={e => this.nameError = e} className={'product-name-error-hide'}>طول نام غیر مجاز است</div>
+                      <div ref={e => this.nameError = e} className={"product-name-error-hide"}>طول نام غیر مجاز است</div>
                     </div>
                     <div>
                       <label>
-                        {translate['Exchange Description']}
+                        {translate["Exchange Description"]}
                       </label>
-                      <textarea className={'create-exchange-desc-input'} placeholder={'موضوع فعالیت این پنجره چیست؟'}
+                      <textarea className={"create-exchange-desc-input"} placeholder={"موضوع فعالیت این پنجره چیست؟"}
                                 ref={e => this.exDes = e} onChange={(e) => this.setState({...this.state, description: e.target.value})}/>
-                      <div className={description.length < 700 ? 'create-exchange-desc-input-limit' : 'create-exchange-desc-input-limited'}>
+                      <div className={description.length < 700 ? "create-exchange-desc-input-limit" : "create-exchange-desc-input-limited"}>
                         {description.length} / 700
                       </div>
-                      <div ref={e => this.descError = e} className={'product-name-error-hide'}>طول توضیحات غیر مجاز است</div>
+                      <div ref={e => this.descError = e} className={"product-name-error-hide"}>طول توضیحات غیر مجاز است</div>
                     </div>
                     <div>
                       <label>
-                        {translate['Upload Picture']}
+                        {translate["Upload Picture"]}
                       </label>
-                      <div className={'create-exchange-upload'}>
+                      <div className={"create-exchange-upload"}>
                         {selectedImage !== undefined && selectedImage !== null && !processing ?
-                            <img alt={''} src={selectedImage} className={'create-exchange-upload-image'}/>
+                            <img alt={""} src={selectedImage} className={"create-exchange-upload-image"}/>
                             :
-                            <UploadIcon className={'create-exchange-upload-svg'}/>
+                            <UploadIcon className={"create-exchange-upload-svg"}/>
                         }
                         <input ref={e => this.exPic = e} type="file"
-                               onChange={!processing ? (e => this._uploadHandler(e.currentTarget.files[0])) : console.log('Still Uploading')}/>
+                               onChange={!processing ? (e => this._uploadHandler(e.currentTarget.files[0])) : console.log("Still Uploading")}/>
                       </div>
                     </div>
                   </div>
@@ -208,16 +208,16 @@ class CreateExchange extends Component {
             {
               modalIsOpen &&
               <CSSTransition key={14} timeout={250} classNames='fade'>
-                <div className={'create-exchange-buttons'}>
-                  <button className={'create-exchange-success-button'} onClick={() => !processing && this._handleCreateExchange()}>
+                <div className={"create-exchange-buttons"}>
+                  <button className={"create-exchange-success-button"} onClick={() => !processing && this._handleCreateExchange()}>
                     {processing ?
                         <ClipLoader color="#35495c" size={17} loading={true}/>
                         :
-                        translate['Create']
+                        translate["Create"]
                     }
                   </button>
-                  <button className={'create-exchange-cancel-button'} onClick={() => this._handleCloseModal()}>
-                    {translate['Cancel']}
+                  <button className={"create-exchange-cancel-button"} onClick={() => this._handleCloseModal()}>
+                    {translate["Cancel"]}
                   </button>
                 </div>
               </CSSTransition>

@@ -13,10 +13,10 @@
 
 .info-frame {
   text-align: right;
-  width: calc(100% - 6px);
-  margin: 2px 3px 10px 8px;
+  width: 99.9%;
+  margin-bottom: 10px;
   background-color: $base-posts;
-  border-radius: 5px;
+  border-radius: $border-radius-size;
   box-shadow: 0 2px 5px $box-shadow-color;
   padding: 12.5px 10px 15px 10px;
   transition-duration: $animation-timing;
@@ -268,7 +268,7 @@
   }
 }
 
-.exchange-hashtags{
+.exchange-hashtags {
   text-align: center;
   border: 1.2px solid $secondary-color;
   font-size: $font-size-regular;
@@ -282,10 +282,12 @@
   margin: auto 3px;
   cursor: default;
   transition-duration: $animation-timing-short;
-  &:first-child{
+
+  &:first-child {
     margin: auto 0 3px 3px;
   }
-  &:hover{
+
+  &:hover {
     color: $background-color;
     background-color: $secondary-color;
     transition-duration: $animation-timing;

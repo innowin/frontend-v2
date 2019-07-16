@@ -1,7 +1,7 @@
-import api from "src/consts/api";
-import urls from "src/consts/URLS";
-import {call, take, put} from "redux-saga/effects";
-import types from 'src/redux/actions/types'
+import api from "src/consts/api"
+import urls from "src/consts/URLS"
+import {call, take, put} from "redux-saga/effects"
+import types from "src/redux/actions/types"
 
 
 function* createFile(action) { // payload?
@@ -10,9 +10,9 @@ function* createFile(action) { // payload?
   let channel
   const sendFile = {
     file: formFile,
-    type: fileType ? fileType : '',
-    file_category: fileCategory ? fileCategory : '',
-    file_related_parent: fileParent ? fileParent : ''
+    type: fileType ? fileType : "",
+    file_category: fileCategory ? fileCategory : "",
+    file_related_parent: fileParent ? fileParent : "",
   }
 
   try {
@@ -30,7 +30,7 @@ function* createFile(action) { // payload?
     if (data.canceler) {
       yield put({
         type: types.COMMON.FILE.SET_FILE_PROGRESS_DETAIL,
-        payload: {fileId, progressDetail: {close: data.canceler}}
+        payload: {fileId, progressDetail: {close: data.canceler}},
       })
     }
     while (true) {
@@ -38,17 +38,18 @@ function* createFile(action) { // payload?
       if (data.progress) {
         yield put({
           type: types.COMMON.FILE.SET_FILE_PROGRESS_DETAIL,
-          payload: {fileId, progressDetail: {progress: data.progress}}
+          payload: {fileId, progressDetail: {progress: data.progress}},
         })
-      } else if (data.response) {
+      }
+      else if (data.response) {
         const createdFile = data.response.data
         yield put({
           type: types.COMMON.FILE.SET_FILE_PROGRESS_DETAIL,
-          payload: {fileId, progressDetail: {uploadedFileId: createdFile.id, close: null}}
+          payload: {fileId, progressDetail: {uploadedFileId: createdFile.id, uploadedFileAddress: createdFile.file, close: null}},
         })
         let payload = nextActionData ? {
           ...nextActionData,
-          [fileIdKey]: createdFile.id
+          [fileIdKey]: createdFile.id,
         } : {}
 
         if (toWhatLayer === 2) {
@@ -58,7 +59,7 @@ function* createFile(action) { // payload?
                 ...nextActionData,
                 nextActionData: {
                   ...nextActionData.nextActionData,
-                  [fileIdKey]: createdFile.id
+                  [fileIdKey]: createdFile.id,
                 },
               }
             }
@@ -70,7 +71,7 @@ function* createFile(action) { // payload?
       console.log(data)
     }
   } catch (err) {
-    console.log('catch')
+    console.log("catch")
     console.trace(err)
   } finally {
     yield put({type: types.COMMON.FILE.REMOVE_FILE_FROM_TEMP_FILE, payload: {tempFileKeyName: fileId}})
