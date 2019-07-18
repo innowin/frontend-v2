@@ -6,7 +6,7 @@ import constants from 'src/consts/constants'
 import GetUserActions from 'src/redux/actions/user/getUserActions'
 import Material from '../common/components/Material'
 import ParamActions from 'src/redux/actions/paramActions'
-import PostExtendedView from 'src/views/common/post/PostView'
+import ExtendedPostView from 'src/views/common/post/ExtendedPostView'
 import Posts from 'src/views/common/post/index'
 import * as PropTypes from 'prop-types'
 import Exchanges from 'src/views/common/social/exchanges/index'
@@ -207,12 +207,7 @@ class User extends Component<PropsUser, StatesUser> {
                                       identityType={constants.USER_TYPES.USER}
                                       user={userObject}
                         />
-                        <PropsRoute path={`${path}/Posts/:id`}
-                                    component={PostExtendedView}
-                                    extendedView={true}
-                                    commentParentType={constants.COMMENT_PARENT.POST}
-                                    ownerId={userId}
-                        />
+                        <PropsRoute path={`${path}/Posts/:id`} component={ExtendedPostView}/>
 
                       </Switch>
                     </div>

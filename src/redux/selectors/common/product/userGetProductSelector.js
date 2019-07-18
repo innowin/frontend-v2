@@ -7,7 +7,7 @@ const getUserProducts = (state, props) => {
   const usersList = state.identities.list
   if (usersList[id] && usersList[id].products)
     return usersList[id].products.content
-  return undefined
+  return []
 }
 const getOwnerId = (state, props) => props.ownerId
 const getIdentities = state => state.identities.list

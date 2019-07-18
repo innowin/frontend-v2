@@ -1,18 +1,20 @@
 import types from 'src/redux/actions/types'
-import {takeEvery} from "redux-saga/effects"
-
-/**********    %% WORKERS %%    **********/
+import {takeEvery} from 'redux-saga/effects'
+import {filterPostsStream} from './filterPostsStream'
 import {filterPostsByPostParentPostTypeLimitOffset} from './filterPostsByPostParentLimitOffset'
 import {filterPostByPostRelatedProduct} from './filterPostByPostRelatedProduct'
 import {createPost} from './createPost'
-import {getPostByIdentity} from "./getPostByIdentity"
+import {getPostByIdentity} from './getPostByIdentity'
 import {updatePost} from './updatePost'
 import {deletePost} from './deletePost'
 import {getPost} from './getPost'
-import {getPostViewerCount, setPostViewer} from "./viewerCount"
+import {getPostViewerCount, setPostViewer} from './viewerCount'
 
 
 /**********    %% WATCHERS %%    **********/
+function* watchFilterPostsStream() {
+  yield takeEvery(types.COMMON.POST.FILTER_POSTS_STREAM, filterPostsStream)
+}
 
 function* watchFilterPostsByPostParentPostTypeLimitOffset() {
   yield takeEvery(types.COMMON.POST.FILTER_POSTS_BY_POST_PARENT_LIMIT_OFFSET, filterPostsByPostParentPostTypeLimitOffset)
@@ -51,6 +53,7 @@ function* watchDeletePost() {
 }
 
 export default [
+  watchFilterPostsStream(),
   watchGetPost(),
   watchCreatePost(),
   watchDeletePost(),

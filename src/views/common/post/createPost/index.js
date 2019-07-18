@@ -104,8 +104,10 @@ class CreatePost extends PureComponent {
     const {attachPhotoIdArray} = this.state
 
     if (isUpdate && post) {
-      let postType, postFilesArray = post.post_files_array, postImg1 = null, postImg2 = null, postImg3 = null,
-          postFile = null, postProduct = post.post_related_product, selectedProduct = undefined, postImg1Index = -1,
+      let postType,
+          postFilesArray = post.post_media ? post.post_media.filter(picture => picture.type === null || picture.type === constants.CREATE_FILE_TYPES.IMAGE).slice(0, 3) : [],
+          postImg1 = null, postImg2 = null, postImg3 = null, postFile = null, postProduct = post.post_related_product,
+          selectedProduct = undefined, postImg1Index = -1,
           postImg2Index = -1, postImg3Index = -1, postFileIndex = -1
       if (post.post_type === constants.POST.POST_TYPE.SUPPLY) {
         this.supplyChecked.checked = true
@@ -530,12 +532,10 @@ class CreatePost extends PureComponent {
     const {postImg1, postImg2, postImg3, removePictureArray, attachPhotoIdArray} = this.state
     const {removeFileFromTemp, deleteFile} = actions
     let newRemovePictureArray = removePictureArray
-    const tempKeyName = (i === 0 && POST_IMG1_TEMP_KEY)
-        || (i === 1 && POST_IMG2_TEMP_KEY)
-        || (i === 2 && POST_IMG3_TEMP_KEY)
+    const tempKeyName = (i === 0 && POST_IMG1_TEMP_KEY) || (i === 1 && POST_IMG2_TEMP_KEY) || (i === 2 && POST_IMG3_TEMP_KEY)
     removeFileFromTemp(tempKeyName)
     if (isUpdate && post) {
-      const postFilesArray = post.post_files_array
+      const postFilesArray = post.post_media ? post.post_media.filter(picture => picture.type === null || picture.type === constants.CREATE_FILE_TYPES.IMAGE).slice(0, 3) : []
       for (let picture of postFilesArray) {
         if ((i === 0 && picture.file === postImg1) || (i === 1 && picture.file === postImg2) || (i === 2 && picture.file === postImg3)) {
           newRemovePictureArray.push(picture)
@@ -583,7 +583,7 @@ class CreatePost extends PureComponent {
     }
 
     if (isUpdate && post) {
-      const postFilesArray = post.post_files_array
+      const postFilesArray = post.post_media ? post.post_media : []
       for (let picture of postFilesArray) {
         if (picture.file === postFile) {
           newRemovePictureArray.push(picture)
@@ -649,7 +649,8 @@ class CreatePost extends PureComponent {
         ? (descriptionHeaderLength >= minAllowedHeaderWordCounts && descriptionHeaderLength <= maxAllowedHeaderWordCounts)
         : true
 
-    const postFilesArray = post && post.post_files_array
+    const postFilesArray = post && post.post_media ? post.post_media.filter(picture => picture.type === null || picture.type === constants.CREATE_FILE_TYPES.IMAGE).slice(0, 3) : []
+
     const postPicturesCheck = (
         postFilesArray ? (
             (postImg1Index !== -1

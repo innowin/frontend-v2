@@ -5,7 +5,7 @@ const getProposals = state => state.common.proposal.list
 const getUsers = state => state.identities.list
 const getPostProposals = (state, props) => {
   const {post} = props
-  const parentId = props.match ? props.match.params.id : post && post.id
+  const parentId = post.id
   if (state.common.post.list[parentId])
     return state.common.post.list[parentId].proposals && state.common.post.list[parentId].proposals.list
 }
