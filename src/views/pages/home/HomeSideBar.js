@@ -68,7 +68,7 @@ class HomeSideBar extends PureComponent {
                   loading !== undefined && loading === true ?
                       <div className='text-center'><ClipLoader/></div>
                       :
-                      <p className="mt-3 pr-3"><b>شما عضو هیچ پنجره ای نیستید!</b></p>
+                      <p className='no-membership'><b>شما عضو هیچ پنجره ای نیستید!</b></p>
             }
           </div>
           <div className='exchanges-last'/>
