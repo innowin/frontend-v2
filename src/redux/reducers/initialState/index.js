@@ -3,6 +3,7 @@ import commonStates from './common'
 import educationState from './education'
 import exchangesState from './exchanges'
 import identitiesState from './identities'
+import organizationState from './organization'
 import intlState from './intl'
 import paramState from './param'
 import researchState from './research'
@@ -17,6 +18,7 @@ export default {
   education: educationState,
   exchanges: exchangesState,
   identities: identitiesState,
+  organization: organizationState,
   intl: intlState,
   param: paramState,
   research: researchState,
@@ -47,6 +49,7 @@ export const clearCache = {
   education: educationState,
   exchanges: exchangesState,
   identities: identitiesState,
+  organization: organizationState,
   intl: intlState,
   param: paramState,
   research: researchState,

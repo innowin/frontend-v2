@@ -4,6 +4,7 @@ import common from './commonReducer/index'
 import education from './education'
 import exchanges from './exchange'
 import identities from './identity'
+import organization from './organization'
 import param from './param'
 import research from './research'
 import skill from './skill'
@@ -22,6 +23,7 @@ const rootReducer = combineReducers({
   education,
   exchanges,
   identities,
+  organization,
   param,
   research,
   skill,
