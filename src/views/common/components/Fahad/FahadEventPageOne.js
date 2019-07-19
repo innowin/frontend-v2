@@ -336,7 +336,7 @@ class FahadEventPageOne extends PureComponent {
                     <label>
                       شمارۀ ثبت
                     </label>
-                    <input type={"text"} className="organization-leadership-job-input"
+                    <input type={"number"} className="organization-leadership-job-input"
                            placeholder={"شمارۀ ثبت در اداره ثبت شرکت ها و موسسات تجاری و غیر تجاری"}
                            onChange={(e) => this.setState({...this.state, organization_registration_number: e.target.value})}/>
                     <label>

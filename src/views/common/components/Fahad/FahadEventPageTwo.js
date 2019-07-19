@@ -1,12 +1,14 @@
 import React, {PureComponent} from "react"
 import RightArrowSvg from "src/images/common/right_arrow_svg"
-import {Product as ProductSvg, UploadIcon} from "src/images/icons"
+import {CheckSvg, Product as ProductSvg, UploadIcon} from "src/images/icons"
 import InteliInput from "src/views/common/inputs/InteliInput"
 import axios from "axios"
 import urls, {REST_URL} from "src/consts/URLS"
+import {ClipLoader} from "react-spinners"
 
 let successes = 0
 let errors = 0
+let imageIds = []
 
 class FahadEventPageTwo extends PureComponent {
   constructor(props) {
@@ -43,9 +45,25 @@ class FahadEventPageTwo extends PureComponent {
     }
   }
 
+  componentDidUpdate(prevProps: Readonly<P>, prevState: Readonly<S>, snapshot: SS): void {
+    let {selectedImage} = this.state
+    if (!this.props.uploading) {
+      if (selectedImage.indexOf(-1) >= 0) {
+        this.props._changeUploading(true)
+      }
+    }
+    else if (this.props.uploading) {
+      if (selectedImage.indexOf(-1) < 0) {
+        this.props._changeUploading(false)
+      }
+    }
+  }
+
+
   checkValidations() {
     let {
       selectedCategory,
+      haveProduct,
 
       product_name,
       product_certificates,
@@ -54,30 +72,51 @@ class FahadEventPageTwo extends PureComponent {
       product_business_plan,
       product_abilities,
       product_is_knowledge_base,
+      selectedImage,
     } = this.state
+    const {clientIdentityId, _createProduct} = this.props
 
-    if (
-        selectedCategory !== null &&
-        product_name.length >= 2
-    ) {
-      successes = 0
-      errors = 0
-      this.sendData(34, product_name)
-      this.sendData(44, product_certificates)
-      this.sendData(45, product_features)
-      this.sendData(46, product_market_target)
-      this.sendData(47, product_business_plan)
-      this.sendData(35, selectedCategory)
-      this.sendData(48, product_abilities)
-      this.sendData(37, product_is_knowledge_base)
+    if (haveProduct) {
+      if (
+          selectedCategory !== null &&
+          selectedImage.length > 0 &&
+          product_name.length >= 2
+      ) {
+        successes = 0
+        errors = 0
+        this.sendData(34, product_name)
+        this.sendData(44, product_certificates)
+        this.sendData(45, product_features)
+        this.sendData(46, product_market_target)
+        this.sendData(47, product_business_plan)
+        this.sendData(35, selectedCategory)
+        this.sendData(48, product_abilities)
+        this.sendData(37, product_is_knowledge_base)
+        this.sendData(81, selectedImage)
+        let productInfo = {
+          name: product_name,
+          description: product_features,
+          product_owner: clientIdentityId,
+          files_count: selectedImage.length,
+          product_category: selectedCategory.id,
+        }
+        let formData = {
+          product: productInfo,
+          galleryImages: [...imageIds],
+          mainGalleryImageIndex: 0,
+        }
+        _createProduct(formData)
+        imageIds = []
+      }
+      else {
+        let modalCon = document.getElementById("fahadModalContainerDiv")
+        modalCon.scrollTo({top: 0, behavior: "smooth"})
+        this.setState({...this.state, validationError: true},
+            this.props._changeIsLoading(),
+        )
+      }
     }
-    else {
-      let modalCon = document.getElementById("fahadModalContainerDiv")
-      modalCon.scrollTo({top: 0, behavior: "smooth"})
-      this.setState({...this.state, validationError: true},
-          this.props._changeIsLoading(),
-      )
-    }
+    else this.props._nextLevel()
   }
 
   sendData(fieldId, fieldData) {
@@ -85,7 +124,7 @@ class FahadEventPageTwo extends PureComponent {
 
     axios.post(REST_URL + "/" + urls.FORMS + "/",
         JSON.stringify({
-          entry_value: fieldData ? fieldId === 37 || fieldId === 35 ? JSON.stringify(fieldData) : fieldData : "",
+          entry_value: fieldData ? fieldId === 37 || fieldId === 35 || fieldId === 81 ? JSON.stringify(fieldData) : fieldData : "",
           entry_field: fieldId,
           entry_identity: clientIdentityId,
         }),
@@ -100,7 +139,7 @@ class FahadEventPageTwo extends PureComponent {
           console.log(response)
           response.statusText === "Created" && successes++
           // eslint-disable-next-line no-unused-expressions
-          successes === 8 ? _nextLevel() : errors > 0 && this.serverError()
+          successes === 9 ? _nextLevel() : errors > 0 && this.serverError()
         })
         .catch((err) => {
           console.log(fieldId, err)
@@ -129,9 +168,50 @@ class FahadEventPageTwo extends PureComponent {
     this.setState({...this.state, product_is_knowledge_base: e.target.checked})
   }
 
+  uploadHandler(file, variable) {
+    const {token, clientIdentityId} = this.props
+    let images = [...this.state[variable]]
+    images[images.length] = -1
+    this.setState({...this.state, [variable]: [...images]}
+        , () => {
+          if (file) {
+            let form = new FormData()
+            form.append("file", file)
+            form.append("uploader", clientIdentityId)
+            axios.post(
+                REST_URL + "/" + urls.COMMON.FILE + "/",
+                form,
+                {
+                  headers: {
+                    "Authorization": `JWT ${token}`,
+                  },
+                })
+                .then((response) => {
+                  if (response.statusText === "Created") {
+                    let imagesArr = [...this.state[variable]]
+                    imagesArr[imagesArr.length - 1] = response.data.file
+                    imageIds.push(response.data.id)
+                    this.setState({...this.state, [variable]: [...imagesArr]})
+                  }
+                })
+                .catch((err) => {
+                  console.log(err)
+                })
+          }
+        })
+  }
+
+  deleteImage = (index) => {
+    let img = [...this.state.selectedImage]
+    img.splice(index, 1)
+    imageIds.splice(index, 1)
+    this.setState({...this.state, selectedImage: [...img]})
+  }
+
+
   render() {
     let {haveProduct, selectedImage, validationError, serverError} = this.state
-    let {category} = this.props
+    let {category, uploading} = this.props
     return (
         <React.Fragment>
           <div className="event-reg-modal-header">
@@ -218,15 +298,33 @@ class FahadEventPageTwo extends PureComponent {
 
                   <label>
                     تصاویر محصول یا پروژه
+                    <span className={"secondary-color"}> * </span>
                   </label>
-                  <div className="fahad-modal-upload-svg-con"><UploadIcon className="fahad-modal-upload-svg"/></div>
+                  {/*<div className="fahad-modal-upload-svg-con"><UploadIcon className="fahad-modal-upload-svg"/></div>*/}
+                  <div className="fahad-modal-upload-svg-con">
+                    {selectedImage && selectedImage.length === 4 ?
+                        <div style={{paddingTop: "5px"}}>
+                          <CheckSvg className="fahad-modal-check-svg"/>
+                        </div>
+                        :
+                        uploading ?
+                            <div style={{paddingTop: "5px"}}>
+                              <ClipLoader color='#42AC97' size={26}/>
+                            </div>
+                            :
+                            <UploadIcon className="fahad-modal-upload-svg"/>
+                    }
+                    {!uploading &&
+                    <input type="file"
+                           onChange={(e => selectedImage.length !== 4 ? this.uploadHandler(e.currentTarget.files[0], "selectedImage") : null)}/>}
+                  </div>
 
                   <div className={"fahad-product-gallery-container"}>
                     <div className={"fahad-product-gallery-item-container"}>
                       {selectedImage[0] ?
                           <div>
-                            <img src={selectedImage[0]} alt={"در حال بارگذاری تصویر محصول"} className={"product-gallery-item"}/>
-                            <div className={"product-gallery-cancel-item"} onClick={() => this._deleteImage(0)}>✕</div>
+                            <img src={selectedImage[0]} alt="" className={"product-gallery-item"}/>
+                            <div className={"product-gallery-cancel-item"} onClick={() => this.deleteImage(0)}>✕</div>
                           </div>
                           :
                           null
@@ -235,8 +333,8 @@ class FahadEventPageTwo extends PureComponent {
                     <div className={"fahad-product-gallery-item-container"}>
                       {selectedImage[1] ?
                           <div>
-                            <img src={selectedImage[1]} alt={"در حال بارگذاری تصویر محصول"} className={"product-gallery-item"}/>
-                            <div className={"product-gallery-cancel-item"} onClick={() => this._deleteImage(1)}>✕</div>
+                            <img src={selectedImage[1]} alt="" className={"product-gallery-item"}/>
+                            <div className={"product-gallery-cancel-item"} onClick={() => this.deleteImage(1)}>✕</div>
                           </div>
                           :
                           null
@@ -245,8 +343,8 @@ class FahadEventPageTwo extends PureComponent {
                     <div className={"fahad-product-gallery-item-container"}>
                       {selectedImage[2] ?
                           <div>
-                            <img src={selectedImage[2]} alt={"در حال بارگذاری تصویر محصول"} className={"product-gallery-item"}/>
-                            <div className={"product-gallery-cancel-item"} onClick={() => this._deleteImage(2)}>✕</div>
+                            <img src={selectedImage[2]} alt="" className={"product-gallery-item"}/>
+                            <div className={"product-gallery-cancel-item"} onClick={() => this.deleteImage(2)}>✕</div>
                           </div>
                           :
                           null
@@ -255,8 +353,8 @@ class FahadEventPageTwo extends PureComponent {
                     <div className={"fahad-product-gallery-item-container"}>
                       {selectedImage[3] ?
                           <div>
-                            <img src={selectedImage[3]} alt={"در حال بارگذاری تصویر محصول"} className={"product-gallery-item"}/>
-                            <div className={"product-gallery-cancel-item"} onClick={() => this._deleteImage(3)}>✕</div>
+                            <img src={selectedImage[3]} alt="" className={"product-gallery-item"}/>
+                            <div className={"product-gallery-cancel-item"} onClick={() => this.deleteImage(3)}>✕</div>
                           </div>
                           :
                           null

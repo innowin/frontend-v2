@@ -59,7 +59,7 @@ class FahadEventModal extends Component {
 
   currentLevel() {
     let {level, catsArray, verification, uploading} = this.state
-    let {clientIdentityId, token} = this.props
+    let {clientIdentityId, token, _createProduct} = this.props
     switch (level) {
       case 1:
         return (
@@ -69,8 +69,10 @@ class FahadEventModal extends Component {
         )
       case 2:
         return (
-            <FahadEventPageTwo verification={verification} category={catsArray} clientIdentityId={clientIdentityId} token={token}
-                               _nextLevel={this.nextLevel} _changeIsLoading={this.changeIsLoading}/>
+            <FahadEventPageTwo verification={verification} category={catsArray} clientIdentityId={clientIdentityId}
+                               token={token} uploading={uploading}
+                               _nextLevel={this.nextLevel} _changeIsLoading={this.changeIsLoading}
+                               _changeUploading={(data) => this.changeUploading(data)} _createProduct={_createProduct}/>
         )
       case 3:
         return (
@@ -111,8 +113,8 @@ class FahadEventModal extends Component {
       case 2:
         return (
             <React.Fragment>
-              <div className={!isLoading ? "org-leadership-next-button" : "org-leadership-hidden-button"}
-                   onClick={() => !isLoading ? this.checkValidation() : null}>
+              <div className={!isLoading && !uploading ? "org-leadership-next-button" : "org-leadership-hidden-button"}
+                   onClick={() => !isLoading && !uploading ? this.checkValidation() : null}>
                 ذخیره و ادامه
               </div>
               <div className="org-leadership-previous-button" onClick={() => toggle()}>

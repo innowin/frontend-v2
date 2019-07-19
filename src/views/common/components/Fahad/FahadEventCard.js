@@ -5,6 +5,7 @@ import FahadEventModal from "./FahadEventModal"
 import {getCategories} from "src/redux/actions/commonActions/categoryActions"
 import {bindActionCreators} from "redux"
 import {connect} from "react-redux"
+import {createProductAsContribution} from "src/redux/actions/commonActions/productActions"
 
 
 class FahadEventCard extends PureComponent {
@@ -29,7 +30,7 @@ class FahadEventCard extends PureComponent {
 
   render = () => (
       <div className="event-card">
-        <FahadEventModal modalIsOpen={this.state.modalIsOpen} toggle={this.toggle}/>
+        <FahadEventModal modalIsOpen={this.state.modalIsOpen} toggle={this.toggle} _createProduct={this.props._createProduct}/>
         <div className="close-button">✕</div>
         <div className="image"><EventBanner/></div>
         <div className="text">
@@ -45,6 +46,7 @@ const mapDispatchToProps = dispatch =>
     bindActionCreators(
         {
           _getCategories: getCategories,
+          _createProduct: createProductAsContribution,
         }, dispatch)
 
 export default connect(null, mapDispatchToProps)(FahadEventCard)

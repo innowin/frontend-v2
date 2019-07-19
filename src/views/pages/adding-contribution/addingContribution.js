@@ -1124,7 +1124,7 @@ class AddingContribution extends PureComponent<AddingContributionProps, AddingCo
       // certificates: undefined,
       // tags: undefined,
       // galleryImages: selectedImage.slice(),
-      galleryImages: selectedImageId.slice(),
+      galleryImages: [...selectedImageId],
       galleryVideo: undefined,
       mainGalleryImageIndex: 0,
     }
