@@ -2,7 +2,7 @@
 import * as React from 'react'
 import BadgeActions from 'src/redux/actions/commonActions/badgeActions'
 import Posts from 'src/views/common/post/index'
-import PostExtendedView from 'src/views/common/post/PostView'
+import ExtendedPostView from 'src/views/common/post/ExtendedPostView'
 import * as PropTypes from 'prop-types'
 import Followings from 'src/views/common/social/following/index'
 import Followers from 'src/views/common/social/follower/index'
@@ -215,12 +215,7 @@ class Organization extends PureComponent<PropsOrganization, StatesOrganization> 
                                     identityType={constants.USER_TYPES.ORG}
                                     user={userObject}
                       />
-                      <PropsRoute path={`${path}/Posts/:id`}
-                                  component={PostExtendedView}
-                                  extendedView={true}
-                                  commentParentType={constants.COMMENT_PARENT.POST}
-                                  ownerId={userId}
-                      />
+                      <PropsRoute path={`${path}/Posts/:id`} component={ExtendedPostView}/>
                     </Switch>
                   </div>
                 </div>

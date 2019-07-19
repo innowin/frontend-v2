@@ -1,5 +1,13 @@
 import types from '../types'
 
+const filterPostsStream = (limit, offset) => ({
+  type: types.COMMON.POST.FILTER_POSTS_STREAM,
+  payload: {
+    limit,
+    offset,
+  },
+})
+
 const filterPostsByPostParentLimitOffset = ({postParentId, postType, postParentType, limit, offset}) => ({
   type: types.COMMON.POST.FILTER_POSTS_BY_POST_PARENT_LIMIT_OFFSET,
   payload: {
@@ -56,10 +64,10 @@ const setPostViewer = (postId, getPostViewerCount) => {
   }
 }
 
-const getPost = ({postId, postOwnerId, token}) => {
+const getPost = ({postId, token}) => {
   return {
     type: types.COMMON.POST.GET_POST,
-    payload: {postId, postOwnerId, token},
+    payload: {postId, token},
   }
 }
 
@@ -100,6 +108,7 @@ const deletePost = ({postId, postOwnerId, postParentId, postParentType}) => {
 }
 
 const PostActions = {
+  filterPostsStream,
   getPostByIdentity,
   getPostViewerCount,
   setPostViewer,

@@ -1,4 +1,5 @@
 import createAbility from './createAbility'
+import filterPostsStream from './filterPostsStream'
 import createCustomer from './createCustomer'
 import createEducationByUserId from './createEducationByUserId'
 import createFollow from './createFollow'
@@ -38,6 +39,7 @@ import setBeeDone from './setBeeDone'
 
 export default {
   createAbility,
+  filterPostsStream,
   createCustomer,
   createEducationByUserId,
   createFollow,

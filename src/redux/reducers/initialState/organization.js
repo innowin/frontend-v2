@@ -1,20 +1,20 @@
 export default {
   staff: {
     isLoading: false,
-    content: []
+    content: [],
   },
   abilities: {
     isLoading: false,
-    content: []
+    content: [],
   },
   customers: {
     isLoading: false,
     error: false,
-    content: []
+    content: [],
   },
   searchedOrganizations: {
     isLoading: false,
     error: false,
     content: {},
-  }
+  },
 }

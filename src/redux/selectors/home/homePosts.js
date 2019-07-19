@@ -4,7 +4,10 @@ import helpers from 'src/consts/helperFunctions/helperFunctions'
 const getPosts = state => state.common.post.list
 const getExchangePosts = (state, props) => {
   const {exchangeId} = props
-  return state.exchanges.list[exchangeId] && state.exchanges.list[exchangeId].posts && state.exchanges.list[exchangeId].posts.content
+  if (exchangeId === 0) {
+    return state.auth.client.stream ? Object.values(state.auth.client.stream).sort((a, b) => b - a) : []
+  }
+  else return state.exchanges.list[exchangeId] && state.exchanges.list[exchangeId].posts && state.exchanges.list[exchangeId].posts.content
       ? Object.values(state.exchanges.list[exchangeId].posts.content).sort((a, b) => b - a) : []
 }
 

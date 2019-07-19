@@ -5,9 +5,10 @@ import types from 'src/redux/actions/types'
 import {put, take, fork, call, all, select} from 'redux-saga/effects'
 import constants from 'src/consts/constants'
 import uuid from 'uuid'
+import {delay} from 'redux-saga'
 
 export function* updatePost(action) {
-  const {formValues, postId, postOwnerId, postFileIds} = action.payload
+  const {formValues, postId, postFileIds} = action.payload
   const socketChannel = yield call(api.createSocketChannel, results.COMMON.POST.UPDATE_POST)
   const state = yield select()
   const translate = state.intl.messages
@@ -23,7 +24,8 @@ export function* updatePost(action) {
         })
       }))
     }
-    yield put({type: types.COMMON.POST.GET_POST, payload: {postId, postOwnerId}})
+    yield delay(500)
+    yield put({type: types.COMMON.POST.GET_POST, payload: {postId}})
     yield put({
       type: types.TOAST.ADD_TOAST,
       payload: {

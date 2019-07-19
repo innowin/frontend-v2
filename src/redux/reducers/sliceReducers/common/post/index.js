@@ -3,6 +3,7 @@ import createPost from './createPost'
 import createLike from './createLike'
 import deleteComment from './deleteComment'
 import deletePost from './deletePost'
+import filterPostsStream from "./filterPostsStream"
 import filterPostsByParentLimitOffset from "./filterPostsByParentLimitOffset"
 import filterPostsByPostRelatedProduct from "./filterPostsByPostRelatedProduct"
 import getCommentsByParentId from './getCommentsByParentId'
@@ -24,6 +25,7 @@ export default {
   createLike,
   deleteComment,
   deletePost,
+  filterPostsStream,
   filterPostsByParentLimitOffset,
   filterPostsByPostRelatedProduct,
   getCommentsByParentId,

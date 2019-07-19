@@ -5,7 +5,7 @@ import types from 'src/redux/actions/types'
 import {put, take, fork, call} from 'redux-saga/effects'
 
 export function* getPost(action) {
-  const {postId, postOwnerId, token = true} = action.payload
+  const {postId, token = true} = action.payload
   const socketChannel = yield call(api.createSocketChannel, results.COMMON.POST.GET_POST)
   try {
     yield fork(api.get, urls.COMMON.POST, results.COMMON.POST.GET_POST, `${postId}`, token)
@@ -17,7 +17,7 @@ export function* getPost(action) {
       yield put({type: types.USER.GET_USER_BY_USER_ID, payload: {userId: data.post_related_product.product_owner}})
       data.post_related_product = data.post_related_product.id
     }
-    yield put({type: types.SUCCESS.COMMON.POST.GET_POST, payload: {data, postOwnerId}})
+    yield put({type: types.SUCCESS.COMMON.POST.GET_POST, payload: {data, postOwnerId: data.post_related_identity}})
   }
   catch (error) {
     const {message} = error

@@ -45,15 +45,13 @@ class Posts extends React.PureComponent {
         <div className="-frameCardPost user-posts">
           <div className='list-group list-group-flush'>
             {
-              posts && posts.map(post =>
-                  post && post.id ?
-                      <Post
-                          key={post.id + 'Posts'}
-                          post={post}
-                          updatePost={updatePost}
-                          deletePost={deletePost}
-                      />
-                      : null,
+              posts && posts.map(post => post &&
+                  <Post key={post.id + 'Posts'}
+                        post={post}
+                        updatePost={updatePost}
+                        deletePost={deletePost}
+                        extendedView={false}
+                  />,
               )
             }
           </div>

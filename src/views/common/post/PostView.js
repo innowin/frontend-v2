@@ -65,14 +65,9 @@ class PostView extends React.PureComponent {
   postMenuId = 'sidebar-post-menu-box-'
 
   componentDidMount() {
-    const {extendedView, post, actions} = this.props
+    const {extendedView, post, clientIdentity, postIdentity, location} = this.props
 
     if (extendedView) {
-      const {getCommentsByParentId, getPost, getProposals} = actions
-      const {match, ownerId, location, clientIdentity, postIdentity} = this.props
-      getCommentsByParentId({parentId: match.params.id, commentParentType: constants.COMMENT_PARENT.POST})
-      getProposals(match.params.id)
-      getPost({postId: match.params.id, postOwnerId: ownerId, token: !clientIdentity})
       setTimeout(() => {
         if (this.post && document.body.clientWidth < 480) {
           const rect = this.post.getBoundingClientRect()
@@ -86,14 +81,14 @@ class PostView extends React.PureComponent {
         }
       }, 500)
     }
-    else if (post && post.post_description && this.text && this.text.clientHeight > 146) {
+    else if (post.post_description && this.text && this.text.clientHeight > 146) {
       if (!new RegExp('^[A-Za-z]*$').test(post.post_description[0])) this.text.style.paddingLeft = '62px'
       this.text.style.height = '139px'
       this.setState({...this.state, showMore: true})
     }
 
     setTimeout(() => {
-      if (post && this.text && post.post_description) {
+      if (this.text && post.post_description) {
         const allWords = this.text.innerText.replace(/\n/g, ' ').split(' ')
         const mailExp = new RegExp('^(([^<>()\\[\\]\\\\.,;:\\s@"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$')
         const urlExp = new RegExp('^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[A-Za-z0-9]+([\\-.][A-Za-z0-9]+)*\\.[A-Za-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$')
@@ -136,7 +131,7 @@ class PostView extends React.PureComponent {
 
   componentWillReceiveProps(nextProps) {
     const {post, comments, actions} = nextProps
-    if (post && comments && this.props.comments && this.props.comments.length > comments.length && comments.length < 3) {
+    if (comments && this.props.comments && this.props.comments.length > comments.length && comments.length < 3) {
       const {getCommentsByParentId} = actions
       getCommentsByParentId({parentId: post.id, commentParentType: constants.COMMENT_PARENT.POST, limit: 3})
     }
@@ -181,7 +176,7 @@ class PostView extends React.PureComponent {
   _handleLike() {
     const {actions, clientIdentity, post} = this.props
     const {createLike} = actions
-    post && clientIdentity && createLike({like_parent: post.id, like_sender: clientIdentity})
+    clientIdentity && createLike({like_parent: post.id, like_sender: clientIdentity})
   }
 
   _handleClickOutMenuBoxBottom(e) {
@@ -253,11 +248,8 @@ class PostView extends React.PureComponent {
   }
 
   render() {
-    if (this.props.postIdentity && this.props.post && this.props.post.id) {
-      const {
-        post, translate, postIdentity, postRelatedIdentityImage, postRelatedProduct,
-        clientIdentity, extendedView, showEdit, comments, proposalLoading, proposals,
-      } = this.props
+    if (this.props.postIdentity && this.props.postIdentity.id) {
+      const {post, translate, postIdentity, postRelatedProduct, clientIdentity, extendedView, showEdit, comments, proposalLoading, proposals} = this.props
       const {menuToggleBottom, menuToggleTop, showComment, commentOn, showProposalSend} = this.state
       const postDescription = post.post_description && post.post_description.trim()
       const postOwnerId = postIdentity && postIdentity.id
@@ -265,7 +257,7 @@ class PostView extends React.PureComponent {
 
       return (
           <div ref={e => this.post = e} className='-itemWrapperPost'>
-            <div className={extendedView ? 'post-view-container' : ''}>
+            <div className='post-view-container'>
               {
                 post.post_type !== constants.POST.POST_TYPE.POST &&
                 <PostType translate={translate}
@@ -279,7 +271,6 @@ class PostView extends React.PureComponent {
                 <PostHeader post={post}
                             translate={translate}
                             postIdentity={postIdentity}
-                            postRelatedIdentityImage={postRelatedIdentityImage}
                             showEdit={showEdit}
                             extendedView={extendedView}
                             openMenu={this._openMenuTop}
@@ -294,14 +285,12 @@ class PostView extends React.PureComponent {
                             onMouseDown={this.onLinkDown}
                             onClick={this.onLinkClick}
                             to={postIdentity.identity_type === 'user' ? `/user/${postOwnerId}/Posts/${post.id}` : `/organization/${postOwnerId}/Posts/${post.id}`}>
-                        <div ref={e => this.text = e} className='post-content'
-                             style={{paddingTop: '10px', paddingBottom: '10px', direction: new RegExp('^[A-Za-z]*$').test(postDescription && postDescription[0]) ? 'ltr' : 'rtl'}}>
+                        <div ref={e => this.text = e} className='post-content' style={{paddingTop: '10px', paddingBottom: '10px', direction: new RegExp('^[A-Za-z]*$').test(postDescription && postDescription[0]) ? 'ltr' : 'rtl'}}>
                           {postDescription}
                         </div>
                       </Link>
                       :
-                      <div ref={e => this.text = e} className='post-content'
-                           style={{paddingTop: '10px', paddingBottom: '10px', direction: new RegExp('^[A-Za-z]*$').test(postDescription && postDescription[0]) ? 'ltr' : 'rtl'}}>
+                      <div ref={e => this.text = e} className='post-content' style={{paddingTop: '10px', paddingBottom: '10px', direction: new RegExp('^[A-Za-z]*$').test(postDescription && postDescription[0]) ? 'ltr' : 'rtl'}}>
                         {postDescription}
                       </div>
                 }
@@ -315,7 +304,6 @@ class PostView extends React.PureComponent {
                   <div className='post-content-more-sign'>«</div>
                 </div>
               </div>
-
               <PostImage translate={translate} extendedView={extendedView} post={post}/>
               {
                 postRelatedProduct &&
@@ -397,30 +385,27 @@ class PostView extends React.PureComponent {
 
 const mapStateToProps = (state, ownProps) => {
   const clientIdentity = getClientIdentity(state)
-  const post = ownProps.post || state.common.post.list[ownProps.match.params.id]
-  const postIdentity = post && state.identities.list[post.post_related_identity]
-  const postRelatedIdentityImage = postIdentity && postIdentity.profile_media && postIdentity.profile_media.file
-  const postRelatedProduct = post && post.post_related_product ? makeProductSelectorById()(state, post.post_related_product) : null
+  const post = ownProps.post
+  const postIdentity = state.identities.list[post.post_related_identity]
+  const postRelatedProduct = post.post_related_product ? makeProductSelectorById()(state, post.post_related_product) : null
   return {
     post,
     postIdentity,
     clientIdentity,
     postRelatedProduct,
-    postRelatedIdentityImage,
     comments: CommentsSelector(state, ownProps),
     translate: getMessages(state),
     proposals: ProposalsSelector(state, ownProps),
-    proposalLoading: post && state.common.post.list[post.id] && state.common.post.list[post.id].proposals && state.common.post.list[post.id].proposals.loading,
+    proposalLoading: state.common.post.list[post.id] && state.common.post.list[post.id].proposals && state.common.post.list[post.id].proposals.loading,
   }
 }
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
-    getPost: PostActions.getPost,
     deletePost: PostActions.deletePost,
-    getCommentsByParentId: CommentActions.getCommentsByParentId,
     deleteComment: CommentActions.deleteComment,
     createLike: likeActions.createLike,
+    getCommentsByParentId: CommentActions.getCommentsByParentId,
     getProposals: ProposalsActions.getProposalsByPostId,
   }, dispatch),
 })

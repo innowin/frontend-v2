@@ -12,47 +12,30 @@ export class Post extends React.PureComponent {
 
   constructor(props) {
     super(props)
-    this.state = {
-      edit: false,
-    }
+    this.state = {edit: false}
     this._showEdit = this._showEdit.bind(this)
     this._hideEdit = this._hideEdit.bind(this)
     this._update = this._update.bind(this)
   }
 
   _showEdit() {
-    this.setState({edit: true})
+    this.setState({...this.state, edit: true})
   }
 
   _hideEdit() {
-    this.setState({edit: false})
+    this.setState({...this.state, edit: false})
   }
 
   _update(formValues, postId, postFileIds: []) {
-    const {updatePost, post} = this.props
-    const postRelatedIdentity = post.post_related_identity
-    const postOwnerId = postRelatedIdentity.id
-    updatePost({formValues, postId, postOwnerId, postFileIds})
+    const {updatePost} = this.props
+    updatePost({formValues, postId, postFileIds})
   }
 
   render() {
     const {edit} = this.state
-    const {post} = this.props
-    return (
-        <div className='post-view-container'>
-          {
-            edit ?
-                <div className="-itemWrapperPost">
-                  <CreatePost key={'edit ' + post.id} hideEdit={this._hideEdit} post={post} updateFunc={this._update} isUpdate={true}/>
-                </div>
-                :
-                <PostView post={post}
-                          key={'view ' + post.id}
-                          showEdit={this._showEdit}
-                          extendedView={false}
-                />
-          }
-        </div>
-    )
+    const {post, extendedView, location} = this.props
+    if (edit)
+      return <div className="-itemWrapperPost"><CreatePost hideEdit={this._hideEdit} post={post} updateFunc={this._update} isUpdate={true}/></div>
+    else return <PostView post={post} showEdit={this._showEdit} extendedView={extendedView} location={location}/>
   }
 }

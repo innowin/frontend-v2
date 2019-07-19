@@ -6,10 +6,7 @@ import {Link} from 'react-router-dom'
 import constants from 'src/consts/constants'
 
 const PostFooter = (props) => {
-  const {
-    post, postMenuId, extendedView, menuToggle, openMenu, postIdentity, translate,
-    deletePost, showComment, handleLike, showEdit, clientIdentity, showProposals,
-  } = props
+  const {post, postMenuId, extendedView, menuToggle, openMenu, postIdentity, translate, deletePost, showComment, handleLike, showEdit, clientIdentity, showProposals} = props
   const {post_type, comments_count, likes_count, is_post_liked_by_logged_in_user, post_proposals_count} = post
   const postUrl = `/${postIdentity.identity_type}/${postIdentity.id}/Posts/${post.id}/${postIdentity.id !== clientIdentity ? 'Proposal' : ''}`
   const suggest = post_type === constants.POST.POST_TYPE.SUPPLY || post_type === constants.POST.POST_TYPE.DEMAND

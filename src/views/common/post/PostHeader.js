@@ -4,7 +4,6 @@ import Moment from 'react-moment'
 import {Link} from 'react-router-dom'
 import DefaultUserIcon from 'src/images/defaults/defaultUser_svg'
 import PostMenu from './PostMenu'
-import constants from 'src/consts/constants'
 import Material from '../components/Material'
 import connect from 'react-redux/es/connect/connect'
 import socialActions from 'src/redux/actions/commonActions/socialActions'
@@ -52,28 +51,19 @@ class PostHeader extends React.PureComponent {
 
   render() {
     const {instantView, x, y} = this.state
-    const {post, translate, postRelatedIdentityImage, postIdentity, showEdit, extendedView, openMenu, deletePost, menuToggle, postMenuId, followees, clientIdentity} = this.props
-    let createdTime
-    let name = ''
-    let url = ''
-    if (post) {
-      createdTime = post.created_time
-      if (postIdentity && postIdentity.id) {
-        const isUser = postIdentity.identity_type === constants.USER_TYPES.USER
-        name = isUser ? ((postIdentity.first_name || postIdentity.last_name) ? postIdentity.first_name + ' ' + postIdentity.last_name : undefined)
-            : (postIdentity.nike_name || postIdentity.official_name || undefined)
-        url = isUser ? `/user/${postIdentity.id}` : `/organization/${postIdentity.id}`
-      }
-    }
+    const {post, translate, postIdentity, showEdit, extendedView, openMenu, deletePost, menuToggle, postMenuId, followees, clientIdentity} = this.props
+    const name = (postIdentity.first_name || postIdentity.last_name) ? postIdentity.first_name + ' ' + postIdentity.last_name : postIdentity.nike_name || postIdentity.official_name
+    const url = `/${postIdentity.identity_type}/${postIdentity.id}`
     const showFollow = !followees.map(follower => follower.follow_followed && follower.follow_followed.id ? follower.follow_followed.id : parseInt(follower.follow_followed, 10)).includes(postIdentity && postIdentity.id)
+
     return (
         <div className="-item-headerPost">
           <div ref={e => this.container = e} style={{position: 'relative'}} onMouseEnter={this.showInstant} onMouseLeave={this.hideInstant}
                onMouseMove={this.mouseMove}>
             <Link to={url} className='link-post'>
               <div className="-img-col">
-                {postRelatedIdentityImage ?
-                    <img className="rounded-circle covered-img" src={postRelatedIdentityImage} alt=""/>
+                {postIdentity.profile_media ?
+                    <img className="rounded-circle covered-img" src={postIdentity.profile_media.file} alt=""/>
                     :
                     <DefaultUserIcon className="rounded-circle covered-svg"/>
                 }
@@ -84,7 +74,7 @@ class PostHeader extends React.PureComponent {
                   <div className="-green2 post-username">{postIdentity && (postIdentity.nike_name || postIdentity.username)}</div>
                 </div>
                 <div className='post-date'>
-                  <Moment className="-green2" element="span" fromNow ago>{createdTime}</Moment>
+                  <Moment className="-green2" element="span" fromNow ago>{post.created_time}</Moment>
                   <span className="-green2"> {translate['Last']}</span>
                 </div>
               </div>
@@ -92,8 +82,8 @@ class PostHeader extends React.PureComponent {
 
             <div className={instantView ? 'post-instant-view' : 'post-instant-view-hide'} style={{top: y, left: x}}>
               {
-                postRelatedIdentityImage ?
-                    <img className="post-instant-view-img rounded-circle covered-img" src={postRelatedIdentityImage} alt=""/>
+                postIdentity.profile_media ?
+                    <img className="post-instant-view-img rounded-circle covered-img" src={postIdentity.profile_media.file} alt=""/>
                     : <DefaultUserIcon className="post-instant-view-img rounded-circle covered-svg"/>
               }
               <div className='post-instant-view-name'>{name}</div>
@@ -125,7 +115,6 @@ PostHeader.propTypes = {
   post: PropTypes.object.isRequired,
   translate: PropTypes.object.isRequired,
   postIdentity: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
-  postRelatedIdentityImage: PropTypes.string,
   showEdit: PropTypes.func,
   extendedView: PropTypes.bool,
   postMenuId: PropTypes.string.isRequired,

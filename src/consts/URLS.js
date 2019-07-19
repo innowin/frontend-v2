@@ -96,6 +96,7 @@ const urls = {
     EDUCATION_FIELDS: "users/university-fields",
 
     POST: "base/posts",
+    POST_STREAM: "base/posts/stream",
 
     LIKE: "base/like",
 

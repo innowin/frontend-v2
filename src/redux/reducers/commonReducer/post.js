@@ -12,6 +12,9 @@ const post = (state = initialState.common.post, action) => {
     case types.SUCCESS.COMMON.POST.FILTER_POSTS_BY_POST_PARENT_LIMIT_OFFSET:
       return slices.filterPostsByParentLimitOffset.success(state, action)
 
+    case types.SUCCESS.COMMON.POST.FILTER_POSTS_STREAM:
+      return slices.filterPostsStream.success(state, action)
+
     case types.SUCCESS.COMMON.POST.FILTER_POSTS_BY_POST_RELATED_PRODUCT:
       return slices.filterPostsByPostRelatedProduct.success(state, action)
       /** ------------------------------ get post viewer counts ---------------------- **/

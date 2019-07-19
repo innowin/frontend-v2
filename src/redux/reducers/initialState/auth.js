@@ -28,5 +28,6 @@ export default {
     customers: [], /* ids of customers that this org client has them*/
     selectedExchange: null,
     isBeeDone: false,
+    stream: {},
   },
 }

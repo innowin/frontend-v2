@@ -31,13 +31,15 @@ class HomeSideBar extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!this.props.activeExchangeId && document.body.clientWidth > 480 && nextProps.clientExchanges.length > 0) {
-      const {setExchangeId, clientExchanges} = nextProps
-      setExchangeId(clientExchanges[0].id)
+    if ((this.props.activeExchangeId === null || this.props.activeExchangeId === undefined) && document.body.clientWidth > 480) {
+      const {setExchangeId} = nextProps
+      setExchangeId(0)
     }
   }
 
   _handleClick = (id) => this.props.setExchangeId(id)
+
+  _handleClickStream = () => this.props.setExchangeId(0)
 
   render() {
     const {clientExchanges, classNames, activeExchangeId, loading} = this.props
@@ -49,19 +51,24 @@ class HomeSideBar extends PureComponent {
             <Link to='/exchanges/exchange_Explorer' className='home-sidebar-cont-item-more'>بیشتر</Link>
           </div>
           <div className='home-sidebar-cont'>
+            <SideBarItem exchange={{exchange_image: null, name: 'استریم'}}
+                         handleClick={this._handleClickStream}
+                         active={0 === activeExchangeId}
+            />
             {
               clientExchanges && clientExchanges.length > 0 ?
                   clientExchanges.map((exchange, i) =>
                       <SideBarItem key={i}
                                    exchange={exchange}
                                    handleClick={this._handleClick}
-                                   active={exchange && exchange.id === activeExchangeId}/>,
+                                   active={exchange && exchange.id === activeExchangeId}
+                      />,
                   )
                   :
                   loading !== undefined && loading === true ?
                       <div className='text-center'><ClipLoader/></div>
                       :
-                      <p className="mt-3 pr-3"><b>شما عضو هیچ پنجره ای نیستید!</b></p>
+                      <p className='no-membership'><b>شما عضو هیچ پنجره ای نیستید!</b></p>
             }
           </div>
           <div className='exchanges-last'/>

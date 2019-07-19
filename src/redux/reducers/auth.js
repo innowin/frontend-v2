@@ -114,6 +114,9 @@ const auth = (state = initialState.auth, action) => {
       /** -------------------------- create ability -------------------------> **/
     case types.SUCCESS.ABILITY.CREATE_ABILITY:
       return slices.createAbility.success(state, action)
+
+    case types.SUCCESS.COMMON.POST.FILTER_POSTS_STREAM:
+      return slices.filterPostsStream.success(state, action)
       /** -------------------------- reset  -------------------------> **/
     case types.RESET:
       return initialState.auth
