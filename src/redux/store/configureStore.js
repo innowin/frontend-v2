@@ -1,4 +1,5 @@
 import autoMerge from 'redux-persist/lib/stateReconciler/hardSet'
+import createEncryptor from 'redux-persist-transform-encrypt'
 import createHistory from 'history/createBrowserHistory'
 import createSagaMiddleware from 'redux-saga'
 import gaMiddleware from './gaMiddleware'
@@ -18,8 +19,15 @@ const sagaMiddleware = createSagaMiddleware()
 //Creating middleware to dispatch navigation actions
 const navMiddleware = routerMiddleware(history)
 
+const encryptor = createEncryptor({
+  secretKey: 'root-secret-key-is:podifohgr903485kljdsjf88923.,sdf985rnhsdfh9823834;jjfddd', onError: (error) => {
+    throw new Error(error)
+  },
+})
+
 const persistConfig = {
   key: 'root',
+  transforms: [encryptor],
   storage,
   version: migrations.LATEST_VERSION,
   migrate: createMigrate(migrations.ROOT, {debug: false}),
