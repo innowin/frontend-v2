@@ -2,7 +2,8 @@
 import cookie from 'src/consts/data'
 
 export const isAuthenticated = () => {
-  return window.localStorage.hasOwnProperty('token') || window.sessionStorage.hasOwnProperty('token')
+  return (window.localStorage.getItem('token') !== null && window.localStorage.getItem('token') !== undefined) ||
+      (window.sessionStorage.getItem('token') !== null && window.sessionStorage.getItem('token') !== undefined)
 }
 
 const setTokenLS = (token) => {
@@ -35,13 +36,13 @@ const clearToken = () => {
 const setCookie = (cname, cvalue, exdays) => {
   let d = new Date()
   d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000))
-  let expires = "expires=" + d.toUTCString()
-  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/"
+  let expires = 'expires=' + d.toUTCString()
+  document.cookie = cname + '=' + cvalue + ';' + expires + ';path=/'
 }
 
 const eraseAllCookies = () => {
-  document.cookie.split(";").forEach(c => {
-    document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/")
+  document.cookie.split(';').forEach(c => {
+    document.cookie = c.replace(/^ +/, '').replace(/=.*/, '=;expires=' + new Date().toUTCString() + ';path=/')
   })
 }
 
@@ -79,7 +80,8 @@ const clearData = () => {
 const getToken = () => {
   if (window.localStorage && localStorage.hasOwnProperty('token')) {
     return localStorage.getItem('token')
-  } else {
+  }
+  else {
     return sessionStorage.getItem('token')
   }
 }
@@ -87,7 +89,8 @@ const getToken = () => {
 const getIdentityId = () => {
   if (window.localStorage && localStorage.hasOwnProperty('identityId')) {
     return localStorage.getItem('identityId')
-  } else {
+  }
+  else {
     return sessionStorage.getItem('identityId')
   }
 }
@@ -95,7 +98,8 @@ const getIdentityId = () => {
 const getUserType = () => {
   if (window.localStorage && localStorage.hasOwnProperty('userType')) {
     return localStorage.getItem('userType')
-  } else {
+  }
+  else {
     return sessionStorage.getItem('userType')
   }
 }
