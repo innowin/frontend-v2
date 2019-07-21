@@ -5,6 +5,7 @@ import connect from 'react-redux/es/connect/connect'
 import React, {Component} from 'react'
 import {bindActionCreators} from 'redux'
 import {getBadges} from 'src/redux/selectors/common/badge/getAllBadges'
+import {getMessages} from '../../../redux/selectors/translateSelector'
 
 class IntroduceBadges extends Component {
   componentDidMount() {
@@ -19,14 +20,14 @@ class IntroduceBadges extends Component {
           {
             !loading && badges.length > 0 ?
                 badges.map((badge, index) =>
-                    <Badge key={'badges ' + index} media={badge.media} title={badge.title} description={badge.description}/>
+                    <Badge key={'badges ' + index} media={badge.media} title={badge.title} description={badge.description}/>,
                 )
                 :
                 !loading && badges.length === 0 ?
                     <div className='introduce-badges-title'>نشانی وجود ندارد</div>
                     :
-                    arr.map(() =>
-                        <BadgeSkeleton/>
+                    arr.map((index) =>
+                        <BadgeSkeleton key={'skelete_badges ' + index}/>,
                     )
           }
         </div>
@@ -36,12 +37,12 @@ class IntroduceBadges extends Component {
 
 const mapStateToProps = state => ({
   allBadges: getBadges(state),
-  translate: state.intl.messages.topBar
+  translate: getMessages(state),
 })
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
-    getBadges: badgeActions.getAllBadges
-  }, dispatch)
+    getBadges: badgeActions.getAllBadges,
+  }, dispatch),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(IntroduceBadges)

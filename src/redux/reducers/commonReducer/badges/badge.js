@@ -34,14 +34,14 @@ const badge = (state = initialState.common.badges.badge, action) => {
       const {loading} = action.payload
       for (let i = 0; i < data.length; i++) {
         let addBadge = {}
-        addBadge.title = data[i].badge_related_badge_category.badge_title
-        addBadge.description = data[i].badge_related_badge_category.badge_description
-        addBadge.media = data[i].badge_related_badge_category.badge_related_media.file
+        addBadge.title = data[i].badge_title
+        addBadge.description = data[i].badge_description
+        addBadge.media = data[i].badge_related_media
         allBadges.push(addBadge)
       }
       return {
         ...state,
-        allBadges: allBadges.slice(),
+        allBadges: [...allBadges],
         loading: loading
       }
 

@@ -82,6 +82,7 @@ const urls = {
 
     // badge
     BADGE: "base/badges",
+    ALL_BADGES: "base/badge-categories",
 
     // hashTags
     HASH_TAG_PARENT: "base/hashtag-parents",

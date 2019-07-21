@@ -1,23 +1,24 @@
-import api from "src/consts/api"
-import results from "src/consts/resultName"
-import types from "src/redux/actions/types/index"
-import urls from "src/consts/URLS"
-import {put, take, fork, call, select} from "redux-saga/effects"
-import constants from "src/consts/constants"
+import api from 'src/consts/api'
+import results from 'src/consts/resultName'
+import types from 'src/redux/actions/types/index'
+import urls from 'src/consts/URLS'
+import {put, take, fork, call, select} from 'redux-saga/effects'
+import constants from 'src/consts/constants'
 import uuid from 'uuid'
 
 export function* deleteExchangeMembership(action) {
   const {exchangeMembershipId, exchangeMembershipOwnerId} = action.payload
-  const socketChannel = yield call(api.createSocketChannel, results.COMMON.EXCHANGE_MEMBERSHIP.DELETE_EXCHANGE_MEMBERSHIP)
+  const result = `${results.COMMON.EXCHANGE_MEMBERSHIP.DELETE_EXCHANGE_MEMBERSHIP}-${exchangeMembershipId}`
+  const socketChannel = yield call(api.createSocketChannel, result)
   const state = yield select()
   const translate = state.intl.messages
 
   try {
-    yield fork(api.del, urls.COMMON.EXCHANGE_MEMBERSHIP, results.COMMON.EXCHANGE_MEMBERSHIP.DELETE_EXCHANGE_MEMBERSHIP, {}, `${exchangeMembershipId}`)
+    yield fork(api.del, urls.COMMON.EXCHANGE_MEMBERSHIP, result, {}, `${exchangeMembershipId}`)
     yield take(socketChannel)
     yield put({
       type: types.SUCCESS.COMMON.EXCHANGE_MEMBERSHIP.DELETE_EXCHANGE_MEMBERSHIP,
-      payload: {exchangeMembershipId, exchangeMembershipOwnerId}
+      payload: {exchangeMembershipId, exchangeMembershipOwnerId},
     })
 
     yield put({
@@ -27,18 +28,20 @@ export function* deleteExchangeMembership(action) {
           id: uuid(),
           type: constants.TOAST_TYPE.WARNING,
           content: {
-            text: translate['Exchange membership removed']
-          }
-        }
-      }
+            text: translate['Exchange membership removed'],
+          },
+        },
+      },
     })
-  } catch (err) {
+  }
+  catch (err) {
     const {message} = err
     yield put({
       type: types.ERRORS.COMMON.EXCHANGE_MEMBERSHIP.DELETE_EXCHANGE_MEMBERSHIP,
-      payload: {message}
+      payload: {message},
     })
-  } finally {
+  }
+  finally {
     socketChannel.close()
   }
 }
