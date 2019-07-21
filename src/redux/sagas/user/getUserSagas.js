@@ -46,12 +46,13 @@ export function* getUsers() {
 }
 
 export function* getAllUsers(action) {
-  const {limit, offset, search, justOrgan, work_status, token = true} = action.payload
+  const {limit, offset, search, justOrgan, work_status, badges, token = true} = action.payload
   yield put({type: types.SUCCESS.USER.GET_ALL_USERS, payload: {data: [], search, isLoading: true}})
   let params = search !== null ? `?username=${search}` : `?limit=${limit}&offset=${offset}`
   if (justOrgan === true) params += '&identity_type=organization'
   else if (justOrgan === false) params += '&identity_type=user'
   if (work_status && work_status.length > 0) work_status.forEach(work => params += `&work_status=${work}`)
+  if (badges && badges.length > 0) badges.forEach(badge => params += `&badges=${badge}`)
   const socketChannel = yield call(api.createSocketChannel, results.USER.GET_ALL_USERS)
   try {
     yield fork(
@@ -62,7 +63,11 @@ export function* getAllUsers(action) {
         token,
     )
     const data = yield take(socketChannel)
-    yield put({type: types.SUCCESS.USER.GET_ALL_USERS, payload: {data, search, isLoading: false}})
+    yield put({type: types.SUCCESS.USER.GET_ALL_USERS, payload: {data, badges, search, isLoading: false}})
+    if (badges && data && data.length > 0) {
+      for (let i = 0; i < data.length; i++)
+        yield put({type: types.COMMON.GET_USER_BADGES, payload: {userId: data[i].id, identityId: data[i].id}})
+    }
   }
   catch (err) {
     const {message} = err

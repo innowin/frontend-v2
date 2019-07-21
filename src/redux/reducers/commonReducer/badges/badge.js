@@ -12,9 +12,7 @@ const badge = (state = initialState.common.badges.badge, action) => {
     case types.SUCCESS.COMMON.GET_USER_BADGES:
       return {
         ...state,
-        list: {
-          ...data
-        }
+        list: {...data},
       }
     case types.SUCCESS.COMMON.GET_BADGES:
       return appendListToStateList.success(state, action)
@@ -24,25 +22,26 @@ const badge = (state = initialState.common.badges.badge, action) => {
       return {
         ...state,
         list: {
-          ...data
-        }
+          ...data,
+        },
       }
 
       /** --------------------  get all badges for About tab --------------------- **/
     case types.SUCCESS.COMMON.GET_ALL_BADGES:
-      let allBadges = []
+      let allBadges = {}
       const {loading} = action.payload
       for (let i = 0; i < data.length; i++) {
         let addBadge = {}
+        addBadge.id = data[i].id
         addBadge.title = data[i].badge_title
         addBadge.description = data[i].badge_description
         addBadge.media = data[i].badge_related_media
-        allBadges.push(addBadge)
+        allBadges[addBadge.id] = addBadge
       }
       return {
         ...state,
-        allBadges: [...allBadges],
-        loading: loading
+        allBadges: {...state.allBadges, ...allBadges},
+        loading,
       }
 
       /** ----------------- reset -----------------> **/

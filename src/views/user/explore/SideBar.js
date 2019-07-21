@@ -13,17 +13,22 @@ class Sidebar extends Component {
       collapseBadge: true,
       searchLength: 0,
       workStatus: [],
+      badges: [],
     }
   }
 
   _searchWorkStatus = (e, item) => {
     let workStatus = [...this.state.workStatus]
-    if (e.target.checked)
-      workStatus.push(item)
+    if (e.target.checked) workStatus.push(item)
     else workStatus.splice(workStatus.indexOf(item), 1)
-    this.setState({...this.state, workStatus}, () =>
-        this.props.searchWorkStatus(workStatus),
-    )
+    this.setState({...this.state, workStatus}, () => this.props.searchWorkStatus(workStatus))
+  }
+
+  _searchBadges = (e, id) => {
+    let badges = [...this.state.badges]
+    if (e.target.checked) badges.push(id)
+    else badges.splice(badges.indexOf(id), 1)
+    this.setState({...this.state, badges}, () => this.props.searchBadges(badges))
   }
 
   _handleChangeUser = (e) => this.props.justUsers(e.target.checked)
@@ -57,6 +62,7 @@ class Sidebar extends Component {
 
   render() {
     const {searchLength, collapse, collapseJob, collapseBadge} = this.state
+    const {allBadges} = this.props
 
     return (
         <div className={!window.location.pathname.includes('search') ? 'exchanges-explore-sidebar exchanges-explore-sidebar-hide' : 'exchanges-explore-sidebar'}>
@@ -143,47 +149,20 @@ class Sidebar extends Component {
               <div className='kindId'>براساس نشان های دریافت شده:</div>
               <div className={collapseBadge ? 'arrowDown' : 'arrowUp'}>❮</div>
             </div>
-            <div className={collapseBadge ? 'users-explore-sidebar-job-filter' : 'collapseId'}>
+            <div className={collapseBadge ? 'users-explore-sidebar-badge-filter' : 'collapseBadge'}>
               <div className="product-explorer">
-                <label className="label-wrapper">
-                  <input type="checkbox" onChange={this._handleChangeUser}/>
-                  <span className="checkmark"/>
-                  پروفایل کامل
-                </label>
-                <label className="label-wrapper">
-                  <input type="checkbox" onChange={this._handleChangeOrgan}/>
-                  <span className="checkmark"/>
-                  شرکت دانش بنیان
-                </label>
-                <label className="label-wrapper">
-                  <input type="checkbox"/>
-                  <span className="checkmark"/>
-                  ناحیه نوآوری شریف
-                </label>
-                <label className="label-wrapper">
-                  <input type="checkbox"/>
-                  <span className="checkmark"/>
-                  اعضای مجموعه فحاد
-                </label>
-                <label className="label-wrapper">
-                  <input type="checkbox"/>
-                  <span className="checkmark"/>
-                  شرکت فنّاور
-                </label>
+                {
+                  allBadges.badges.map((badge, index) =>
+                      <label key={'badge' + index} className="label-wrapper">
+                        <input type="checkbox" onChange={(e) => this._searchBadges(e, badge.id)}/>
+                        <span className="checkmark"/>
+                        {badge.title}
+                      </label>,
+                  )
+                }
               </div>
             </div>
           </div>
-
-          {/*<label className="label-wrapper">*/}
-          {/*  <input type="checkbox" onChange={(e) => justFollowed(e.target.checked)}/>*/}
-          {/*  <span className="checkmark"/>*/}
-          {/*  دنبال کرده ها*/}
-          {/*</label>*/}
-          {/*<label className="label-wrapper">*/}
-          {/*  <input type="checkbox" onChange={(e) => justFollowing(e.target.checked)}/>*/}
-          {/*  <span className="checkmark"/>*/}
-          {/*  دنبال شده ها*/}
-          {/*</label>*/}
 
         </div>
     )

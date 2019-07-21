@@ -14,6 +14,8 @@ import {getFollowersSelector} from 'src/redux/selectors/common/social/getFollowe
 import {getFolloweesSelector} from 'src/redux/selectors/common/social/getFollowees'
 import MobileHeader from './MobileHeader'
 import {getClientIdentity} from '../../../redux/selectors/common/client/getClient'
+import {getBadges} from '../../../redux/selectors/common/badge/getAllBadges'
+import badgeActions from '../../../redux/actions/commonActions/badgeActions'
 
 class Explore extends PureComponent {
   constructor(props) {
@@ -28,13 +30,15 @@ class Explore extends PureComponent {
       justUsers: false,
       justOrgans: false,
       workStatus: null,
+      badges: null,
     }
   }
 
   componentDidMount() {
     setTimeout(() => {
       const {currentUser, actions} = this.props
-      actions.getUsers(24, 0, null, null, null, !currentUser)
+      actions.getUsers(24, 0, null, null, null, null, !currentUser)
+      actions.getBadges()
       if (currentUser) {
         actions.getFollowees({followOwnerIdentity: currentUser, followOwnerId: currentUser, notProfile: true})
         actions.getFollowers({followOwnerIdentity: currentUser, followOwnerId: currentUser, notProfile: true})
@@ -60,6 +64,7 @@ class Explore extends PureComponent {
                 this.state.search,
                 this.state.justOrgans && !this.state.justUsers ? true : !this.state.justOrgans && this.state.justUsers ? false : null,
                 this.state.workStatus,
+                this.state.badges,
                 !this.props.currentUser,
             ),
         )
@@ -79,6 +84,7 @@ class Explore extends PureComponent {
           search,
           this.state.justOrgans && !this.state.justUsers ? true : !this.state.justOrgans && this.state.justUsers ? false : null,
           this.state.workStatus,
+          this.state.badges,
           !this.props.currentUser,
       )
     })
@@ -97,6 +103,7 @@ class Explore extends PureComponent {
             this.state.search,
             false,
             this.state.workStatus,
+            this.state.badges,
             !this.props.currentUser,
         )
       }
@@ -112,6 +119,7 @@ class Explore extends PureComponent {
             this.state.search,
             true,
             this.state.workStatus,
+            this.state.badges,
             !this.props.currentUser,
         )
       }
@@ -126,6 +134,21 @@ class Explore extends PureComponent {
           this.state.search,
           this.state.justOrgans && !this.state.justUsers ? true : !this.state.justOrgans && this.state.justUsers ? false : null,
           workStatus,
+          this.state.badges,
+          !this.props.currentUser,
+      )
+    })
+  }
+
+  _searchBadges = (badges) => {
+    this.setState({...this.state, badges, activeScrollHeight: 0}, () => {
+      this.props.actions.getUsers(
+          24,
+          0,
+          this.state.search,
+          this.state.justOrgans && !this.state.justUsers ? true : !this.state.justOrgans && this.state.justUsers ? false : null,
+          this.state.workStatus,
+          badges,
           !this.props.currentUser,
       )
     })
@@ -139,8 +162,8 @@ class Explore extends PureComponent {
   }
 
   render() {
-    const {loading, allUsers, currentUser, translate, followees, followers, path} = this.props
-    const {justFollowing, justFollowed, scrollButton, justOrgans, justUsers, workStatus} = this.state
+    const {loading, allUsers, currentUser, translate, followees, followers, path, allBadges} = this.props
+    const {justFollowing, justFollowed, scrollButton, justOrgans, justUsers, workStatus, badges} = this.state
 
     const followeesArr = Object.values(followees).reduce((all, follow) => {
       const id = follow.follow_followed.id ? follow.follow_followed.id : follow.follow_followed
@@ -163,7 +186,9 @@ class Explore extends PureComponent {
                    justUsers={this._justUsers}
                    justOrgans={this._justOrgans}
                    searchWorkStatus={this._searchWorkStatus}
+                   searchBadges={this._searchBadges}
                    path={path}
+                   allBadges={allBadges}
           />
           <div className='all-exchanges-container'>
             <Users followees={followeesArr}
@@ -174,6 +199,7 @@ class Explore extends PureComponent {
                    justOrgans={justOrgans}
                    justUsers={justUsers}
                    workStatus={workStatus}
+                   badges={badges}
                    loading={loading}
                    translate={translate}
                    currentUser={currentUser}
@@ -196,6 +222,7 @@ const mapStateToProps = (state) => {
 
   return {
     currentUser: id,
+    allBadges: getBadges(state),
     allUsers: getUsers(state),
     followers: getFollowersSelector(state, {ownerId: id}),
     followees: getFolloweesSelector(state, {ownerId: id}),
@@ -206,6 +233,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     getUsers: userActions.getAllUsers,
+    getBadges: badgeActions.getAllBadges,
     getFollowees: socialActions.getFollowees,
     getFollowers: socialActions.getFollowers,
   }, dispatch),

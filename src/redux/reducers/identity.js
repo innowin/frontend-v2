@@ -238,21 +238,13 @@ const identities = (state = initialState.identities, action) => {
 
       /** ------------------------------ get all users ------------------------- **/
     case types.SUCCESS.USER.GET_ALL_USERS:
-      let objectData = {}
-      data.forEach(user => {
-            objectData[user.id] = {
-              ...state.list[user.id],
-              ...user,
-            }
-          },
-      )
+      const objectData = data.reduce((sum, user) => ({...sum, [user.id]: {...state.list[user.id], ...user}}), {})
       return {
         ...state,
         list: {...state.list, ...objectData},
         search,
         isLoading,
       }
-
       /** -------------------------- reset search user -------------------------> **/
     case types.USER.RESET_SEARCH_USER:
       return {
@@ -323,7 +315,6 @@ const identities = (state = initialState.identities, action) => {
         },
       }
     case types.SUCCESS.COMMON.SET_BADGES_IN_USER:
-      const ArrayOfBadgeUserId = data.map((badge) => badge.id)
       return {
         ...state,
         list: {
@@ -331,8 +322,7 @@ const identities = (state = initialState.identities, action) => {
           [userId]: {
             ...state.list[userId],
             badges: {
-              ...previousBadgesUser,
-              content: ArrayOfBadgeUserId,
+              content: [...data],
               isLoading: false,
             },
           },

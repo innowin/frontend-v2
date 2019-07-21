@@ -14,9 +14,8 @@ export function* getUserBadges(action) {
   try {
     yield fork(api.get, urls.COMMON.BADGE, results.COMMON.GET_USER_BADGES, `?badge_related_parent=${identityId}`, true)
     const badges = yield take(socketChannel)
-    const normalData = helpers.arrayToIdKeyedObject(badges)
-    yield put({type: types.SUCCESS.COMMON.GET_USER_BADGES, payload: {data: normalData}})
-    yield put({type: types.SUCCESS.COMMON.SET_BADGES_IN_USER, payload: {data: badges, userId}})
+    yield put({type: types.SUCCESS.COMMON.GET_USER_BADGES, payload: {data: badges.reduce((sum, badge) => ({...sum, [badge.badge_related_badge_category.id]: {...badge.badge_related_badge_category}}), {})}})
+    yield put({type: types.SUCCESS.COMMON.SET_BADGES_IN_USER, payload: {data: badges.reduce((sum, badge) => ([...sum, badge.badge_related_badge_category.id]), []), userId: identityId}})
   }
   catch (e) {
     const {message} = e

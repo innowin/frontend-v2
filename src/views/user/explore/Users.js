@@ -6,13 +6,13 @@ import constants from 'src/consts/constants'
 const loadingArr = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
 const Users = (props) => {
-  let {users, followees, followers, justFollowing, justFollowed, justUsers, justOrgans, files, translate, currentUser, workStatus} = props
+  let {users, followees, followers, justFollowing, justFollowed, justUsers, justOrgans, files, translate, currentUser, workStatus, badges} = props
 
   let usersArr = Object.values(users).filter(user => user.id)
 
   let usersObj = {}
 
-  if (justFollowing || justFollowed || justUsers || justOrgans || (workStatus && workStatus.length > 0)) {
+  if (justFollowing || justFollowed || justUsers || justOrgans || (workStatus && workStatus.length > 0) || (badges && badges.length > 0)) {
     usersArr.forEach(user => {
       if (justFollowed && followers[user.id]) {
         usersObj = {...usersObj, [user.id]: {...user}}
@@ -28,6 +28,16 @@ const Users = (props) => {
       }
       if (workStatus && user.work_status && workStatus.includes(user.work_status)) {
         usersObj = {...usersObj, [user.id]: {...user}}
+      }
+      // console.log(badges, user.badges)
+      if (badges && user.badges && user.badges.content) {
+        console.log(badges, user.badges.content)
+        for (let i = 0; i < user.badges.content.length; i++) {
+          if (badges.includes(user.badges.content[i])) {
+            usersObj = {...usersObj, [user.id]: {...user}}
+            break
+          }
+        }
       }
     })
     usersArr = Object.values(usersObj)

@@ -453,6 +453,21 @@
   transition-duration: 0.3s;
 }
 
+.users-explore-sidebar-badge-filter {
+  width: 90%;
+  margin: 10px auto;
+  opacity: 1;
+  user-select: none;
+  transition-duration: 0.3s;
+}
+
+.collapseBadge {
+  opacity: 0;
+  width: 90%;
+  margin: 0 auto;
+  transition-duration: 0.3s;
+}
+
 .collapseId {
   height: 0;
   opacity: 0;

@@ -230,7 +230,6 @@ const mapStateToProps = (state, ownProps) => {
   return {
     isLogin: getClientIdentity(state),
     userObject: user,
-    badgesObject: badgesObjectInUser,
     translate: getMessages(state),
     badges,
     posts: userPostsSelector(state, {id: userId}),

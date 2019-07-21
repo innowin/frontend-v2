@@ -1,9 +1,9 @@
 import * as React from "react"
 import {MainLbarArrow} from "src/images/icons"
 import * as PropTypes from 'prop-types'
-import {PureComponent} from 'react'
+import {Component} from 'react'
 
-class InteliInput extends PureComponent {
+class InteliInput extends Component {
   static propTypes = {
     list: PropTypes.arrayOf(Object).isRequired,
     handleChange: PropTypes.func.isRequired,

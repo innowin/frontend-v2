@@ -16,13 +16,13 @@ const Badges = (props) => {
             badges.map((badge, i) =>
                 <div key={"badge" + i} className="badgesCard">
                   <div className='badge-instant-logo'>
-                    <img src={badge.badge_related_badge_category.badge_related_media && badge.badge_related_badge_category.badge_related_media.file}
+                    <img src={badge.badge_related_media && badge.badge_related_media.file}
                          alt=''/>
-                    <div style={{marginTop: "5px"}}>{badge.badge_related_badge_category.badge_title}</div>
+                    <div style={{marginTop: "5px"}}>{badge.badge_title}</div>
                   </div>
                   <div className='badge-instant-text'>
-                    <div>{badge.badge_related_badge_category.badge_title}</div>
-                    <div className='badge-instant-text-desc'>{badge.badge_related_badge_category.badge_description}</div>
+                    <div>{badge.badge_title}</div>
+                    <div className='badge-instant-text-desc'>{badge.badge_description}</div>
                   </div>
                 </div>,
             )
