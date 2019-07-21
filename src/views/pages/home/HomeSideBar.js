@@ -26,8 +26,7 @@ class HomeSideBar extends PureComponent {
   componentDidMount() {
     const {identityId} = this.props
     const {getExchangeMembershipByMemberIdentity} = this.props.actions
-    if (identityId)
-      getExchangeMembershipByMemberIdentity({identityId, exchangeMembershipOwnerId: identityId})
+    identityId && getExchangeMembershipByMemberIdentity({identityId, exchangeMembershipOwnerId: identityId})
   }
 
   componentWillReceiveProps(nextProps) {

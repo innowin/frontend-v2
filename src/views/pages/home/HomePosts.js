@@ -2,7 +2,6 @@ import React from 'react'
 import {PureComponent} from 'react'
 import constant from 'src/consts/constants'
 import CreatePostNew from 'src/views/common/post/createPost/index'
-import NewRightArrowSvg from 'src/images/common/new_right_arrow'
 import PostActions from 'src/redux/actions/commonActions/postActions'
 import * as PropTypes from 'prop-types'
 import {bindActionCreators} from 'redux'
@@ -13,8 +12,9 @@ import {exchangeMemberships} from 'src/redux/selectors/common/exchanges/Exchange
 import {clientMemberships} from 'src/redux/selectors/common/exchanges/ClientMemberships'
 import {Link} from 'react-router-dom'
 import {Post} from 'src/views/common/post/Post'
-import {RightArrow, DesertIcon, EditIcon, ChannelIcon} from 'src/images/icons'
+import {RightArrow, DesertIcon, EditIcon, ChannelIcon, NewRightArrow} from 'src/images/icons'
 import {BarLoader} from 'react-spinners'
+import Material from '../../common/components/Material'
 
 class HomePosts extends PureComponent {
 
@@ -142,54 +142,48 @@ class HomePosts extends PureComponent {
           <React.Fragment>
             {
               showCreatePostSmall && exchangeId ?
-                  <CreatePostNew
-                      postParentId={exchangeId}
-                      postParentType={constant.POST_PARENT.EXCHANGE}
-                      lastPostId={posts[0] && posts[0].id}
-                      className='create-post-small'
-                      hideCreatePost={this._hideCreatePostSmall}
+                  <CreatePostNew postParentId={exchangeId}
+                                 postParentType={constant.POST_PARENT.EXCHANGE}
+                                 lastPostId={posts[0] && posts[0].id}
+                                 className='create-post-small'
+                                 hideCreatePost={this._hideCreatePostSmall}
                   />
                   : <React.Fragment>
                     {
                       exchangePage && exchangeId ?
                           isExchangeMember({exchangeId, identityMemberships, exchangeMemberships}) ?
                               <div style={{marginBottom: '11px'}}>
-                                <CreatePostNew
-                                    postParentId={exchangeId}
-                                    postParentType={constant.POST_PARENT.EXCHANGE}
-                                    lastPostId={posts[0] && posts[0].id}
+                                <CreatePostNew postParentId={exchangeId}
+                                               postParentType={constant.POST_PARENT.EXCHANGE}
+                                               lastPostId={posts[0] && posts[0].id}
                                 />
                               </div>
                               :
                               <div style={{marginBottom: '11px'}}/>
                           :
                           exchangeId ?
-                              <CreatePostNew
-                                  postParentId={exchangeId}
-                                  postParentType={constant.POST_PARENT.EXCHANGE}
-                                  lastPostId={posts[0] && posts[0].id}
+                              <CreatePostNew postParentId={exchangeId}
+                                             postParentType={constant.POST_PARENT.EXCHANGE}
+                                             lastPostId={posts[0] && posts[0].id}
                               />
                               :
                               <div style={{marginBottom: '11px'}}/>
                     }
-                    <div style={{background: `rgba(${averageColor[0]}, ${averageColor[1]}, ${averageColor[2]})`}}
-                         className={hideTopBar ? 'top-bar-entity show top-bar-entity-top' : 'top-bar-entity show'}>
-                      <NewRightArrowSvg onClick={unSetExchangeId} className='back-button'/>
+                    <div style={{background: `rgba(${averageColor[0]}, ${averageColor[1]}, ${averageColor[2]})`}} className={hideTopBar ? 'top-bar-entity show top-bar-entity-top' : 'top-bar-entity show'}>
+                      <Material onClick={unSetExchangeId} backgroundColor='rgba(255,255,255,0.5)' className='back-button-material' content={<NewRightArrow className='back-button-product'/>}/>
                       <Link to={exchangeId ? '/exchange/' + exchangeId : ''} className='profile-top-bar'>
-                        {selectedExchange && selectedExchange.exchange_image
-                            ?
-                            <React.Fragment>
-                              <img ref={e => this.headerImg = e} src={selectedExchange.exchange_image.file} alt='profile' className='profile-top-bar'/>
-                              <canvas ref={e => this.headerCanvas = e} width={'auto'} height={'auto'} style={{display: 'none'}}>مرورگر شما این ویژگی
-                                را پشتیبانی نمیکند
-                              </canvas>
-                            </React.Fragment>
-                            : <ChannelIcon className='profile-top-bar default-profile-organ'/>
+                        {
+                          selectedExchange && selectedExchange.exchange_image ?
+                              <React.Fragment>
+                                <img ref={e => this.headerImg = e} src={selectedExchange.exchange_image.file} alt='profile' className='profile-top-bar'/>
+                                <canvas ref={e => this.headerCanvas = e} width={'auto'} height={'auto'} style={{display: 'none'}}>مرورگر شما این ویژگی
+                                  را پشتیبانی نمیکند
+                                </canvas>
+                              </React.Fragment>
+                              : <ChannelIcon className='profile-top-bar default-profile-organ'/>
                         }
                       </Link>
-                      <span className='organ-name'>
-                          {selectedExchange && selectedExchange.name}
-                        </span>
+                      <span className='organ-name'>{exchangeId === 0 ? 'استریم' : selectedExchange && selectedExchange.name}</span>
                     </div>
 
                     <div className={exchangePage ? '-frameCardPostEx border-top-0' : '-frameCardPost border-top-0'}>
