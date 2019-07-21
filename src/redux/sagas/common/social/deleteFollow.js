@@ -8,12 +8,13 @@ import uuid from 'uuid'
 
 export function* deleteFollow(action) {
   const {followId, followOwnerId} = action.payload
-  const socketChannel = yield call(api.createSocketChannel, results.COMMON.SOCIAL.DELETE_FOLLOW)
+  const result = `${results.COMMON.SOCIAL.DELETE_FOLLOW}-${followId}-${followOwnerId}`
+  const socketChannel = yield call(api.createSocketChannel, result)
   const state = yield select()
   const translate = state.intl.messages
 
   try {
-    yield fork(api.del, urls.COMMON.SOCIAL.FOLLOW, results.COMMON.SOCIAL.DELETE_FOLLOW, '', `${followId}`)
+    yield fork(api.del, urls.COMMON.SOCIAL.FOLLOW, result, '', `${followId}`)
     yield take(socketChannel)
     yield put({type: types.SUCCESS.COMMON.SOCIAL.DELETE_FOLLOW, payload: {followId, followOwnerId}})
     yield put({

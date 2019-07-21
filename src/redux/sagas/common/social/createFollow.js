@@ -8,11 +8,12 @@ import uuid from 'uuid'
 
 export function* createFollow(action) {
   const {formValues} = action.payload
-  const socketChannel = yield call(api.createSocketChannel, results.COMMON.SOCIAL.CREATE_FOLLOW)
+  const result = `${results.COMMON.SOCIAL.CREATE_FOLLOW}-${formValues.follow_followed}`
+  const socketChannel = yield call(api.createSocketChannel, result)
   const state = yield select()
   const translate = state.intl.messages
   try {
-    yield fork(api.post, urls.COMMON.SOCIAL.FOLLOW, results.COMMON.SOCIAL.CREATE_FOLLOW, {follow_followed: formValues.follow_followed})
+    yield fork(api.post, urls.COMMON.SOCIAL.FOLLOW, result, {follow_followed: formValues.follow_followed})
     const data = yield take(socketChannel)
     data.follow_followed = parseInt(data.follow_followed, 10)
     data.follow_follower = parseInt(data.follow_follower, 10)
