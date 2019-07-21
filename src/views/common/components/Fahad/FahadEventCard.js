@@ -5,7 +5,8 @@ import FahadEventModal from "./FahadEventModal"
 import {getCategories} from "src/redux/actions/commonActions/categoryActions"
 import {bindActionCreators} from "redux"
 import {connect} from "react-redux"
-import {createProductAsContribution} from "src/redux/actions/commonActions/productActions"
+import ProductActions, {createProductAsContribution} from "src/redux/actions/commonActions/productActions"
+import {getClientIdentity} from "src/redux/selectors/common/client/getClient"
 
 
 class FahadEventCard extends PureComponent {
@@ -18,6 +19,7 @@ class FahadEventCard extends PureComponent {
 
   componentDidMount(): void {
     this.props._getCategories()
+    this.props._getProductsByIdentity({productOwnerId: this.props.clientIdentityId})
   }
 
   toggle = (e) => {
@@ -28,18 +30,28 @@ class FahadEventCard extends PureComponent {
     })
   }
 
-  render = () => (
-      <div className="event-card">
-        <FahadEventModal modalIsOpen={this.state.modalIsOpen} toggle={this.toggle} _createProduct={this.props._createProduct}/>
-        <div className="close-button">✕</div>
-        <div className="image"><EventBanner/></div>
-        <div className="text">
-          <div className="title">رویداد علمی شبکه همکاری نخبگان فحاد</div>
-          <div className="description">برای ثبت نام در شبکهٔ همکاری نخبگان علمی فناوری از اینجا اقدام کنید.</div>
+  render() {
+    let {_createProduct} = this.props
+    let {modalIsOpen} = this.state
+    return (
+        <div className="event-card">
+          <FahadEventModal modalIsOpen={modalIsOpen} toggle={this.toggle} _createProduct={_createProduct}/>
+          <div className="close-button">✕</div>
+          <div className="image"><EventBanner/></div>
+          <div className="text">
+            <div className="title">رویداد علمی شبکه همکاری نخبگان فحاد</div>
+            <div className="description">برای ثبت نام در شبکهٔ همکاری نخبگان علمی فناوری از اینجا اقدام کنید.</div>
+          </div>
+          <div className="button event-opener" onClick={this.toggle}>ثبت نام رایگان</div>
         </div>
-        <div className="button event-opener" onClick={this.toggle}>ثبت نام رایگان</div>
-      </div>
-  )
+    )
+  }
+}
+
+const mapStateToProps = (state) => {
+  return {
+    clientIdentityId: getClientIdentity(state),
+  }
 }
 
 const mapDispatchToProps = dispatch =>
@@ -47,6 +59,7 @@ const mapDispatchToProps = dispatch =>
         {
           _getCategories: getCategories,
           _createProduct: createProductAsContribution,
+          _getProductsByIdentity: ProductActions.getProductsByIdentity,
         }, dispatch)
 
-export default connect(null, mapDispatchToProps)(FahadEventCard)
+export default connect(mapStateToProps, mapDispatchToProps)(FahadEventCard)

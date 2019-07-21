@@ -2,6 +2,7 @@ import React, {Component} from "react"
 import RightArrowSvg from "src/images/common/right_arrow_svg"
 import axios from "axios"
 import urls, {REST_URL} from "src/consts/URLS"
+import numberCorrection from "src/helpers/numberCorrection"
 
 let successes = 0
 let errors = 0
@@ -60,8 +61,8 @@ class FahadEventPageFour extends Component {
           successes = 0
           errors = 0
           this.sendData(73 + index * 4, member.fullName)
-          this.sendData(74 + index * 4, member.phoneNumber)
-          this.sendData(75 + index * 4, member.socialNumber)
+          this.sendData(74 + index * 4, numberCorrection(member.phoneNumber))
+          this.sendData(75 + index * 4, numberCorrection(member.socialNumber))
           this.sendData(76 + index * 4, member.rule)
         }
         else {
@@ -203,7 +204,7 @@ class FahadEventPageFour extends Component {
               </div>}
               {members.length > 0 &&
               <div className="organization-leadership-job-hashtags" onClick={() => this.deleteMember()}>
-                - کاهش شرکت‌کنندۀ
+                - حذف شرکت‌کنندۀ
               </div>}
             </div>
 

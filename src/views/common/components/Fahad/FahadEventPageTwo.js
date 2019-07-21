@@ -3,7 +3,8 @@ import RightArrowSvg from "src/images/common/right_arrow_svg"
 import {CheckSvg, Product as ProductSvg, UploadIcon} from "src/images/icons"
 import InteliInput from "src/views/common/inputs/InteliInput"
 import axios from "axios"
-import urls, {REST_URL} from "src/consts/URLS"
+import urls, {REST_URL, FRONT_URL} from "src/consts/URLS"
+import Consts from "src/consts/constants"
 import {ClipLoader} from "react-spinners"
 
 let successes = 0
@@ -17,6 +18,7 @@ class FahadEventPageTwo extends PureComponent {
       haveProduct: false,
       selectedCategory: null,
       selectedImage: [],
+      selectedProduct: null,
 
       product_name: "",
       product_certificates: "",
@@ -29,6 +31,7 @@ class FahadEventPageTwo extends PureComponent {
       validationError: false,
       serverError: false,
     }
+    this.selectProduct = this.selectProduct.bind(this)
   }
 
   componentDidMount() {
@@ -73,8 +76,9 @@ class FahadEventPageTwo extends PureComponent {
       product_abilities,
       product_is_knowledge_base,
       selectedImage,
+      selectedProduct,
     } = this.state
-    const {clientIdentityId, _createProduct} = this.props
+    const {clientIdentityId, _createProduct, _checkingValidation} = this.props
 
     if (haveProduct) {
       if (
@@ -93,6 +97,7 @@ class FahadEventPageTwo extends PureComponent {
         this.sendData(48, product_abilities)
         this.sendData(37, product_is_knowledge_base)
         this.sendData(81, selectedImage)
+        this.sendData(43, FRONT_URL + "/product/" + selectedProduct)
         let productInfo = {
           name: product_name,
           description: product_features,
@@ -105,7 +110,8 @@ class FahadEventPageTwo extends PureComponent {
           galleryImages: [...imageIds],
           mainGalleryImageIndex: 0,
         }
-        _createProduct(formData)
+        _createProduct(formData, (id) => this.sendData(38, FRONT_URL + "/product/" + id))
+        _checkingValidation()
         imageIds = []
       }
       else {
@@ -139,7 +145,7 @@ class FahadEventPageTwo extends PureComponent {
           console.log(response)
           response.statusText === "Created" && successes++
           // eslint-disable-next-line no-unused-expressions
-          successes === 9 ? _nextLevel() : errors > 0 && this.serverError()
+          successes === 10 ? _nextLevel() : errors > 0 && this.serverError()
         })
         .catch((err) => {
           console.log(fieldId, err)
@@ -177,6 +183,7 @@ class FahadEventPageTwo extends PureComponent {
           if (file) {
             let form = new FormData()
             form.append("file", file)
+            form.append("type", Consts.CREATE_FILE_TYPES.IMAGE)
             form.append("uploader", clientIdentityId)
             axios.post(
                 REST_URL + "/" + urls.COMMON.FILE + "/",
@@ -208,10 +215,15 @@ class FahadEventPageTwo extends PureComponent {
     this.setState({...this.state, selectedImage: [...img]})
   }
 
+  selectProduct(id) {
+    if (this.state.selectedProduct !== id)
+      this.setState({...this.state, selectedProduct: id})
+    else this.setState({...this.state, selectedProduct: null})
+  }
 
   render() {
-    let {haveProduct, selectedImage, validationError, serverError} = this.state
-    let {category, uploading} = this.props
+    let {haveProduct, selectedImage, selectedProduct, validationError, serverError} = this.state
+    let {category, uploading, clientProducts} = this.props
     return (
         <React.Fragment>
           <div className="event-reg-modal-header">
@@ -374,9 +386,31 @@ class FahadEventPageTwo extends PureComponent {
                   <p className="disabled-text">
                     در صورتی که محصول یا پروژه ندارید، میتوانید از این مرحله بگذرید
                   </p>
-                  <div className="add-product-button" style={{marginTop: "25px"}} onClick={() => this.setHaveProduct()}>
-                    افزودن محصول
+                  <div style={{margin: "25px", display: "flex", alignItems: "center", justifyContent: "center"}}>
+                    <div className="add-product-button" onClick={() => this.setHaveProduct()}>
+                      افزودن محصول
+                    </div>
                   </div>
+
+                  {
+                    clientProducts.map(p =>
+                        <div key={p.id} className={selectedProduct === p.id ? "client-product-container" : "client-product-container-inactive"}
+                             onClick={() => this.selectProduct(p.id)}>
+                          {selectedProduct === p.id && <CheckSvg className="client-product-container-checked-svg"/>}
+                          <div className="client-product-model-logo">
+                            <ProductSvg className='client-product-model-logo-svg'/>
+                            <div>محصول</div>
+                          </div>
+                          <div className="client-product-info">
+                            <p>{p.name}</p>
+                            <p className="client-product-desc">{p.description}</p>
+                          </div>
+                          <div className="client-product-image-con">
+                            {p.product_media && p.product_media[0] && <img className="client-product-image" src={p.product_media[0].file} alt=""/>}
+                          </div>
+                        </div>,
+                    )
+                  }
                 </div>
           }
 

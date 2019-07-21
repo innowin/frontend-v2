@@ -2,6 +2,7 @@ import React, {Component} from "react"
 import RightArrowSvg from "src/images/common/right_arrow_svg"
 import axios from "axios"
 import urls, {REST_URL} from "src/consts/URLS"
+import numberCorrection from "src/helpers/numberCorrection"
 
 let successes = 0
 let errors = 0
@@ -69,14 +70,14 @@ class FahadEventPageThree extends Component {
       successes = 0
       errors = 0
       this.sendData(54, ceo_name)
-      this.sendData(55, ceo_phone_number)
-      this.sendData(56, ceo_social_phone_number)
-      this.sendData(57, ceo_office_number)
+      this.sendData(55, numberCorrection(ceo_phone_number))
+      this.sendData(56, numberCorrection(ceo_social_phone_number))
+      this.sendData(57, numberCorrection(ceo_office_number))
       this.sendData(58, ceo_email)
       this.sendData(59, bod_name)
-      this.sendData(60, bod_phone_number)
+      this.sendData(60, numberCorrection(bod_phone_number))
       this.sendData(61, bod_post)
-      this.sendData(62, bod_office_number)
+      this.sendData(62, numberCorrection(bod_office_number))
       this.sendData(63, bod_email)
     }
     else {
@@ -155,7 +156,7 @@ class FahadEventPageThree extends Component {
                    maxLength="50" title="حداقل 2 کاراکتر، حداکثر 50" onChange={(e) => this.setState({...this.state, ceo_name: e.target.value})}/>
 
             <label>
-              شمارۀ همراه
+              شمارۀ همراه مدیرعامل
               <span className={"secondary-color"}> * </span>
             </label>
             <input type={"text"} className="organization-leadership-job-input" placeholder={"شمارۀ همراه مدیرعامل"}

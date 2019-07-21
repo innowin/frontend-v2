@@ -2,10 +2,11 @@
 
 .tabs-card-wrapper {
   background: white;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   margin-bottom: 10px;
   border-radius: 6px;
   padding: 15px;
+
   .card-header {
     font-size: $font-size-14;
     margin-bottom: 15px;
@@ -17,6 +18,7 @@
       font-weight: bold;
       font-size: $font-size-13;
     }
+
     .edit-button {
       width: 70px;
       font-size: $font-size-regular;
@@ -29,6 +31,7 @@
       width: 140px;
       font-size: $font-size-regular;
       color: $text-medium-dark;
+
       .close-button {
         width: 10px;
         height: 10px;
@@ -48,6 +51,7 @@
       text-align: center;
     }
   }
+
   .content {
     font-size: $font-size-regular;
     white-space: pre-line;

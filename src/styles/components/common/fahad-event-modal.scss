@@ -203,12 +203,11 @@
 }
 
 .have-product-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  height: 58vh;
+  text-align: center;
+  height: 60vh;
   font-size: $font-size-regular;
+  overflow: auto;
+  margin: auto;
 
   p {
     margin-bottom: 15px;
@@ -227,7 +226,7 @@
   border: 1.25px solid $primary-color;
   width: 150px;
   height: 150px;
-  margin: 10px 0 15px 0;
+  margin: 10px auto 15px auto;
 }
 
 .fahad-modal-product-svg {
@@ -266,6 +265,103 @@
     color: $background-color;
     transition-duration: $animation-timing-short;
     box-shadow: 0 0 0 2px $primary-color;
+  }
+}
+
+.client-product-container-inactive {
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+  margin: 25px 10px 0 10px;
+  width: 98%;
+  height: 125px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  border-radius: $border-radius-size;
+  padding: 5px;
+  text-align: right;
+  overflow: hidden;
+  transition-duration: $animation-timing;
+  opacity: .7;
+  filter: grayscale(50%);
+  -webkit-filter: grayscale(50%);
+
+  &:hover {
+    opacity: .9;
+    transition-duration: $animation-timing;
+    -webkit-filter: grayscale(0);
+    filter: grayscale(0);
+  }
+}
+
+.client-product-container {
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+  margin: 25px 10px 0 10px;
+  width: 98%;
+  height: 125px;
+  box-shadow: 0 10px 6px rgba(0, 0, 0, 0.15);
+  transform: translateY(-10px);
+  border-radius: $border-radius-size;
+  padding: 5px;
+  text-align: right;
+  overflow: hidden;
+  transition-duration: $animation-timing;
+  opacity: 1;
+  -webkit-filter: saturate(150%);
+  filter: saturate(150%);
+  position: relative;
+
+  .client-product-container-checked-svg {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 45px;
+  }
+}
+
+.client-product-model-logo {
+  font-size: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  vertical-align: top;
+  width: 114px;
+  height: 114px;
+  background-color: $more-button-color-hover-darker;
+  border-radius: 3px;
+  margin-left: 10px;
+
+  .client-product-model-logo-svg {
+    width: 50px;
+    margin: 5px;
+  }
+}
+
+.client-product-info {
+  font-size: $font-size-medium;
+  color: $foreground-color;
+  margin: 10px 0;
+  height: 114px;
+  text-align: right;
+  flex-grow: 1;
+
+  .client-product-desc {
+    color: $disable-color;
+    font-size: $font-size-14;
+  }
+}
+
+.client-product-image-con {
+  width: 200px;
+  height: 114px;
+  border-radius: $border-radius-size;
+
+  .client-product-image {
+    width: 200px;
+    height: 114px;
+    object-fit: cover;
   }
 }
 
