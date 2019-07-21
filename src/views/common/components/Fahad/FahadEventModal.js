@@ -7,6 +7,7 @@ import {connect} from "react-redux"
 import {makeCategorySelector} from "src/redux/selectors/common/category/getCategoriesByParentId"
 import FahadEventPageFive from "./FahadEventPageFive"
 import {getClientIdentity} from "src/redux/selectors/common/client/getClient"
+import {getUserProducts} from "src/redux/selectors/common/product/getUserProducts"
 
 
 class FahadEventModal extends Component {
@@ -21,6 +22,8 @@ class FahadEventModal extends Component {
     }
     this.nextLevel = this.nextLevel.bind(this)
     this.changeIsLoading = this.changeIsLoading.bind(this)
+    this.checkingValidation = this.checkingValidation.bind(this)
+    this.checkValidation = this.checkValidation.bind(this)
   }
 
   componentDidMount(): void {
@@ -37,12 +40,15 @@ class FahadEventModal extends Component {
       if (catsArray.length >= 1)
         this.setState({...this.state, catsArray: catsArray.slice()})
     }
-
   }
 
   nextLevel() {
     const {level} = this.state
     this.setState({...this.state, verification: -1, level: level + 1, isLoading: false})
+  }
+
+  checkingValidation() {
+    this.setState({...this.state, verification: -1})
   }
 
   checkValidation() {
@@ -58,8 +64,8 @@ class FahadEventModal extends Component {
   }
 
   currentLevel() {
-    let {level, catsArray, verification, uploading} = this.state
-    let {clientIdentityId, token, _createProduct} = this.props
+    let {level, catsArray, verification, uploading, isLoading} = this.state
+    let {clientIdentityId, token, clientProducts, _createProduct} = this.props
     switch (level) {
       case 1:
         return (
@@ -70,8 +76,8 @@ class FahadEventModal extends Component {
       case 2:
         return (
             <FahadEventPageTwo verification={verification} category={catsArray} clientIdentityId={clientIdentityId}
-                               token={token} uploading={uploading}
-                               _nextLevel={this.nextLevel} _changeIsLoading={this.changeIsLoading}
+                               token={token} uploading={uploading} isLoading={isLoading} clientProducts={clientProducts}
+                               _nextLevel={this.nextLevel} _changeIsLoading={this.changeIsLoading} _checkingValidation={this.checkingValidation}
                                _changeUploading={(data) => this.changeUploading(data)} _createProduct={_createProduct}/>
         )
       case 3:
@@ -196,6 +202,7 @@ const mapStateToProps = (state) => {
     clientIdentityId: getClientIdentity(state),
     token: state.auth.client.token,
     tempFiles: state.temp.file,
+    clientProducts: getUserProducts(state, {ownerId: state.auth.client.identity.content}),
   }
 }
 

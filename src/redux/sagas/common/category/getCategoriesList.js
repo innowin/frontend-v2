@@ -8,7 +8,7 @@ import helpers from 'src/consts/helperFunctions/helperFunctions'
 function* getCategoriesList() {
   const socketChannel = yield call(api.createSocketChannel, results.COMMON.GET_CATEGORIES)
   try {
-    yield fork(api.get, urls.COMMON.CATEGORY, results.COMMON.GET_CATEGORIES, '', true)
+    yield fork(api.get, urls.COMMON.CATEGORY, results.COMMON.GET_CATEGORIES, '?limit=10000', true)
     const data = yield take(socketChannel)
     const normalData = helpers.arrayToIdKeyedObject(data)
     yield put({type: types.SUCCESS.COMMON.GET_CATEGORIES, data: normalData})

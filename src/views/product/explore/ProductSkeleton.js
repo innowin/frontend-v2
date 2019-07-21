@@ -1,5 +1,5 @@
-import React from 'react'
-import {Organization, Product as ProductSvg} from 'src/images/icons'
+import React from "react"
+import {Organization, Product as ProductSvg} from "src/images/icons"
 
 const ProductSkeleton = () => {
   return (
@@ -11,11 +11,11 @@ const ProductSkeleton = () => {
           <div className='product-model-detail'>
             <div className='product-model-name'>
               <ProductSvg className='product-model-little-svg'/>
-              <span style={{backgroundColor: '#f3f3f3'}}>                                            </span>
+              <span style={{backgroundColor: "#f3f3f3"}}>                                            </span>
             </div>
             <div className='product-model-seller-icon'>
               <Organization className='product-model-little-svg'/>
-              <span className='product-model-seller' style={{backgroundColor: '#f3f3f3'}}>                                            </span>
+              <span className='product-model-seller' style={{backgroundColor: "#f3f3f3"}}>                                            </span>
             </div>
           </div>
           <div className='product-model-img'/>
