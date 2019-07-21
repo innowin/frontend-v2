@@ -460,9 +460,7 @@ class FahadEventPageOne extends PureComponent {
             </label>
             <div className="fahad-modal-upload-svg-con">
               {selectedLogo && selectedLogo !== "" ?
-                  <div style={{paddingTop: "5px"}}>
-                    <CheckSvg className="fahad-modal-check-svg"/>
-                  </div>
+                  <img src={selectedLogo} alt="" className="fahad-modal-upload-svg-logo"/>
                   :
                   <UploadIcon className="fahad-modal-upload-svg"/>
               }

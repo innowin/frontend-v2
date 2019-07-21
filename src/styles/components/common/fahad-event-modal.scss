@@ -183,6 +183,7 @@
   height: 60px;
   margin: 10px 0 15px 0;
   position: relative;
+  overflow: hidden;
 
   input {
     position: absolute;
@@ -200,6 +201,12 @@
   fill: $secondary-color;
   cursor: pointer;
   object-fit: cover;
+}
+
+.fahad-modal-upload-svg-logo {
+  object-fit: cover;
+  width: 60px;
+  height: 60px;
 }
 
 .have-product-container {

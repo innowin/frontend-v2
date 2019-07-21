@@ -32,6 +32,18 @@ class FahadEventPageThree extends Component {
       let modalCon = document.getElementById("fahadModalContainerDiv")
       modalCon.scrollTo({top: 0, behavior: "smooth"})
     }
+    setTimeout(() => {
+      this.getData(54, "ceo_name")
+      this.getData(55, "ceo_phone_number")
+      this.getData(56, "ceo_social_phone_number")
+      this.getData(57, "ceo_office_number")
+      this.getData(58, "ceo_email")
+      this.getData(59, "bod_name")
+      this.getData(60, "bod_phone_number")
+      this.getData(61, "bod_post")
+      this.getData(62, "bod_office_number")
+      this.getData(63, "bod_email")
+    }, 350)
   }
 
   componentWillReceiveProps(nextProps: Readonly<P>, nextContext: any): void {
@@ -118,6 +130,27 @@ class FahadEventPageThree extends Component {
         })
   }
 
+  getData(fieldId, fieldData) {
+    const {token} = this.props
+
+    axios.get(REST_URL + "/" + urls.FORMS + "/?entry_field=" + fieldId,
+        {
+          headers: {
+            "Authorization": `JWT ${token}`,
+            "Content-Type": "application/json",
+          },
+        })
+        .then((response) => {
+          console.log(response)
+          if (response.statusText === "OK") {
+            this.setState({...this.state, [fieldData]: response.data.results[0].entry_value})
+          }
+        })
+        .catch((err) => {
+          console.log(fieldId, err)
+        })
+  }
+
   serverError() {
     let modalCon = document.getElementById("fahadModalContainerDiv")
     modalCon.scrollTo({top: 0, behavior: "smooth"})
@@ -127,7 +160,20 @@ class FahadEventPageThree extends Component {
   }
 
   render() {
-    let {validationError, serverError} = this.state
+    let {
+      validationError, serverError,
+      ceo_name,
+      ceo_phone_number,
+      ceo_social_phone_number,
+      ceo_office_number,
+      ceo_email,
+      bod_name,
+      bod_phone_number,
+      bod_post,
+      bod_office_number,
+      bod_email,
+    } = this.state
+
     return (
         <React.Fragment>
           <div className="event-reg-modal-header">
@@ -153,6 +199,7 @@ class FahadEventPageThree extends Component {
               <span className={"secondary-color"}> * </span>
             </label>
             <input type={"text"} className="organization-leadership-job-input" placeholder={"نام مدیرعامل"}
+                   defaultValue={ceo_name}
                    maxLength="50" title="حداقل 2 کاراکتر، حداکثر 50" onChange={(e) => this.setState({...this.state, ceo_name: e.target.value})}/>
 
             <label>
@@ -160,6 +207,7 @@ class FahadEventPageThree extends Component {
               <span className={"secondary-color"}> * </span>
             </label>
             <input type={"text"} className="organization-leadership-job-input" placeholder={"شمارۀ همراه مدیرعامل"}
+                   defaultValue={ceo_phone_number}
                    maxLength="11" title="11 کاراکتر" onChange={(e) => this.setState({...this.state, ceo_phone_number: e.target.value})}/>
 
             <label>
@@ -167,6 +215,7 @@ class FahadEventPageThree extends Component {
               <span className={"secondary-color"}> * </span>
             </label>
             <input type={"text"} className="organization-leadership-job-input" placeholder={"شمارۀ همراه مدیرعامل در پیام‌رسان‌ها"}
+                   defaultValue={ceo_social_phone_number}
                    maxLength="11" title="11 کاراکتر" onChange={(e) => this.setState({...this.state, ceo_social_phone_number: e.target.value})}/>
 
             <label>
@@ -174,6 +223,7 @@ class FahadEventPageThree extends Component {
               <span className={"secondary-color"}> * </span>
             </label>
             <input type={"text"} className="organization-leadership-job-input" placeholder={"شمارۀ مستقیم دفتر مدیرعامل"}
+                   defaultValue={ceo_office_number}
                    maxLength="11" title="11 کاراکتر" onChange={(e) => this.setState({...this.state, ceo_office_number: e.target.value})}/>
 
             <label>
@@ -181,6 +231,7 @@ class FahadEventPageThree extends Component {
               <span className={"secondary-color"}> * </span>
             </label>
             <input type={"text"} className="organization-leadership-job-input" placeholder={"آدرس ایمیل مدیرعامل"}
+                   defaultValue={ceo_email}
                    maxLength="50" title="حداقل 2 کاراکتر، حداکثر 50" onChange={(e) => this.setState({...this.state, ceo_email: e.target.value})}/>
 
             <label>
@@ -188,6 +239,7 @@ class FahadEventPageThree extends Component {
               <span className={"secondary-color"}> * </span>
             </label>
             <input type={"text"} className="organization-leadership-job-input" placeholder={"نام عضو هیئت مدیره"}
+                   defaultValue={bod_name}
                    maxLength="50" title="حداقل 2 کاراکتر، حداکثر 50" onChange={(e) => this.setState({...this.state, bod_name: e.target.value})}/>
 
             <label>
@@ -195,6 +247,7 @@ class FahadEventPageThree extends Component {
               <span className={"secondary-color"}> * </span>
             </label>
             <input type={"text"} className="organization-leadership-job-input" placeholder={"شمارۀ همراه عضو هیئت مدیره"}
+                   defaultValue={bod_phone_number}
                    maxLength="11" title="11 کاراکتر" onChange={(e) => this.setState({...this.state, bod_phone_number: e.target.value})}/>
 
             <label>
@@ -202,6 +255,7 @@ class FahadEventPageThree extends Component {
               <span className={"secondary-color"}> * </span>
             </label>
             <input type={"text"} className="organization-leadership-job-input" placeholder={"سمت در مجموعه"}
+                   defaultValue={bod_post}
                    maxLength="50" title="حداقل 2 کاراکتر، حداکثر 50" onChange={(e) => this.setState({...this.state, bod_post: e.target.value})}/>
 
             <label>
@@ -209,6 +263,7 @@ class FahadEventPageThree extends Component {
               <span className={"secondary-color"}> * </span>
             </label>
             <input type={"text"} className="organization-leadership-job-input" placeholder={"شمارۀ مستقیم دفتر عضو هیئت مدیره"}
+                   defaultValue={bod_office_number}
                    maxLength="11" title="11 کاراکتر" onChange={(e) => this.setState({...this.state, bod_office_number: e.target.value})}/>
 
             <label>
@@ -216,6 +271,7 @@ class FahadEventPageThree extends Component {
               <span className={"secondary-color"}> * </span>
             </label>
             <input type={"text"} className="organization-leadership-job-input" placeholder={"آدرس ایمیل عضو هیئت مدیره"}
+                   defaultValue={bod_email}
                    maxLength="50" title="حداقل 2 کاراکتر، حداکثر 50" onChange={(e) => this.setState({...this.state, bod_email: e.target.value})}/>
 
           </div>

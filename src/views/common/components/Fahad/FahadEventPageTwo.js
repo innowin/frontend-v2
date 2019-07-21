@@ -39,6 +39,10 @@ class FahadEventPageTwo extends PureComponent {
       let modalCon = document.getElementById("fahadModalContainerDiv")
       modalCon.scrollTo({top: 0, behavior: "smooth"})
     }
+    setTimeout(() => {
+      this.getData(43, "selectedProduct")
+      this.getData(38, "selectedProduct")
+    }, 350)
   }
 
   componentWillReceiveProps(nextProps: Readonly<P>, nextContext: any): void {
@@ -122,7 +126,10 @@ class FahadEventPageTwo extends PureComponent {
         )
       }
     }
-    else this.props._nextLevel()
+    else {
+      this.sendData(43, FRONT_URL + "/product/" + selectedProduct)
+      this.props._nextLevel()
+    }
   }
 
   sendData(fieldId, fieldData) {
@@ -151,6 +158,30 @@ class FahadEventPageTwo extends PureComponent {
           console.log(fieldId, err)
           console.log(fieldData)
           errors++
+        })
+  }
+
+  getData(fieldId, fieldData) {
+    const {token} = this.props
+
+    axios.get(REST_URL + "/" + urls.FORMS + "/?entry_field=" + fieldId,
+        {
+          headers: {
+            "Authorization": `JWT ${token}`,
+            "Content-Type": "application/json",
+          },
+        })
+        .then((response) => {
+          console.log(response)
+          if (response.statusText === "OK" && this.state[fieldData] === null) {
+            this.setState({
+              ...this.state,
+              [fieldData]: response.data.results[0].entry_value,
+            })
+          }
+        })
+        .catch((err) => {
+          console.log(fieldId, err)
         })
   }
 
@@ -394,9 +425,11 @@ class FahadEventPageTwo extends PureComponent {
 
                   {
                     clientProducts.map(p =>
-                        <div key={p.id} className={selectedProduct === p.id ? "client-product-container" : "client-product-container-inactive"}
-                             onClick={() => this.selectProduct(p.id)}>
-                          {selectedProduct === p.id && <CheckSvg className="client-product-container-checked-svg"/>}
+                        <div key={p.id} onClick={() => this.selectProduct(p.id)}
+                             className={selectedProduct === p.id || selectedProduct === FRONT_URL + "/product/" + p.id
+                                 ? "client-product-container" : "client-product-container-inactive"}>
+                          {selectedProduct === p.id || selectedProduct === FRONT_URL + "/product/" + p.id
+                              ? <CheckSvg className="client-product-container-checked-svg"/> : null}
                           <div className="client-product-model-logo">
                             <ProductSvg className='client-product-model-logo-svg'/>
                             <div>محصول</div>
