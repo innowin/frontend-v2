@@ -42,7 +42,7 @@ class FahadEventPageTwo extends PureComponent {
     setTimeout(() => {
       this.getData(43, "selectedProduct")
       this.getData(38, "selectedProduct")
-    }, 350)
+    }, 100)
   }
 
   componentWillReceiveProps(nextProps: Readonly<P>, nextContext: any): void {

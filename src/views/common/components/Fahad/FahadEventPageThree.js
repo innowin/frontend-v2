@@ -43,7 +43,7 @@ class FahadEventPageThree extends Component {
       this.getData(61, "bod_post")
       this.getData(62, "bod_office_number")
       this.getData(63, "bod_email")
-    }, 350)
+    }, 100)
   }
 
   componentWillReceiveProps(nextProps: Readonly<P>, nextContext: any): void {
@@ -208,7 +208,12 @@ class FahadEventPageThree extends Component {
             </label>
             <input type={"text"} className="organization-leadership-job-input" placeholder={"شمارۀ همراه مدیرعامل"}
                    defaultValue={ceo_phone_number}
-                   maxLength="11" title="11 کاراکتر" onChange={(e) => this.setState({...this.state, ceo_phone_number: e.target.value})}/>
+                   maxLength="11" title="11 کاراکتر"
+                   onChange={(e) => this.setState({
+                     ...this.state,
+                     ceo_social_phone_number: e.target.value,
+                     ceo_phone_number: e.target.value,
+                   })}/>
 
             <label>
               شماره در پیام‌رسان

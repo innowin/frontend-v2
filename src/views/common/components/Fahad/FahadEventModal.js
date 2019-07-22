@@ -1,13 +1,13 @@
 import React, {Component} from "react"
+import {connect} from "react-redux"
 import FahadEventPageOne from "./FahadEventPageOne"
 import FahadEventPageTwo from "./FahadEventPageTwo"
 import FahadEventPageThree from "./FahadEventPageThree"
 import FahadEventPageFour from "./FahadEventPageFour"
 import FahadEventPageFive from "./FahadEventPageFive"
-import {connect} from "react-redux"
-import {makeCategorySelector} from "src/redux/selectors/common/category/getCategoriesByParentId"
 import {getClientIdentity} from "src/redux/selectors/common/client/getClient"
 import {getUserProducts} from "src/redux/selectors/common/product/getUserProducts"
+import {makeCategorySelector} from "src/redux/selectors/common/category/getCategoriesByParentId"
 
 
 class FahadEventModal extends Component {
@@ -102,7 +102,7 @@ class FahadEventModal extends Component {
 
   currentFooter() {
     let {level, isLoading, uploading} = this.state
-    let {toggle} = this.props
+    let {toggle, _finished} = this.props
     switch (level) {
       case 1:
         return (
@@ -167,6 +167,7 @@ class FahadEventModal extends Component {
       case 6:
         setTimeout(() => {
           toggle()
+          _finished()
         }, 50)
         break
       default:

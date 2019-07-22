@@ -81,7 +81,7 @@ class FahadEventPageOne extends PureComponent {
       this.getData(16, "selectedCatalog")
       this.getData(25, "selectedCertificate")
 
-    }, 350)
+    }, 100)
   }
 
   componentWillReceiveProps(nextProps: Readonly<P>, nextContext: any): void {
