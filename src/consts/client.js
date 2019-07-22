@@ -1,10 +1,7 @@
 // import AES from 'crypto-js/aes'
 import cookie from 'src/consts/data'
 
-export const isAuthenticated = () => {
-  return (window.localStorage.getItem('token') !== null && window.localStorage.getItem('token') !== undefined) ||
-      (window.sessionStorage.getItem('token') !== null && window.sessionStorage.getItem('token') !== undefined)
-}
+export const isAuthenticated = () => window.localStorage.hasOwnProperty('token') || window.sessionStorage.hasOwnProperty('token')
 
 const setTokenLS = (token) => {
   if (window.localStorage) {
@@ -21,15 +18,9 @@ const setSessionLS = (token) => {
 }
 
 const clearToken = () => {
-  if (window.localStorage && localStorage.hasOwnProperty('token')) {
-    localStorage.clear('token')
-  }
-  if (window.sessionStorage && sessionStorage.hasOwnProperty('token')) {
-    sessionStorage.clear()
-  }
-  if ((document.cookie.match(/^(?:.*;)?\s*token\s*=\s*([^;]+)(?:.*)?$/) || [null])[1]) {
-    eraseCookie('token')
-  }
+  if (window.localStorage && localStorage.hasOwnProperty('token')) localStorage.clear('token')
+  if (window.sessionStorage && sessionStorage.hasOwnProperty('token')) sessionStorage.clear()
+  if ((document.cookie.match(/^(?:.*;)?\s*token\s*=\s*([^;]+)(?:.*)?$/) || [null])[1]) eraseCookie('token')
   return true
 }
 
@@ -78,30 +69,18 @@ const clearData = () => {
 }
 
 const getToken = () => {
-  if (window.localStorage && localStorage.hasOwnProperty('token')) {
-    return localStorage.getItem('token')
-  }
-  else {
-    return sessionStorage.getItem('token')
-  }
+  if (window.localStorage && localStorage.hasOwnProperty('token')) return localStorage.getItem('token')
+  else return sessionStorage.getItem('token')
 }
 
 const getIdentityId = () => {
-  if (window.localStorage && localStorage.hasOwnProperty('identityId')) {
-    return localStorage.getItem('identityId')
-  }
-  else {
-    return sessionStorage.getItem('identityId')
-  }
+  if (window.localStorage && localStorage.hasOwnProperty('identityId')) return localStorage.getItem('identityId')
+  else return sessionStorage.getItem('identityId')
 }
 
 const getUserType = () => {
-  if (window.localStorage && localStorage.hasOwnProperty('userType')) {
-    return localStorage.getItem('userType')
-  }
-  else {
-    return sessionStorage.getItem('userType')
-  }
+  if (window.localStorage && localStorage.hasOwnProperty('userType')) return localStorage.getItem('userType')
+  else return sessionStorage.getItem('userType')
 }
 
 const checkIdWithQueryId = (paramId) => {

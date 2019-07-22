@@ -1,4 +1,3 @@
-// @flow
 import auth from './auth'
 import common from './commonReducer/index'
 import education from './education'

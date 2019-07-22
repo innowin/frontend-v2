@@ -34,6 +34,7 @@ ReactDOM.render(
         </IntlProvider>
       </PersistGate>
     </Provider>
-    , document.getElementById('root'))
+    , document.getElementById('root'),
+)
 
 registerServiceWorker()
