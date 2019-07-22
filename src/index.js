@@ -9,20 +9,21 @@ import {Provider} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import {persistStore} from 'redux-persist'
 import {PersistGate} from 'redux-persist/integration/react'
-// import detectUserAgent from 'src/helpers/detectUserAgent'
 import init from 'src/consts/ga'
 import faLocaleData from 'react-intl/locale-data/fa'
+import clearData from './redux/store/clearData'
 
 const WrappedApp = withRouter(App)
 const store = configureStore()
 export const persistor = persistStore(store)
 // persistor.purge()
 runSaga()
-// detectUserAgent()
 //initializing google analytics
 init()
 // add persian local data for react-intl
 addLocaleData(faLocaleData)
+
+clearData('version_1')
 
 ReactDOM.render(
     <Provider store={store}>
