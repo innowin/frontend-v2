@@ -43,25 +43,11 @@
     background: $primary-color;
     display: flex;
     align-items: center;
+    transform-origin: top;
     transition: all $animation-timing ease;
 
     &.show {
-      opacity: 1;
-      height: $smallTopBarHeight;
-    }
-
-    &.hide {
-      opacity: 0;
-      height: 0;
-    }
-
-    .back-button {
-      width: $smallTopBarHeight * 0.4;
-      height: $smallTopBarHeight * 0.4;
-      margin: 0 20px;
-      fill: white;
-      color: white;
-      font-size: 25px;
+      transform: translateY(-$smallTopBarHeight - 1);
     }
 
     .profile-top-bar {
@@ -88,8 +74,4 @@
   .center-column {
     padding: 0;
   }
-}
-
-.top-bar-entity-top {
-  transform: translateY(-$smallTopBarHeight - 1);
 }

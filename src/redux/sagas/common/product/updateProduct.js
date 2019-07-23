@@ -13,7 +13,7 @@ export function* updateProduct(action) {
     yield fork(api.patch, urls.COMMON.PRODUCT, results.COMMON.PRODUCT.UPDATE_PRODUCT, formValues, `${productId}`)
     // const data = yield take(socketChannel)
     // yield put({type: types.SUCCESS.COMMON.PRODUCT.UPDATE_PRODUCT, payload: {data, productId}})
-    yield put({type: types.COMMON.GET_PRODUCT_INFO, payload: {id: productId}})
+    yield put({type: types.COMMON.GET_PRODUCT_INFO, payload: {id: productId, getLocations: true}})
     yield put({
       type: types.TOAST.ADD_TOAST,
       payload: {

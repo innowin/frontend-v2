@@ -19,9 +19,8 @@ export const getProductsSelector = createSelector(
       if (products && Object.keys(products).length !== 0 && products.constructor === Object && userProducts && ownerId) {
         let arrayProduct = helpers.getObjectOfArrayKeys(userProducts, products)
         arrayProduct = arrayProduct.map(product => {
-          return identities[product.product_owner]
-              ? {...product, product_owner: identities[product.product_owner]}
-              : product
+          return product && identities[product.product_owner] ?
+              {...product, product_owner: identities[product.product_owner]} : {...product}
         })
         return [...arrayProduct]
       }

@@ -169,7 +169,7 @@ class HomePosts extends PureComponent {
                               :
                               <div style={{marginBottom: '11px'}}/>
                     }
-                    <div style={{background: `rgba(${averageColor[0]}, ${averageColor[1]}, ${averageColor[2]})`}} className={hideTopBar ? 'top-bar-entity show top-bar-entity-top' : 'top-bar-entity show'}>
+                    <div style={{background: `rgba(${averageColor[0]}, ${averageColor[1]}, ${averageColor[2]})`}} className={hideTopBar ? 'top-bar-entity show' : 'top-bar-entity'}>
                       <Material onClick={unSetExchangeId} backgroundColor='rgba(255,255,255,0.5)' className='back-button-material' content={<NewRightArrow className='back-button-product'/>}/>
                       <Link to={exchangeId ? '/exchange/' + exchangeId : ''} className='profile-top-bar'>
                         {
@@ -215,7 +215,7 @@ class HomePosts extends PureComponent {
                     </div>
 
                     {
-                      window.innerWidth <= 480 &&
+                      document.body.clientWidth <= 480 &&
                       <div className={this.state.scrollButton ? 'write-post-hide' : 'write-post'}
                            onClick={this._showCreatePostSmall}>
                         <EditIcon className='write-post-logo'/>

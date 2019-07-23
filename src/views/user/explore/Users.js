@@ -29,9 +29,7 @@ const Users = (props) => {
       if (workStatus && user.work_status && workStatus.includes(user.work_status)) {
         usersObj = {...usersObj, [user.id]: {...user}}
       }
-      // console.log(badges, user.badges)
-      if (badges && user.badges && user.badges.content) {
-        console.log(badges, user.badges.content)
+      if (badges && user.badges && user.badges.content && user.badges.content.length > 0) {
         for (let i = 0; i < user.badges.content.length; i++) {
           if (badges.includes(user.badges.content[i])) {
             usersObj = {...usersObj, [user.id]: {...user}}

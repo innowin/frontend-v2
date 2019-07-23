@@ -22,11 +22,9 @@ class Posts extends React.PureComponent {
       const {activeScrollHeight} = this.state
       const scrollHeight = document.body ? document.body.scrollHeight : 0
       if (((window.innerHeight + window.scrollY) >= (scrollHeight - 250)) && (scrollHeight > activeScrollHeight)) {
-        const {getPostByIdentity, userId} = this.props
+        const {getPostByIdentity, userId, isLogin} = this.props
         this.setState({...this.state, activeScrollHeight: scrollHeight, offset: offset + 10},
-            () => {
-              getPostByIdentity({postIdentity: userId, postOwnerId: userId, limit: 10, offset})
-            },
+            () => getPostByIdentity({postIdentity: userId, postOwnerId: userId, limit: 10, offset, token: !isLogin}),
         )
       }
     }

@@ -7,8 +7,8 @@ import {connect} from 'react-redux'
 import SideBar from './ProductSidebar'
 import ProductActions from 'src/redux/actions/commonActions/productActions'
 import {bindActionCreators} from 'redux'
-import {getCountries, getProvinces, getCities} from 'src/redux/actions/commonActions/location'
 import makeProvinceSelectorById from 'src/redux/selectors/common/location/getProvinceById'
+import makeCitySelectorById from 'src/redux/selectors/common/location/getCityById'
 import {provinceSelector} from 'src/redux/selectors/common/location/getProvinceByCountry'
 import makeCountrySelectorById from 'src/redux/selectors/common/location/getCountryById'
 import {priceListSelector} from 'src/redux/selectors/common/product/getProductPrices'
@@ -18,11 +18,11 @@ import {getMessages} from 'src/redux/selectors/translateSelector'
 import Material from '../../common/components/Material'
 import postActions from 'src/redux/actions/commonActions/postActions'
 import {citySelector} from 'src/redux/selectors/common/location/getCityByProvince'
-import {getCategories} from 'src/redux/actions/commonActions/categoryActions'
 import {makeCategorySelector} from 'src/redux/selectors/common/category/getCategoriesByParentId'
 import {NewRightArrow} from 'src/images/icons'
 import {ProductWhite} from 'src/images/icons'
-import productActions from 'src/redux/actions/commonActions/productActions'
+import productActions from '../../../redux/actions/commonActions/productActions'
+import {getCategories} from '../../../redux/actions/commonActions/categoryActions'
 
 class ProductView extends PureComponent {
   constructor(props) {
@@ -39,11 +39,10 @@ class ProductView extends PureComponent {
     const {match, actions, isLogin} = this.props
     const {params} = match
     const productId = params.id
-    actions.getProductInfo(productId)
+    actions.getProductInfo(productId, true)
     actions.getPrice(productId)
-    actions.getPosts({postRelatedProductId: productId, token: !isLogin})
-    actions.getCountries()
     actions.getCategories()
+    actions.getPosts({postRelatedProductId: productId, token: !isLogin})
     document.addEventListener('scroll', this._onScroll)
   }
 
@@ -53,40 +52,32 @@ class ProductView extends PureComponent {
 
   _onScroll() {
     if (document.body.clientWidth <= 480) {
-      if (window.scrollY > this.state.scrollY) {
-        this.setState({...this.state, hideTopBar: true, scrollY: window.scrollY})
-      }
-      else {
-        this.setState({...this.state, hideTopBar: false, scrollY: window.scrollY})
-      }
+      if (window.scrollY > this.state.scrollY) this.setState({...this.state, hideTopBar: true, scrollY: window.scrollY})
+      else this.setState({...this.state, hideTopBar: false, scrollY: window.scrollY})
     }
   }
 
   render() {
     const {hideTopBar} = this.state
-    const {match, translate, product, country, province, product_owner, product_category, current_user_identity, countries, provinces, cities, categories, actions, posts, product_price} = this.props
-    const {getProvinces, getCities} = actions
+    const {match, translate, product, country, province, city, product_owner, product_category, current_user_identity, countries, provinces, cities, categories, posts, product_price} = this.props
     const {path, url} = match
     return (
         <div className='all-products-parent'>
-
           <div className={hideTopBar ? 'product-header-top' : 'product-header'}>
             <Link to='/products/product_explorer'><Material backgroundColor='rgba(255,255,255,0.5)' className='back-button-material' content={<NewRightArrow className='back-button-product'/>}/></Link>
             <ProductWhite className='product-header-svg'/>
             <div className='product-header-title'>{product.name}</div>
           </div>
-
           <SideBar product={product}
                    country={country}
                    province={province}
+                   city={city}
                    product_owner={product_owner}
                    product_category={product_category}
                    current_user_identity={current_user_identity}
                    countries={countries}
                    provinces={provinces}
                    cities={cities}
-                   getProvinces={getProvinces}
-                   getCities={getCities}
                    categories={categories}
                    product_price={product_price}
           />
@@ -127,13 +118,14 @@ class ProductView extends PureComponent {
 const mapStateToProps = (state, props) => {
   const productId = props.match.params.id
   const product = makeProductSelectorById()(state, productId)
-  const {product_related_country, product_related_province} = product
+  const {product_related_country, product_related_province, product_related_town} = product
   return {
     isLogin: state.auth.client.identity.content,
     product_price: priceListSelector(state, productId),
     product,
     country: makeCountrySelectorById()(state, product_related_country),
     province: makeProvinceSelectorById()(state, product_related_province),
+    city: makeCitySelectorById()(state, product_related_town),
     countries: getAllCountries(state),
     provinces: provinceSelector(state),
     cities: citySelector(state),
@@ -148,12 +140,9 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
-    getPrice: productActions.getProductPrice,
     getProductInfo: ProductActions.getProductInfo,
-    getCountries,
+    getPrice: productActions.getProductPrice,
     getCategories,
-    getProvinces,
-    getCities,
     getPosts: postActions.filterPostsByPostRelatedProduct,
   }, dispatch),
 })

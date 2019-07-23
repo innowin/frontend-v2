@@ -16,9 +16,9 @@ class IntroduceBadges extends Component {
     const {loading, badges} = this.props.allBadges
     const arr = [1, 2, 3, 4]
     return (
-        <div className={!loading && badges.length ? 'introduce-badges-container' : !loading && badges.length === 0 ? 'introduce-badges-container-empty' : 'introduce-badges-container-loading'}>
+        <div className={badges.length > 0 ? 'introduce-badges-container' : !loading && badges.length === 0 ? 'introduce-badges-container-empty' : 'introduce-badges-container-loading'}>
           {
-            !loading && badges.length > 0 ?
+            badges.length > 0 ?
                 badges.map((badge, index) =>
                     <Badge key={'badges ' + index} media={badge.media} title={badge.title} description={badge.description}/>,
                 )

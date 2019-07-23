@@ -1,13 +1,13 @@
-import types from "../types/index"
+import types from '../types/index'
 
 export const getAllProductInfo = (limit, offset, search) => ({
   type: types.COMMON.GET_ALL_PRODUCTS,
   payload: {limit, offset, search},
 })
 
-export const getProductInfo = (id) => ({
+export const getProductInfo = (id, getLocations) => ({
   type: types.COMMON.GET_PRODUCT_INFO,
-  payload: {id},
+  payload: {id, getLocations},
 })
 
 export const createProductAsContribution = (formData, resolve, reject) => ({

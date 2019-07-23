@@ -120,10 +120,11 @@ class User extends Component<PropsUser, StatesUser> {
     return (
         <div className="-userOrganBackgroundImg">
           {
-            isLoading
-                ? <UserSkeleton type='user'/>
-                : <React.Fragment>
-                  <div className={showSecondHeader ? 'top-bar-entity show' : 'top-bar-entity hide'}>
+            isLoading ?
+                <UserSkeleton type='user'/>
+                :
+                <React.Fragment>
+                  <div className={showSecondHeader ? 'top-bar-entity' : 'top-bar-entity show'}>
                     <Material backgroundColor='rgba(255,255,255,0.5)' onClick={this._goBack} className='back-button-material' content={<NewRightArrow className='back-button-product'/>}/>
                     {
                       userObject.profile_media ?

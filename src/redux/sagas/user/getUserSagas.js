@@ -64,7 +64,7 @@ export function* getAllUsers(action) {
     )
     const data = yield take(socketChannel)
     yield put({type: types.SUCCESS.USER.GET_ALL_USERS, payload: {data, badges, search, isLoading: false}})
-    if (badges && data && data.length > 0) {
+    if (badges && badges.length > 0 && data && data.length > 0) {
       for (let i = 0; i < data.length; i++)
         yield put({type: types.COMMON.GET_USER_BADGES, payload: {userId: data[i].id, identityId: data[i].id}})
     }

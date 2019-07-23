@@ -10,9 +10,10 @@ import {normalizer} from 'src/consts/helperFunctions/normalizer'
 export function* getUserBadges(action) {
   const {userId, identityId} = action.payload
   yield put({type: types.COMMON.SET_BADGES_IN_USER, payload: {userId}})
-  const socketChannel = yield call(api.createSocketChannel, results.COMMON.GET_USER_BADGES)
+  const result = `${results.COMMON.GET_USER_BADGES}-${identityId}`
+  const socketChannel = yield call(api.createSocketChannel, result)
   try {
-    yield fork(api.get, urls.COMMON.BADGE, results.COMMON.GET_USER_BADGES, `?badge_related_parent=${identityId}`, true)
+    yield fork(api.get, urls.COMMON.BADGE, result, `?badge_related_parent=${identityId}`, true)
     const badges = yield take(socketChannel)
     yield put({type: types.SUCCESS.COMMON.GET_USER_BADGES, payload: {data: badges.reduce((sum, badge) => ({...sum, [badge.badge_related_badge_category.id]: {...badge.badge_related_badge_category}}), {})}})
     yield put({type: types.SUCCESS.COMMON.SET_BADGES_IN_USER, payload: {data: badges.reduce((sum, badge) => ([...sum, badge.badge_related_badge_category.id]), []), userId: identityId}})

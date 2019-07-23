@@ -11,6 +11,7 @@ import {createFileFunc} from '../../common/Functions'
 import constants from 'src/consts/constants'
 import FileActions from 'src/redux/actions/commonActions/fileActions'
 import {Link} from 'react-router-dom'
+import {getCountries, getProvinces, getCities} from '../../../redux/actions/commonActions/location'
 
 class SideBar extends PureComponent {
   constructor(props) {
@@ -77,7 +78,8 @@ class SideBar extends PureComponent {
   }
 
   showEdit = () => {
-    const {product} = this.props
+    const {product, actions} = this.props
+    const {getCountries, getProvinces, getCities} = actions
     this.setState({
       ...this.state,
       edit: true,
@@ -87,6 +89,10 @@ class SideBar extends PureComponent {
       selectedProvince: product.product_related_province,
       selectedCity: product.product_related_town,
       deleteArr: [],
+    }, () => {
+      getCountries()
+      product.product_related_country && getProvinces(product.product_related_country)
+      product.product_related_province && getCities(product.product_related_province)
     })
   }
 
@@ -98,8 +104,8 @@ class SideBar extends PureComponent {
     const value = parseInt(e.target.value, 10)
     this.setState({...this.state, selectedCountry: value === 0 ? null : value}, () => {
       if (value !== 0) {
-        const {getProvinces} = this.props
-        getProvinces(value)
+        const {actions} = this.props
+        actions.getProvinces(value)
       }
       else this.setState({...this.state, selectedProvince: null, selectedCity: null})
     })
@@ -109,8 +115,8 @@ class SideBar extends PureComponent {
     const value = parseInt(e.target.value, 10)
     this.setState({...this.state, selectedProvince: value === 0 ? null : value}, () => {
       if (value !== 0) {
-        const {getCities} = this.props
-        getCities(value)
+        const {actions} = this.props
+        actions.getCities(value)
       }
       else this.setState({...this.state, selectedCity: null})
     })
@@ -128,8 +134,7 @@ class SideBar extends PureComponent {
   _firstCategory = (e) => {
     const value = parseInt(e.target.value, 10)
     this.setState({...this.state, firstCategory: value === 0 ? null : value}, () => {
-      if (value === 0)
-        this.setState({...this.state, secondCategory: null, thirdCategory: null})
+      if (value === 0) this.setState({...this.state, secondCategory: null, thirdCategory: null})
     })
   }
 
@@ -192,7 +197,7 @@ class SideBar extends PureComponent {
 
         const {product, actions, temp} = this.props
         const {newName, selectedCountry, selectedProvince, selectedCity, firstCategory, secondCategory, thirdCategory, deleteArr, newPrice, price} = this.state
-        const product_category = thirdCategory && secondCategory && firstCategory ? thirdCategory : secondCategory && firstCategory ? secondCategory : firstCategory
+        const product_category = thirdCategory || secondCategory || firstCategory || product.product_category
         const {updateProduct, updateFile, addPrice} = actions
 
         deleteArr.forEach(id => {
@@ -265,7 +270,7 @@ class SideBar extends PureComponent {
 
   render() {
     const {galleryModal, image, edit, selectedCountry, selectedProvince, price, firstCategory, secondCategory, error} = this.state
-    const {product, country, province, product_owner, product_category, current_user_identity, countries, provinces, cities, categories, product_price} = this.props
+    const {product, country, province, city, product_owner, product_category, current_user_identity, countries, provinces, cities, categories, product_price} = this.props
     const {name, created_time, updated_time} = product
     const pictures_array = product.product_media ? product.product_media.filter(p => p.type === 'image') : []
 
@@ -354,23 +359,20 @@ class SideBar extends PureComponent {
                       <option className='product-option' value={0}>کشور</option>
                       {
                         Object.values(countries.list).map((country, index) => {
-                              if (product.product_related_country === country.id) {
+                              if (product.product_related_country === country.id)
                                 return <option className='product-option' key={index} value={country.id} selected>{country.name}</option>
-                              }
                               else return <option className='product-option' key={index} value={country.id}>{country.name}</option>
                             },
                         )
                       }
                     </select>
-
                     <select className='product-view-sidebar-locations' onChange={this._handleProvince}>
                       <option className='product-option' value={0}>استان</option>
                       {
                         Object.values(provinces.list).map((province, index) => {
                           if (selectedCountry && province.province_related_country === parseInt(selectedCountry, 10)) {
-                            if (product.product_related_province === province.id) {
+                            if (product.product_related_province === province.id)
                               return <option className='product-option' key={index} value={province.id} selected>{province.name}</option>
-                            }
                             else return <option className='product-option' key={index} value={province.id}>{province.name}</option>
                           }
                           else return null
@@ -383,9 +385,8 @@ class SideBar extends PureComponent {
                       {
                         Object.values(cities.list).map((city, index) => {
                           if (selectedProvince && city.town_related_province === parseInt(selectedProvince, 10)) {
-                            if (product.product_related_town === city.id) {
+                            if (product.product_related_town === city.id)
                               return <option className='product-option' key={index} value={city.id} selected>{city.name}</option>
-                            }
                             else return <option className='product-option' key={index} value={city.id}>{city.name}</option>
                           }
                           else return null
@@ -418,7 +419,7 @@ class SideBar extends PureComponent {
                       <option className='product-option' value={0}>انتخاب</option>
                       {
                         Object.values(categories.list).map((cat, index) => {
-                          if (cat.id && !cat.category_parent) return <option className='product-option' key={index} value={cat.id}>{cat.name}</option>
+                          if (cat.id && cat.category_parent === null) return <option className='product-option' key={index} value={cat.id}>{cat.name}</option>
                           else return null
                         })
                       }
@@ -471,7 +472,13 @@ class SideBar extends PureComponent {
 
                   <div className='product-view-sidebar-date'><Date className='product-view-sidebar-svg'/>تاریخ ثبت: <Moment element="span" fromNow ago>{created_time || updated_time}</Moment> پیش</div>
                   {
-                    country && country.name && province && province.name && <div className='product-view-sidebar-location'><Location className='product-view-sidebar-svg'/>{country.name}، {province.name}</div>
+                    country && country.name &&
+                    <div className='product-view-sidebar-location'>
+                      <Location className='product-view-sidebar-svg'/>
+                      {country.name}
+                      {province && province.name && <span>، {province.name}</span>}
+                      {city && city.name && <span>، {city.name}</span>}
+                    </div>
                   }
                   <div className='product-view-sidebar-details'>
                     <span className='product-view-sidebar-details-grey'>قیمت: </span>
@@ -533,6 +540,9 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
+    getCountries,
+    getProvinces,
+    getCities,
     updateProduct: productActions.updateProduct,
     addPrice: productActions.addProductPrice,
     createFile: FileActions.createFile,

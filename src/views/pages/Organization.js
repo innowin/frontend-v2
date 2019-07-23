@@ -122,104 +122,104 @@ class Organization extends PureComponent<PropsOrganization, StatesOrganization> 
 
     return (
         <div className="-userOrganBackgroundImg">
-
-          {isLoading
-              ? <UserSkeleton type='organization'/>
-              :
-              <React.Fragment>
-                <div className={showSecondHeader ? 'top-bar-entity show' : 'top-bar-entity hide'}>
-                  <Material backgroundColor='rgba(255,255,255,0.5)' onClick={this._goBack} className='back-button-material' content={<NewRightArrow className='back-button-product'/>}/>
-                  {
-                    userObject.profile_media ?
-                        <img src={userObject.profile_media.file} className='profile-top-bar' alt='profile'/>
-                        :
-                        <DefaultOrganIcon className='profile-top-bar default-profile-organ'/>
-                  }
-                  <span className='organ-name'>{userObject.nike_name || userObject.official_name}</span>
-                </div>
-                <div className={showSecondHeader ? '-main page-content has-two-header' : '-main page-content'}>
-                  <SideBarContent
-                      sideBarType={constants.USER_TYPES.ORG}
-                      paramId={userId}
-                      owner={userObject}
-                  />
-
-                  <div className="col-md-6 col-sm-10 center-column">
-
-                    <div className='header-container'>
-
-                      <NavLink to={`${url}/Posts`} className='header-container-item'
-                               activeClassName='header-container-item-active'>
-                        <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material'
-                                  content={translate['Stream']}/>
-                      </NavLink>
-
-                      <NavLink to={`${url}/basicInformation`} className='header-container-item'
-                               activeClassName='header-container-item-active'>
-                        <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material'
-                                  content={translate['About Us']}/>
-                      </NavLink>
-
-                      <NavLink to={`${url}/Followers`} className='header-container-item'
-                               activeClassName='header-container-item-active'>
-                        <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material'
-                                  content={translate['Followers']}/>
-                      </NavLink>
-
-                      <NavLink to={`${url}/Followings`} className='header-container-item'
-                               activeClassName='header-container-item-active'>
-                        <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material'
-                                  content={translate['Followings']}/>
-                      </NavLink>
-
-                      <NavLink to={`${url}/Exchanges`} className='header-container-item'
-                               activeClassName='header-container-item-active'>
-                        <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material'
-                                  content={translate['Exchanges']}/>
-                      </NavLink>
-
-                    </div>
-                    <Switch>
-                      <Redirect exact from={`${url}/`} to={`${url}/Posts`}/>
-                      <PropsRoute exact={true}
-                                  path={`${path}/Posts`}
-                                  component={Posts}
-                                  updatePost={updatePost}
-                                  deletePost={deletePost}
-                                  posts={posts}
-                                  userId={userId}
-                                  getPostByIdentity={getPostByIdentity}
-                                  isLogin={isLogin}
-                      />
-                      <PropsRoute exact path={`${path}/basicInformation`}
-                                  component={OrganAboutUs}
-                                  user={userObject}
-                                  userId={userId}
-                                  badges={badges}
-                      />
-                      <PrivateRoute path={`${path}/Followers`}
-                                    component={Followers}
-                                    ownerId={userId}
-                                    identityType={constants.USER_TYPES.ORG}
-                                    user={userObject}
-                      />
-                      <PrivateRoute path={`${path}/Followings`}
-                                    component={Followings}
-                                    ownerId={userId}
-                                    identityType={constants.USER_TYPES.ORG}
-                                    user={userObject}
-                      />
-                      <PrivateRoute path={`${path}/Exchanges`}
-                                    component={Exchanges}
-                                    ownerId={userId}
-                                    identityType={constants.USER_TYPES.ORG}
-                                    user={userObject}
-                      />
-                      <PropsRoute path={`${path}/Posts/:id`} component={ExtendedPostView}/>
-                    </Switch>
+          {
+            isLoading ?
+                <UserSkeleton type='organization'/>
+                :
+                <React.Fragment>
+                  <div className={showSecondHeader ? 'top-bar-entity ' : 'top-bar-entity show'}>
+                    <Material backgroundColor='rgba(255,255,255,0.5)' onClick={this._goBack} className='back-button-material' content={<NewRightArrow className='back-button-product'/>}/>
+                    {
+                      userObject.profile_media ?
+                          <img src={userObject.profile_media.file} className='profile-top-bar' alt='profile'/>
+                          :
+                          <DefaultOrganIcon className='profile-top-bar default-profile-organ'/>
+                    }
+                    <span className='organ-name'>{userObject.nike_name || userObject.official_name}</span>
                   </div>
-                </div>
-              </React.Fragment>
+                  <div className={showSecondHeader ? '-main page-content has-two-header' : '-main page-content'}>
+                    <SideBarContent
+                        sideBarType={constants.USER_TYPES.ORG}
+                        paramId={userId}
+                        owner={userObject}
+                    />
+
+                    <div className="col-md-6 col-sm-10 center-column">
+
+                      <div className='header-container'>
+
+                        <NavLink to={`${url}/Posts`} className='header-container-item'
+                                 activeClassName='header-container-item-active'>
+                          <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material'
+                                    content={translate['Stream']}/>
+                        </NavLink>
+
+                        <NavLink to={`${url}/basicInformation`} className='header-container-item'
+                                 activeClassName='header-container-item-active'>
+                          <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material'
+                                    content={translate['About Us']}/>
+                        </NavLink>
+
+                        <NavLink to={`${url}/Followers`} className='header-container-item'
+                                 activeClassName='header-container-item-active'>
+                          <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material'
+                                    content={translate['Followers']}/>
+                        </NavLink>
+
+                        <NavLink to={`${url}/Followings`} className='header-container-item'
+                                 activeClassName='header-container-item-active'>
+                          <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material'
+                                    content={translate['Followings']}/>
+                        </NavLink>
+
+                        <NavLink to={`${url}/Exchanges`} className='header-container-item'
+                                 activeClassName='header-container-item-active'>
+                          <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material'
+                                    content={translate['Exchanges']}/>
+                        </NavLink>
+
+                      </div>
+                      <Switch>
+                        <Redirect exact from={`${url}/`} to={`${url}/Posts`}/>
+                        <PropsRoute exact={true}
+                                    path={`${path}/Posts`}
+                                    component={Posts}
+                                    updatePost={updatePost}
+                                    deletePost={deletePost}
+                                    posts={posts}
+                                    userId={userId}
+                                    getPostByIdentity={getPostByIdentity}
+                                    isLogin={isLogin}
+                        />
+                        <PropsRoute exact path={`${path}/basicInformation`}
+                                    component={OrganAboutUs}
+                                    user={userObject}
+                                    userId={userId}
+                                    badges={badges}
+                        />
+                        <PrivateRoute path={`${path}/Followers`}
+                                      component={Followers}
+                                      ownerId={userId}
+                                      identityType={constants.USER_TYPES.ORG}
+                                      user={userObject}
+                        />
+                        <PrivateRoute path={`${path}/Followings`}
+                                      component={Followings}
+                                      ownerId={userId}
+                                      identityType={constants.USER_TYPES.ORG}
+                                      user={userObject}
+                        />
+                        <PrivateRoute path={`${path}/Exchanges`}
+                                      component={Exchanges}
+                                      ownerId={userId}
+                                      identityType={constants.USER_TYPES.ORG}
+                                      user={userObject}
+                        />
+                        <PropsRoute path={`${path}/Posts/:id`} component={ExtendedPostView}/>
+                      </Switch>
+                    </div>
+                  </div>
+                </React.Fragment>
           }
         </div>
     )

@@ -23,7 +23,7 @@ export function* getCountries() {
 }
 
 
-export function* getProvinces(action) { // action: { payload: { parentId } }
+export function* getProvinces(action) {
   const {parentId} = action.payload
   const suffix = parentId ? `?province_related_country=${parentId}` : ''
   const socketChannel = yield call(api.createSocketChannel, results.COMMON.GET_PROVINCES)
@@ -45,7 +45,7 @@ export function* getProvinces(action) { // action: { payload: { parentId } }
 }
 
 
-export function* getCities(action) { // action: { payload: { parentId } }
+export function* getCities(action) {
   const {parentId} = action.payload
   const suffix = parentId ? `?town_related_province=${parentId}` : ''
   const socketChannel = yield call(api.createSocketChannel, results.COMMON.GET_CITIES)
@@ -72,14 +72,11 @@ export function* getCountry(action) {
   const socketChannel = yield call(api.createSocketChannel, results.COMMON.GET_COUNTRY)
   try {
     yield fork(api.get, urls.COMMON.COUNTRY, results.COMMON.GET_COUNTRY, id)
-    // const data = yield take(socketChannel)
-    // const normalData = helpers.arrayToIdKeyedObject(data)
-    // yield put({type: types.SUCCESS.COMMON.GET_COUNTRIES, data: normalData})
-
+    const data = yield take(socketChannel)
+    yield put({type: types.SUCCESS.COMMON.GET_COUNTRY, data})
   }
   catch (error) {
-    // yield put({type: types.ERRORS.COMMON.GET_COUNTRIES, error})
-
+    yield put({type: types.ERRORS.COMMON.GET_COUNTRY, error})
   }
   finally {
     socketChannel.close()
@@ -92,14 +89,10 @@ export function* getProvince(action) {
   try {
     yield fork(api.get, urls.COMMON.PROVINCE, results.COMMON.GET_PROVINCE, id)
     const data = yield take(socketChannel)
-    console.log('---- saga >> getProvince >> data: ', data)
-    // const normalData = helpers.arrayToIdKeyedObject(data)
-    // yield put({type: types.SUCCESS.COMMON.GET_COUNTRIES, data: normalData})
-
+    yield put({type: types.SUCCESS.COMMON.GET_PROVINCE, data})
   }
   catch (error) {
-    // yield put({type: types.ERRORS.COMMON.GET_COUNTRIES, error})
-
+    yield put({type: types.ERRORS.COMMON.GET_PROVINCE, error})
   }
   finally {
     socketChannel.close()
@@ -111,12 +104,11 @@ export function* getCity(action) {
   const socketChannel = yield call(api.createSocketChannel, results.COMMON.GET_CITY)
   try {
     yield fork(api.get, urls.COMMON.CITY, results.COMMON.GET_CITY, id)
-    // const normalData = helpers.arrayToIdKeyedObject(data)
-    // yield put({type: types.SUCCESS.COMMON.GET_COUNTRIES, data: normalData})
-
+    const data = yield take(socketChannel)
+    yield put({type: types.SUCCESS.COMMON.GET_CITY, data})
   }
   catch (error) {
-    // yield put({type: types.ERRORS.COMMON.GET_COUNTRIES, error})
+    yield put({type: types.ERRORS.COMMON.GET_CITY, error})
   }
   finally {
     socketChannel.close()

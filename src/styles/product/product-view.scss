@@ -366,7 +366,7 @@
   right: calc((100% - 800px) / 2);
   opacity: 1;
   transform: scale(1);
-  transition: all ease 0.2s;
+  transition: z-index linear 0s, all ease 0.2s;
   @media screen and (max-width: 480px) and (min-width: 0) {
     background-color: rgba(255, 255, 255, 0.3);
     padding: 2% 2% 0 2%;
@@ -384,7 +384,7 @@
   right: calc((100% - 800px) / 2);
   opacity: 0;
   transform: scale(0.7);
-  transition: all ease 0.2s;
+  transition: z-index linear 0s 0.2s, all ease 0.2s;
   @media screen and (max-width: 480px) and (min-width: 0) {
     background-color: rgba(255, 255, 255, 0.3);
     padding: 2% 2% 0 2%;
