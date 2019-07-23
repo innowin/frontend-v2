@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react'
+import React, {Component} from 'react'
 import BeeBackground from 'src/images/bee/beeBackground'
 import connect from 'react-redux/es/connect/connect'
 import {Bee} from 'src/images/icons'
@@ -15,8 +15,10 @@ import uuid from 'uuid'
 import constants from 'src/consts/constants'
 import AuthActions from 'src/redux/actions/authActions'
 import {getClientObject} from '../../../redux/selectors/common/client/getClient'
+import {getHashTags} from '../../../redux/actions/commonActions/hashTagActions'
+import {hashTagsListSelector} from '../../../redux/selectors/common/hashTags/hashTag'
 
-class OrganizationBee extends PureComponent {
+class OrganizationBee extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -26,6 +28,9 @@ class OrganizationBee extends PureComponent {
       name: 0,
       graduate: 0,
       bio: 0,
+      hashtags: 0,
+
+      selected: [],
 
       resume: null,
       resumeId: null,
@@ -54,24 +59,25 @@ class OrganizationBee extends PureComponent {
 
   componentWillReceiveProps(nextProps, nextContext) {
     if (!this.state.done) {
-      const {currentUser, profileIdTemp, resumeIdTemp, temp, actions} = nextProps
+      const {currentUser, profileIdTemp, resumeIdTemp, temp, actions, HashTags} = nextProps
       const {profileMediaId, resumeId, resume} = this.state
-      const {nike_name, description, telegram_account, web_site, profile_media} = currentUser
+      const {nike_name, description, telegram_account, web_site, profile_media, identity_hashtag} = currentUser
 
       let setResume = resume
       let image = 0
       let name = 0
       let graduate = 0
       let bio = 0
+      let hashtags = 0
 
       if (profile_media) {
         image = 30
       }
       if (nike_name && nike_name.trim().length > 0) {
-        name = 25
+        name = 20
       }
       if (description && description.trim().length > 0) {
-        bio = 25
+        bio = 20
       }
       if ((telegram_account && telegram_account.length > 0) && (web_site && web_site.length > 0)) {
         graduate = 20
@@ -79,6 +85,10 @@ class OrganizationBee extends PureComponent {
       else if ((telegram_account && telegram_account.length > 0) || (web_site && web_site.length > 0)) {
         graduate = 10
       }
+      if (identity_hashtag && identity_hashtag.length > 0) {
+        hashtags = 10
+      }
+      else if (Object.values(HashTags).length === 0) actions.getHashTags('organization')
 
       if (profileMediaId && temp[profileMediaId] && temp[profileMediaId].progress === 100 && profileIdTemp) {
         const formFormat = {
@@ -95,9 +105,9 @@ class OrganizationBee extends PureComponent {
         actions.removeFileFromTemp(resumeId)
       }
 
-      this.setState({...this.state, image, name, graduate, bio, resume: setResume}, () => {
+      this.setState({...this.state, image, name, graduate, hashtags, bio, resume: setResume}, () => {
         if (image === 30) this.setState({...this.state, imageLoading: false, profileMediaId: null}, () => {
-          if (image === 30 && name === 25 && bio === 25 && graduate === 20) {
+          if (image === 30 && name === 20 && bio === 20 && graduate === 20 && hashtags === 10) {
             this.setState({...this.state, done: true}, () => setTimeout(() => actions.setBeeDone(true), 30000))
           }
         })
@@ -107,8 +117,7 @@ class OrganizationBee extends PureComponent {
 
   _handleCancel = () => {
     const {level} = this.state
-    if (level < 4)
-      this.setState({...this.state, level: this.state.level + 1})
+    if (level < 5) this.setState({...this.state, level: this.state.level + 1})
     else this.setState({...this.state, level: 1})
   }
 
@@ -223,12 +232,27 @@ class OrganizationBee extends PureComponent {
     this.setState({...this.state, telText: e.target.value.trim()})
   }
 
+  addTag(id) {
+    let {selected} = this.state
+    if (selected.indexOf(id) !== -1) {
+      selected.splice(selected.indexOf(id), 1)
+      this.setState({...this.state, selected: [...selected]})
+    }
+    else this.setState({...this.state, selected: [...selected, id]})
+  }
+
+  submitHashtags = () => {
+    const {actions, currentUser} = this.props
+    const {selected} = this.state
+    actions.updateUserByUserId({identity_hashtag: selected}, currentUser.id)
+  }
+
   _handleClose = () => this.setState({...this.state, close: true})
 
   renderLevel() {
-    const {level, image, name, graduate, bio, resume} = this.state
-    const {translate, currentUser} = this.props
-    if (image + name + graduate + bio === 100) {
+    const {level, image, name, graduate, bio, hashtags, selected, resume} = this.state
+    const {translate, currentUser, HashTags} = this.props
+    if (image + name + graduate + bio + hashtags === 100) {
       return (
           <div>
             <div className='bee-text'>{translate['Awesome']}</div>
@@ -242,7 +266,7 @@ class OrganizationBee extends PureComponent {
             </div>
 
             <div className='bee-button-complete'>
-              {image + name + graduate + bio} %
+              {image + name + graduate + bio + hashtags} %
             </div>
 
             <div className='bee-button-submit-cont'>
@@ -289,10 +313,7 @@ class OrganizationBee extends PureComponent {
               </div>
             </div>
         )
-      else {
-        this.setState({...this.state, level: this.state.level + 1})
-        this.forceUpdate()
-      }
+      else this.setState({...this.state, level: this.state.level + 1})
     }
     else if (level === 2) {
       if (name === 0)
@@ -312,9 +333,9 @@ class OrganizationBee extends PureComponent {
 
               <div className='bee-loading'>
                 <div className='bee-loading-nav'>
-                  <div className='bee-loading-fill' style={{width: (image + name + graduate + bio) + '%'}}/>
+                  <div className='bee-loading-fill' style={{width: (image + name + graduate + bio + hashtags) + '%'}}/>
                 </div>
-                <div>{translate['Complement of profile']} {image + name + graduate + bio}%</div>
+                <div>{translate['Complement of profile']} {image + name + graduate + bio + hashtags}%</div>
               </div>
 
               <div className='bee-buttons'>
@@ -324,10 +345,7 @@ class OrganizationBee extends PureComponent {
 
             </div>
         )
-      else {
-        this.setState({...this.state, level: this.state.level + 1})
-        this.forceUpdate()
-      }
+      else this.setState({...this.state, level: this.state.level + 1})
     }
     else if (level === 3) {
       if (graduate === 0 || graduate === 10)
@@ -351,9 +369,9 @@ class OrganizationBee extends PureComponent {
 
               <div className='bee-loading'>
                 <div className='bee-loading-nav'>
-                  <div className='bee-loading-fill' style={{width: (image + name + graduate + bio) + '%'}}/>
+                  <div className='bee-loading-fill' style={{width: (image + name + graduate + bio + hashtags) + '%'}}/>
                 </div>
-                <div>{translate['Complement of profile']} {image + name + graduate + bio}%</div>
+                <div>{translate['Complement of profile']} {image + name + graduate + bio + hashtags}%</div>
               </div>
 
               <div className='bee-buttons'>
@@ -363,10 +381,7 @@ class OrganizationBee extends PureComponent {
 
             </div>
         )
-      else {
-        this.setState({...this.state, level: this.state.level + 1})
-        this.forceUpdate()
-      }
+      else this.setState({...this.state, level: this.state.level + 1})
     }
     else if (level === 4) {
       if (bio === 0)
@@ -387,9 +402,9 @@ class OrganizationBee extends PureComponent {
 
               <div className='bee-loading'>
                 <div className='bee-loading-nav'>
-                  <div className='bee-loading-fill' style={{width: (image + name + graduate + bio) + '%'}}/>
+                  <div className='bee-loading-fill' style={{width: (image + name + graduate + bio + hashtags) + '%'}}/>
                 </div>
-                <div>{translate['Complement of profile']} {image + name + graduate + bio}%</div>
+                <div>{translate['Complement of profile']} {image + name + graduate + bio + hashtags}%</div>
               </div>
 
               <div className='bee-buttons'>
@@ -399,12 +414,48 @@ class OrganizationBee extends PureComponent {
 
             </div>
         )
-      else {
-        this.setState({...this.state, level: 1})
-        this.forceUpdate()
-      }
+      else this.setState({...this.state, level: this.state.level + 1})
     }
+    else if (level === 5) {
+      if (hashtags === 0)
+        return (
+            <div>
+              <div className='bee-text'>زمینه های مورد علاقه</div>
+              <div className='bee-close' onClick={this._handleClose}>✕</div>
 
+              <div className='bee-text-graduate'>تعدادی از زمینه های مورد علاقه خود را انتخاب کنید.</div>
+
+              <div className='bee-background-cont'>
+                <BeeBackground className='bee-background'/>
+                <Bee className='bee'/>
+              </div>
+
+              <div className='bee-hashtags'>
+                {
+                  Object.values(HashTags).length > 0 ?
+                      Object.values(HashTags).filter(p => p.hashtag_type === 'organization').map((tag, index) =>
+                          <div key={index} className={selected.indexOf(tag.id) !== -1 ? 'organization-leadership-job-hashtags-selected' : 'organization-leadership-job-hashtags'} onClick={() => this.addTag(tag.id)}>{tag.title}</div>,
+                      )
+                      : <ClipLoader/>
+                }
+              </div>
+
+              <div className='bee-loading'>
+                <div className='bee-loading-nav'>
+                  <div className='bee-loading-fill' style={{width: (image + name + graduate + bio + hashtags) + '%'}}/>
+                </div>
+                <div>{translate['Complement of profile']} {image + name + graduate + bio + hashtags}%</div>
+              </div>
+
+              <div className='bee-buttons'>
+                <button className='bee-button-cancel' onClick={this._handleCancel}>فعلا نه</button>
+                <button className='bee-button-choose' onClick={this.submitHashtags}>ثبت</button>
+              </div>
+
+            </div>
+        )
+      else this.setState({...this.state, level: 1})
+    }
   }
 
   render() {
@@ -422,6 +473,7 @@ class OrganizationBee extends PureComponent {
 
 const mapStateToProps = (state) => ({
   currentUser: getClientObject(state),
+  HashTags: hashTagsListSelector(state),
   translate: getMessages(state),
   profileIdTemp: state.temp.file['profile_media'],
   resumeIdTemp: state.temp.file['resume'],
@@ -431,6 +483,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     updateUserByUserId: updateUserByUserIdAction.updateUser,
+    getHashTags,
     createFile: FileActions.createFile,
     removeFileFromTemp: TempActions.removeFileFromTemp,
     setBeeDone: AuthActions.setBeeDone,

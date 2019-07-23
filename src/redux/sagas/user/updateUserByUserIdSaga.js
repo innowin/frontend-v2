@@ -12,7 +12,7 @@ export function* updateUserByUserId(action) {
   const {formValues, identity} = payload
   const socketChannel = yield call(api.createSocketChannel, results.USER.UPDATE_USER_BY_USER_ID)
   try {
-    yield fork(api.patch, urls.USER.UPDATE_USER_BY_USER_ID, results.USER.UPDATE_USER_BY_USER_ID, formValues, `${identity}`)
+    yield fork(api.patch, urls.USER.UPDATE_USER_BY_USER_ID, results.USER.UPDATE_USER_BY_USER_ID, JSON.stringify(formValues), `${identity}`)
     // const data = yield take(socketChannel)
     // yield put({type: types.SUCCESS.USER.UPDATE_USER_BY_USER_ID, payload: {data, identity}})
     yield put({type: types.USER.GET_USER_BY_USER_ID, payload: {userId: identity}})

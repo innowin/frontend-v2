@@ -13,11 +13,9 @@ class SecondLevel extends PureComponent {
     let {selected} = this.state
     if (selected.indexOf(id) !== -1) {
       selected.splice(selected.indexOf(id), 1)
-      this.setState({...this.state, selected})
+      this.setState({...this.state, selected: [...selected]})
     }
-    else {
-      this.setState({...this.state, selected: [...selected, id]})
-    }
+    else this.setState({...this.state, selected: [...selected, id]})
   }
 
   submit = () => {

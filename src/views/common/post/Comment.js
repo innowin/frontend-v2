@@ -58,9 +58,7 @@ class Comment extends React.PureComponent {
     const {menuToggle} = this.state
     const commentSender = identities[comment.comment_sender]
     const commentRepliedSender = comment.comment_replied_to && comments[comment.comment_replied_to] && identities[comments[comment.comment_replied_to].comment_sender]
-    const name = (commentSender.first_name || commentSender.last_name)
-        ? commentSender.first_name + ' ' + commentSender.last_name
-        : commentSender.username
+    const name = commentSender ? (commentSender.first_name || commentSender.last_name) ? commentSender.first_name + ' ' + commentSender.last_name : commentSender.username : ''
 
     const profileMediaUrl = commentSender.profile_media
     const identityType = commentSender.identity_type

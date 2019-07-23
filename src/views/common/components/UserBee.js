@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react'
+import React, {Component} from 'react'
 import BeeBackground from 'src/images/bee/beeBackground'
 import connect from 'react-redux/es/connect/connect'
 import constants from 'src/consts/constants'
@@ -23,8 +23,10 @@ import FileActions from 'src/redux/actions/commonActions/fileActions'
 import TempActions from 'src/redux/actions/tempActions'
 import AuthActions from 'src/redux/actions/authActions'
 import {getClientObject} from '../../../redux/selectors/common/client/getClient'
+import {getHashTags} from '../../../redux/actions/commonActions/hashTagActions'
+import {hashTagsListSelector} from '../../../redux/selectors/common/hashTags/hashTag'
 
-class UserBee extends PureComponent {
+class UserBee extends Component {
 
   constructor(props) {
     super(props)
@@ -36,6 +38,10 @@ class UserBee extends PureComponent {
       graduate: 0,
       job: 0,
       bio: 0,
+      hashtags: 0,
+
+      selected: [],
+
       resume: null,
       resumeId: null,
 
@@ -60,15 +66,13 @@ class UserBee extends PureComponent {
       jobWork: '',
       jobSubmitted: false,
 
-      getData: false,
-
       done: false,
 
       close: false,
     }
   }
 
-  componentDidMount(): void {
+  componentDidMount() {
     const {currentUser, actions} = this.props
     actions.getEducationByUserId({userId: currentUser && currentUser.id})
     actions.getWorkExperienceByUserId({userId: currentUser && currentUser.id})
@@ -78,7 +82,7 @@ class UserBee extends PureComponent {
 
   componentWillReceiveProps(nextProps, nextContext) {
     if (!this.state.done) {
-      const {currentUser, profileIdTemp, resumeIdTemp, temp, actions} = nextProps
+      const {currentUser, profileIdTemp, resumeIdTemp, temp, HashTags, actions} = nextProps
       const {profileMediaId, resumeId, resume} = this.state
 
       let setResume = resume
@@ -87,6 +91,7 @@ class UserBee extends PureComponent {
       let graduate = 0
       let job = 0
       let bio = 0
+      let hashtags = 0
 
       if (currentUser && currentUser.profile_media) {
         image = 30
@@ -99,11 +104,15 @@ class UserBee extends PureComponent {
         bio = 20
       }
       if (currentUser && currentUser.educations && currentUser.educations.content.length > 0) {
-        graduate = 15
+        graduate = 10
       }
       if (currentUser && currentUser.workExperiences && currentUser.workExperiences.content.length > 0) {
-        job = 15
+        job = 10
       }
+      if (currentUser && currentUser.identity_hashtag && currentUser.identity_hashtag.length > 0) {
+        hashtags = 10
+      }
+      else if (Object.values(HashTags).length === 0) actions.getHashTags('user')
 
       if (profileMediaId && temp[profileMediaId] && temp[profileMediaId].progress === 100 && profileIdTemp) {
         const formFormat = {
@@ -120,9 +129,9 @@ class UserBee extends PureComponent {
         actions.removeFileFromTemp(resumeId)
       }
 
-      this.setState({...this.state, image, name, graduate, job, bio, resume: setResume}, () => {
+      this.setState({...this.state, image, name, graduate, job, hashtags, bio, resume: setResume}, () => {
         if (image === 30) this.setState({...this.state, imageLoading: false, profileMediaId: null}, () => {
-          if (image === 30 && name === 20 && bio === 20 && graduate === 15 && job === 15) {
+          if (image === 30 && name === 20 && bio === 20 && graduate === 10 && job === 10 && hashtags === 10) {
             this.setState({...this.state, done: true}, () => setTimeout(() => actions.setBeeDone(true), 30000))
           }
         })
@@ -130,9 +139,24 @@ class UserBee extends PureComponent {
     }
   }
 
+  addTag(id) {
+    let {selected} = this.state
+    if (selected.indexOf(id) !== -1) {
+      selected.splice(selected.indexOf(id), 1)
+      this.setState({...this.state, selected: [...selected]})
+    }
+    else this.setState({...this.state, selected: [...selected, id]})
+  }
+
+  submitHashtags = () => {
+    const {actions, currentUser} = this.props
+    const {selected} = this.state
+    actions.updateUserByUserId({identity_hashtag: selected}, currentUser.id)
+  }
+
   _handleCancel = () => {
     const {level} = this.state
-    if (level < 5)
+    if (level < 6)
       this.setState({...this.state, level: this.state.level + 1})
     else this.setState({...this.state, level: 1})
   }
@@ -300,9 +324,9 @@ class UserBee extends PureComponent {
   _handleClose = () => this.setState({...this.state, close: true})
 
   renderLevel() {
-    const {level, image, name, graduate, job, bio, resume} = this.state
-    const {translate, currentUser} = this.props
-    if (image + name + graduate + job + bio === 100) {
+    const {level, image, name, graduate, job, bio, hashtags, selected, resume} = this.state
+    const {translate, currentUser, HashTags} = this.props
+    if (image + name + graduate + job + bio + hashtags === 100) {
       return (
           <div>
             <div className='bee-text'>{translate['Awesome']}</div>
@@ -316,7 +340,7 @@ class UserBee extends PureComponent {
             </div>
 
             <div className='bee-button-complete'>
-              {image + name + graduate + job + bio} %
+              {image + name + graduate + job + bio + hashtags} %
             </div>
 
             <div className='bee-button-submit-cont'>
@@ -362,10 +386,7 @@ class UserBee extends PureComponent {
               </div>
             </div>
         )
-      else {
-        this.setState({...this.state, level: this.state.level + 1})
-        this.forceUpdate()
-      }
+      else this.setState({...this.state, level: this.state.level + 1})
     }
     else if (level === 2) {
       if (name === 0)
@@ -389,9 +410,9 @@ class UserBee extends PureComponent {
 
               <div className='bee-loading'>
                 <div className='bee-loading-nav'>
-                  <div className='bee-loading-fill' style={{width: (image + name + graduate + job + bio) + '%'}}/>
+                  <div className='bee-loading-fill' style={{width: (image + name + graduate + job + bio + hashtags) + '%'}}/>
                 </div>
-                <div>{translate['Complement of profile']} {image + name + graduate + job + bio}%</div>
+                <div>{translate['Complement of profile']} {image + name + graduate + job + bio + hashtags}%</div>
               </div>
 
               <div className='bee-buttons'>
@@ -401,10 +422,7 @@ class UserBee extends PureComponent {
 
             </div>
         )
-      else {
-        this.setState({...this.state, level: this.state.level + 1})
-        this.forceUpdate()
-      }
+      else this.setState({...this.state, level: this.state.level + 1})
     }
     else if (level === 3) {
       if (graduate === 0) {
@@ -442,9 +460,9 @@ class UserBee extends PureComponent {
 
               <div className='bee-loading'>
                 <div className='bee-loading-nav'>
-                  <div className='bee-loading-fill' style={{width: (image + name + graduate + job + bio) + '%'}}/>
+                  <div className='bee-loading-fill' style={{width: (image + name + graduate + job + bio + hashtags) + '%'}}/>
                 </div>
-                <div>{translate['Complement of profile']} {image + name + graduate + job + bio}%</div>
+                <div>{translate['Complement of profile']} {image + name + graduate + job + bio + hashtags}%</div>
               </div>
 
               <div className='bee-buttons'>
@@ -455,10 +473,7 @@ class UserBee extends PureComponent {
             </div>
         )
       }
-      else {
-        this.setState({...this.state, level: this.state.level + 1})
-        this.forceUpdate()
-      }
+      else this.setState({...this.state, level: this.state.level + 1})
     }
     else if (level === 4) {
       if (job === 0)
@@ -484,9 +499,9 @@ class UserBee extends PureComponent {
 
               <div className='bee-loading'>
                 <div className='bee-loading-nav'>
-                  <div className='bee-loading-fill' style={{width: (image + name + graduate + job + bio) + '%'}}/>
+                  <div className='bee-loading-fill' style={{width: (image + name + graduate + job + bio + hashtags) + '%'}}/>
                 </div>
-                <div>{translate['Complement of profile']} {image + name + graduate + job + bio}%</div>
+                <div>{translate['Complement of profile']} {image + name + graduate + job + bio + hashtags}%</div>
               </div>
 
               <div className='bee-buttons'>
@@ -496,10 +511,7 @@ class UserBee extends PureComponent {
 
             </div>
         )
-      else {
-        this.setState({...this.state, level: this.state.level + 1})
-        this.forceUpdate()
-      }
+      else this.setState({...this.state, level: this.state.level + 1})
     }
     else if (level === 5) {
       if (bio === 0)
@@ -520,9 +532,9 @@ class UserBee extends PureComponent {
 
               <div className='bee-loading'>
                 <div className='bee-loading-nav'>
-                  <div className='bee-loading-fill' style={{width: (image + name + graduate + job + bio) + '%'}}/>
+                  <div className='bee-loading-fill' style={{width: (image + name + graduate + job + bio + hashtags) + '%'}}/>
                 </div>
-                <div>{translate['Complement of profile']} {image + name + graduate + job + bio}%</div>
+                <div>{translate['Complement of profile']} {image + name + graduate + job + bio + hashtags}%</div>
               </div>
 
               <div className='bee-buttons'>
@@ -532,12 +544,43 @@ class UserBee extends PureComponent {
 
             </div>
         )
-      else {
-        this.setState({...this.state, level: 1})
-        this.forceUpdate()
-      }
+      else this.setState({...this.state, level: this.state.level + 1})
     }
+    else if (level === 6) {
+      if (hashtags === 0)
+        return (
+            <div>
+              <div className='bee-text'>زمینه های مورد علاقه</div>
+              <div className='bee-close' onClick={this._handleClose}>✕</div>
 
+              <div className='bee-text-graduate'>تعدادی از زمینه های مورد علاقه خود را انتخاب کنید.</div>
+
+              <div className='bee-hashtags'>
+                {
+                  Object.values(HashTags).length > 0 ?
+                      Object.values(HashTags).filter(p => p.hashtag_type === 'user').map((tag, index) =>
+                          <div key={index} className={selected.indexOf(tag.id) !== -1 ? 'organization-leadership-job-hashtags-selected' : 'organization-leadership-job-hashtags'} onClick={() => this.addTag(tag.id)}>{tag.title}</div>,
+                      )
+                      : <ClipLoader/>
+                }
+              </div>
+
+              <div className='bee-loading'>
+                <div className='bee-loading-nav'>
+                  <div className='bee-loading-fill' style={{width: (image + name + graduate + job + bio + hashtags) + '%'}}/>
+                </div>
+                <div>{translate['Complement of profile']} {image + name + graduate + job + bio + hashtags}%</div>
+              </div>
+
+              <div className='bee-buttons'>
+                <button className='bee-button-cancel' onClick={this._handleCancel}>فعلا نه</button>
+                <button className='bee-button-choose' onClick={this.submitHashtags}>ثبت</button>
+              </div>
+
+            </div>
+        )
+      else this.setState({...this.state, level: 1})
+    }
   }
 
   render() {
@@ -555,6 +598,7 @@ class UserBee extends PureComponent {
 
 const mapStateToProps = (state) => ({
   currentUser: getClientObject(state),
+  HashTags: hashTagsListSelector(state),
   translate: getMessages(state),
   universities: getAllUniversities(state),
   educationFields: getAllEducationFields(state),
@@ -571,6 +615,7 @@ const mapDispatchToProps = dispatch => ({
     getEducationByUserId: EducationActions.getEducationByUserId,
     getWorkExperienceByUserId: WorkExperienceActions.getWorkExperienceByUserId,
     getUniversities: getUniversities,
+    getHashTags,
     getEducationFields: getEducationFields,
     createFile: FileActions.createFile,
     removeFileFromTemp: TempActions.removeFileFromTemp,

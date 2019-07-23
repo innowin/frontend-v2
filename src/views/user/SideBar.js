@@ -207,6 +207,7 @@ class SideBarContent extends React.Component<PropsSideBarContent, StateSideBarCo
     const pictureId = pictureIdTemp ? pictureIdTemp : null
     const name = sideBarType === constants.USER_TYPES.USER ? {first_name: editName, last_name: editLastName} : {nike_name: editName, official_name: editLastName}
     const birth_date = sideBarType === constants.USER_TYPES.USER ? {birth_date: editBirthDate} : {established_year: editBirthDate}
+
     let temp = {
       id: owner.id,
       description: descriptionState,
