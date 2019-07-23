@@ -3,6 +3,7 @@ import RightArrowSvg from "src/images/common/right_arrow_svg"
 import axios from "axios"
 import urls, {REST_URL} from "src/consts/URLS"
 import numberCorrection from "src/helpers/numberCorrection"
+import FahadCurrentLevel from "./FahadCurrentLevel"
 
 let successes = 0
 let errors = 0
@@ -52,6 +53,8 @@ class FahadEventPageFour extends Component {
     let {_changeIsLoading, _nextLevel} = this.props
 
     if (members.length > 0) {
+      successes = 0
+      errors = 0
       members.forEach((member, index) => {
         if (
             member.fullName.length >= 2 &&
@@ -59,20 +62,22 @@ class FahadEventPageFour extends Component {
             member.socialNumber.length === 11 &&
             member.rule.length >= 2
         ) {
-          successes = 0
-          errors = 0
           this.sendData(73 + index * 4, member.fullName)
           this.sendData(74 + index * 4, numberCorrection(member.phoneNumber))
           this.sendData(75 + index * 4, numberCorrection(member.socialNumber))
           this.sendData(76 + index * 4, member.rule)
         }
         else {
-          console.log(member)
+          // console.log(member)
           let modalCon = document.getElementById("fahadModalContainerDiv")
           modalCon.scrollTo({top: 0, behavior: "smooth"})
           this.setState({...this.state, validationError: true},
               _changeIsLoading(),
           )
+          this.setMemberInfo(!(member.fullName.length >= 2), index, "fullName_error")
+          this.setMemberInfo(!(member.phoneNumber.length === 11), index, "phoneNumber_error")
+          this.setMemberInfo(!(member.socialNumber.length === 11), index, "socialNumber_error")
+          this.setMemberInfo(!(member.rule.length >= 2), index, "rule_error")
         }
       })
     }
@@ -195,6 +200,7 @@ class FahadEventPageFour extends Component {
             <b>
               ثبت نام رویداد زیست‌فناوری
             </b>
+            <FahadCurrentLevel level={4}/>
           </div>
           <div className="event-reg-modal-body">
 
@@ -213,7 +219,8 @@ class FahadEventPageFour extends Component {
                       نام و نام خانوادگی
                       <span className={"secondary-color"}> * </span>
                     </label>
-                    <input type={"text"} className="organization-leadership-job-input" maxLength="50" title="حداقل 2 کاراکتر، حداکثر 50"
+                    <input type={"text"} className={`organization-leadership-job-input ${member.fullName_error && "input-red-error"}`}
+                           maxLength="50" title="حداقل 2 کاراکتر، حداکثر 50"
                            defaultValue={member.fullName}
                            onChange={(e) => this.setMemberInfo(e.target.value, inx, "fullName")}/>
 
@@ -221,7 +228,8 @@ class FahadEventPageFour extends Component {
                       شمارۀ همراه
                       <span className={"secondary-color"}> * </span>
                     </label>
-                    <input type={"text"} className="organization-leadership-job-input" maxLength="11" title="11 کاراکتر"
+                    <input type={"text"} className={`organization-leadership-job-input ${member.phoneNumber_error && "input-red-error"}`}
+                           maxLength="11" title="11 کاراکتر"
                            defaultValue={member.phoneNumber}
                            onChange={(e) => this.setMemberInfo(e.target.value, inx, "phoneNumber")}/>
 
@@ -229,7 +237,8 @@ class FahadEventPageFour extends Component {
                       شماره در پیام‌رسان
                       <span className={"secondary-color"}> * </span>
                     </label>
-                    <input type={"text"} className="organization-leadership-job-input" maxLength="11" title="11 کاراکتر"
+                    <input type={"text"} className={`organization-leadership-job-input ${member.socialNumber_error && "input-red-error"}`}
+                           maxLength="11" title="11 کاراکتر"
                            defaultValue={member.socialNumber}
                            onChange={(e) => this.setMemberInfo(e.target.value, inx, "socialNumber")}/>
 
@@ -237,7 +246,8 @@ class FahadEventPageFour extends Component {
                       سمت در مجموعه
                       <span className={"secondary-color"}> * </span>
                     </label>
-                    <input type={"text"} className="organization-leadership-job-input" maxLength="50" title="حداقل 2 کاراکتر، حداکثر 50"
+                    <input type={"text"} className={`organization-leadership-job-input ${member.rule_error && "input-red-error"}`}
+                           maxLength="50" title="حداقل 2 کاراکتر، حداکثر 50"
                            defaultValue={member.rule}
                            onChange={(e) => this.setMemberInfo(e.target.value, inx, "rule")}/>
                   </div>,

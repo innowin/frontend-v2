@@ -1,0 +1,104 @@
+@import "../../../../variables";
+
+@media screen and (max-width: 480px) and (min-width: 0) {
+  .event-reg-modal-elements {
+    width: 95%;
+    position: relative;
+    color: $foreground-color;
+  }
+
+  .event-reg-modal-header {
+    width: 100%;
+    padding: 5px 5px 15px 5px;
+    color: $foreground-color;
+    font-size: $font-size-regular;
+    text-align: right;
+  }
+
+  .client-product-container-inactive {
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+    margin: 25px 10px 0 10px;
+    width: 98%;
+    height: 125px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    border-radius: $border-radius-size;
+    padding: 5px;
+    text-align: right;
+    overflow: hidden;
+    transition-duration: $animation-timing;
+    opacity: .8;
+    filter: grayscale(30%);
+    -webkit-filter: grayscale(30%);
+
+    &:hover {
+      opacity: .9;
+      -webkit-filter: grayscale(0);
+      filter: grayscale(0);
+    }
+  }
+
+  .client-product-container {
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+    margin: 25px 10px 0 10px;
+    width: 98%;
+    height: 125px;
+    box-shadow: 0 10px 6px rgba(0, 0, 0, 0.15);
+    transform: translateY(-10px);
+    border-radius: $border-radius-size;
+    padding: 5px;
+    text-align: right;
+    overflow: hidden;
+    transition-duration: $animation-timing;
+    opacity: 1;
+    -webkit-filter: saturate(150%);
+    filter: saturate(150%);
+    position: relative;
+
+    .client-product-container-checked-svg {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 27px;
+    }
+  }
+
+  .client-product-image-con {
+    width: 114px;
+    height: 114px;
+    border-radius: $border-radius-size;
+
+    .client-product-image {
+      width: 114px;
+      height: 114px;
+      object-fit: cover;
+    }
+  }
+
+  .fahad-level {
+    display: flex;
+    width: 100%;
+    border-top: 1.25px solid $text-light-color;
+    margin: 10px 0;
+    padding-top: 10px;
+    align-items: center;
+    align-content: stretch;
+    justify-content: space-around;
+    font-size: $font-size-description;
+
+    div {
+      margin-left: 1.75%;
+    }
+  }
+
+  .bold-one {
+    font-weight: bold;
+  }
+
+  .fahad-number-container {
+    display: none;
+  }
+}

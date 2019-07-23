@@ -6,6 +6,7 @@ import axios from "axios"
 import urls, {REST_URL, FRONT_URL} from "src/consts/URLS"
 import Consts from "src/consts/constants"
 import {ClipLoader} from "react-spinners"
+import FahadCurrentLevel from "./FahadCurrentLevel"
 
 let successes = 0
 let errors = 0
@@ -121,7 +122,15 @@ class FahadEventPageTwo extends PureComponent {
       else {
         let modalCon = document.getElementById("fahadModalContainerDiv")
         modalCon.scrollTo({top: 0, behavior: "smooth"})
-        this.setState({...this.state, validationError: true},
+        this.setState(
+            {
+              ...this.state,
+              validationError: true,
+
+              selectedCategory_error: !(selectedCategory !== null),
+              selectedImage_error: !(selectedImage.length > 0),
+              product_name_error: !(product_name.length >= 2),
+            },
             this.props._changeIsLoading(),
         )
       }
@@ -253,7 +262,12 @@ class FahadEventPageTwo extends PureComponent {
   }
 
   render() {
-    let {haveProduct, selectedImage, selectedProduct, validationError, serverError} = this.state
+    let {
+      haveProduct, selectedImage, selectedProduct, validationError, serverError,
+      product_name_error,
+      selectedCategory_error,
+      selectedImage_error,
+    } = this.state
     let {category, uploading, clientProducts} = this.props
     return (
         <React.Fragment>
@@ -265,6 +279,7 @@ class FahadEventPageTwo extends PureComponent {
             <b>
               ثبت نام رویداد زیست‌فناوری
             </b>
+            <FahadCurrentLevel level={2}/>
           </div>
           {
             haveProduct ?
@@ -281,7 +296,8 @@ class FahadEventPageTwo extends PureComponent {
                     نام محصول یا پروژه
                     <span className={"secondary-color"}> * </span>
                   </label>
-                  <input type={"text"} className="organization-leadership-job-input" placeholder={"نام محصول یا پروژه"}
+                  <input type={"text"} className={`organization-leadership-job-input ${product_name_error && "input-red-error"}`}
+                         placeholder={"نام محصول یا پروژه"}
                          maxLength="50" title="حداقل 2 کاراکتر، حداکثر 50"
                          onChange={(e) => this.setState({...this.state, product_name: e.target.value})}/>
 
@@ -317,8 +333,8 @@ class FahadEventPageTwo extends PureComponent {
                     دستۀ محصول
                     <span className={"secondary-color"}> * </span>
                   </label>
-                  <InteliInput handleChange={(data) => this.handleCatChange(data)}
-                               list={category} placeholder="انتخاب دسته بندی" className="inteli-input-light-border"/>
+                  <InteliInput handleChange={(data) => this.handleCatChange(data)} list={category} placeholder="انتخاب دسته بندی"
+                               className={`inteli-input-light-border ${selectedCategory_error && "input-red-error"}`}/>
 
                   <label>
                     امکانات و تسهیلات خرید
@@ -344,7 +360,7 @@ class FahadEventPageTwo extends PureComponent {
                     <span className={"secondary-color"}> * </span>
                   </label>
                   {/*<div className="fahad-modal-upload-svg-con"><UploadIcon className="fahad-modal-upload-svg"/></div>*/}
-                  <div className="fahad-modal-upload-svg-con">
+                  <div className={`fahad-modal-upload-svg-con ${selectedImage_error && "input-red-error"}`}>
                     {selectedImage && selectedImage.length === 4 ?
                         <div style={{paddingTop: "5px"}}>
                           <CheckSvg className="fahad-modal-check-svg"/>

@@ -3,6 +3,7 @@ import RightArrowSvg from "src/images/common/right_arrow_svg"
 import {CancelSvg, CheckSvg} from "src/images/icons"
 import axios from "axios"
 import urls, {REST_URL} from "../../../../consts/URLS"
+import FahadCurrentLevel from "./FahadCurrentLevel"
 
 let successes = 0
 let errors = 0
@@ -154,6 +155,7 @@ class FahadEventPageFive extends Component {
             <b>
               ثبت نام رویداد زیست‌فناوری
             </b>
+            <FahadCurrentLevel level={5}/>
           </div>
           <div className="event-reg-modal-body">
 

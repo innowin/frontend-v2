@@ -6,6 +6,7 @@ import urls from "src/consts/URLS"
 import axios from "axios"
 import MyDatePicker from "../DatePicker"
 import numberCorrection from "src/helpers/numberCorrection"
+import FahadCurrentLevel from "./FahadCurrentLevel"
 
 let successes = 0
 let errors = 0
@@ -181,7 +182,22 @@ class FahadEventPageOne extends PureComponent {
     else {
       let modalCon = document.getElementById("fahadModalContainerDiv")
       modalCon.scrollTo({top: 0, behavior: "smooth"})
-      this.setState({...this.state, validationError: true},
+      this.setState(
+          {
+            ...this.state,
+            validationError: true,
+
+            organization_name_error: !(organization_name.length >= 2),
+            organization_brand_name_error: !(organization_brand_name.length >= 2),
+            organization_title_error: !(organization_title.length >= 2),
+            organization_description_error: !(organization_description.length >= 2),
+            organization_phone_number_error: !(organization_phone_number.length === 11),
+            organization_address_error: !(organization_address.length > 2),
+            orgJob_error: !(orgJob.length >= 1),
+            organization_activities_category_error: !(organization_activities_category.length >= 2),
+            organization_abilities_error: !(organization_abilities.length >= 2),
+            selectedLogo_error: !(selectedLogo !== ""),
+          },
           this.props._changeIsLoading(),
       )
     }
@@ -229,7 +245,9 @@ class FahadEventPageOne extends PureComponent {
         .then((response) => {
           console.log(response)
           if (response.statusText === "OK") {
-            this.setState({...this.state, [fieldData]: response.data.results[0].entry_value})
+            fieldId === 23 ?
+                this.setState({...this.state, [fieldData]: JSON.parse(response.data.results[0].entry_value)})
+                : this.setState({...this.state, [fieldData]: response.data.results[0].entry_value})
           }
         })
         .catch((err) => {
@@ -321,6 +339,17 @@ class FahadEventPageOne extends PureComponent {
       organization_experiences,
       organization_certificates,
       organization_honors,
+
+      organization_name_error,
+      organization_brand_name_error,
+      organization_title_error,
+      organization_description_error,
+      organization_phone_number_error,
+      organization_address_error,
+      orgJob_error,
+      organization_activities_category_error,
+      organization_abilities_error,
+      selectedLogo_error,
     } = this.state
     return (
         <React.Fragment>
@@ -332,6 +361,7 @@ class FahadEventPageOne extends PureComponent {
             <b>
               ثبت نام رویداد زیست‌فناوری
             </b>
+            <FahadCurrentLevel level={1}/>
           </div>
 
           <div className="event-reg-modal-body">
@@ -347,15 +377,17 @@ class FahadEventPageOne extends PureComponent {
               نام مجموعه
               <span className={"secondary-color"}> * </span>
             </label>
-            <input type={"text"} className="organization-leadership-job-input" placeholder={"نام ثبتی کامل مجموعه"} maxLength="50"
-                   title="حداقل 2 کاراکتر، حداکثر 50" defaultValue={organization_name}
+            <input type={"text"} className={`organization-leadership-job-input ${organization_name_error && "input-red-error"}`}
+                   placeholder={"نام ثبتی کامل مجموعه"}
+                   maxLength="50" title="حداقل 2 کاراکتر، حداکثر 50" defaultValue={organization_name}
                    onChange={(e) => this.setState({...this.state, organization_name: e.target.value})}/>
 
             <label>
               نام برند
               <span className={"secondary-color"}> * </span>
             </label>
-            <input type={"text"} className="organization-leadership-job-input" placeholder={"نام برند مجموعه"} maxLength="50"
+            <input type={"text"} className={`organization-leadership-job-input ${organization_brand_name_error && "input-red-error"}`}
+                   placeholder={"نام برند مجموعه"} maxLength="50"
                    title="حداقل 2 کاراکتر، حداکثر 50" defaultValue={organization_brand_name}
                    onChange={(e) => this.setState({...this.state, organization_brand_name: e.target.value})}/>
 
@@ -363,7 +395,8 @@ class FahadEventPageOne extends PureComponent {
               شعار مجموعه
               <span className={"secondary-color"}> * </span>
             </label>
-            <input type={"text"} className="organization-leadership-job-input" placeholder={"شعار مجموعه"} maxLength="150"
+            <input type={"text"} className={`organization-leadership-job-input ${organization_title_error && "input-red-error"}`}
+                   placeholder={"شعار مجموعه"} maxLength="150"
                    title="حداقل 2 کاراکتر، حداکثر 150" defaultValue={organization_title}
                    onChange={(e) => this.setState({...this.state, organization_title: e.target.value})}/>
 
@@ -371,7 +404,8 @@ class FahadEventPageOne extends PureComponent {
               معرفی مختصر مجموعه
               <span className={"secondary-color"}> * </span>
             </label>
-            <textarea className="organization-leadership-expertise-input" maxLength="700" title="حداقل 2 کاراکتر، حداکثر 700"
+            <textarea className={`organization-leadership-expertise-input ${organization_description_error && "input-red-error"}`}
+                      maxLength="700" title="حداقل 2 کاراکتر، حداکثر 700"
                       placeholder={"شرکت پایاپژوهان علم و صنعت، ارائۀ خدمات مانیتورینگ و ابزاردقیق"}
                       name="organization_description" value={organization_description}
                       onChange={(e) => this.setState({...this.state, organization_description: e.target.value})}/>
@@ -458,7 +492,7 @@ class FahadEventPageOne extends PureComponent {
               تصویر لوگو
               <span className={"secondary-color"}> * </span>
             </label>
-            <div className="fahad-modal-upload-svg-con">
+            <div className={`fahad-modal-upload-svg-con ${selectedLogo_error && "input-red-error"}`}>
               {selectedLogo && selectedLogo !== "" ?
                   <img src={selectedLogo} alt="" className="fahad-modal-upload-svg-logo"/>
                   :
@@ -485,7 +519,8 @@ class FahadEventPageOne extends PureComponent {
               شمارۀ تماس
               <span className={"secondary-color"}> * </span>
             </label>
-            <input type={"text"} className="organization-leadership-job-input" placeholder={"02188884453"} maxLength="11" title="11 کاراکتر"
+            <input type={"text"} className={`organization-leadership-job-input ${organization_phone_number_error && "input-red-error"}`}
+                   placeholder={"02188884453"} maxLength="11" title="11 کاراکتر"
                    defaultValue={organization_phone_number}
                    onChange={(e) => this.setState({...this.state, organization_phone_number: e.target.value})}/>
 
@@ -521,7 +556,8 @@ class FahadEventPageOne extends PureComponent {
               آدرس
               <span className={"secondary-color"}> * </span>
             </label>
-            <input type={"email"} className="organization-leadership-job-input" placeholder={"آدرس دفتر مرکزی"} maxLength="150"
+            <input type={"email"} className={`organization-leadership-job-input ${organization_address_error && "input-red-error"}`}
+                   placeholder={"آدرس دفتر مرکزی"} maxLength="150"
                    title="حداقل 2 کاراکتر، حداکثر 150" defaultValue={organization_address}
                    onChange={(e) => this.setState({...this.state, organization_address: e.target.value})}/>
 
@@ -530,6 +566,9 @@ class FahadEventPageOne extends PureComponent {
                 زمینۀ فعالیت
                 <span className={"secondary-color"}> * </span>
               </label>
+              <div className={orgJob_error ? "validation-error-fahad" : "validation-error-fahad-hide"}>
+                حداقل یک زمینه فعالیت را انتخاب کنید
+              </div>
               <form>
                 <label className='fahad-modal-card-checkbox'>
                   <div className="organization-leadership-card-checkbox-title">
@@ -594,7 +633,8 @@ class FahadEventPageOne extends PureComponent {
               دستۀ فعالیت
               <span className={"secondary-color"}> * </span>
             </label>
-            <input type={"email"} className="organization-leadership-job-input" placeholder={"دستۀ فعالیت"}
+            <input type={"email"} className={`organization-leadership-job-input ${organization_activities_category_error && "input-red-error"}`}
+                   placeholder={"دستۀ فعالیت"}
                    maxLength="50" title="حداقل 2 کاراکتر، حداکثر 50"
                    defaultValue={organization_activities_category === "" ? "زیست فناوری" : organization_activities_category}
                    onChange={(e) => this.setState({...this.state, organization_activities_category: e.target.value})}/>
@@ -603,7 +643,8 @@ class FahadEventPageOne extends PureComponent {
               توانمندی‌ها و خدمات مجموعه
               <span className={"secondary-color"}> * </span>
             </label>
-            <textarea className="organization-leadership-expertise-input" placeholder={"توانمندی‌ها و خدمات اصلی قابل ارائه توسط مجموعه بیان شود"}
+            <textarea className={`organization-leadership-expertise-input ${organization_abilities_error && "input-red-error"}`}
+                      placeholder={"توانمندی‌ها و خدمات اصلی قابل ارائه توسط مجموعه بیان شود"}
                       maxLength="700" title="حداقل 2 کاراکتر، حداکثر 700" name="organization_abilities" value={organization_abilities}
                       onChange={(e) => this.setState({...this.state, organization_abilities: e.target.value})}/>
 

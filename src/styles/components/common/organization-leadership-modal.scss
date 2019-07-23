@@ -115,6 +115,11 @@
   }
 }
 
+.input-red-error{
+  border: 1.25px solid $danger-color;
+  transition-duration: $animation-timing-long;
+}
+
 .organization-leadership-post-view-header {
   position: absolute;
   top: 11.5px;

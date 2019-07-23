@@ -20,12 +20,10 @@
 
 .event-reg-modal-header {
   width: 100%;
-  border-bottom: 1.25px solid #cdcdcd;
   padding: 15px 5px;
   color: $foreground-color;
   font-size: $font-size-regular;
   text-align: right;
-  margin-bottom: 30px;
 }
 
 .event-reg-modal-body {
@@ -215,6 +213,7 @@
   font-size: $font-size-regular;
   overflow: auto;
   margin: auto;
+  overflow-x: hidden;
 
   p {
     margin-bottom: 15px;
@@ -353,10 +352,14 @@
   height: 114px;
   text-align: right;
   flex-grow: 1;
+  white-space: pre;
+  text-overflow: ellipsis;
+  max-width: 40%;
 
   .client-product-desc {
     color: $disable-color;
     font-size: $font-size-14;
+    white-space: normal;
   }
 }
 
@@ -364,6 +367,7 @@
   width: 200px;
   height: 114px;
   border-radius: $border-radius-size;
+  margin-right: 10px;
 
   .client-product-image {
     width: 200px;
@@ -435,4 +439,36 @@
   color: $danger-color;
   font-size: $font-size-regular;
   transition-duration: $animation-timing-long;
+}
+
+.fahad-level {
+  display: flex;
+  width: 100%;
+  border-top: 1.25px solid $text-light-color;
+  margin: 10px 0;
+  padding-top: 10px;
+  align-items: center;
+  align-content: stretch;
+  justify-content: space-around;
+  font-size: $font-size-description;
+  text-align: center;
+
+  div {
+    margin-left: 1.75%;
+  }
+}
+
+.bold-one {
+  font-weight: bold;
+}
+
+.fahad-number-container {
+  border-radius: 50%;
+  min-width: 26px;
+  min-height: 26px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  color: $background-color;
 }
