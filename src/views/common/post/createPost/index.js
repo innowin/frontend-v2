@@ -442,6 +442,7 @@ class CreatePost extends PureComponent {
     }
     else this.setState({...this.state, keys: []})
   }
+
   _onKeyDownHeader = (e) => {
     if (e.keyCode === 13) {
       e.preventDefault()
@@ -722,10 +723,10 @@ class CreatePost extends PureComponent {
           this.setState({...this.state, descriptionClass: 'warning-message'})
       })
 
-    if ((scrollHeight > 250) && (scrollHeight !== this.state.scrollHeight) && (this.text.className !== 'post-component-textarea-open show-scroll')) {
-      this.text.className = 'post-component-textarea-open show-scroll'
+    if ((scrollHeight > 250) && (scrollHeight !== this.state.scrollHeight) && (this.text.className !== 'post-component-textarea open show-scroll')) {
+      this.text.className = 'post-component-textarea open show-scroll'
       setTimeout(() =>
-              this.text.className = 'post-component-textarea-open hide-scroll'
+              this.text.className = 'post-component-textarea open hide-scroll'
           , 1000)
     }
   }
@@ -758,10 +759,10 @@ class CreatePost extends PureComponent {
                 :
                 <DefaultUserIcon className='post-component-header-img'/>
             }
-            <div className={open ? 'post-not-collapse-username' : 'post-collapse-username'}>
+            <div className={open ? 'post-collapse-username not-col' : 'post-collapse-username'}>
               {currentUserName}
             </div>
-            <div className={open ? 'post-type-create-container' : 'post-type-create-container-hide'}>
+            <div className='post-type-create-container'>
               <div className='post-type-flex-container'>
                 <label className="container-checkmark">
                   <p className='post-type-text'>{translate['Type supply']}</p>
@@ -833,20 +834,19 @@ class CreatePost extends PureComponent {
                 {description && description.trim().length + `/${maxAllowedWordCounts}`}
               </span>
               }
-              <div
-                  contentEditable={true}
-                  content={isUpdate && post && post.post_description}
-                  ref={e => this.text = e}
-                  className={open ? 'post-component-textarea-open hide-scroll' : 'post-component-textarea'}
-                  style={
-                    description.length > 0 && new RegExp('^[A-Za-z]*$').test(description[0]) ?
-                        {direction: 'ltr', padding: open || focused ? '13px 23px 9px 15px' : '8px 23px 9px 15px'} :
-                        {direction: 'rtl', padding: open || focused ? '13px 15px 9px 23px' : '8px 15px 9px 23px'}
-                  }
-                  onBlur={this._handleBlurText}
-                  onFocus={this._handleFocusText}
-                  onKeyDown={this._handleCtrlEnter}
-                  onKeyUp={this._autoGrow}
+              <div contentEditable={true}
+                   content={isUpdate && post && post.post_description}
+                   ref={e => this.text = e}
+                   className={open ? 'post-component-textarea open hide-scroll' : 'post-component-textarea'}
+                   style={
+                     description.length > 0 && new RegExp('^[A-Za-z]*$').test(description[0]) ?
+                         {direction: 'ltr', padding: open || focused ? '13px 23px 9px 15px' : '8px 23px 9px 15px'} :
+                         {direction: 'rtl', padding: open || focused ? '13px 15px 9px 23px' : '8px 15px 9px 23px'}
+                   }
+                   onBlur={this._handleBlurText}
+                   onFocus={this._handleFocusText}
+                   onKeyDown={this._handleCtrlEnter}
+                   onKeyUp={this._autoGrow}
               />
 
               <div onClick={() => this.text.focus()}

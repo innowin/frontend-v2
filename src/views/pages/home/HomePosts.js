@@ -59,17 +59,15 @@ class HomePosts extends PureComponent {
   componentWillReceiveProps(nextProps) {
     const {actions, exchangeId} = nextProps
     const previousId = this.props.exchangeId
-    setTimeout(() => {
-      if (exchangeId !== null && exchangeId !== undefined && exchangeId !== previousId) {
-        this.setState({...this.state, activeScrollHeight: 0, offset: 10}, () => {
-          const {filterPostsByPostParentLimitOffset, filterPostsStream} = actions
-          if (exchangeId === 0) filterPostsStream(10, 0)
-          else filterPostsByPostParentLimitOffset({
-            postParentId: exchangeId, postType: null, limit: 10, offset: 0, postParentType: constant.POST_PARENT.EXCHANGE,
-          })
+    if (exchangeId !== null && exchangeId !== undefined && exchangeId !== previousId) {
+      this.setState({...this.state, activeScrollHeight: 0, offset: 10}, () => {
+        const {filterPostsByPostParentLimitOffset, filterPostsStream} = actions
+        if (exchangeId === 0) filterPostsStream(10, 0)
+        else filterPostsByPostParentLimitOffset({
+          postParentId: exchangeId, postType: null, limit: 10, offset: 0, postParentType: constant.POST_PARENT.EXCHANGE,
         })
-      }
-    }, 500)
+      })
+    }
   }
 
   componentWillUnmount() {
