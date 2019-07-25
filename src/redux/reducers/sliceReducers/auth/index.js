@@ -24,7 +24,6 @@ import getFollowees from './getFollowees'
 import getFollowers from './getFollowers'
 import getPostByIdentity from './getPostByIdentity'
 import getPost from './getPost'
-import getProductsByIdentity from './getProductsByIdentity'
 import getResearchByUserId from './getResearchByUserId'
 import getSkillByUserId from './getSkillByUserId'
 import getWorkExperienceByUserId from './getWorkExperienceByUserId'
@@ -64,7 +63,6 @@ export default {
   getFollowers,
   getPost,
   getPostByIdentity,
-  getProductsByIdentity,
   getResearchByUserId,
   getSkillByUserId,
   getWorkExperienceByUserId,

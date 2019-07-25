@@ -6,7 +6,6 @@ import types from "../../../actions/types"
 import constants from "src/consts/constants"
 import uuid from "uuid"
 
-
 function* createProductAsContribution(action) { // payload: { formData: {} }
   const {formData} = action.payload
   // the galleryItems should be empty Array by default.
@@ -20,13 +19,7 @@ function* createProductAsContribution(action) { // payload: { formData: {} }
     yield fork(api.post, urls.COMMON.PRODUCT, results.COMMON.CREATE_PRODUCT, product)
     const data = yield take(socketChannel)
     const productId = data.id
-
-    // TODO <----- may change in future -----------------------------
-
-    /** in this moment there is no different between video and image in the database. **/
     galleryVideo && galleryImages.push(galleryVideo)
-    // TODO ------ may change in future ----------------------------->
-
     yield put({type: types.SUCCESS.COMMON.CREATE_PRODUCT, data})
     yield put({
       type: types.TOAST.ADD_TOAST,

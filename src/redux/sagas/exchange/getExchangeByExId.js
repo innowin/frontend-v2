@@ -6,12 +6,13 @@ import {put, take, fork, call, select} from 'redux-saga/effects'
 
 export function* getExchangeByExId(action) {
   const {id, getMemberShip} = action.payload
-  const socketChannel = yield call(api.createSocketChannel, results.EXCHANGE.GET_EXCHANGE_BY_EX_ID)
+  const result = `${results.EXCHANGE.GET_EXCHANGE_BY_EX_ID}-${id}`
+  const socketChannel = yield call(api.createSocketChannel, result)
   try {
     yield fork(
         api.get,
         urls.EXCHANGE,
-        results.EXCHANGE.GET_EXCHANGE_BY_EX_ID,
+        result,
         `${id}`,
     )
     let data = yield take(socketChannel)

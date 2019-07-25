@@ -10,7 +10,7 @@ import CreateUserActions from 'src/redux/actions/user/createUserActions'
 import SecondLevel from './SecondLevel'
 import {hashTagsListSelector} from 'src/redux/selectors/common/hashTags/hashTag'
 import updateUserByUserIdAction from '../../../redux/actions/user/updateUserByUserIdAction'
-import {getExchanges} from 'src/redux/selectors/common/exchanges/GetAllExchanges'
+import {getAllOfExchanges, getExchanges} from 'src/redux/selectors/common/exchanges/GetAllExchanges'
 import exchangeActions from 'src/redux/actions/exchangeActions'
 import ThirdLevel from './ThirdLevel'
 import {clientMemberships} from '../../../redux/selectors/common/exchanges/ClientMemberships'
@@ -36,6 +36,8 @@ class GetUserData extends PureComponent {
   setThirdLevel = (selected) => {
     this.setState({...this.state, level: 3}, () => {
       this.props.actions.getExchanges(24, 0, null, [...selected], true)
+      // added hamtimi
+      this.props.actions.getExchangeByExId(33026, true)
     })
   }
 
@@ -43,8 +45,9 @@ class GetUserData extends PureComponent {
     this.setState({...this.state, typeOfUser: type})
   }
 
+  // added hamtimi
   render() {
-    const {showRegisterModal, email, password, HashTags, current_user_identity, allExchanges, clientExchangeMemberships, exchangeMemberships, hideRegisterModal, actions} = this.props
+    const {hamTimi, showRegisterModal, email, password, HashTags, current_user_identity, allExchanges, clientExchangeMemberships, exchangeMemberships, hideRegisterModal, actions} = this.props
     const {typeOfUser} = this.state
     const {checkUsername, signIn, createUserPerson, createUserOrgan, updateUserByUserId} = actions
     const {level} = this.state
@@ -93,6 +96,7 @@ class GetUserData extends PureComponent {
                                       exchangeMemberships={exchangeMemberships}
                                       hideRegisterModal={hideRegisterModal}
                                       setSecondLevel={this.setSecondLevel}
+                                      hamTimi={hamTimi}
                           />
                           :
                           null
@@ -106,12 +110,14 @@ class GetUserData extends PureComponent {
   }
 }
 
+// added hamtimi
 const mapStateToProps = (state) => ({
   HashTags: hashTagsListSelector(state),
   current_user_identity: getClientIdentity(state),
   allExchanges: getExchanges(state),
   clientExchangeMemberships: clientMemberships(state),
   exchangeMemberships: exchangeMemberships(state),
+  hamTimi: getAllOfExchanges(state)[33026],
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -123,6 +129,7 @@ const mapDispatchToProps = dispatch => ({
     createUserOrgan: CreateUserActions.createUserOrgan,
     getHashTags,
     getExchanges: exchangeActions.getAllExchanges,
+    getExchangeByExId: exchangeActions.getExchangeByExId,
   }, dispatch),
 })
 

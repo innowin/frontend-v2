@@ -8,11 +8,18 @@ import getAllProducts from './getAllProducts'
 import setProductPictures from './setProductPictures'
 import slices from '../../sliceReducers/common/product'
 
-
 const products = (state = initialState.common.product.products, action) => {
   switch (action.type) {
 
       /** <-------------- getProduct -------------- **/
+    case types.COMMON.GET_PRODUCT_INFO: {
+      return pushAnObjToStateList.base(state, action)
+    }
+
+    case types.ERRORS.COMMON.GET_PRODUCT_INFO: {
+      return pushAnObjToStateList.error(state, action)
+    }
+
     case types.SUCCESS.COMMON.GET_PRODUCT_INFO: {
       return pushAnObjToStateList.success(state, action)
     }

@@ -84,9 +84,6 @@ const auth = (state = initialState.auth, action) => {
       /** -------------------------- delete skill by user id -------------------------> **/
     case types.SUCCESS.SKILL.DELETE_SKILL_BY_USER_ID:
       return slices.deleteSkillByUserId.success(state, action)
-      /** -------------------------- get products by identity  -------------------------> **/
-    case types.SUCCESS.COMMON.PRODUCT.GET_PRODUCTS_BY_IDENTITY:
-      return slices.getProductsByIdentity.success(state, action)
       /** -------------------------- delete product  -------------------------> **/
     case types.SUCCESS.COMMON.PRODUCT.DELETE_PRODUCT:
       return slices.deleteProduct.success(state, action)

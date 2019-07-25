@@ -96,6 +96,11 @@ class SideBar extends PureComponent {
     })
   }
 
+  delete = () => {
+    const {product_owner, product, actions} = this.props
+    actions.deleteProduct({productId: product.id, productOwnerId: product_owner.id})
+  }
+
   hideEdit = () => {
     this.setState({...this.state, edit: false})
   }
@@ -457,7 +462,10 @@ class SideBar extends PureComponent {
                 :
 
                 <div>
-                  <div className='product-view-sidebar-name'>{name}</div>
+                  <div className='product-view-sidebar-name'>
+                    {name}
+                    {/*<div className='fa fa-ellipsis-v product-sidebar-option'/>*/}
+                  </div>
                   <div className='product-view-sidebar-main-img-cont' style={pictures_array && pictures_array.length > 0 ? {} : {display: 'none'}}>
                     <img className='product-view-sidebar-main-img' src={pictures_array && pictures_array[0] ? pictures_array[0].file : ''} alt='' onClick={this._showGallery}/>
                   </div>
@@ -508,7 +516,8 @@ class SideBar extends PureComponent {
                             </div>
                             :
                             <div className='product-view-sidebar-buttons'>
-                              <Material className='product-view-sidebar-buy' content='عرضه'/>
+                              {/*<Material className='product-view-sidebar-buy' content='عرضه'/>*/}
+                              <Material className='product-view-sidebar-delete' content='حذف' onClick={this.delete}/>
                               <Material className='product-view-sidebar-share' content='ویرایش' onClick={this.showEdit}/>
                             </div>
                         : null
@@ -547,6 +556,7 @@ const mapDispatchToProps = dispatch => ({
     addPrice: productActions.addProductPrice,
     createFile: FileActions.createFile,
     updateFile: FileActions.updateFile,
+    deleteProduct: productActions.deleteProduct,
   }, dispatch),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(SideBar)

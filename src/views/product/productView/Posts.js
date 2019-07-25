@@ -5,11 +5,7 @@ const ProductPosts = (props) => {
   const {product, posts} = props
   if (posts && product.relatedPosts)
     return product.relatedPosts.map((p, i) =>
-        posts[p] ?
-            <div className='post-view-container'>
-              <PostView key={i} post={posts[p]} extendedView={false}/>
-            </div>
-            : null,
+        posts[p] && <PostView key={'pro' + i} post={posts[p]} extendedView={false}/>,
     )
   else return null
 }

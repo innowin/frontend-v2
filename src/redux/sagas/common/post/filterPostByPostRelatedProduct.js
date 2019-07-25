@@ -38,10 +38,9 @@ export function* filterPostByPostRelatedProduct(action) {
       yield put({type: types.SUCCESS.COMMON.GET_PRODUCT_INFO, payload: {data: data[i].post_related_product}})
       data[i].post_related_product = data[i].post_related_product.id
     }
-    yield put({
-      type: types.SUCCESS.COMMON.POST.FILTER_POSTS_BY_POST_RELATED_PRODUCT,
-      payload: {data, postRelatedProductId, postParentType},
-    })
+    if (data.length > 0) {
+      yield put({type: types.SUCCESS.COMMON.POST.FILTER_POSTS_BY_POST_RELATED_PRODUCT, payload: {data, postRelatedProductId, postParentType}})
+    }
   }
   catch (err) {
     const {message} = err

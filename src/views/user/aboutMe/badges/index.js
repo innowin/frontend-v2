@@ -1,5 +1,5 @@
-import React from "react"
-import CardContainer from "../../../common/cardContainer"
+import React from 'react'
+import CardContainer from '../../../common/cardContainer'
 
 const Badges = (props) => {
   const {badges} = props
@@ -13,12 +13,12 @@ const Badges = (props) => {
 
         <div className="content">
           {
-            badges.map((badge, i) =>
-                <div key={"badge" + i} className="badgesCard">
+            badges.map((badge, i) => badge &&
+                <div key={'badge' + i} className="badgesCard">
                   <div className='badge-instant-logo'>
                     <img src={badge.badge_related_media && badge.badge_related_media.file}
                          alt=''/>
-                    <div style={{marginTop: "5px"}}>{badge.badge_title}</div>
+                    <div style={{marginTop: '5px'}}>{badge.badge_title}</div>
                   </div>
                   <div className='badge-instant-text'>
                     <div>{badge.badge_title}</div>

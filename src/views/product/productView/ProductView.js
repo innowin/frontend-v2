@@ -42,7 +42,7 @@ class ProductView extends PureComponent {
     actions.getProductInfo(productId, true)
     actions.getPrice(productId)
     actions.getCategories()
-    actions.getPosts({postRelatedProductId: productId, token: !isLogin})
+    setTimeout(() => actions.getPosts({postRelatedProductId: productId, token: !isLogin}), 300)
     document.addEventListener('scroll', this._onScroll)
   }
 
@@ -61,55 +61,62 @@ class ProductView extends PureComponent {
     const {hideTopBar} = this.state
     const {match, translate, product, country, province, city, product_owner, product_category, current_user_identity, countries, provinces, cities, categories, posts, product_price} = this.props
     const {path, url} = match
-    return (
-        <div className='all-products-parent'>
-          <div className={hideTopBar ? 'product-header-top' : 'product-header'}>
-            <Link to='/products/product_explorer'><Material backgroundColor='rgba(255,255,255,0.5)' className='back-button-material' content={<NewRightArrow className='back-button-product'/>}/></Link>
-            <ProductWhite className='product-header-svg'/>
-            <div className='product-header-title'>{product.name}</div>
-          </div>
-          <SideBar product={product}
-                   country={country}
-                   province={province}
-                   city={city}
-                   product_owner={product_owner}
-                   product_category={product_category}
-                   current_user_identity={current_user_identity}
-                   countries={countries}
-                   provinces={provinces}
-                   cities={cities}
-                   categories={categories}
-                   product_price={product_price}
-          />
-
-          <main className='product-container'>
-            <div className='header-container'>
-              <NavLink to={`${url}/basicInformation`} className='header-container-item' activeClassName='header-container-item-active'>
-                <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content='درباره محصول'/>
-              </NavLink>
-
-              <NavLink to={`${url}/Posts`} className='header-container-item' activeClassName='header-container-item-active'>
-                <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material-first' content='تاریخچه عرضه'/>
-              </NavLink>
+    if (product.isLoading !== false || product.error !== true) {
+      return (
+          <div className='all-products-parent'>
+            <div className={hideTopBar ? 'product-header-top' : 'product-header'}>
+              <Link to='/products/product_explorer'><Material backgroundColor='rgba(255,255,255,0.5)' className='back-button-material' content={<NewRightArrow className='back-button-product'/>}/></Link>
+              <ProductWhite className='product-header-svg'/>
+              <div className='product-header-title'>{product.name}</div>
             </div>
+            <SideBar product={product}
+                     country={country}
+                     province={province}
+                     city={city}
+                     product_owner={product_owner}
+                     product_category={product_category}
+                     current_user_identity={current_user_identity}
+                     countries={countries}
+                     provinces={provinces}
+                     cities={cities}
+                     categories={categories}
+                     product_price={product_price}
+            />
 
-            <Switch>
-              <Redirect exact from={`${url}/`} to={`${url}/basicInformation`}/>
-              <PropsRoute path={`${path}/basicInformation`}
-                          component={ProductBasicInformation}
-                          product={product}
-                          translator={translate}
-                          current_user_identity={current_user_identity}
-                          product_owner={product_owner}
-              />
-              <PropsRoute path={`${path}/Posts`}
-                          posts={posts}
-                          component={ProductPosts}
-                          product={product}
-                          translator={translate}
-              />
-            </Switch>
-          </main>
+            <main className='product-container'>
+              <div className='header-container'>
+                <NavLink to={`${url}/basicInformation`} className='header-container-item' activeClassName='header-container-item-active'>
+                  <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material' content='درباره محصول'/>
+                </NavLink>
+
+                <NavLink to={`${url}/Posts`} className='header-container-item' activeClassName='header-container-item-active'>
+                  <Material backgroundColor='rgba(66,172,151,0.4)' className='header-container-item-material-first' content='تاریخچه عرضه'/>
+                </NavLink>
+              </div>
+
+              <Switch>
+                <Redirect exact from={`${url}/`} to={`${url}/basicInformation`}/>
+                <PropsRoute path={`${path}/basicInformation`}
+                            component={ProductBasicInformation}
+                            product={product}
+                            translator={translate}
+                            current_user_identity={current_user_identity}
+                            product_owner={product_owner}
+                />
+                <PropsRoute path={`${path}/Posts`}
+                            posts={posts}
+                            component={ProductPosts}
+                            product={product}
+                            translator={translate}
+                />
+              </Switch>
+            </main>
+          </div>
+      )
+    }
+    else return (
+        <div className='all-products-parent'>
+          <div className='no-membership'> محصول ناموجود است!</div>
         </div>
     )
   }

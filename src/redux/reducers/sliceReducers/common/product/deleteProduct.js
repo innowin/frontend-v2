@@ -3,31 +3,34 @@ const base = (state, action) => {
   const prevProduct = state.list[productId]
   return {
     ...state,
-    list:{
+    list: {
       ...state.list,
-      [productId]: {...prevProduct, error: null, isLoading: true}
-    }
+      [productId]: {...prevProduct, error: null, isLoading: true},
+    },
   }
 }
 
 const success = (state, action) => {
   const {productId} = action.payload
-  const {[`${productId}`]: deleted, ...deleteRest} = state.list
+  const prevProduct = state.list[productId]
   return {
     ...state,
-    list: {...deleteRest}
+    list: {
+      ...state.list,
+      [productId]: {...prevProduct, error: true, isLoading: false},
+    },
   }
 }
 
 const error = (state, action) => {
-  const {message, productId} = action.payload
+  const {productId} = action.payload
   const prevProduct = state.list[productId]
   return {
     ...state,
-    list:{
+    list: {
       ...state.list,
-      [productId]: {...prevProduct, isLoading: true, error: message}
-    }
+      [productId]: {...prevProduct, error: null, isLoading: false},
+    },
   }
 }
 

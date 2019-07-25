@@ -21,7 +21,7 @@ class ThirdLevel extends PureComponent {
   }
 
   render() {
-    const {exchanges, hideRegisterModal, setSecondLevel} = this.props
+    const {exchanges, hideRegisterModal, setSecondLevel, hamTimi} = this.props
     const {followed} = this.state
     return (
         <div className='get-data-content'>
@@ -30,6 +30,8 @@ class ThirdLevel extends PureComponent {
           </div>
           <div className='get-data-third'>
             <div className='get-data-hashtags-cont'>
+              {/*added hamtimi*/}
+              {hamTimi && <ExchangeSuggestView data={hamTimi} isFollowed={followed[hamTimi.id]} followed={followed}/>}
               {
                 Object.values(exchanges)
                     .sort((a, b) => a.id - b.id)

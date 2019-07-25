@@ -50,7 +50,6 @@ class ProductInfoContainer extends React.Component<PropsProducts> {
     const {updateProduct, deleteProduct} = actions
 
     return (
-        //<VerifyWrapper isLoading={isLoading} error={error}>
         <ItemWrapper icon={<ContributionIcon/>}>
           <ItemHeader title={translate['Products']}/>
           {
@@ -66,7 +65,6 @@ class ProductInfoContainer extends React.Component<PropsProducts> {
             ))
           }
         </ItemWrapper>
-        //</VerifyWrapper>
     )
   }
 }

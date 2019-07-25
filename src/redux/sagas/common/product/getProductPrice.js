@@ -13,6 +13,7 @@ export function* getProductPrice(action) {
         urls.COMMON.PRICE,
         results.COMMON.GET_PRICE_BY_PRODUCT_ID,
         `?product_id=${productId}`,
+        true,
     )
     const data = yield take(socketChannel)
     yield put({type: types.SUCCESS.COMMON.PRODUCT.GET_PRODUCT_PRICE, payload: {productId, data}})
