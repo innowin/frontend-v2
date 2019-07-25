@@ -244,7 +244,8 @@ class OrganizationBee extends Component {
   submitHashtags = () => {
     const {actions, currentUser} = this.props
     const {selected} = this.state
-    actions.updateUserByUserId({identity_hashtag: selected}, currentUser.id)
+    if (selected.length > 0)
+      actions.updateUserByUserId({identity_hashtag: selected}, currentUser.id)
   }
 
   _handleClose = () => this.setState({...this.state, close: true})
