@@ -81,7 +81,13 @@ class TopBar extends PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    const {path} = this.props
+    const {path, modal} = this.props
+    const {productModal} = modal
+
+    if (productModal !== prevProps.productModal && productModal === true) {
+      this.setState({...this.state, displayProductModal: true})
+    }
+
     if (prevProps.path !== path) {
       if (path === constants.TOP_BAR_PAGES.HOME)
         this.setState({...this.state, currentPage: constants.TOP_BAR_PAGES.HOME})

@@ -1,10 +1,10 @@
-import api from "src/consts/api"
-import results from "src/consts/resultName"
-import urls from "src/consts/URLS"
-import {call, fork, take, put, all, select} from "redux-saga/effects"
-import types from "../../../actions/types"
-import constants from "src/consts/constants"
-import uuid from "uuid"
+import api from 'src/consts/api'
+import results from 'src/consts/resultName'
+import urls from 'src/consts/URLS'
+import {call, fork, take, put, all, select} from 'redux-saga/effects'
+import types from '../../../actions/types'
+import constants from 'src/consts/constants'
+import uuid from 'uuid'
 
 function* createProductAsContribution(action) { // payload: { formData: {} }
   const {formData} = action.payload
@@ -20,6 +20,9 @@ function* createProductAsContribution(action) { // payload: { formData: {} }
     const data = yield take(socketChannel)
     const productId = data.id
     galleryVideo && galleryImages.push(galleryVideo)
+    // yield put({type: types.SUCCESS.COMMON.CREATE_PRODUCT, data})
+    yield put({type: types.COMMON.PRODUCT.GET_PRODUCTS_BY_IDENTITY, payload: {productOwnerId: product.product_owner}})
+
     yield put({type: types.SUCCESS.COMMON.CREATE_PRODUCT, data})
     yield put({
       type: types.TOAST.ADD_TOAST,
@@ -28,31 +31,21 @@ function* createProductAsContribution(action) { // payload: { formData: {} }
           id: uuid(),
           type: constants.TOAST_TYPE.SUCCESS,
           content: {
-            text: translate['Create Product Done']
-          }
-        }
-      }
+            text: translate['Create Product Done'],
+          },
+        },
+      },
     })
 
 
     if (galleryImages.length >= 1) {
       yield all(galleryImages.map((imageId, index) => {
-
         const payload = {
           id: imageId,
           formData: {
             file_related_parent: productId,
-            // identity: 2445, Nope
-          }
-          // nextActionData: {
-          //     picture_product: productId,
-          //     picture_original: mainGalleryImageIndex === index
-          // },
-          // nextActionType: types.COMMON.CREATE_PRODUCT_PICTURE,
-          // fileIdKey: 'picture_media',
-          // nextActionErrorType: types.ERRORS.COMMON.CREATE_PRODUCT_PICTURE
+          },
         }
-
         return put({type: types.COMMON.FILE.UPDATE_FILE, payload})
       }))
     }
@@ -62,11 +55,10 @@ function* createProductAsContribution(action) { // payload: { formData: {} }
         const payload = {
           formData: {
             title: tag.label,
-            hashtag_base: productId
+            hashtag_base: productId,
           },
-          setIdForParentType: types.COMMON.ADD_HASH_TAG_ID_TO_PRODUCT
+          setIdForParentType: types.COMMON.ADD_HASH_TAG_ID_TO_PRODUCT,
         }
-
         return put({type: types.COMMON.CREATE_HASH_TAG_FOR, payload})
       }))
     }
@@ -76,19 +68,19 @@ function* createProductAsContribution(action) { // payload: { formData: {} }
         const twoNextActionData = {
           certificate_parent: productId,
           title: cert.title,
-          validation_request_flag: cert.validation_request_flag
+          validation_request_flag: cert.validation_request_flag,
         }
         const nextActionData = {
           file_string: cert.certLogo,
           nextActionType: types.COMMON.CREATE_OBJECT_CERTIFICATE,
-          fileIdKey: "certificate_logo",
+          fileIdKey: 'certificate_logo',
           nextActionData: twoNextActionData,
         }
         const payload = {
           file_string: cert.certPicture,
           nextActionType: types.COMMON.FILE.CREATE_FILE,
           toWhatLayer: 2,
-          fileIdKey: "certificate_picture",
+          fileIdKey: 'certificate_picture',
           nextActionData,
         }
         return put({type: types.COMMON.FILE.CREATE_FILE, payload})
@@ -97,7 +89,7 @@ function* createProductAsContribution(action) { // payload: { formData: {} }
 
   }
   catch (error) {
-    console.log("-- saga --- >> createProduct >> the error is: \n", error)
+    console.log('-- saga --- >> createProduct >> the error is: \n', error)
     yield put({type: types.ERRORS.COMMON.CREATE_PRODUCT, error})
 
   }

@@ -101,7 +101,7 @@ class GeneralSetting extends Component {
         }
       }
 
-      if (authMobile !== user.authMobile) {
+      if (authMobile.length > 0 && authMobile !== user.authMobile) {
         if (!/^\d{11}$/.test(authMobile)) {
           error = true
           this.authMobileError.className = 'settingModal-menu-general-error-show'
@@ -110,6 +110,7 @@ class GeneralSetting extends Component {
           formAuthMobile = authMobile
         }
       }
+      else formAuthMobile = null
 
       if (!error) {
         const formFormat = {
