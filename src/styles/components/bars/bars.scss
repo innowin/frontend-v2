@@ -2304,8 +2304,9 @@ $sidebar-profile-media-width: 80px;
 
 .bubble-more {
   border-radius: 50%;
-  transition: all $animation-timing-long;
   padding-top: 2px;
+  transition: all $animation-timing-long;
+  cursor: pointer;
 
   &:hover {
     transition: all $animation-timing-long;

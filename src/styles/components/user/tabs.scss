@@ -263,35 +263,16 @@
       border-top: 2px solid lighten($text-lighter-color, 11%);
     }
 
-    .footer-part {
-      flex: 1;
-
-      span, i {
-        color: lighten($text-light-color, 3%);
-      }
-    }
-
     .post-details {
+      flex: 1;
       display: flex;
       position: relative;
       align-items: center;
       flex-flow: row-reverse;
 
-      .items {
-        margin-right: 12%;
-        @media screen and (min-width: 480px) {
-          margin-right: 7.5%;
-        }
-
-        .post-menu-bottom {
-          padding: 7px 8px;
-          border-radius: 50px;
-          transition: all $animation-timing;
-
-          &:hover {
-            background-color: $eee-color;
-          }
-        }
+      .post-menu-bottom {
+        padding: 7px 8px;
+        border-radius: 50px;
       }
 
       .menu-box-post {
@@ -344,6 +325,11 @@
           }
         }
       }
+
+      @media screen and (max-width: 480px) {
+        justify-content: space-between;
+      }
+
     }
   }
 

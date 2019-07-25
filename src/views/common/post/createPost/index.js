@@ -21,6 +21,7 @@ import constants from 'src/consts/constants'
 import uuid from 'uuid'
 import ProductActions from '../../../../redux/actions/commonActions/productActions'
 import {getClientIdentity, getClientObject} from '../../../../redux/selectors/common/client/getClient'
+import makeProductSelectorById from '../../../../redux/selectors/common/product/getProductById'
 
 const POST_MEDIA_TEMP_KEY = 'POST_MEDIA'
 const POST_FILE_TEMP_KEY = 'POST_FILE'
@@ -99,14 +100,14 @@ class CreatePost extends PureComponent {
   attachMenuId: string
 
   componentDidMount() {
-    const {actions, isUpdate, post} = this.props
+    const {actions, isUpdate, post, postRelatedProduct} = this.props
     const {setFileProgressTemp} = actions
     const {attachPhotoIdArray} = this.state
 
     if (isUpdate && post) {
       let postType,
           postFilesArray = post.post_media ? post.post_media.filter(picture => picture.type === null || picture.type === constants.CREATE_FILE_TYPES.IMAGE).slice(0, 3) : [],
-          postImg1 = null, postImg2 = null, postImg3 = null, postFile = null, postProduct = post.post_related_product,
+          postImg1 = null, postImg2 = null, postImg3 = null, postFile = null, postProduct = postRelatedProduct,
           selectedProduct = undefined, postImg1Index = -1,
           postImg2Index = -1, postImg3Index = -1, postFileIndex = -1
       if (post.post_type === constants.POST.POST_TYPE.SUPPLY) {
@@ -117,9 +118,7 @@ class CreatePost extends PureComponent {
         this.demandChecked.checked = true
         postType = constants.POST.POST_TYPE.DEMAND
       }
-      if (postProduct) {
-        selectedProduct = postProduct
-      }
+      if (postProduct) selectedProduct = postProduct
       if (postFilesArray) {
         let numberOfPostImages = 0
         for (let index = 0; index < postFilesArray.length; index++) {
@@ -992,7 +991,7 @@ class CreatePost extends PureComponent {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, props) => {
   const identityId = getClientIdentity(state)
   const identity = getClientObject(state)
   const postImg1Id = state.temp.file[POST_IMG1_TEMP_KEY] || null
@@ -1008,11 +1007,13 @@ const mapStateToProps = state => {
           identity.last_name ? identity.first_name + ' ' + identity.last_name : identity.username
           : identity.nike_name || identity.official_name || identity.username
       : ''
+  const postRelatedProduct = props.post && props.post.post_related_product ? makeProductSelectorById()(state, props.post.post_related_product) : null
 
   return ({
     currentUserId: identityId,
     currentUserMedia: identity && identity.profile_media && identity.profile_media.file,
     currentUserName: name,
+    postRelatedProduct,
     postImg1Id,
     postImg2Id,
     postImg3Id,

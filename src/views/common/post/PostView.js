@@ -330,7 +330,9 @@ class PostView extends React.PureComponent {
                           openMenu={this._openMenuBottom}
                           deletePost={this._delete}
                           showComment={this._handleShowComment}
+                          showCommentSend={showComment}
                           showProposals={this.handleShowProposals}
+                          showProposalSend={showProposalSend}
                           handleLike={this._handleLike}
                           showEdit={showEdit}
                           postMenuId={this.postMenuId + 'bottom'}

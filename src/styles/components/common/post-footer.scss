@@ -1,5 +1,14 @@
 @import "../../variables";
 
+.post-footer-menu {
+  @media screen and (max-width: 480px) {
+    display: none;
+  }
+  @media screen and (min-width: 480px) {
+    margin-right: 10%;
+  }
+}
+
 .more-option-svg {
   width: 12px;
   height: 12px;
@@ -64,4 +73,61 @@
 
 .cls-4-comment {
   fill: lighten($text-light-color, 3%);
+}
+
+.post-footer-proposal-container {
+  direction: rtl;
+  display: inline-flex;
+  flex-direction: row-reverse;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 25px;
+  padding: 7px;
+  cursor: pointer;
+  color: #c2c2c2;
+  transition: all $animation-timing-long;
+
+  &.hovered {
+    background-color: $eee-color;
+  }
+
+  @media screen and (min-width: 480px) {
+    margin-right: 10%;
+    flex-direction: row;
+
+    &:hover {
+      transition: all $animation-timing-long;
+      background-color: $eee-color;
+    }
+
+  }
+}
+
+.post-footer-proposal-title {
+  font-size: 12px;
+}
+
+.post-footer-proposal {
+  font-size: 12px;
+  margin-left: 9px;
+
+  &.margin {
+    margin-right: 9px;
+  }
+}
+
+.post-order-proposal {
+  order: 4;
+  @media screen and (max-width: 480px) {
+    order: 2;
+  }
+}
+
+.post-order-comment {
+  order: 3;
+}
+
+.post-order-like {
+  order: 1;
 }

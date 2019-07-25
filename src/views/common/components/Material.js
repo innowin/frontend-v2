@@ -6,7 +6,7 @@ class Material extends React.PureComponent {
   static propTypes = {
     className: PropTypes.string,
     onClick: PropTypes.func,
-    content: PropTypes.any.isRequired,
+    content: PropTypes.any,
     backgroundColor: PropTypes.string,
   }
 
@@ -98,7 +98,7 @@ class Material extends React.PureComponent {
 
   render() {
     return <div ref={e => this.container = e} className={this.props.className ? 'material ' + this.props.className : 'material'} onMouseDown={this.onMouseDown} onMouseUp={this.handleButtonRelease} onMouseLeave={this.handleLeave} onClick={this.props.onClick}>
-      {this.props.content}
+      {this.props.content || this.props.children}
     </div>
   }
 }
