@@ -47,17 +47,19 @@ class Home extends PureComponent {
     const {identityId, identityType, isBeeDone} = this.props
     const {activeExchangeId} = this.state
     return (
-        <div className="home-wrapper global-wrapper">
-          <main className="-main">
-            <div className="page-content home-page-content">
+        <div className='home-wrapper global-wrapper'>
+          <main className='-main'>
+            <div className='page-content home-page-content'>
               <HomeSideBar setExchangeId={this._setExchangeId}
                            classNames={activeExchangeId !== undefined && activeExchangeId !== null ? 'right-sidebar active-exchange' : 'right-sidebar'}
                            identityId={identityId}
                            identityType={identityType}
                            activeExchangeId={activeExchangeId}
               />
-              <HomePosts unSetExchangeId={this._unSetExchangeId} exchangeId={activeExchangeId}
-                         className={activeExchangeId !== undefined && activeExchangeId !== null ? 'post-wrapper active-exchange' : 'post-wrapper'}/>
+              <HomePosts unSetExchangeId={this._unSetExchangeId}
+                         exchangeId={activeExchangeId}
+                         className={activeExchangeId !== undefined && activeExchangeId !== null ? 'post-wrapper active-exchange' : 'post-wrapper'}
+              />
               <div className={activeExchangeId !== undefined && activeExchangeId !== null ? 'user-detail-wrapper active-exchange' : 'user-detail-wrapper'}>
                 {identityType === constants.USER_TYPES.ORG && <FahadEventCard/>}
                 <OrganizationLeadershipCard/>

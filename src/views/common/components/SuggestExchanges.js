@@ -6,6 +6,7 @@ import {getExchanges} from 'src/redux/selectors/common/exchanges/GetAllExchanges
 import ExchangeSuggestView from './ExchangeSuggestView'
 import {clientMemberships} from 'src/redux/selectors/common/exchanges/ClientMemberships'
 import {exchangeMemberships} from 'src/redux/selectors/common/exchanges/ExchangeMemberships'
+import {getClientObject} from '../../../redux/selectors/common/client/getClient'
 
 class SuggestExchanges extends PureComponent {
   constructor(props) {
@@ -16,7 +17,11 @@ class SuggestExchanges extends PureComponent {
   }
 
   componentDidMount() {
-    this.props.actions.getAllExchanges(24, 1, null, null)
+    setTimeout(() => {
+      const {clientIdentity, actions} = this.props
+      if (clientIdentity && clientIdentity.identity_hashtag)
+        actions.getAllExchanges(24, 1, null, [...clientIdentity.identity_hashtag], true)
+    }, 500)
   }
 
   componentWillReceiveProps(nextProps, nextContext) {
@@ -31,21 +36,15 @@ class SuggestExchanges extends PureComponent {
   }
 
   render() {
-    const {exchanges} = this.props
     const {followed} = this.state
-    if (Object.values(exchanges).sort((a, b) => a.id - b.id).filter(ex => !followed[ex.id]).length > 0)
+    const exchanges = Object.values(this.props.exchanges).filter(ex => ex.id && !followed[ex.id])
+    if (exchanges.length > 0)
       return (
           <div className='bee-panel-cont'>
             <div className='bee-text'>پنجره های پیشنهادی برای شما</div>
             <div>
               {
-                Object.values(exchanges)
-                    .sort((a, b) => a.id - b.id)
-                    .filter(ex => !followed[ex.id])
-                    .slice(0, 3)
-                    .map((exchange, i) =>
-                        <ExchangeSuggestView data={exchange} noBorder={i === 2} followed={followed} key={i}/>,
-                    )
+                exchanges.slice(0, 3).map((exchange, i) => <ExchangeSuggestView data={exchange} noBorder={i === 2} followed={followed} key={i}/>)
               }
             </div>
           </div>
@@ -58,6 +57,7 @@ const mapStateToProps = (state) => ({
   exchanges: getExchanges(state),
   clientExchangeMemberships: clientMemberships(state),
   exchangeMemberships: exchangeMemberships(state),
+  clientIdentity: getClientObject(state),
 })
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({

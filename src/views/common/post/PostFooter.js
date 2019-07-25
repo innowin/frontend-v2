@@ -35,15 +35,19 @@ const PostFooter = (props) => {
             suggest ?
                 !extendedView ?
                     <Link to={postUrl} className={`post-order-proposal post-footer-proposal-container ${showProposalSend && 'hovered'}`}>
-                      {(showProposalSend || isMobile) && <div className='post-footer-proposal-title'>پیشنهاده</div>}
-                      {(post_proposals_count > 0 || showProposalSend || isMobile) && <div className={`post-footer-proposal ${(showProposalSend || isMobile) && 'margin'}`}>{post_proposals_count}</div>}
+                      {/*{(showProposalSend || isMobile) && <div className='post-footer-proposal-title'>پیشنهاده</div>}*/}
+                      {/*{(post_proposals_count > 0 || showProposalSend || isMobile) && <div className={`post-footer-proposal ${(showProposalSend || isMobile) && 'margin'}`}>{post_proposals_count}</div>}*/}
+                      <div className='post-footer-proposal-title'>پیشنهاده</div>
+                      <div className='post-footer-proposal margin'>{post_proposals_count}</div>
                       <SuggestSvg className='suggest-svg'/>
                     </Link>
                     :
                     postIdentity.id !== clientIdentity &&
                     <Material className={`post-order-proposal post-footer-proposal-container ${showProposalSend && 'hovered'}`} onClick={showProposals}>
-                      {(showProposalSend || isMobile) && <div className='post-footer-proposal-title'>پیشنهاده</div>}
-                      {(post_proposals_count > 0 || showProposalSend || isMobile) && <div className={`post-footer-proposal ${(showProposalSend || isMobile) && 'margin'}`}>{post_proposals_count}</div>}
+                      {/*{(showProposalSend || isMobile) && <div className='post-footer-proposal-title'>پیشنهاده</div>}*/}
+                      {/*{(post_proposals_count > 0 || showProposalSend || isMobile) && <div className={`post-footer-proposal ${(showProposalSend || isMobile) && 'margin'}`}>{post_proposals_count}</div>}*/}
+                      <div className='post-footer-proposal-title'>پیشنهاده</div>
+                      <div className='post-footer-proposal margin'>{post_proposals_count}</div>
                       <SuggestSvg className='suggest-svg'/>
                     </Material>
                 : null

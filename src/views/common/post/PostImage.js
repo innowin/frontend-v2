@@ -131,8 +131,7 @@ class PostImage extends React.PureComponent {
               postFilesArray.map((postPictureElement, i) =>
                   <div className='image-container' key={i + 'pictures-section'}>
                     <div className='post-image-container'>
-                      <div
-                          className={pictureArrayLoaded[i] === true ? 'post-image-loading-effect' : 'post-image-loading'}>
+                      <div className={pictureArrayLoaded[i] === true ? 'post-image-loading-effect' : 'post-image-loading'}>
                         <DefaultImage className='default-image'/>
                         {
                           pictureArrayLoaded[i] === false ?
