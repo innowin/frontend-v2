@@ -22,7 +22,7 @@ import ProposalsActions from 'src/redux/actions/commonActions/proposalActions'
 import PostNewProposal from './PostNewProposal'
 import {ProposalsSelector} from 'src/redux/selectors/common/proposal/proposalSelector'
 import Proposals from './Proposals'
-import {getClientIdentity} from '../../../redux/selectors/common/client/getClient'
+import {getClientIdentity} from 'src/redux/selectors/common/client/getClient'
 
 class PostView extends React.PureComponent {
   static propTypes = {
